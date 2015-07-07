@@ -1,0 +1,5 @@
+CREATE TABLE subscriptions (
+  id INTEGER NOT NULL IDENTITY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL
+);

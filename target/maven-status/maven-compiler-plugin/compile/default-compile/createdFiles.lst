@@ -1,0 +1,15 @@
+it/sevenbits/springboottutorial/web/service/CommonFieldValidator.class
+it/sevenbits/springboottutorial/web/domain/SubscriptionModel.class
+it/sevenbits/springboottutorial/core/mappers/SubscriptionMapper.class
+it/sevenbits/springboottutorial/core/repository/SubscriptionPersistRepository.class
+it/sevenbits/springboottutorial/core/repository/SubscriptionInMemoryRepository.class
+it/sevenbits/springboottutorial/core/domain/Subscription.class
+it/sevenbits/springboottutorial/web/controllers/HomeController.class
+it/sevenbits/springboottutorial/config/DatabaseConfig.class
+it/sevenbits/springboottutorial/web/service/SubscriptionFormValidator.class
+it/sevenbits/springboottutorial/core/repository/SubscriptionRepository.class
+it/sevenbits/springboottutorial/core/repository/RepositoryException.class
+it/sevenbits/springboottutorial/web/domain/SubscriptionForm.class
+it/sevenbits/springboottutorial/web/service/ServiceException.class
+it/sevenbits/springboottutorial/Application.class
+it/sevenbits/springboottutorial/web/service/SubscriptionsService.class
