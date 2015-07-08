@@ -7,6 +7,7 @@ it/sevenbits/springboottutorial/core/domain/Subscription.class
 it/sevenbits/springboottutorial/web/controllers/HomeController.class
 it/sevenbits/springboottutorial/config/DatabaseConfig.class
 it/sevenbits/springboottutorial/web/service/SubscriptionFormValidator.class
+it/sevenbits/springboottutorial/core/auth/Authorisation.class
 it/sevenbits/springboottutorial/core/repository/SubscriptionRepository.class
 it/sevenbits/springboottutorial/core/repository/RepositoryException.class
 it/sevenbits/springboottutorial/web/domain/SubscriptionForm.class

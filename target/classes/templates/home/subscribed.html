@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>SpringBootTutorial</title>
+</head>
+<body>
+<h1>Hello Spring Boot</h1>
+<div>
+    <h3>You successfully subscribed</h3>
+    <p th:text="'email: ' + ${subscriptionForm.email}" />
+    <p th:text="'name: ' + ${subscriptionForm.name}" />
+    <a href="/">Go to main page</a>
+</div>
+</body>
+</html>
