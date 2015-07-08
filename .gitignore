@@ -2,7 +2,9 @@
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
-
+/.idea/*
+/target/*
+springboot-tutorial.iml
 # Package Files #
 *.jar
 *.war
