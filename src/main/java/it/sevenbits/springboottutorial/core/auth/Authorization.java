@@ -1,3 +1,4 @@
+/*
 package it.sevenbits.springboottutorial.core.auth;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -5,7 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Authorisation {
+public class Authorization {
 
     private static final int MIN_LENGTH = 5;
 
@@ -13,7 +14,7 @@ public class Authorisation {
             "(?=^.{" +MIN_LENGTH + ",}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Za-z]).*$");
 
 
-    public Authorisation() {}
+    public Authorization() {}
 
     private String encryptPass(String plainPassword){
 
@@ -38,3 +39,4 @@ public class Authorisation {
     }
 }
 
+*/

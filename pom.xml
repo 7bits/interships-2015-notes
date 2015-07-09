@@ -63,7 +63,7 @@
         </dependency> -->
 
         <!-- Spring Security -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
             <version>3.2.7.RELEASE</version>
@@ -72,7 +72,7 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
             <version>3.2.7.RELEASE</version>
-        </dependency>
+        </dependency>-->
 
         <!-- spring-jdbc for embedded db auto-configuration -->
         <dependency>

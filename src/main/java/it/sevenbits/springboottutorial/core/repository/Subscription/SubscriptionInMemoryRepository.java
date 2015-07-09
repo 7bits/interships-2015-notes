@@ -1,6 +1,8 @@
-package it.sevenbits.springboottutorial.core.repository;
+/*
+package it.sevenbits.springboottutorial.core.repository.Subscription;
 
 import it.sevenbits.springboottutorial.core.domain.Subscription;
+import it.sevenbits.springboottutorial.core.repository.RepositoryException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -41,3 +43,4 @@ public class SubscriptionInMemoryRepository implements SubscriptionRepository {
         return new ArrayList<>(subscriptions.values());
     }
 }
+*/
