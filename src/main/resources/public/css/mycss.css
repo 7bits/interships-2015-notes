@@ -1,0 +1,124 @@
+body{
+	font-family: "Comic Sans MS";
+	font-size: 12px;
+	background-color: gray;
+}
+.mainDiv{
+	width: 400px;
+	border: 3px;
+	border-color: black;
+	padding: 25px;
+	display: inline-block;
+  	text-align: center;
+  	vertical-align: middle;
+  	background-color: white;
+  	margin-top: 60px;
+}
+
+.btnProperty{
+	width: 51%;
+    margin-right: -5px;
+}
+
+.rightBtn{
+	margin-left: -2px;
+}
+
+.btnPos{
+	width: 100%;
+	margin: auto;
+}
+
+#signWith{
+	float: left;
+}
+
+.nextBlock{
+	margin-bottom: 20px;
+	display: inline-block;
+  	text-align: center;
+  	width: 100%
+}
+
+.signIcons{
+	float: right;
+}
+
+#sizeIconBar{ width: 53px;; float: left; }
+
+.signIcons span{
+	text-align: justify;
+}
+
+hr{
+	background-color: black;
+	width: 95%;
+	height: 2px;
+	border: none;
+	margin: auto;
+	margin-bottom: 10px;
+}
+
+form.formStyle{
+	display: inline-block;
+  	text-align: center;
+}
+
+.inputDiv{
+	margin: auto;
+	width: 90%;
+}
+
+.labelProperty{
+	float: left;
+	font-weight: bold;
+	clear: both;
+}
+
+.textboxProperty{
+	float: right;
+	padding-left: 3px;
+	margin-bottom: 20px;
+}
+
+.forgot{
+	float: left;
+	margin-top: 18px;
+	clear: both;
+}
+
+.forgotDiv{
+	margin-top: 100px;
+}
+
+.submitBtn{
+	margin: auto;
+	width: 80px;
+}
+
+.regDiv{
+	float: left;
+	width: 100%;
+}
+
+.textboxRegProperty{
+	float: right;
+	width: 100%;
+}
+
+.submitRegBtn{
+	margin: auto;
+	width: 80px;
+}
+
+.headerWrapper{
+	display: inline-block;
+  	text-align: center;
+ 	 width: 90%;
+}
+
+.middlePlace{
+	 width: 100%;
+	  display: inline-block;
+	  text-align: center;
+}

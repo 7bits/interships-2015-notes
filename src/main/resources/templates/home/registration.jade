@@ -1,0 +1,50 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', type='text/css', href='css/bootstrap.css')
+    link(rel='stylesheet', type='text/css', href='css/mycss.css')
+    title Sign up
+  body
+    .middlePlace
+      .mainDiv
+        form.formStyle(role='form')
+          .headerWrapper
+            .form-group.nextBlock.btnPos
+              a(href='loginForm.html')
+                button.btn-default.btnProperty(type='button') Sign In
+              a(href='registrationForm.html')
+                button.btn-primary.btnProperty.rightBtn(type='button') Sign Up
+            .form-group.nextBlock
+              span#signWith SignIn with
+              .signIcons
+                #sizeIconBar
+                  a(href='/')
+                    img(src='img/fb.png')
+                    br
+                  span Facebook
+                #sizeIconBar
+                  a(href='/')
+                    img(src='img/twt.png')
+                    br
+                  span Twitter
+                #sizeIconBar
+                  a(href='/')
+                    img(src='img/vk.png')
+                    br
+                  span VK
+          hr
+          .inputDiv.nextBlock
+            .form-group.regDiv
+              label.labelProperty E-mail
+              input.textboxRegProperty(type='textbox')
+              label.labelProperty Username
+              input.textboxRegProperty(type='textbox')
+              label.labelProperty Password
+              input.textboxRegProperty(type='textbox')
+              label.labelProperty Confirm password
+              input.textboxRegProperty(type='textbox')
+          hr
+          .nextBlock.submitDiv
+            button.btn-default.submiteBtn(type='submit') Registration
