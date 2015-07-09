@@ -1,7 +1,8 @@
 # interships-2015-notes
 Needed technologies:
-
-java8
-tomcat7
-maven3
-postgresql9
+<ul>
+<li>java8</li>
+<li>tomcat7</li>
+<li>maven3</li>
+<li>postgresql9</li>
+</ul>
