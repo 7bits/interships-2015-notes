@@ -1,0 +1,127 @@
+body{
+	margin-top: 15px;
+	font-family: "Comic Sans MS";
+	font-size: 12px;
+}
+
+.container{
+	margin-left: 0px;
+  	margin-right: 0px;
+  	width: 100%;
+}
+
+.headWrapper{
+	margin: 0 10px 0 10px;
+	width: 97%;
+}
+
+.logoDiv{
+	float: left;
+	margin-top: -10px;
+}
+
+.slogonDiv{
+	float: left;
+	display: inline-block;
+  	text-align: center;
+}
+
+div.slogonDiv span{
+	font-size: 28px;
+	font-weight: bold;
+}
+
+#subSpan{
+	font-size: 12px;
+	font-weight: normal;
+}
+
+.in-outMenu{
+	float: right;
+	text-align: justify;
+}
+
+.userImg{
+	float: left;
+	width: 80px;
+	height: 80px;
+	padding-bottom: 85px;
+}
+
+.logMenu{
+	float: left;
+	margin-left: 10px;
+}
+
+hr{
+	background-color: black;
+	width: 95%;
+	height: 2px;
+	border: none;
+	margin: auto;
+	margin-bottom: 10px;
+}
+
+div a span{
+	font-weight: bold;
+}
+
+.menuWrapper{
+	margin: 0 10px 0 10px;
+	width: 97%;
+	margin-bottom: -16px;
+	float: left;
+}
+
+div.menuWrapper div.noteManager div#circle span{
+	font-size: 16px;
+}
+
+.noteManager{
+	margin-left: 20px;
+	float: left;
+}
+
+#manageBtn{
+	margin-right: -4px;
+}
+
+.sortCheck{
+	float: right;
+}
+
+div.sortCheck span{
+	float: left;
+}
+
+#normalize{
+	margin-top: 0px;
+}
+
+.centrum{
+	display: inline-block;
+	text-align: center;
+	border-color: black;
+}
+
+div.menuWrapper span{
+	float: right;
+	margin-top: 10px;
+ 	margin-right: 25px;
+}
+
+.dateBar{
+	float: right;
+	margin-left: 35px;
+}
+
+div.dateBar span{
+	float: left;
+	margin-top: 10px;
+}
+
+div.dateBar input[type="textbox"]{
+	width: 60px;
+	border: 1px solid black;
+	margin-top: 7px;
+}

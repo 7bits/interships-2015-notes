@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', type='text/css', href='css/bootstrap.css')
+    link(rel='stylesheet', type='text/css', href='css/mycss.css')
+    title Reset password
+  body
+    .middlePlace
+      #top.resetB
+        #difTop.formBorder Reset password
+      .mainDiv.resetT
+        form.formStyle(role='form')
+          p#hintFormat
+            | Telenote will send reset instraction to your e-mail address associated with your account
+          .form-group.regDiv
+            label.labelProperty E-mail
+            input.textboxRegProperty(type='textbox')
+          #endForm.nextBlock.submitDiv
+            a(href='telenote.html')
+              button.btn-default.submitBtn(type='submit') Send
+      #bottom
+        .formBorder
