@@ -6,3 +6,16 @@ spring:
     url: jdbc:postgresql://localhost:5432/notes
     username: postgres
     password:
+
+mail:
+    username: ivashchenko.leo@gmail.com
+    password:
+    protocol: smtp
+    host: smtp.gmail.com
+    port: 587
+    smtp:
+        auth: true
+        starttls:
+            enable: true
+            required: true
+        debug: true
