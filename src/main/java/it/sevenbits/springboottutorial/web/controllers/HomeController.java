@@ -5,6 +5,8 @@ import it.sevenbits.springboottutorial.web.domain.SubscriptionModel;
 import it.sevenbits.springboottutorial.web.service.ServiceException;
 import it.sevenbits.springboottutorial.web.service.SubscriptionFormValidator;
 import it.sevenbits.springboottutorial.web.service.SubscriptionsService;
+import it.sevenbits.springboottutorial.web.service.EmailService;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,9 @@ public class HomeController {
 
     @Autowired
     private SubscriptionsService service;
+
+    @Autowired
+    private EmailService emailService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(final Model model) {
@@ -49,6 +54,9 @@ public class HomeController {
         service.save(form);
         // В запросе пришла заполненная форма. Отправим в модель этот объект и отрендерим ее на другом шаблоне.
         model.addAttribute("subscription", form);
+        /*if (form.getConfirm()) {
+            emailService.sendMail(form.getEmail(), "Ololo mail sended", "Take that bastard!");
+        }*/
         return "home/subscribed";
     }
 
