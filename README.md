@@ -28,12 +28,12 @@ sudo apt-get install maven
 <h5>3) Установка postgresql 9.4</h5>
 Создайте файлик /etc/apt/sources.list.d/pgdg.list и напишите в нем одно из следующего:
 
-Для ubuntu 14.04.
-deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main
-Для ubuntu 14.10.
-deb http://apt.postgresql.org/pub/repos/apt/ utopic-pgdg main
-Для ubuntu 12.04.
-deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main
+Для ubuntu 14.04.<br>
+deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main<br>
+Для ubuntu 14.10.<br>
+deb http://apt.postgresql.org/pub/repos/apt/ utopic-pgdg main<br>
+Для ubuntu 12.04.<br>
+deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main<br>
 
 Выполните следующую команду:
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
