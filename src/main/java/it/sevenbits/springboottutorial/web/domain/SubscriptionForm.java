@@ -3,15 +3,7 @@ package it.sevenbits.springboottutorial.web.domain;
 public class SubscriptionForm {
     private String email;
     private String name;
-    private boolean confirm;
 
-    public boolean getConfirm() {
-        return confirm;
-    }
-
-    public void setConfirm(boolean confirm) {
-        this.confirm = confirm;
-    }
 
     public String getEmail() {
         return email;

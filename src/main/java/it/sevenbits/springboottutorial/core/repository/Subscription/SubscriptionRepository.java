@@ -1,6 +1,7 @@
-package it.sevenbits.springboottutorial.core.repository;
+package it.sevenbits.springboottutorial.core.repository.Subscription;
 
 import it.sevenbits.springboottutorial.core.domain.Subscription;
+import it.sevenbits.springboottutorial.core.repository.RepositoryException;
 
 import java.util.List;
 

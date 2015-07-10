@@ -1,7 +1,8 @@
-package it.sevenbits.springboottutorial.core.repository;
+package it.sevenbits.springboottutorial.core.repository.Subscription;
 
 import it.sevenbits.springboottutorial.core.domain.Subscription;
 import it.sevenbits.springboottutorial.core.mappers.SubscriptionMapper;
+import it.sevenbits.springboottutorial.core.repository.RepositoryException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@Qualifier(value = "subscriptionPersistRepository")
+@Qualifier(value = "theSubscriptionPersistRepository")
 public class SubscriptionPersistRepository implements SubscriptionRepository {
     private static Logger LOG = Logger.getLogger(SubscriptionPersistRepository.class);
 
