@@ -8,6 +8,8 @@ html
     title Sign in
   body
     .middlePlace
+      #top
+        .formBorder
       .mainDiv
         form.formStyle(role='form', action='/signin', method='POST')
           .headerWrapper
@@ -45,3 +47,5 @@ html
           hr
           .nextBlock.submitDiv
             button.btn-default.submitBtn(type='submit') OK
+      #bottom
+        .formBorder

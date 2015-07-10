@@ -1,6 +1,6 @@
 body{
 	font-family: "Comic Sans MS";
-	font-size: 12px;
+	font-size: 14px;
 	background-color: gray;
 }
 .mainDiv{
@@ -95,6 +95,7 @@ div#bottom div{
 
 .signIcons{
 	float: right;
+	width: 70%;
 }
 
 #sizeIconBar{ width: 53px;; float: left; }
@@ -137,7 +138,6 @@ form.formStyle{
 
 .forgot{
 	float: left;
-	margin-top: 18px;
 	clear: both;
 }
 
@@ -159,6 +159,7 @@ form.formStyle{
 	float: right;
 	width: 100%;
 	border: 1px solid black;
+	margin-bottom: 10px;
 }
 
 .submitRegBtn{
@@ -181,4 +182,21 @@ form.formStyle{
 #hintFormat{
 	display: inline-block;
   	text-align: justify;
+}
+
+.workDiv{
+	widows: 100%;
+}
+
+.noteDiv{
+	float: left;
+	width: 80%;
+	display: inline-block;
+	text-align: center;
+}
+
+.cell{
+	width: 80px;
+	height: 80px;
+	background-color: orange;
 }

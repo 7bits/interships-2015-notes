@@ -8,6 +8,8 @@ html
     title Sign up
   body
     .middlePlace
+      #top
+        .formBorder
       .mainDiv
         form.formStyle(role='form', action='/signup', method='POST')
           .headerWrapper
@@ -48,3 +50,5 @@ html
           hr
           .nextBlock.submitDiv
             button.btn-default.submiteBtn(type='submit') Registration
+      #bottom
+        .formBorder

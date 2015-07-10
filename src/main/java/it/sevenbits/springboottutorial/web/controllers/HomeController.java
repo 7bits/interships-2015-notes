@@ -93,7 +93,7 @@ public class HomeController {
         model.addAttribute("subscription", new UserForm());
         // Так как нет аннотации @ResponseBody, то spring будет искать шаблон по адресу home/index
         // Если шаблона не будет найдено, то вернется 404 ошибка
-        return "home/telenote";
+        return "home/signin";
     }
 
     /*@RequestMapping(value = "/subscriptions", method = RequestMethod.GET)

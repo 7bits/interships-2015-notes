@@ -22,7 +22,7 @@ html
             a(href='/')
               span Hello, username!
             br
-            a(href='signin') Logout
+            a(href='/signin') Logout
       hr
       .menuWrapper
         .noteManager
@@ -51,3 +51,41 @@ html
                   | Done
         span Soret by:
       hr
+      .workDiv
+        .noteDiv
+          table.table.table-bordered
+            tbody
+              tr
+                th
+                  .cell
+                th
+                  .cell
+                th
+                  .cell
+              tr
+                th
+                  .cell
+                th
+                  .cell
+                th
+                  .cell
+              tr
+                th
+                  .cell
+                th
+                  .cell
+                th
+                  .cell
+        .rightMenu
+          form.form
+            .firstRightBlock Categories
+            .checkboxDiv
+              input(type='checkbox', title='not selected')
+              | not selected
+              br
+              input(type='checkbox', title='selected')
+              | selected
+              br
+              input(type='checkbox', title='indeterminate')
+              | indeterminate
+              br
