@@ -33,6 +33,28 @@ public class UserService {
         }
     }
 
+    public boolean signIn(final UserForm form) throws ServiceException {
+
+        final UserDetailsImpl userDetails = new UserDetailsImpl();
+        userDetails.setEmail(form.getEmail());
+        userDetails.setPassword(form.getPassword());
+
+        try {
+            Long id = repository.getIdByEmail(userDetails);
+
+            if (id < 0)
+                throw new ServiceException("Incorrect username or password!");
+
+            userDetails.setId(id);
+
+            String password = repository.getPasswordById(userDetails);
+
+            return userDetails.getPassword().equals(password) ? true : false;
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while sign in user: " + e.getMessage(), e);
+        }
+    }
+
     /*public List<SubscriptionModel> findAll() throws ServiceException {
         try {
             List<Subscription> subscriptions = repository.findAll();

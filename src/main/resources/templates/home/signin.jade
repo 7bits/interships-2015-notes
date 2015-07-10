@@ -9,7 +9,7 @@ html
   body
     .middlePlace
       .mainDiv
-        form.formStyle(role='form')
+        form.formStyle(role='form', action='/signin', method='POST')
           .headerWrapper
             .form-group.nextBlock.btnPos
               a(href='/signin')
@@ -38,9 +38,9 @@ html
           .inputDiv.nextBlock
             .form-group.regDiv
               label.labelProperty E-mail
-              input.textboxRegProperty(type='textbox')
+              input.textboxRegProperty(type='textbox', name='email')
               label.labelProperty Password
-              input.textboxRegProperty(type='textbox')
+              input.textboxRegProperty(type='password', name='password', autocomplete='off')
               a.forgot(href='/') Forgot your password?
           hr
           .nextBlock.submitDiv

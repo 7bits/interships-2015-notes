@@ -41,20 +41,21 @@ public class HomeController {
 
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
     public String subscribe(@ModelAttribute UserForm form, final Model model) throws ServiceException {
-        final Map<String, String> errors = validator.validate(form);
+        /*final Map<String, String> errors = validator.validate(form);
         if (errors.size() != 0) {
             // Если есть ошибки в форме, то снова рендерим главную страницу
             model.addAttribute("subscription", form);
             model.addAttribute("errors", errors);
             LOG.info("Subscription form contains errors.");
             return "home/errors";
-        }
+        }*/
         // В запросе пришла заполненная форма. Отправим в модель этот объект и отрендерим ее на другом шаблоне.
+
         model.addAttribute("subscription", form);
         /*if (form.getConfirm()) {
             emailService.sendMail(form.getEmail(), "Ololo mail sended", "Take that bastard!");
         }*/
-        return "home/telenote";
+        return (service.signIn(form)) ? "home/telenote" : "home/errors";
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)

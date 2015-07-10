@@ -22,4 +22,14 @@ public interface UserMapper {
             "FROM users " +
             "WHERE email=#{email};")
     int isEmailExists(final UserDetailsImpl userDetails);
+
+    @Select("SELECT id " +
+            "FROM users " +
+            "WHERE email=#{email};")
+    Object getIdByEmail(final UserDetailsImpl userDetails);
+
+    @Select("SELECT password " +
+            "FROM users " +
+            "WHERE id=#{id};")
+    String getPasswordById(final UserDetailsImpl userDetails);
 }

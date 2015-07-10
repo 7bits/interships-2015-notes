@@ -6,6 +6,7 @@ import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.mappers.UserMapper;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
 //import it.sevenbits.springboottutorial.core.repository.Subscription.SubscriptionRepository;
+import org.apache.catalina.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,5 +40,17 @@ public class UserRepository implements IUserRepository {
     public boolean isEmailExists(final UserDetailsImpl userDetails) throws RepositoryException {
 
         return mapper.isEmailExists(userDetails) == 0 ? false : true;
+    }
+
+    @Override
+    public Long getIdByEmail(final UserDetailsImpl userDetails) throws RepositoryException {
+
+        return mapper.getIdByEmail(userDetails) == null ? -1 : (Long) mapper.getIdByEmail(userDetails);
+    }
+
+    @Override
+    public String getPasswordById(final UserDetailsImpl userDetails) throws RepositoryException {
+
+        return mapper.getPasswordById(userDetails);
     }
 }
