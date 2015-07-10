@@ -5,17 +5,17 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', type='text/css', href='css/bootstrap.css')
     link(rel='stylesheet', type='text/css', href='css/mycss.css')
-    title Sign in
+    title Sign up
   body
     .middlePlace
       .mainDiv
-        form.formStyle(role='form')
+        form.formStyle(role='form', action='/signup', method='POST')
           .headerWrapper
             .form-group.nextBlock.btnPos
-              a(href='loginForm.html')
-                button.btn-primary.btnProperty(type='button') Sign In
-              a(href='registrationForm.html')
-                button.btn-default.btnProperty.rightBtn(type='button') Sign Up
+              a(href='/signin')
+                button.btn-default.btnProperty(type='button') Sign In
+              a(href='/signup')
+                button.btn-primary.btnProperty.rightBtn(type='button') Sign Up
             .form-group.nextBlock
               span#signWith SignIn with
               .signIcons
@@ -38,10 +38,13 @@ html
           .inputDiv.nextBlock
             .form-group.regDiv
               label.labelProperty E-mail
-              input.textboxRegProperty(type='textbox')
+              input.textboxRegProperty(type='textbox', name='email')
+              label.labelProperty Username
+              input.textboxRegProperty(type='textbox', name='username')
               label.labelProperty Password
-              input.textboxRegProperty(type='textbox')
-              a.forgot(href='/') Forgot your password?
+              input.textboxRegProperty(type='textbox', name='password')
+              label.labelProperty Confirm password
+              input.textboxRegProperty(type='textbox', name='confirmpassword')
           hr
           .nextBlock.submitDiv
-            button.btn-default.submitBtn(type='submit') OK
+            button.btn-default.submiteBtn(type='submit') Registration

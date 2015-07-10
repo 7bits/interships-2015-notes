@@ -9,4 +9,6 @@ import it.sevenbits.springboottutorial.core.repository.RepositoryException;
  */
 public interface IUserRepository {
     public void save(final UserDetailsImpl userDetails) throws RepositoryException;
+
+    public boolean isEmailExists(final UserDetailsImpl userDetails) throws RepositoryException;
 }

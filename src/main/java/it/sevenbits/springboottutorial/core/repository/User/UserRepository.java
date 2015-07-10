@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Qualifier(value = "theUserPersistRepository")
@@ -32,5 +33,11 @@ public class UserRepository implements IUserRepository {
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while saving subscription: " + e.getMessage(), e);
         }
+    }
+
+    @Override
+    public boolean isEmailExists(final UserDetailsImpl userDetails) throws RepositoryException {
+
+        return mapper.isEmailExists(userDetails) == 0 ? false : true;
     }
 }

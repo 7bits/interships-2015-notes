@@ -22,7 +22,11 @@ public class UserService {
         final UserDetailsImpl userDetails = new UserDetailsImpl();
         userDetails.setEmail(form.getEmail());
         userDetails.setUsername(form.getUsername());
+        userDetails.setPassword(form.getPassword());
         try {
+            if (repository.isEmailExists(userDetails))
+                throw new ServiceException("Sorry, e-mail is already exists");
+
             repository.save(userDetails);
         } catch (Exception e) {
             throw new ServiceException("An error occurred while saving subscription: " + e.getMessage(), e);
