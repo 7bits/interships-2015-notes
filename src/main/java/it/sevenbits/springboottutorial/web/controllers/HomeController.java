@@ -1,7 +1,5 @@
 package it.sevenbits.springboottutorial.web.controllers;
 
-import it.sevenbits.springboottutorial.web.domain.SubscriptionForm;
-import it.sevenbits.springboottutorial.web.domain.SubscriptionModel;
 import it.sevenbits.springboottutorial.web.domain.UserForm;
 import it.sevenbits.springboottutorial.web.service.*;
 
@@ -12,10 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
-import java.util.Map;
+//import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class HomeController {
@@ -25,7 +20,7 @@ public class HomeController {
     private UserFormValidator validator;
 
     @Autowired
-    private UserService service;
+    private UserService userService;
 
     @Autowired
     private EmailService emailService;
@@ -33,7 +28,7 @@ public class HomeController {
     @RequestMapping(value = "/signin", method = RequestMethod.GET)
     public String index(final Model model) {
         // В модель добавим новый объект формы подписки
-        model.addAttribute("subscription", new UserForm());
+        model.addAttribute("userForm", new UserForm());
         // Так как нет аннотации @ResponseBody, то spring будет искать шаблон по адресу home/index
         // Если шаблона не будет найдено, то вернется 404 ошибка
         return "home/signin";
@@ -51,17 +46,17 @@ public class HomeController {
         }*/
         // В запросе пришла заполненная форма. Отправим в модель этот объект и отрендерим ее на другом шаблоне.
 
-        model.addAttribute("subscription", form);
+        model.addAttribute("userForm", form);
         /*if (form.getConfirm()) {
             emailService.sendMail(form.getEmail(), "Ololo mail sended", "Take that bastard!");
         }*/
-        return (service.signIn(form)) ? "home/telenote" : "home/errors";
+        return (userService.signIn(form)) ? "home/telenote" : "home/errors";
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String registration(final Model model) {
         // В модель добавим новый объект формы подписки
-        model.addAttribute("subscription", new UserForm());
+        model.addAttribute("userForm", new UserForm());
         // Так как нет аннотации @ResponseBody, то spring будет искать шаблон по адресу home/index
         // Если шаблона не будет найдено, то вернется 404 ошибка
         return "home/signup";
@@ -78,9 +73,9 @@ public class HomeController {
             return "home/errors";
         }*/
 
-        service.save(form);
+        userService.save(form);
         // В запросе пришла заполненная форма. Отправим в модель этот объект и отрендерим ее на другом шаблоне.
-        model.addAttribute("subscription", form);
+        model.addAttribute("userForm", form);
         /*if (form.getConfirm()) {
             emailService.sendMail(form.getEmail(), "Ololo mail sended", "Take that bastard!");
         }*/
@@ -90,7 +85,7 @@ public class HomeController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String telenote(final Model model) {
         // В модель добавим новый объект формы подписки
-        model.addAttribute("subscription", new UserForm());
+        model.addAttribute("userForm", new UserForm());
         // Так как нет аннотации @ResponseBody, то spring будет искать шаблон по адресу home/index
         // Если шаблона не будет найдено, то вернется 404 ошибка
         return "home/telenote";
@@ -99,6 +94,6 @@ public class HomeController {
     /*@RequestMapping(value = "/subscriptions", method = RequestMethod.GET)
     @ResponseBody
     public List<SubscriptionModel> getSubscriptions() throws ServiceException {
-        return service.findAll();
+        return userService.findAll();
     }*/
 }

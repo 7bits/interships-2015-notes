@@ -14,7 +14,7 @@ public class UserFormValidator {
     @Autowired
     private CommonFieldValidator validator;
 
-    private static final Logger LOG = Logger.getLogger(SubscriptionFormValidator.class);
+    private static final Logger LOG = Logger.getLogger(UserFormValidator.class);
 
     public HashMap<String, String> validate(final UserForm form) {
         LOG.info("SubscriptionFormValidator started for: " + form.toString());
