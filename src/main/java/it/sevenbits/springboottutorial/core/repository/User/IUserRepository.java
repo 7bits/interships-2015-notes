@@ -16,4 +16,6 @@ public interface IUserRepository {
     public Long getIdByEmail(final UserDetailsImpl userDetails) throws RepositoryException;
 
     public String getPasswordById(final UserDetailsImpl userDetails) throws RepositoryException;
+
+    public void updatePass(final UserDetailsImpl userDetails) throws RepositoryException;
 }

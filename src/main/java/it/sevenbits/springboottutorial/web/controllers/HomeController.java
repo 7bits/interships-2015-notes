@@ -5,6 +5,7 @@ import it.sevenbits.springboottutorial.web.domain.SubscriptionModel;
 import it.sevenbits.springboottutorial.web.domain.UserForm;
 import it.sevenbits.springboottutorial.web.service.*;
 
+import org.apache.catalina.startup.ClassLoaderFactory;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.xml.ws.Service;
 import java.util.List;
 import java.util.Map;
 
@@ -30,12 +32,15 @@ public class HomeController {
     @Autowired
     private EmailService emailService;
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String telenote(final Model model) {
+        model.addAttribute("subscription", new UserForm());
+        return "home/signin";
+    }
+
     @RequestMapping(value = "/signin", method = RequestMethod.GET)
     public String index(final Model model) {
-        // В модель добавим новый объект формы подписки
         model.addAttribute("subscription", new UserForm());
-        // Так как нет аннотации @ResponseBody, то spring будет искать шаблон по адресу home/index
-        // Если шаблона не будет найдено, то вернется 404 ошибка
         return "home/signin";
     }
 
@@ -49,21 +54,14 @@ public class HomeController {
             LOG.info("Subscription form contains errors.");
             return "home/errors";
         }*/
-        // В запросе пришла заполненная форма. Отправим в модель этот объект и отрендерим ее на другом шаблоне.
 
         model.addAttribute("subscription", form);
-        /*if (form.getConfirm()) {
-            emailService.sendMail(form.getEmail(), "Ololo mail sended", "Take that bastard!");
-        }*/
         return (service.signIn(form)) ? "home/telenote" : "home/errors";
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String registration(final Model model) {
-        // В модель добавим новый объект формы подписки
         model.addAttribute("subscription", new UserForm());
-        // Так как нет аннотации @ResponseBody, то spring будет искать шаблон по адресу home/index
-        // Если шаблона не будет найдено, то вернется 404 ошибка
         return "home/signup";
     }
 
@@ -79,26 +77,28 @@ public class HomeController {
         }*/
 
         service.save(form);
-        // В запросе пришла заполненная форма. Отправим в модель этот объект и отрендерим ее на другом шаблоне.
         model.addAttribute("subscription", form);
-        /*if (form.getConfirm()) {
-            emailService.sendMail(form.getEmail(), "Ololo mail sended", "Take that bastard!");
-        }*/
-        return "home/signin";
+        return "home/telenote";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String telenote(final Model model) {
-        // В модель добавим новый объект формы подписки
+    @RequestMapping(value = "/resetPass", method = RequestMethod.GET)
+    public String resetPass(final Model model) {
         model.addAttribute("subscription", new UserForm());
-        // Так как нет аннотации @ResponseBody, то spring будет искать шаблон по адресу home/index
-        // Если шаблона не будет найдено, то вернется 404 ошибка
-        return "home/signin";
+        return "home/resetPass";
     }
 
-    /*@RequestMapping(value = "/subscriptions", method = RequestMethod.GET)
-    @ResponseBody
-    public List<SubscriptionModel> getSubscriptions() throws ServiceException {
-        return service.findAll();
-    }*/
+    @RequestMapping(value = "/resetPass", method = RequestMethod.POST)
+    public String resetPassInDB(@ModelAttribute UserForm form, final Model model) {
+
+        final String password = "456";
+
+        try {
+            service.updatePass(form, password);
+        } catch (Exception e) {
+
+        }
+
+        model.addAttribute("subscription", form);
+        return "home/signin";
+    }
 }

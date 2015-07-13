@@ -53,4 +53,10 @@ public class UserRepository implements IUserRepository {
 
         return mapper.getPasswordById(userDetails);
     }
+
+    @Override
+    public void updatePass(final UserDetailsImpl userDetails) {
+
+        mapper.updatePass(userDetails);
+    }
 }

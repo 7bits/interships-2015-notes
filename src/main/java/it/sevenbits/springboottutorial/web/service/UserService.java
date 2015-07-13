@@ -55,6 +55,25 @@ public class UserService {
         }
     }
 
+    public void updatePass(final UserForm form, String password) throws ServiceException {
+
+        final UserDetailsImpl userDetails = new UserDetailsImpl();
+        userDetails.setEmail(form.getEmail());
+        userDetails.setPassword(password);
+
+        try {
+            if (repository.isEmailExists(userDetails)) {
+                userDetails.setId(repository.getIdByEmail(userDetails));
+                repository.updatePass(userDetails);
+            } else {
+                throw new ServiceException("E-mail is not exists!");
+            }
+        }
+        catch (Exception e) {
+            throw new ServiceException("E-mail is not exists!");
+        }
+    }
+
     /*public List<SubscriptionModel> findAll() throws ServiceException {
         try {
             List<Subscription> subscriptions = repository.findAll();

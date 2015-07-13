@@ -2,11 +2,8 @@ package it.sevenbits.springboottutorial.core.mappers;
 
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Select;
-
-import java.util.List;
-import java.util.Map;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * Created by Admin on 09.07.2015.
@@ -32,4 +29,9 @@ public interface UserMapper {
             "FROM users " +
             "WHERE id=#{id};")
     String getPasswordById(final UserDetailsImpl userDetails);
+
+    @Update("UPDATE users " +
+            "SET password=#{password} " +
+            "WHERE id=#{id};")
+    void updatePass(final UserDetailsImpl userDetails);
 }

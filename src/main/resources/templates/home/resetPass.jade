@@ -11,14 +11,13 @@ html
       #top.resetB
         #difTop.formBorder Reset password
       .mainDiv.resetT
-        form.formStyle(role='form')
+        form.formStyle(role='form', action='/resetPass', method='POST')
           p#hintFormat
-            | Telenote will send reset instraction to your e-mail address associated with your account
+            | Telenote will send reset instruction to your e-mail address associated with your account
           .form-group.regDiv
             label.labelProperty E-mail
-            input.textboxRegProperty(type='textbox')
+            input.textboxRegProperty(type='textbox', name='email')
           #endForm.nextBlock.submitDiv
-            a(href='telenote.html')
-              button.btn-default.submitBtn(type='submit') Send
+            button.btn-default.submitBtn(type='submit') Send
       #bottom
         .formBorder
