@@ -1,5 +1,5 @@
 # interships-2015-notes
-Needed technologies:
+Необходимое программное обеспечение:
 <ul>
 <li>java8</li>
 <li>tomcat7</li>

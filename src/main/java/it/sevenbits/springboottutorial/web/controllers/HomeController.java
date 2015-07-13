@@ -1,7 +1,5 @@
 package it.sevenbits.springboottutorial.web.controllers;
 
-import it.sevenbits.springboottutorial.web.domain.SubscriptionForm;
-import it.sevenbits.springboottutorial.web.domain.SubscriptionModel;
 import it.sevenbits.springboottutorial.web.domain.UserForm;
 import it.sevenbits.springboottutorial.web.service.*;
 
