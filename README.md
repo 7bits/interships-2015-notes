@@ -41,26 +41,21 @@
 ```sudo apt-get update```
 ```sudo apt-get install postgresql-9.4```  
 
-Найти файлик pg_hba.conf в директории /etc/postgres/9.4/main/ для Linux,<br>
-Внизу файла поменять host all all 127.0.0.1/32 md5 на host all all 127.0.0.1/32 trust<br>
-
-```sudo service postgresql restart```
-
 Создать базу данных notes, для этого зайдите в командный интерфейс субд под пользователем postgres.
-(sudo su postgres -c psql postgres) и наберите следующие команды:
- Вместо <пароль> напишите желаемый пароль для данного пользователя.
- Вместо <пользователь> напишите имя желаемого пользователя.
+(sudo su postgres -c psql postgres) и наберите следующие команды:  
+ Вместо "<пароль>" напишите желаемый пароль для данного пользователя.  
+ Вместо "<пользователь>" напишите имя желаемого пользователя.  
 
-```CREATE ROLE <пользователь> WITH ENCRYPTED PASSWORD '<пароль>' LOGIN;```
-```CREATE DATABASE notes ENCODING 'UTF8' OWNER note_admin;```
-```GRANT ALL PRIVILEGES ON DATABASE notes TO <пользователь>;```
-
-Далее в папке src/main/resources/config есть файл application_tpl.yml.
-Сделайте его копию с названием application.yml в той же папке.
-Откройте, и в пункте spring:datasource:username введите <пользователь>.
-В пункте spring:datasource:password введите <пароль>.
+```CREATE ROLE <пользователь> WITH ENCRYPTED PASSWORD '<пароль>' LOGIN;```  
+```CREATE DATABASE notes ENCODING 'UTF8' OWNER note_admin;```  
+```GRANT ALL PRIVILEGES ON DATABASE notes TO <пользователь>;```  
 
 Выходим из базы командой \q<br>
+
+Далее в папке src/main/resources/config есть файл application_tpl.yml.  
+Сделайте его копию с названием application.yml в той же папке.  
+Откройте, и в пункте spring:datasource:username введите "<пользователь>" без кавычек.  
+В пункте spring:datasource:password введите "<пароль>" без кавычек.  
 
 Можно запускать приложение, в терминале перейдите в папку с файлом pom.xml с помощью команды cd "путь/до/проекта".<br>
 
