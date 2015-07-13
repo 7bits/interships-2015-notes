@@ -23,69 +23,77 @@ html
               span Hello, username!
             br
             a(href='/signin') Logout
-      hr
-      .menuWrapper
-        .noteManager
-          button#manageBtn.btn.btn-default +
-          button#manageBtn.btn.btn-default X
-          button#manageBtn.btn.btn-default done/undone
-          button#manageBtn.btn.btn-default cancel selection
-        .dateBar
-          input(type='textbox', name='dateBox', value='    /   /   ')
-          span Date:
-        .sortCheck
-          table.table.table-bordered.centrum
-            tbody
-              tr
-                th
-                  input#normalize(type='checkbox', value='Category')
-                  | Category
-                th
-                  input#normalize(type='checkbox', value='Priority')
-                  | Priority
-                th
-                  input#normalize(type='checkbox', value='Date')
-                  | Date
-                th
-                  input#normalize(type='checkbox', value='Done')
-                  | Done
-        span Soret by:
+        .addNoteDiv
+          a.addNote(href='/') +
+          span New note
       hr
       .workDiv
         .noteDiv
-          table.table.table-bordered
+          table.table
             tbody
               tr
                 th
                   .cell
+                    .content
+                      textarea
+                    button.btn-default.delBtn Delete
+                    button.btn-default.shaBtn Share
+                    button.btn-default.edBtn Edit
                 th
                   .cell
+                    .content
+                      textarea
+                    button.btn-default.delBtn Delete
+                    button.btn-default.shaBtn Share
+                    button.btn-default.edBtn Edit
                 th
                   .cell
+                    .content
+                      textarea
+                    button.btn-default.delBtn Delete
+                    button.btn-default.shaBtn Share
+                    button.btn-default.edBtn Edit
               tr
                 th
                   .cell
+                    .content
+                      textarea
+                    button.btn-default.delBtn Delete
+                    button.btn-default.shaBtn Share
+                    button.btn-default.edBtn Edit
                 th
                   .cell
+                    .content
+                      textarea
+                    button.btn-default.delBtn Delete
+                    button.btn-default.shaBtn Share
+                    button.btn-default.edBtn Edit
                 th
                   .cell
+                    .content
+                      textarea
+                    button.btn-default.delBtn Delete
+                    button.btn-default.shaBtn Share
+                    button.btn-default.edBtn Edit
               tr
                 th
                   .cell
+                    .content
+                      textarea
+                    button.btn-default.delBtn Delete
+                    button.btn-default.shaBtn Share
+                    button.btn-default.edBtn Edit
                 th
                   .cell
+                    .content
+                      textarea
+                    button.btn-default.delBtn Delete
+                    button.btn-default.shaBtn Share
+                    button.btn-default.edBtn Edit
                 th
                   .cell
-        .rightMenu
-          form.form
-            .firstRightBlock Categories
-            .checkboxDiv
-              input(type='checkbox', title='not selected')
-              | not selected
-              br
-              input(type='checkbox', title='selected')
-              | selected
-              br
-              input(type='checkbox', title='indeterminate')
-              | indeterminate
-              br
+                    .content
+                      textarea
+                    button.btn-default.delBtn Delete
+                    button.btn-default.shaBtn Share
+                    button.btn-default.edBtn Edit

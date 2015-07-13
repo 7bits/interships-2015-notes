@@ -200,3 +200,7 @@ form.formStyle{
 	height: 80px;
 	background-color: orange;
 }
+
+div.regDiv input:focus {
+	border: 1px solid blue;
+}
