@@ -4,8 +4,8 @@ server:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/notes
-    username: note_admin
-    password: bestpassword
+    username:
+    password:
 
 mail:
     username: ivashchenko.leo@gmail.com

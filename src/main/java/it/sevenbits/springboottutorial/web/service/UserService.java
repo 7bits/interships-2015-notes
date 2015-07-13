@@ -34,7 +34,6 @@ public class UserService {
     }
 
     public boolean signIn(final UserForm form) throws ServiceException {
-
         final UserDetailsImpl userDetails = new UserDetailsImpl();
         userDetails.setEmail(form.getEmail());
         userDetails.setPassword(form.getPassword());

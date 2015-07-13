@@ -5,6 +5,7 @@
 /.idea/*
 /target/*
 springboot-tutorial.iml
+/src/main/resources/config/application.yml
 # Package Files #
 *.jar
 *.war

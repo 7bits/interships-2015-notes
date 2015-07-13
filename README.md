@@ -38,7 +38,7 @@
 Выполните следующую команду:<br>
 ```wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -```  
 
-sudo apt-get update<br>
+```sudo apt-get update```
 ```sudo apt-get install postgresql-9.4```  
 
 Найти файлик pg_hba.conf в директории /etc/postgres/9.4/main/ для Linux,<br>
@@ -47,7 +47,18 @@ sudo apt-get update<br>
 ```sudo service postgresql restart```
 
 Создать базу данных notes, для этого зайдите в командный интерфейс субд под пользователем postgres.
-(sudo su postgres -c psql postgres) и наберите CREATE DATABASE notes;
+(sudo su postgres -c psql postgres) и наберите следующие команды:
+ Вместо <пароль> напишите желаемый пароль для данного пользователя.
+ Вместо <пользователь> напишите имя желаемого пользователя.
+
+```CREATE ROLE <пользователь> WITH ENCRYPTED PASSWORD '<пароль>' LOGIN;```
+```CREATE DATABASE notes ENCODING 'UTF8' OWNER note_admin;```
+```GRANT ALL PRIVILEGES ON DATABASE notes TO <пользователь>;```
+
+Далее в папке src/main/resources/config есть файл application_tpl.yml.
+Сделайте его копию с названием application.yml в той же папке.
+Откройте, и в пункте spring:datasource:username введите <пользователь>.
+В пункте spring:datasource:password введите <пароль>.
 
 Выходим из базы командой \q<br>
 
