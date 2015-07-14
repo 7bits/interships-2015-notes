@@ -116,6 +116,7 @@ hr{
 form.formStyle{
 	display: inline-block;
   	text-align: center;
+  	width: 100%;
 }
 
 .inputDiv{

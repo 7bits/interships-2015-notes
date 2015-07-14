@@ -13,13 +13,13 @@ body{
 
 .headWrapper{
 	margin: 0 10px 0 10px;
-	width: 97%;
+	width: 95%;
+  	margin: auto;
 }
 
 .logoDiv{
 	float: left;
 	margin-top: -10px;
-	margin-left: 10px;
 }
 
 .slogonDiv{
