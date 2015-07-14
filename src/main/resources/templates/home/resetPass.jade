@@ -9,15 +9,15 @@ html
   body
     .middlePlace
       #top.resetB
-        #difTop.formBorder Reset password
+        #difTop.formBorder Смена пароля
       .mainDiv.resetT
         form.formStyle(role='form', action='/resetPass', method='POST')
           p#hintFormat
-            | Telenote will send reset instruction to your e-mail address associated with your account
+            | Telenote отправит инструкцию по смене пароля на указаный вами e-mail.
           .form-group.regDiv
             label.labelProperty E-mail
             input.textboxRegProperty(type='textbox', name='email')
           #endForm.nextBlock.submitDiv
-            button.btn-default.submitBtn(type='submit') Send
+            button.btn-default.submitBtn(type='submit') Отправить
       #bottom
         .formBorder
