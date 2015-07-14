@@ -32,14 +32,14 @@ html
           - i = 0
           while (i < 10)
             if (i%3 == 2)
-              .cell.lastcell
+              .cell.lastcell(id=i)
                 .content
                   textarea
                 button.btn-default.delBtn Delete
                 button.btn-default.shaBtn Share
                 button.btn-default.edBtn Edit
             else
-              .cell
+              .cell(id=i)
                 .content
                   textarea
                 button.btn-default.delBtn Delete
