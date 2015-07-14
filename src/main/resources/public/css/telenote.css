@@ -209,7 +209,7 @@ div.sortCheck span{
 
 .content textarea:active,
 .content textarea:focus, 
-.content textarea: {
+.content textarea {
 	border: none;
 }
 
