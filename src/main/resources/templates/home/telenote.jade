@@ -29,71 +29,20 @@ html
       hr
       .workDiv
         .noteDiv
-          table.table
-            tbody
-              tr
-                th
-                  .cell
-                    .content
-                      textarea
-                    button.btn-default.delBtn Delete
-                    button.btn-default.shaBtn Share
-                    button.btn-default.edBtn Edit
-                th
-                  .cell
-                    .content
-                      textarea
-                    button.btn-default.delBtn Delete
-                    button.btn-default.shaBtn Share
-                    button.btn-default.edBtn Edit
-                th
-                  .cell
-                    .content
-                      textarea
-                    button.btn-default.delBtn Delete
-                    button.btn-default.shaBtn Share
-                    button.btn-default.edBtn Edit
-              tr
-                th
-                  .cell
-                    .content
-                      textarea
-                    button.btn-default.delBtn Delete
-                    button.btn-default.shaBtn Share
-                    button.btn-default.edBtn Edit
-                th
-                  .cell
-                    .content
-                      textarea
-                    button.btn-default.delBtn Delete
-                    button.btn-default.shaBtn Share
-                    button.btn-default.edBtn Edit
-                th
-                  .cell
-                    .content
-                      textarea
-                    button.btn-default.delBtn Delete
-                    button.btn-default.shaBtn Share
-                    button.btn-default.edBtn Edit
-              tr
-                th
-                  .cell
-                    .content
-                      textarea
-                    button.btn-default.delBtn Delete
-                    button.btn-default.shaBtn Share
-                    button.btn-default.edBtn Edit
-                th
-                  .cell
-                    .content
-                      textarea
-                    button.btn-default.delBtn Delete
-                    button.btn-default.shaBtn Share
-                    button.btn-default.edBtn Edit
-                th
-                  .cell
-                    .content
-                      textarea
-                    button.btn-default.delBtn Delete
-                    button.btn-default.shaBtn Share
-                    button.btn-default.edBtn Edit
+          - i = 0
+          while (i < 10)
+            if (i%3 == 2)
+              .cell.lastcell
+                .content
+                  textarea
+                button.btn-default.delBtn Delete
+                button.btn-default.shaBtn Share
+                button.btn-default.edBtn Edit
+            else
+              .cell
+                .content
+                  textarea
+                button.btn-default.delBtn Delete
+                button.btn-default.shaBtn Share
+                button.btn-default.edBtn Edit
+            - i = i + 1

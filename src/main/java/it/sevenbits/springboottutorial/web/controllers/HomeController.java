@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
     private static Logger LOG = Logger.getLogger(HomeController.class);
+    private static Long user_id;
 
     @Autowired
     private UserFormValidator validator;
@@ -47,8 +48,10 @@ public class HomeController {
             return "home/errors";
         }*/
 
-        model.addAttribute("subscription", form);
-        return (service.signIn(form)) ? "home/telenote" : "home/errors";
+        model.addAttribute("notesID", form);
+        user_id = service.signIn(form);
+
+        return (user_id > 0) ? "home/telenote" : "home/errors";
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
