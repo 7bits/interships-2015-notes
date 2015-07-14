@@ -213,6 +213,9 @@ div.sortCheck span{
 	border: none;
 }
 
-.noteDiv table {
-	border: none;
+.welcome {
+	text-align: center;
+	margin: auto;
+	margin-top: 80px;
+	font-weight: bold;
 }

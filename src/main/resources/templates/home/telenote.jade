@@ -20,12 +20,12 @@ html
             img(src='img/user.png')
           .logMenu
             a(href='/')
-              span Hello, username!
+              span Привет, username!
             br
-            a(href='/signin') Logout
+            a(href='/signin') Выход
         .addNoteDiv
           a.addNote(href='/') +
-          span New note
+          span Новая заметка
       hr
       .workDiv
         .noteDiv
@@ -35,14 +35,14 @@ html
               .cell.lastcell(id=i)
                 .content
                   textarea
-                button.btn-default.delBtn Delete
-                button.btn-default.shaBtn Share
-                button.btn-default.edBtn Edit
+                button.btn-default.delBtn Удалить
+                button.btn-default.shaBtn Поделиться
+                button.btn-default.edBtn Изменить
             else
               .cell(id=i)
                 .content
                   textarea
-                button.btn-default.delBtn Delete
-                button.btn-default.shaBtn Share
-                button.btn-default.edBtn Edit
+                button.btn-default.delBtn Удалить
+                button.btn-default.shaBtn Поделиться
+                button.btn-default.edBtn Изменить
             - i = i + 1

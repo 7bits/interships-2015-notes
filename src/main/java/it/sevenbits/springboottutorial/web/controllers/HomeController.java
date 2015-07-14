@@ -28,7 +28,7 @@ public class HomeController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String telenote(final Model model) {
         model.addAttribute("subscription", new UserForm());
-        return "home/signin";
+        return "home/welcome";
     }
 
     @RequestMapping(value = "/signin", method = RequestMethod.GET)
