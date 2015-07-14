@@ -196,12 +196,10 @@ form.formStyle{
 	text-align: center;
 }
 
-.cell{
-	width: 80px;
-	height: 80px;
-	background-color: orange;
-}
-
 div.regDiv input:focus {
 	border: 1px solid blue;
+}
+
+.topBorder {
+	margin-top: -8px;
 }

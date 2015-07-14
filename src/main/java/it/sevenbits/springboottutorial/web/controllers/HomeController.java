@@ -73,7 +73,7 @@ public class HomeController {
 
         service.save(form);
         model.addAttribute("subscription", form);
-        return "home/telenote";
+        return "home/checkYourMail";
     }
 
     @RequestMapping(value = "/resetPass", method = RequestMethod.GET)
