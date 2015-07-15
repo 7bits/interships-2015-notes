@@ -20,7 +20,10 @@ public class HomeController {
     private UserFormValidator validator;
 
     @Autowired
-    private UserService service;
+    private UserService userService;
+
+    @Autowired
+    private NoteService noteService;
 
     @Autowired
     private EmailService emailService;
@@ -47,9 +50,8 @@ public class HomeController {
             LOG.info("Subscription form contains errors.");
             return "home/errors";
         }*/
-
-        model.addAttribute("notesID", form);
-        user_id = service.signIn(form);
+        user_id = userService.signIn(form);
+        model.addAttribute("notes", noteService.findUserNotes(user_id));
 
         return (user_id > 0) ? "home/telenote" : "home/errors";
     }
@@ -71,7 +73,7 @@ public class HomeController {
             return "home/errors";
         }*/
 
-        service.save(form);
+        userService.save(form);
         model.addAttribute("subscription", form);
         return "home/checkYourMail";
     }
@@ -88,7 +90,7 @@ public class HomeController {
         final String password = "456";
 
         try {
-            service.updatePass(form, password);
+            userService.updatePass(form, password);
         } catch (Exception e) {
 
         }

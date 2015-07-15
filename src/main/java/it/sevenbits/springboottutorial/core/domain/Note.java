@@ -9,28 +9,20 @@ import java.util.List;
 public class Note {
 
     private Long id;
-    private Long userId;
+    private String text;
+    private Timestamp note_date;
+    private Timestamp created_at;
+    private Timestamp updated_at;
 
     //private List<String> category;
-    private List<String> category;
+    //private List<String> category;
 
-    public enum Priority {LOW, MEDIUM, HIGH};
-    private Priority priority;
-    private Timestamp date;
-    private boolean state;
+    //public enum Priority {LOW, MEDIUM, HIGH};
+    //private Priority priority;
+
+    //private boolean state;
     //private enum state {TODO, IN_PROGRESS, DONE};
     //private List<String> subnotes;
-    private String subnote;
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
-
-    public Priority getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Priority priority) {
-        this.priority = priority;
-    }
 
     public Long getId() {
         return id;
@@ -40,59 +32,35 @@ public class Note {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public String getText() {
+        return text;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public List<String> getCategory() {
-        return category;
+    public Timestamp getNote_date() {
+        return note_date;
     }
 
-    public void setCategory(List<String> category) {
-        this.category = category;
+    public void setNote_date(Timestamp note_date) {
+        this.note_date = note_date;
     }
 
-    public Timestamp getDate() {
-        return date;
+    public Timestamp getCreated_at() {
+        return created_at;
     }
 
-    public void setDate(Timestamp date) {
-        this.date = date;
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
     }
 
-    public boolean getState() {
-        return state;
+    public Timestamp getUpdated_at() {
+        return updated_at;
     }
 
-    public void setState(boolean state) {
-        this.state = state;
-    }
-
-    public String getSubnote() {
-        return subnote;
-    }
-
-    public void setSubnote(String subnote) {
-        this.subnote = subnote;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setUpdated_at(Timestamp updated_at) {
+        this.updated_at = updated_at;
     }
 }

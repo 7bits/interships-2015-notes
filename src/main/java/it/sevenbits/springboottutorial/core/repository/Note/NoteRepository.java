@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 @Repository
-@Qualifier(value = "theNotePersistRepository")
+@Qualifier(value = "noteRepository")
 public class NoteRepository implements INoteRepository {
     private static Logger LOG = Logger.getLogger(NoteRepository.class);
 
@@ -54,4 +56,13 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    @Override
+    public List<Note> findUserNotes(final Long userId) throws RepositoryException {
+
+        try {
+             return mapper.findUserNotes(userId);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while db accessing: " + e.getMessage(), e);
+        }
+    }
 }

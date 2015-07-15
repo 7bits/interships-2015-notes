@@ -22,7 +22,7 @@ html
             a(href='/')
               span Привет, username!
             br
-            a(href='/signin') Выход
+            a(href='/') Выход
         .addNoteDiv
           a.addNote(href='/') +
           span Новая заметка
@@ -30,18 +30,18 @@ html
       .workDiv
         .noteDiv
           - i = 0
-          while (i < 9)
+          for note in notes
             if (i%3 == 2)
               .cell.lastcell(id=i)
                 .content
-                  textarea
+                  textarea #{note.text}
                 button.btn-default.delBtn Удалить
                 button.btn-default.shaBtn Поделиться
                 button.btn-default.edBtn Изменить
             else
               .cell(id=i)
                 .content
-                  textarea
+                  textarea #{note.text}
                 button.btn-default.delBtn Удалить
                 button.btn-default.shaBtn Поделиться
                 button.btn-default.edBtn Изменить
