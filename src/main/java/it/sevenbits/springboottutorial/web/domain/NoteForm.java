@@ -1,7 +1,5 @@
 package it.sevenbits.springboottutorial.web.domain;
 
-import it.sevenbits.springboottutorial.core.domain.Note;
-
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -10,50 +8,49 @@ import java.util.List;
  */
 public class NoteForm {
 
-    private List<String> category;
-    private Note.Priority priority;
-    private Timestamp date;
-    private boolean state;
-    private String subnote;
+    private Long id;
+    private String text;
+    private Timestamp note_date;
+    private Timestamp created_at;
+    private Timestamp updated_at;
 
-    public List<String> getCategory() {
-        return category;
+    public Long getId() {
+        return id;
     }
 
-    public void setCategory(List<String> category) {
-        this.category = category;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Note.Priority getPriority() {
-        return priority;
+    public String getText() {
+        return text;
     }
 
-    public void setPriority(Note.Priority priority) {
-        this.priority = priority;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public Timestamp getDate() {
-        return date;
+    public Timestamp getCreated_at() {
+        return created_at;
     }
 
-    public void setDate(Timestamp date) {
-        this.date = date;
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
     }
 
-    public boolean getState() {
-        return state;
+    public Timestamp getUpdated_at() {
+        return updated_at;
     }
 
-    public void setState(boolean state) {
-        this.state = state;
+    public void setUpdated_at(Timestamp updated_at) {
+        this.updated_at = updated_at;
     }
 
-
-    public String getSubnote() {
-        return subnote;
+    public Timestamp getNote_date() {
+        return note_date;
     }
 
-    public void setSubnote(String subnote) {
-        this.subnote = subnote;
+    public void setNote_date(Timestamp note_date) {
+        this.note_date = note_date;
     }
 }
