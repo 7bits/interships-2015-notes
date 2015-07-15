@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
  */
 public class NoteService {
     @Autowired
-    @Qualifier(value = "theUserPersistRepository")
+    @Qualifier(value = "theNotePersistRepository")
     private INoteRepository repository;
 
     public void saveNote(final NoteForm form) throws ServiceException {
