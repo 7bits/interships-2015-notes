@@ -5,6 +5,7 @@ import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.repository.User.IUserRepository;
 import it.sevenbits.springboottutorial.web.domain.UserForm;
 //import it.sevenbits.springboottutorial.web.domain.SubscriptionModel;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ import java.util.List;
 
 @Service
 public class UserService {
+    private static Logger LOG = Logger.getLogger(UserService.class);
+
     @Autowired
     @Qualifier(value = "theUserPersistRepository")
     private IUserRepository repository;
@@ -28,6 +31,7 @@ public class UserService {
                 throw new ServiceException("Sorry, e-mail is already exists");
 
             repository.save(userDetails);
+            LOG.debug(String.format("New user created: %s, %d", userDetails, userDetails.getId() ));
         } catch (Exception e) {
             throw new ServiceException("An error occurred while saving subscription: " + e.getMessage(), e);
         }

@@ -84,12 +84,7 @@ div.slogonDiv span{
 	float: right;
 }
 
-.addNoteDiv a {
-	text-decoration: none;
-	color: black;
-}
-
-.addNoteDiv span {
+.newNote {
 	margin-right: 10px;
 	margin-top: 10px;
 	float: right;
@@ -105,7 +100,7 @@ hr{
 	margin-bottom: 10px;
 }
 
-div a span{
+div span{
 	font-weight: bold;
 }
 
@@ -127,14 +122,6 @@ div.menuWrapper div.noteManager div#circle span{
 
 #manageBtn{
 	margin-right: -4px;
-}
-
-.sortCheck{
-	float: right;
-}
-
-div.sortCheck span{
-	float: left;
 }
 
 #normalize{

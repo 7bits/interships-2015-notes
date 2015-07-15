@@ -2,6 +2,7 @@ package it.sevenbits.springboottutorial.core.mappers;
 
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -10,9 +11,10 @@ import org.apache.ibatis.annotations.Update;
  */
 public interface UserMapper {
     @Insert("INSERT INTO users " +
-            "(id, email, username, password, created_at, updated_at, is_confirmed) " +
+            "(email, username, password) " +
             "VALUES " +
-            "(DEFAULT, #{email}, #{username}, #{password}, DEFAULT, DEFAULT, DEFAULT);")
+            "(#{email}, #{username}, #{password})")
+    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void save(final UserDetailsImpl userDetails);
 
     @Select("SELECT count(*) " +
