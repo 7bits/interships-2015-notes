@@ -2,6 +2,7 @@ package it.sevenbits.springboottutorial.core.repository.Note;
 
 
 import it.sevenbits.springboottutorial.core.domain.Note;
+import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.mappers.NoteMapper;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
 import org.apache.log4j.Logger;
@@ -21,27 +22,9 @@ public class NoteRepository implements INoteRepository {
     private NoteMapper mapper;
 
     @Override
-    public void saveNote(final Note note) throws RepositoryException {
-        if (note == null) {
-            throw new RepositoryException("Note is null");
-        }
-        try {
-            mapper.saveNote(note);
-        } catch (Exception e) {
-            throw new RepositoryException("An error occurred while saving note: " + e.getMessage(), e);
-        }
-    }
-
-    @Override
     public void updateNote(Note note) throws RepositoryException {
-        if (note == null) {
-            throw new RepositoryException("Note is null");
-        }
-        try {
-            mapper.updateNote(note);
-        } catch (Exception e) {
-            throw new RepositoryException("An error occurred while updating note: " + e.getMessage(), e);
-        }
+
+        mapper.updateNote(note);
     }
 
     @Override
@@ -64,5 +47,20 @@ public class NoteRepository implements INoteRepository {
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while db accessing: " + e.getMessage(), e);
         }
+    }
+
+    @Override
+    public void addNote(Note note) throws RepositoryException {
+
+        try {
+            mapper.addNote(note);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while adding note: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void linkUserWithNote(final UserNote userNote) throws RepositoryException {
+        mapper.linkUserWithNote(userNote);
     }
 }

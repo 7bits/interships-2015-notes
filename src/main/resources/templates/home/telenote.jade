@@ -5,8 +5,10 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', type='text/css', href='css/bootstrap.css')
     link(rel='stylesheet', type='text/css', href='css/telenote.css')
-    script(src='js/addNote.js')
     script(src='js/jquery-1.11.3.js')
+    script(src='js/btnHandler.js')
+    script(src='js/addNote.js')
+    //script(src='js/deleteNote.js')
     title Telenote
   body
     .container
@@ -26,7 +28,7 @@ html
             br
             a(href='/') Выход
         .addNoteDiv
-          span.addNote(onClick='addNote()') +
+          span.addNote +
           span.newNote Новая заметка
       hr
       .workDiv
@@ -36,15 +38,16 @@ html
             if (i%3 == 2)
               .cell.lastcell(id=note.id)
                 .content
-                  textarea #{note.text}
+                  textarea(name='text') #{note.text}
                 button.btn-default.delBtn Удалить
                 button.btn-default.shaBtn Поделиться
                 button.btn-default.edBtn Изменить
             else
               .cell(id=note.id)
                 .content
-                  textarea #{note.text}
+                  textarea(name='text') #{note.text}
                 button.btn-default.delBtn Удалить
                 button.btn-default.shaBtn Поделиться
                 button.btn-default.edBtn Изменить
             - i = i + 1
+

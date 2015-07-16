@@ -1,5 +1,7 @@
 package it.sevenbits.springboottutorial.web.controllers;
 
+import it.sevenbits.springboottutorial.core.domain.Note;
+import it.sevenbits.springboottutorial.web.domain.NoteForm;
 import it.sevenbits.springboottutorial.web.domain.UserForm;
 import it.sevenbits.springboottutorial.web.service.*;
 
@@ -10,6 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class HomeController {
@@ -29,7 +35,7 @@ public class HomeController {
     private EmailService emailService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String telenote(final Model model) {
+    public String getWelcome(final Model model) {
         model.addAttribute("subscription", new UserForm());
         return "home/welcome";
     }
@@ -51,9 +57,10 @@ public class HomeController {
             return "home/errors";
         }*/
         user_id = userService.signIn(form);
-        model.addAttribute("notes", noteService.findUserNotes(user_id));
 
-        return (user_id > 0) ? "home/telenote" : "home/errors";
+        //postTelenote(model);
+
+        return (user_id > 0) ? "redirect:/telenote" : "home/errors";
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
@@ -75,7 +82,7 @@ public class HomeController {
 
         userService.save(form);
         model.addAttribute("subscription", form);
-        return "home/checkYourMail";
+        return "home/telenote";
     }
 
     @RequestMapping(value = "/resetPass", method = RequestMethod.GET)
@@ -85,17 +92,41 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/resetPass", method = RequestMethod.POST)
-    public String resetPassInDB(@ModelAttribute UserForm form, final Model model) {
+    public String resetPassInDB(@ModelAttribute UserForm form, final Model model) throws ServiceException{
 
         final String password = "456";
+        userService.updatePass(form, password);
 
-        try {
-            userService.updatePass(form, password);
-        } catch (Exception e) {
-
-        }
 
         model.addAttribute("subscription", form);
         return "home/signin";
+    }
+
+    @RequestMapping(value = "/telenote", method = RequestMethod.GET)
+    public String getTelenote(final Model model) throws ServiceException {
+        model.addAttribute("notes", noteService.findUserNotes(user_id));
+        model.addAttribute("subscription", new UserForm());
+        return "home/telenote";
+    }
+
+    @RequestMapping(value = "/telenote", method = RequestMethod.POST)
+    public @ResponseBody void editNote (HttpServletRequest request, HttpServletResponse response) throws ServiceException{
+        Long id = Long.parseLong(request.getParameter("id"));
+        String text = request.getParameter("text");
+        NoteForm form = new NoteForm(id, text);
+
+        if (id < 0) {
+            noteService.addNote(form, user_id);
+        } else {
+            noteService.updateNote(form);
+        }
+    }
+
+    @RequestMapping(value = "/telenote", method = RequestMethod.DELETE)
+    public @ResponseBody void deleteNote(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+        Note note = new Note();
+        note.setId(Long.parseLong(request.getParameter("id")));
+
+        noteService.deleteNote(note);
     }
 }
