@@ -67,8 +67,7 @@
             <version>${spring.version}</version>
         </dependency> -->
 
-        <!-- Spring Security
-        <dependency>
+        <!-- <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
             <version>3.2.7.RELEASE</version>
@@ -77,8 +76,13 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
             <version>3.2.7.RELEASE</version>
+        </dependency> -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>1.2.5.RELEASE</version>
         </dependency>
-        -->
 
         <!-- spring-jdbc for embedded db auto-configuration -->
         <dependency>
