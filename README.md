@@ -47,7 +47,7 @@
  Вместо "<пользователь>" напишите имя желаемого пользователя.  
 
 ```CREATE ROLE <пользователь> WITH ENCRYPTED PASSWORD '<пароль>' LOGIN;```  
-```CREATE DATABASE notes ENCODING 'UTF8' OWNER note_admin;```  
+```CREATE DATABASE notes ENCODING 'UTF8' OWNER <пользователь>;```  
 ```GRANT ALL PRIVILEGES ON DATABASE notes TO <пользователь>;```  
 
 Выходим из базы командой \q<br>
