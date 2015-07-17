@@ -3,6 +3,8 @@ html
   head
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name="_csrf", content="#{_csrf.token}")
+    meta(name="_csrf_header", content="#{_csrf.headerName}")
     link(rel='stylesheet', type='text/css', href='css/bootstrap.css')
     link(rel='stylesheet', type='text/css', href='css/telenote.css')
     script(src='js/jquery-1.11.3.js')

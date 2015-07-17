@@ -8,12 +8,14 @@ import java.util.Collection;
 import java.util.List;
 
 
-public class UserForm {
+public class UserCreateForm {
     private String email;
 
     private String username;
 
     private String password;
+
+    private String passwordRepeat;
 
     public String getEmail() {
         return email;
@@ -39,12 +41,21 @@ public class UserForm {
         this.password = password;
     }
 
+    public String getPasswordRepeat() {
+        return passwordRepeat;
+    }
+
+    public void setPasswordRepeat(String password) {
+        this.passwordRepeat = password;
+    }
+
     @Override
     public String toString() {
         return "UserForm{" +
                 "email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", passwordRepeat='" + passwordRepeat + '\'' +
                 '}';
     }
 }

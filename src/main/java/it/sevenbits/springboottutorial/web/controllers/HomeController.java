@@ -1,121 +1,66 @@
 package it.sevenbits.springboottutorial.web.controllers;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
+
 import it.sevenbits.springboottutorial.core.domain.Note;
+import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
+import it.sevenbits.springboottutorial.web.service.ServiceException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
+//import org.springframework.web.servlet.ModelAndView;
+//import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
 import it.sevenbits.springboottutorial.web.domain.NoteForm;
-import it.sevenbits.springboottutorial.web.domain.UserForm;
-import it.sevenbits.springboottutorial.web.service.*;
+import it.sevenbits.springboottutorial.web.service.NoteService;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 @Controller
 public class HomeController {
-    private static Logger LOG = Logger.getLogger(HomeController.class);
-    private static Long user_id;
-
-    @Autowired
-    private UserFormValidator validator;
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private NoteService noteService;
 
-    @Autowired
-    private EmailService emailService;
+    private static Logger LOG = Logger.getLogger(HomeController.class);
+    //private static Long user_id;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String getWelcome(final Model model) {
-        model.addAttribute("subscription", new UserForm());
+
+    public String homePage() {
         return "home/welcome";
     }
 
-    @RequestMapping(value = "/signin", method = RequestMethod.GET)
-    public String index(final Model model) {
-        model.addAttribute("subscription", new UserForm());
-        return "home/signin";
-    }
-
-    @RequestMapping(value = "/signin", method = RequestMethod.POST)
-    public String subscribe(@ModelAttribute UserForm form, final Model model) throws ServiceException {
-        /*final Map<String, String> errors = validator.validate(form);
-        if (errors.size() != 0) {
-            // Если есть ошибки в форме, то снова рендерим главную страницу
-            model.addAttribute("subscription", form);
-            model.addAttribute("errors", errors);
-            LOG.info("Subscription form contains errors.");
-            return "home/errors";
-        }*/
-        user_id = userService.signIn(form);
-
-        //postTelenote(model);
-
-        return (user_id > 0) ? "redirect:/telenote" : "home/errors";
-    }
-
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public String registration(final Model model) {
-        model.addAttribute("subscription", new UserForm());
-        return "home/signup";
-    }
-
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String registration(@ModelAttribute UserForm form, final Model model) throws ServiceException {
-        /*final Map<String, String> errors = validator.validate(form);
-        if (errors.size() != 0) {
-            // Если есть ошибки в форме, то снова рендерим главную страницу
-            model.addAttribute("subscription", form);
-            model.addAttribute("errors", errors);
-            LOG.info("Subscription form contains errors.");
-            return "home/errors";
-        }*/
-
-        userService.save(form);
-        model.addAttribute("subscription", form);
-        return "home/telenote";
-    }
-
-    @RequestMapping(value = "/resetPass", method = RequestMethod.GET)
-    public String resetPass(final Model model) {
-        model.addAttribute("subscription", new UserForm());
-        return "home/resetPass";
-    }
-
-    @RequestMapping(value = "/resetPass", method = RequestMethod.POST)
-    public String resetPassInDB(@ModelAttribute UserForm form, final Model model) throws ServiceException{
-
-        final String password = "456";
-        userService.updatePass(form, password);
-
-
-        model.addAttribute("subscription", form);
-        return "home/signin";
-    }
-
     @RequestMapping(value = "/telenote", method = RequestMethod.GET)
-    public String getTelenote(final Model model) throws ServiceException {
-        model.addAttribute("notes", noteService.findUserNotes(user_id));
-        model.addAttribute("subscription", new UserForm());
+    public String getTelenote(final Model model, Authentication auth) throws ServiceException {
+        UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
+
+        model.addAttribute("notes", noteService.findUserNotes(currentUser.getId()));
+        //model.addAttribute("subscription", new UserForm());
         return "home/telenote";
     }
 
     @RequestMapping(value = "/telenote", method = RequestMethod.POST)
-    public @ResponseBody Long editNote (HttpServletRequest request, HttpServletResponse response) throws ServiceException{
+    public @ResponseBody
+    Long editNote (HttpServletRequest request, HttpServletResponse response, Authentication auth) throws ServiceException{
         Long id = Long.parseLong(request.getParameter("id"));
         String text = request.getParameter("text");
         NoteForm form = new NoteForm(id, text);
 
-        if (id < 0) {
+        UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
 
-            return noteService.addNote(form, user_id);
+        if (id < 0) {
+            return noteService.addNote(form, currentUser.getId());
         } else {
             noteService.updateNote(form);
         }

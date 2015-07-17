@@ -1,39 +1,54 @@
-/*
 package it.sevenbits.springboottutorial.core.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 
-*/
-/**
- * Role
- *//*
+public enum Role implements GrantedAuthority {
+    USER (0, "USER"),
+    ANONYMOUS (1, "ANONYMOUS");
 
-public class Role implements GrantedAuthority {
-    private static final long serialVersionUID = 432447842614898934L;
+    private Integer order;
+    private String description;
 
-    private Long id;
+    private Role() {
+        this(null, null);
+    }
 
-    private String name;
+    private Role(Integer order, String description) {
+        this.order = order;
+        this.description = description;
+    }
+
+    public static Role createRole(final String role) {
+        return Role.valueOf(role);
+    }
 
     @Override
     public String getAuthority() {
-        return name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        return this.name();
     }
 
     public String getName() {
-        return name;
+        return this.name();
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return this.name();
     }
 }
-*/
