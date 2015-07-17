@@ -3,9 +3,12 @@ package it.sevenbits.springboottutorial.web.controllers;
 import it.sevenbits.springboottutorial.web.domain.UserLoginForm;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by sevenbits on 16.07.15.
@@ -26,8 +29,16 @@ public class LoginController {
     }*/
 
     @RequestMapping(value = "/signin", method = RequestMethod.GET)
-    public ModelAndView login() {
-        return new ModelAndView("home/signin", "form", new UserLoginForm());
+    public ModelAndView login(String error) {
+        ModelAndView model = new ModelAndView("home/signin", "form", new UserLoginForm());
+        if (error == null) {
+            return model;
+        }
+        if (error.equals("true")) {
+            model.addObject("error", true);
+        }
+
+        return model;
     }
 
     /*@RequestMapping(value = "/signin", method = RequestMethod.POST)

@@ -160,6 +160,7 @@
                 <configuration>
                     <server>tomcat7_staging</server>
                     <url>http://192.168.200.112:8080/manager/text</url>
+                    <path>/</path>
                 </configuration>
             </plugin>
             <plugin>

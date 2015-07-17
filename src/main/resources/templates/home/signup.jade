@@ -35,6 +35,6 @@ html
             button.btn-default.submiteBtn(type='submit') Зарегистрироваться
       #bottom
         .formBorder
-      if errorMessages.length > 0
+      if errorMessages
         for message in errorMessages
-            p= message
+          p= message

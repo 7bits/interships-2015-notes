@@ -54,8 +54,11 @@ public class UsersController {
                 BindingResult bindingResult) throws ServiceException {
 
         if (bindingResult.hasErrors()) {
-            List<String> errors = bindingResult.getAllErrors().stream()
-                    .map(ObjectError::getDefaultMessage).collect(Collectors.toList());
+            List<String> errors = bindingResult
+                    .getAllErrors()
+                    .stream()
+                    .map(ObjectError::getDefaultMessage)
+                    .collect(Collectors.toList());
 
             //TODO заполнить модель ошибками и передать в шаблон
             ModelAndView model = new ModelAndView("home/signup");
