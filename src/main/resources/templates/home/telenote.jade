@@ -10,46 +10,29 @@ html
     script(src='js/jquery-1.11.3.js')
     script(src='js/btnHandler.js')
     script(src='js/addNote.js')
-    //script(src='js/deleteNote.js')
     title Telenote
   body
     .container
       .headWrapper
         .logoDiv
-          img(src='img/convert.png')
-        .slogonDiv
-          span TeleNote
-          br
-          span#subSpan Synchronize your notes easily!
+          .logoImg
+          .slogon
         .in-outMenu
-          .userImg
-            img(src='img/user.png')
           .logMenu
             a(href='/')
-              span Привет, username!
+              span username
             br
             a(href='/') Выход
-        .addNoteDiv
-          span.addNote +
-          span.newNote Новая заметка
-      hr
+          .userImg
+            img(src='img/user.png')
+        .addNote
       .workDiv
         .noteDiv
-          - i = 0
           for note in notes
-            if (i%3 == 2)
-              .cell.lastcell(id=note.id)
-                .content
-                  textarea(name='text') #{note.text}
-                button.btn-default.delBtn Удалить
-                button.btn-default.shaBtn Поделиться
-                button.btn-default.edBtn Изменить
-            else
-              .cell(id=note.id)
-                .content
-                  textarea(name='text') #{note.text}
-                button.btn-default.delBtn Удалить
-                button.btn-default.shaBtn Поделиться
-                button.btn-default.edBtn Изменить
-            - i = i + 1
+            .cell(id=note.id)
+              .content
+                textarea(name='text') #{note.text}
+              button.delBtn
+              button.shaBtn
+              button.edBtn
 
