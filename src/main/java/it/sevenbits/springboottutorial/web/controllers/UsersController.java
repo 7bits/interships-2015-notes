@@ -2,7 +2,7 @@ package it.sevenbits.springboottutorial.web.controllers;
 
 import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
 import it.sevenbits.springboottutorial.web.service.ServiceException;
-import it.sevenbits.springboottutorial.web.service.UserCreateFormValidator;
+import it.sevenbits.springboottutorial.web.service.validators.UserCreateFormValidator;
 import it.sevenbits.springboottutorial.web.service.UserService;
 
 import org.apache.log4j.Logger;
@@ -23,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //import java.util.NoSuchElementException;
 /**
@@ -54,10 +55,8 @@ public class UsersController {
 
 
         if (bindingResult.hasErrors()) {
-            List<String> errors = new ArrayList<>();
-            for (ObjectError error: bindingResult.getAllErrors()) {
-                errors.add(error.getDefaultMessage());
-            }
+            List<String> errors = bindingResult.getAllErrors().stream()
+                    .map(ObjectError::getDefaultMessage).collect(Collectors.toList());
 
             //TODO заполнить модель ошибками и передать в шаблон
             ModelAndView model = new ModelAndView("home/signup");

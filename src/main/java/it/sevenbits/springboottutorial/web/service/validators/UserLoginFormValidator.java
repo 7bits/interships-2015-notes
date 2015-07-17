@@ -1,4 +1,4 @@
-package it.sevenbits.springboottutorial.web.service;
+package it.sevenbits.springboottutorial.web.service.validators;
 
 
 import it.sevenbits.springboottutorial.web.domain.UserLoginForm;

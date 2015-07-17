@@ -1,6 +1,7 @@
-package it.sevenbits.springboottutorial.web.service;
+package it.sevenbits.springboottutorial.web.service.validators;
 
 import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
+import it.sevenbits.springboottutorial.web.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Service;

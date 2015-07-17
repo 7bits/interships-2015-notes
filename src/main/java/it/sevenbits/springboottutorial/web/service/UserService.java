@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import org.apache.log4j.Logger;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -30,7 +32,10 @@ public class UserService implements UserDetailsService {
         final UserDetailsImpl userDetails = new UserDetailsImpl();
         userDetails.setEmail(form.getEmail());
         userDetails.setUsername(form.getUsername());
-        userDetails.setPassword(form.getPassword());
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        userDetails.setPassword(encoder.encode(form.getPassword()));
+
         try {
             if (repository.isEmailExists(userDetails))
                 throw new ServiceException("Sorry, e-mail is already exists");
@@ -47,7 +52,7 @@ public class UserService implements UserDetailsService {
         try {
             LOG.info("Loading user by email: " + email);
             Optional<UserDetailsImpl> userDetails = this.getUserByEmail(email);
-            if (userDetails.isPresent() && userDetails.get().getRole().equals(Role.ROLE_USER)) {
+            if (userDetails.isPresent() && userDetails.get().getRole().equals(Role.USER)) {
                 return userDetails.get();
             }
         } catch (Exception e) {

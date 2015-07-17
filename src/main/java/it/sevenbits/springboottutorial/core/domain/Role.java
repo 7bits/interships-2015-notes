@@ -3,8 +3,8 @@ package it.sevenbits.springboottutorial.core.domain;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
-    ROLE_USER (0, "User"),
-    ROLE_ANONIMOUS (1, "Anonymous");
+    USER (0, "USER"),
+    ANONYMOUS (1, "ANONYMOUS");
 
     private Integer order;
     private String description;

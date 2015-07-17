@@ -1,4 +1,4 @@
-package it.sevenbits.springboottutorial.web.service;
+package it.sevenbits.springboottutorial.web.service.validators;
 
 import org.springframework.stereotype.Service;
 

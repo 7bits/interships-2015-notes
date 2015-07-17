@@ -29,6 +29,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                     .defaultSuccessUrl("/telenote")
                     .loginPage("/signin")
+                    .failureHandler(new FailureHandler())
                     .permitAll()
                     .and()
                 .logout()
@@ -39,10 +40,13 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        //auth.userDetailsService(userDetailsService);
     }
 
     @Override
     public void configure(WebSecurity webSecurity) throws Exception {
         webSecurity.ignoring().antMatchers("/resources/**");
     }
+
+
 }
