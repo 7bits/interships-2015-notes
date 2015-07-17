@@ -1,5 +1,6 @@
 package it.sevenbits.springboottutorial.web.controllers;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import it.sevenbits.springboottutorial.core.domain.Note;
 import it.sevenbits.springboottutorial.web.domain.NoteForm;
 import it.sevenbits.springboottutorial.web.domain.UserForm;
@@ -9,10 +10,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -110,22 +108,25 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/telenote", method = RequestMethod.POST)
-    public @ResponseBody void editNote (HttpServletRequest request, HttpServletResponse response) throws ServiceException{
+    public @ResponseBody Long editNote (HttpServletRequest request, HttpServletResponse response) throws ServiceException{
         Long id = Long.parseLong(request.getParameter("id"));
         String text = request.getParameter("text");
         NoteForm form = new NoteForm(id, text);
 
         if (id < 0) {
-            noteService.addNote(form, user_id);
+
+            return noteService.addNote(form, user_id);
         } else {
             noteService.updateNote(form);
         }
+
+        return form.getId();
     }
 
-    @RequestMapping(value = "/telenote", method = RequestMethod.DELETE)
-    public @ResponseBody void deleteNote(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+    @RequestMapping(value = "/telenote/{id:\\d+}", method = RequestMethod.DELETE)
+    public @ResponseBody void deleteNote(@PathVariable("id") Long id) throws ServiceException {
         Note note = new Note();
-        note.setId(Long.parseLong(request.getParameter("id")));
+        note.setId(id);
 
         noteService.deleteNote(note);
     }

@@ -15,6 +15,8 @@
 				url: "/telenote",
 				dataType: "json",
 				data: sendInfo
+			}).done(function(data){
+				$(self.target).parent(".cell").attr("id", data);
 			});
 		});
 	});
@@ -27,18 +29,12 @@
 			var id = $(self.target).parent().attr("id");
 			var text = $(this).parent().find("textarea").val();
 
-			var sendInfo = {
-				id: id,
-				text: text
-			}
 
 			$.ajax({
 				type: "DELETE",
-				url: "/telenote",
-				dataType: "json",
-				data: sendInfo
+				url: "/telenote/" + id
 			}).done( function() {
-				$(this).parent().remove();
+				$(".cell[id=" + id + "]").remove();
 			});
 		});
 	});

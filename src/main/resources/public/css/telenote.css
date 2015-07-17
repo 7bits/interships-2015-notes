@@ -181,8 +181,8 @@ div.menuWrapper div.noteManager div#circle span{
 	padding: 10px;
 }
 
-.cell button:hover, .cell button:focus, 
-.cell button:active {
+.cell button:hover 
+{
 	background-color: #95bcf2;
 }
 

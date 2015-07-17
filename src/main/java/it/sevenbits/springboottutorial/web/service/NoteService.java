@@ -72,7 +72,7 @@ public class NoteService {
         }
     }
 
-    public void addNote(final NoteForm form, Long user_id) throws ServiceException {
+    public Long addNote(final NoteForm form, Long user_id) throws ServiceException {
 
         Note note = new Note();
         note.setText(form.getText());
@@ -81,6 +81,7 @@ public class NoteService {
 
             UserNote userNote = new UserNote(user_id, note.getId());
             repository.linkUserWithNote(userNote);
+            return note.getId();
         } catch (Exception e) {
             throw new ServiceException("An error occurred while adding note: " + e.getMessage());
         }
