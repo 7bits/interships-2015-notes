@@ -1,48 +1,53 @@
 body{
-	margin-top: 15px;
-	font-family: "Comic Sans MS";
+	font-family: "PT Sans MS";
+	padding: 0px;
+	margin: 0px;
 	font-size: 16px;
-	background-color: #eeeeee;
+	background-color: #414141;
 }
 
 .container{
-	margin-left: 0px;
-  	margin-right: 0px;
   	width: 100%;
+  	padding: 0px;
+  	background-color: #414141;
 }
 
 .headWrapper{
-	margin: 0 10px 0 10px;
-	width: 95%;
+
+	width: 100%;
   	margin: auto;
+  	height: 120px;
+  	background-color: #313131;
 }
 
 .logoDiv{
 	float: left;
-	margin-top: -10px;
+	margin-top: 20px;
+	
 }
 
-.slogonDiv{
+.logoImg {
+	background-image: url("../img/logo.png");
+	width: 74px;
+	height: 88px;
 	float: left;
-	display: inline-block;
-  	text-align: center;
-  	cursor: default;
+	margin-left: 32px;
 }
 
-div.slogonDiv span{
-	font-size: 28px;
-	font-weight: bold;
-}
-
-#subSpan{
-	font-size: 12px;
-	font-weight: normal;
+.slogon {
+	background-image: url("../img/label.png");
+	width: 237px;
+	height: 32px;
+	float: left;
+	margin-left: 23px;
+	margin-top: 27px;
 }
 
 .in-outMenu{
 	float: right;
 	text-align: justify;
-	margin-right: 10px;
+	margin-right: 33px;
+	margin-top: 20px;
 	display: inline-flex;
 }
 
@@ -54,29 +59,22 @@ div.slogonDiv span{
 	float: left;
 	width: 80px;
 	height: 80px;
-	padding-bottom: 85px;
+	margin-left: 19px;
 }
 
 .logMenu{
 	float: left;
-	clear: both;
 	margin-left: 10px;
 }
 
 .addNote {	
 	float: right;
-	height: 40px;
-    width: 40px;
-    -webkit-border-radius: 50px;
-    -moz-border-radius: 50px;
-    border-radius: 50px;
-    border: 2px solid black;
-    margin-bottom: 10px;
-    text-align: center;
-  	padding-top: 1px;
-  	font-size: 26px;
-  	background-color: white;
   	cursor: pointer;
+  	margin-top: 88px;
+  	margin-bottom: -29px;
+  	background-image: url("../img/addBtn.png");
+  	width: 61px;
+  	height: 63px;
 }
 
 .addNoteDiv {
@@ -120,10 +118,6 @@ div.menuWrapper div.noteManager div#circle span{
 	float: left;
 }
 
-#manageBtn{
-	margin-right: -4px;
-}
-
 #normalize{
 	margin-top: 0px;
 }
@@ -138,26 +132,25 @@ div.menuWrapper div.noteManager div#circle span{
 	width: 100%;
 	height: 480px;
 	overflow-y: auto;
-	display: inline-block;
-  	text-align: center;
+  	display: inherit;
+  	margin-top: 50px;
+  	padding: 49px;
 }
 
 .noteDiv{
 	width: 100%;
 	display: inline-block;
-	text-align: center;
-	width: 95%;
 }
 
 .cell{
 	min-width: 250px;
 	width: 31%;
 	height: 250px;
-	background-color: #ffe599;
-	border: 2px solid black;
-	float: left;
-	margin-right: 3%;
+	background-color: #f5f5f5;
+	margin-right: 10px;
+ 	margin-left: 10px;
 	margin-bottom: 25px; 
+	display: inline-block;
 }
 
 .lastcell {
@@ -166,32 +159,43 @@ div.menuWrapper div.noteManager div#circle span{
 
 .delBtn, .shaBtn, .edBtn{
 	float: left;
+	width: 89px;
+	height: 57px;
+	background-color: #f5f5f5;
+	border: 0px;
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
-.delBtn, .shaBtn {
-	width: 35%;
+.delBtn {
+	background-image: url("../img/delBtn.png");
+}
+
+.shaBtn {
+	background-image: url("../img/shareBtn.png");
 }
 
 .edBtn {
-	width: 30%;
+	background-image: url("../img/editBtn.png");
+	float: right;
 }
 
 .content {
-	height: 219px;
+	height: 193px;
 	padding: 10px;
 }
 
-.cell button:hover 
-{
-	background-color: #95bcf2;
+.cell button:hover {
+	background-color: #e2e2e2;
 }
 
 .content textarea {
 	resize: none;
 	width: 100%;
 	height: 100%;
-	background-color: #ffe599;
+	background-color: #f5f5f5;
 	border: none;
+	color: #000000;
 }
 
 .content textarea:active,
@@ -206,4 +210,5 @@ div.menuWrapper div.noteManager div#circle span{
 	margin: auto;
 	margin-top: 80px;
 	font-weight: bold;
+	color: #FFFFFF;
 }

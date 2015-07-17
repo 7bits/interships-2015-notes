@@ -10,16 +10,13 @@ html
     .container
       .headWrapper
         .logoDiv
-          img(src='img/convert.png')
-        .slogonDiv
-          span TeleNote
-          br
-          span#subSpan Synchronize your notes easily!
+          .logoImg
+          .slogon
         .in-outMenu
           .logMenu
-            a(href='/signin') Войти
+            a(href='/signin')
+              span Вход
             br
             a(href='/signup') Регистрация
-      hr
       .welcome
         span Для того, чтобы использовать наш сервис заметок, вам необходимо авторизоваться или зарегистрироваться в системе

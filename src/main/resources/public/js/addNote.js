@@ -4,10 +4,6 @@
 			var divCell = document.createElement("div");
 			divCell.setAttribute("class", "cell");
 			
-			if ($(".cell").length % 3 == 2) {
-				divCell.classList.add("lastcell");
-			};
-			
 			divCell.setAttribute("id", "-1");
 
 			var divContent = document.createElement("div");
@@ -19,16 +15,13 @@
 			divContent.appendChild(textarea);
 				
 			var btnDel = document.createElement("button");
-			btnDel.classList.add("btn-default", "delBtn");
-			$(btnDel).text("Удалить");
+			btnDel.classList.add("delBtn");
 
 			var btnShare = document.createElement("button");
-			btnShare.classList.add("btn-default", "shaBtn");
-			$(btnShare).text("Поделиться");
+			btnShare.classList.add("shaBtn");
 
 			var btnEdit = document.createElement("button"); 
-			btnEdit.classList.add("btn-default", "edBtn")
-			$(btnEdit).text("Изменить");
+			btnEdit.classList.add("edBtn")
 
 			divCell.appendChild(divContent);
 			divCell.appendChild(btnDel);
