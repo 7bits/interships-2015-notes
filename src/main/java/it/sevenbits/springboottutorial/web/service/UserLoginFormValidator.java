@@ -5,12 +5,14 @@ import it.sevenbits.springboottutorial.web.domain.UserLoginForm;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 /**
  * Created by sevenbits on 16.07.15.
  */
+@Service
 public class UserLoginFormValidator implements Validator {
     private static final Logger LOG = Logger.getLogger(UserCreateFormValidator.class);
 

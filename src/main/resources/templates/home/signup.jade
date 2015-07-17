@@ -12,6 +12,7 @@ html
         .formBorder
       .mainDiv
         form.formStyle(role='form', action='/signup', method='POST')
+          input(type="hidden", name="#{_csrf.parameterName}", value="#{_csrf.token}")
           .headerWrapper
             .form-group.nextBlock.btnPos
               a(href='/signin')
@@ -28,9 +29,12 @@ html
               label.labelProperty Пароль
               input.textboxRegProperty(type='password', name='password', autocomplete='off')
               label.labelProperty Подтвердить пароль
-              input.textboxRegProperty(type='password', name='confirmpassword', autocomplete='off')
+              input.textboxRegProperty(type='password', name='passwordRepeat', autocomplete='off')
           hr
           .nextBlock.submitDiv
             button.btn-default.submiteBtn(type='submit') Зарегистрироваться
       #bottom
         .formBorder
+      if errorMessages.length > 0
+        for message in errorMessages
+            p= message

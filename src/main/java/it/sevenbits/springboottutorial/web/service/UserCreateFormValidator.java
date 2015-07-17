@@ -70,14 +70,14 @@ public class UserCreateFormValidator implements Validator {
     }
 
     private void validateUsername(Errors errors, UserCreateForm form) {
-        if (validator.isShorterThan(form.getUsername(), 255)) {
+        if (!validator.isShorterThan(form.getUsername(), 255)) {
             errors.reject("username.length", "This username is too long.");
             return;
         }
     }
 
     private void validatePasswords(Errors errors, UserCreateForm form) {
-        if (validator.isShorterThan(form.getPassword(), 255)) {
+        if (!validator.isShorterThan(form.getPassword(), 255)) {
             errors.reject("password.length", "This password is too long.");
             return;
         }
@@ -91,12 +91,12 @@ public class UserCreateFormValidator implements Validator {
     private void validateEmail(Errors errors, UserCreateForm form) {
         try {
             //i don like this bunch of "if", but i think we should not use some pattern here
-            if (validator.isEmail(form.getEmail())) {
+            if (!validator.isEmail(form.getEmail())) {
                 errors.reject("email.valid", "This email is incorrect.");
                 return;
             }
 
-            if (validator.isShorterThan(form.getEmail(), 255)) {
+            if (!validator.isShorterThan(form.getEmail(), 255)) {
                 errors.reject("email.length", "This email is too long.");
                 return;
             }

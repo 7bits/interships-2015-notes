@@ -1,13 +1,12 @@
 package it.sevenbits.springboottutorial.web.controllers;
 
-import it.sevenbits.springboottutorial.web.domain.UserForm;
+import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
 import it.sevenbits.springboottutorial.web.service.*;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -17,85 +16,13 @@ public class HomeController {
     private static Long user_id;
 
     @Autowired
-    private UserFormValidator validator;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
     private NoteService noteService;
-
-    @Autowired
-    private EmailService emailService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String telenote(final Model model) {
-        model.addAttribute("subscription", new UserForm());
+        model.addAttribute("subscription", new UserCreateForm());
         return "home/welcome";
     }
 
-    @RequestMapping(value = "/signin", method = RequestMethod.GET)
-    public String index(final Model model) {
-        model.addAttribute("subscription", new UserForm());
-        return "home/signin";
-    }
 
-    @RequestMapping(value = "/signin", method = RequestMethod.POST)
-    public String subscribe(@ModelAttribute UserForm form, final Model model) throws ServiceException {
-        /*final Map<String, String> errors = validator.validate(form);
-        if (errors.size() != 0) {
-            // Если есть ошибки в форме, то снова рендерим главную страницу
-            model.addAttribute("subscription", form);
-            model.addAttribute("errors", errors);
-            LOG.info("Subscription form contains errors.");
-            return "home/errors";
-        }*/
-        user_id = userService.signIn(form);
-        model.addAttribute("notes", noteService.findUserNotes(user_id));
-
-        return (user_id > 0) ? "home/telenote" : "home/errors";
-    }
-
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public String registration(final Model model) {
-        model.addAttribute("subscription", new UserForm());
-        return "home/signup";
-    }
-
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String registration(@ModelAttribute UserForm form, final Model model) throws ServiceException {
-        /*final Map<String, String> errors = validator.validate(form);
-        if (errors.size() != 0) {
-            // Если есть ошибки в форме, то снова рендерим главную страницу
-            model.addAttribute("subscription", form);
-            model.addAttribute("errors", errors);
-            LOG.info("Subscription form contains errors.");
-            return "home/errors";
-        }*/
-
-        userService.save(form);
-        model.addAttribute("subscription", form);
-        return "home/checkYourMail";
-    }
-
-    @RequestMapping(value = "/resetPass", method = RequestMethod.GET)
-    public String resetPass(final Model model) {
-        model.addAttribute("subscription", new UserForm());
-        return "home/resetPass";
-    }
-
-    @RequestMapping(value = "/resetPass", method = RequestMethod.POST)
-    public String resetPassInDB(@ModelAttribute UserForm form, final Model model) {
-
-        final String password = "456";
-
-        try {
-            userService.updatePass(form, password);
-        } catch (Exception e) {
-
-        }
-
-        model.addAttribute("subscription", form);
-        return "home/signin";
-    }
 }

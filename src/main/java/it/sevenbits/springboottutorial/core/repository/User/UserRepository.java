@@ -1,19 +1,15 @@
 package it.sevenbits.springboottutorial.core.repository.User;
 
-//import it.sevenbits.springboottutorial.core.domain.Subscription;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
-//import it.sevenbits.springboottutorial.core.mappers.SubscriptionMapper;
 import it.sevenbits.springboottutorial.core.mappers.UserMapper;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
-//import it.sevenbits.springboottutorial.core.repository.Subscription.SubscriptionRepository;
 import org.apache.catalina.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Repository
 @Qualifier(value = "theUserPersistRepository")
@@ -23,16 +19,15 @@ public class UserRepository implements IUserRepository {
     @Autowired
     private UserMapper mapper;
 
-
     @Override
-    public void save(final UserDetailsImpl userDetails) throws RepositoryException {
+    public void create(final UserDetailsImpl userDetails) throws RepositoryException {
         if (userDetails == null) {
-            throw new RepositoryException("Subscription is null");
+            throw new RepositoryException("User object is null.");
         }
         try {
-            mapper.save(userDetails);
+            mapper.insert(userDetails);
         } catch (Exception e) {
-            throw new RepositoryException("An error occurred while saving subscription: " + e.getMessage(), e);
+            throw new RepositoryException("An error occurred while saving user: " + e.getMessage(), e);
         }
     }
 
@@ -55,8 +50,23 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public void updatePass(final UserDetailsImpl userDetails) {
+    public void updatePassword(final UserDetailsImpl userDetails) {
 
-        mapper.updatePass(userDetails);
+        mapper.updatePassword(userDetails);
+    }
+
+    @Override
+    public Optional<UserDetailsImpl> getUserById(Long id) throws RepositoryException {
+        return Optional.ofNullable(mapper.getUserById(id));
+    }
+
+    @Override
+    public Optional<UserDetailsImpl> getUserByEmail(String email) throws RepositoryException {
+        return Optional.ofNullable(mapper.getUserByEmail(email));
+    }
+
+    @Override
+    public Optional<UserDetailsImpl> getUserByName(String name) throws RepositoryException {
+        return Optional.ofNullable(mapper.getUserByName(name));
     }
 }

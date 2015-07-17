@@ -2,12 +2,13 @@ package it.sevenbits.springboottutorial.core.repository.User;
 
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
+import java.util.Optional;
 
 /**
  * Created by Admin on 09.07.2015.
  */
 public interface IUserRepository {
-    public void save(final UserDetailsImpl userDetails) throws RepositoryException;
+    public void create(final UserDetailsImpl userDetails) throws RepositoryException;
 
     public boolean isEmailExists(final UserDetailsImpl userDetails) throws RepositoryException;
 
@@ -15,5 +16,11 @@ public interface IUserRepository {
 
     public String getPasswordById(final UserDetailsImpl userDetails) throws RepositoryException;
 
-    public void updatePass(final UserDetailsImpl userDetails) throws RepositoryException;
+    public void updatePassword(final UserDetailsImpl userDetails) throws RepositoryException;
+
+    public Optional<UserDetailsImpl> getUserById(Long id)  throws RepositoryException;
+
+    public Optional<UserDetailsImpl> getUserByEmail(String email)  throws RepositoryException;
+
+    public Optional<UserDetailsImpl> getUserByName(String name) throws RepositoryException;
 }

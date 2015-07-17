@@ -12,6 +12,7 @@ html
         .formBorder
       .mainDiv
         form.formStyle(role='form', action='/signin', method='POST')
+          input(type="hidden", name="#{_csrf.parameterName}", value="#{_csrf.token}")
           .headerWrapper
             .form-group.nextBlock.btnPos
               a(href='/signin')
@@ -22,7 +23,7 @@ html
           .inputDiv.nextBlock
             .form-group.regDiv
               label.labelProperty E-mail
-              input.textboxRegProperty(type='textbox', name='email')
+              input.textboxRegProperty(type='textbox', name='username')
               label.labelProperty Пароль
               input.textboxRegProperty(type='password', name='password', autocomplete='off')
               a.forgot(href='/resetPass') Забыли пароль?

@@ -1,27 +1,32 @@
 package it.sevenbits.springboottutorial.web.service;
 
-//import it.sevenbits.springboottutorial.core.domain.Subscription;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
+import it.sevenbits.springboottutorial.core.domain.Role;
 import it.sevenbits.springboottutorial.core.repository.User.IUserRepository;
-import it.sevenbits.springboottutorial.web.domain.UserForm;
-//import it.sevenbits.springboottutorial.web.domain.SubscriptionModel;
+
+import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
+import it.sevenbits.springboottutorial.web.domain.UserLoginForm;
+
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     private static Logger LOG = Logger.getLogger(UserService.class);
 
     @Autowired
     @Qualifier(value = "theUserPersistRepository")
     private IUserRepository repository;
 
-    public void save(final UserForm form) throws ServiceException {
+    public void create(final UserCreateForm form) throws ServiceException {
         final UserDetailsImpl userDetails = new UserDetailsImpl();
         userDetails.setEmail(form.getEmail());
         userDetails.setUsername(form.getUsername());
@@ -30,14 +35,31 @@ public class UserService {
             if (repository.isEmailExists(userDetails))
                 throw new ServiceException("Sorry, e-mail is already exists");
 
-            repository.save(userDetails);
+            repository.create(userDetails);
             LOG.debug(String.format("New user created: %s, %d", userDetails, userDetails.getId() ));
         } catch (Exception e) {
             throw new ServiceException("An error occurred while saving subscription: " + e.getMessage(), e);
         }
     }
 
-    public Long signIn(final UserForm form) throws ServiceException {
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        try {
+            LOG.info("Loading user by email: " + email);
+            Optional<UserDetailsImpl> userDetails = this.getUserByEmail(email);
+            if (userDetails.isPresent() && userDetails.get().getRole().equals(Role.ROLE_USER)) {
+                return userDetails.get();
+            }
+        } catch (Exception e) {
+            LOG.error("Cant load user by username due to repository error: " + e.getMessage(), e);
+            throw new UsernameNotFoundException("User details can not be obtained because of " + e.getMessage(), e);
+        }
+
+        LOG.info("Cannot load user by username because there are no user details for this username.");
+        throw new UsernameNotFoundException("There are no user details for this username");
+    }
+
+    public Long signIn(final UserLoginForm form) throws ServiceException {
         final UserDetailsImpl userDetails = new UserDetailsImpl();
         userDetails.setEmail(form.getEmail());
         userDetails.setPassword(form.getPassword());
@@ -58,7 +80,7 @@ public class UserService {
         }
     }
 
-    public void updatePass(final UserForm form, String password) throws ServiceException {
+    public void updatePassword(final UserCreateForm form, String password) throws ServiceException {
 
         final UserDetailsImpl userDetails = new UserDetailsImpl();
         userDetails.setEmail(form.getEmail());
@@ -67,7 +89,7 @@ public class UserService {
         try {
             if (repository.isEmailExists(userDetails)) {
                 userDetails.setId(repository.getIdByEmail(userDetails));
-                repository.updatePass(userDetails);
+                repository.updatePassword(userDetails);
             } else {
                 throw new ServiceException("E-mail is not exists!");
             }
@@ -77,6 +99,30 @@ public class UserService {
         }
     }
 
+    public Optional<UserDetailsImpl> getUserByEmail(String email) throws ServiceException {
+        try {
+            return repository.getUserByEmail(email);
+        } catch (Exception e) {
+            //mb, has to be reworked
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    public Optional<UserDetailsImpl> getUserById(Long id) throws ServiceException {
+        try {
+            return repository.getUserById(id);
+        } catch (Exception e) {
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    public Optional<UserDetailsImpl> getUserByName(String name) throws ServiceException {
+        try {
+            return repository.getUserByName(name);
+        } catch (Exception e) {
+            throw new ServiceException(e.getMessage());
+        }
+    }
     /*public List<SubscriptionModel> findAll() throws ServiceException {
         try {
             List<Subscription> subscriptions = repository.findAll();
