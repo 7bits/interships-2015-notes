@@ -45,6 +45,7 @@ public class HomeController {
     public String getTelenote(final Model model, Authentication auth) throws ServiceException {
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
 
+        model.addAttribute("username", currentUser.getUsername());
         model.addAttribute("notes", noteService.findUserNotes(currentUser.getId()));
         //model.addAttribute("subscription", new UserForm());
         return "home/telenote";
