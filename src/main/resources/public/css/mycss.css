@@ -1,66 +1,9 @@
-body{
-	font-family: "PT Sans MS";
-	font-size: 16px;
-	background-color: #414141;
-}
 .mainDiv{
 	width: 400px;
-	border: 2px solid black;
-	padding: 25px;
 	display: inline-block;
   	text-align: center;
   	vertical-align: middle;
-  	background-color: white;
-}
-
-#top{
-	width: 100%;
-	display: inline-block;
-	text-align: center;
-	display: inline-block;
-  	
-}
-
-div#top div{
-	margin-bottom: -67px;
-  	background-color: white;
-  	display: inline-block;
-  	text-align: justify;
-  	padding-left: 12px;
-  	font-weight: bold;
-}
-
-#difTop{
-	margin-bottom: 0px !important;
-}
-
-.resetB{
-	margin-bottom: 0px !important;
-	margin-top: 60px;
-}
-
-.resetT{
-	margin-top: -2px;
-}
-
-#bottom{
-	width: 100%;
-	display: inline-block;
-	text-align: center;
-	display: inline-block;
-}
-
-div#bottom div{
-	background-color: white;
-	display: inline-block;
-  	margin-top: -2px;
-}
-
-.formBorder{
-	width: 400px;
-	height: 30px;
-	border: 2px solid black;
-	clear: both;
+  	background-color: #414141;
 }
 
 .btnProperty{
@@ -116,6 +59,7 @@ form.formStyle{
 	display: inline-block;
   	text-align: center;
   	width: 100%;
+  	background-color: #414141;
 }
 
 .inputDiv{
@@ -136,21 +80,25 @@ form.formStyle{
 	border: 1px solid black;
 }
 
-.forgot{
+.forgot {
 	float: left;
 	clear: both;
+	margin-bottom: -22px;
 }
 
 .forgotDiv{
 	margin-top: 100px;
 }
 
-.submitBtn{
-	margin: auto;
-	width: 80px;
+.submitBtn {
+	width: 100%;
+	padding: 15px 10px;
+	border: 0px;
+	background-color: #313131;
+	color: white;
 }
 
-.regDiv{
+.regDiv {
 	float: left;
 	width: 100%;
 }
@@ -160,17 +108,6 @@ form.formStyle{
 	width: 100%;
 	border: 1px solid black;
 	margin-bottom: 10px;
-}
-
-.submitRegBtn{
-	margin: auto;
-	width: 80px;
-}
-
-.headerWrapper{
-	display: inline-block;
-  	text-align: center;
- 	 width: 90%;
 }
 
 .middlePlace{
@@ -188,19 +125,8 @@ form.formStyle{
 	widows: 100%;
 }
 
-.noteDiv{
-	float: left;
-	width: 80%;
-	display: inline-block;
-	text-align: center;
-}
-
 div.regDiv input:focus {
-	border: 1px solid blue;
-}
-
-.topBorder {
-	margin-top: -8px;
+	border: 1px solid orange;
 }
 
 .modal-body {
@@ -209,4 +135,61 @@ div.regDiv input:focus {
 
 .modal-dialog {
 	width: 400px;
+}
+
+.nav-tabs {
+	border: 0px !important;
+	margin-bottom: 30px;
+}
+
+.nav-tabs li {
+	width: 50%;
+	margin: 0px;
+	background-color: #313131;
+	color: white;
+	margin-bottom: -2px;
+}
+
+.nav-tabs > li > a {
+	margin: 0px;
+	border: 0px !important;
+	border-radius: 0px;
+	border-bottom: 0px;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+	border: 0px;
+	color: white;
+	background-color: #313131;
+}
+
+a {
+	color: gray;
+}
+
+li a:hover, a.forgot:hover {
+	background-color: #414141;
+	color: gray;
+}
+
+li:hover {
+	background-color: #414141;
+}
+
+a:focus {
+	outline: none;
+	text-decoration: none;
+}
+
+li.active {
+	border-bottom: 2px solid orange;
+}
+
+.nav-tabs:hover {
+	background-color: #414141;
+}
+
+input[type='textbox'], input[type='password'] {
+	padding: 15px 10px;
 }
