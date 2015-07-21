@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class CommonFieldValidator {
 
     /** Email exists pattern */
-    public static final String VALID_EMAIL_ADDRESS_REGEX = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
+    public static final String VALID_EMAIL_ADDRESS_REGEX = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$";
 
     private static final Pattern VALID_EMAIL_ADDRESS_PATTERN = Pattern.compile(
             VALID_EMAIL_ADDRESS_REGEX, Pattern.CASE_INSENSITIVE
