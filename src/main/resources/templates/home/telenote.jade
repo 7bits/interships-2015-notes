@@ -9,10 +9,11 @@ html
     link(rel='stylesheet', type='text/css', href='css/telenote.css')
     script(src='js/jquery-1.11.3.js')
     script(src='js/bootstrap.js')
+    script(src='js/preventSelection.js')
     script(src='js/btnHandler.js')
     script(src='js/addNote.js')
     title Telenote
-  body
+  body(onmousedown="return false", onselectstart="return false")
     .container
       .headWrapper
         .logoDiv
@@ -29,7 +30,7 @@ html
         .addNote
         #modal.modal
       .workDiv
-        .noteDiv
+        .noteDiv(id="non-selectable")
           for note in notes
             .cell(id=note.id)
               .content
@@ -40,6 +41,12 @@ html
                 ul.dropdown-menu
                   li.dropdown-submenu
                     a(href='#')
-                      label Enter e-mail:&nbsp
-                      input#email_textbox(type='text', name='textbox', value='')
+                      input#email_textbox(type='text', name='textbox', value='', placeholder="Введите E-mail адресата")
               button.edBtn
+    script.
+          document.getElementById("non-selectable").onmousedown = function (event) {
+          event.stopPropagation();
+          };
+          document.getElementById("non-selectable").onselectstart = function (event) {
+          event.stopPropagation();
+          };

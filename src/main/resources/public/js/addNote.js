@@ -22,7 +22,7 @@
 			dropdownDiv.classList.add("dropdown", "dropup");
 
 			dropdownDiv.innerHTML += '<button class="dropdown-toggle shaBtn" data-toggle="dropdown">';
-      		dropdownDiv.innerHTML += '<ul class="dropdown-menu"><li><a href="#"><label>Enter e-mail: </label> <input type="text" name="textbox" id="email_textbox" value=""></a>';
+      		dropdownDiv.innerHTML += '<ul class="dropdown-menu"><li><a href="#"><input type="text" name="textbox" id="email_textbox" value="" placeholder="Введите E-mail адресата"></a>';
 			//
 
 			var btnEdit = document.createElement("button"); 
