@@ -3,6 +3,7 @@ package it.sevenbits.springboottutorial.web.controllers;
 
 import it.sevenbits.springboottutorial.core.domain.Note;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
+import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
 import it.sevenbits.springboottutorial.web.service.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,9 +38,20 @@ public class HomeController {
     //private static Long user_id;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ModelAndView homePage(String error) {
+        ModelAndView model = new ModelAndView("home/welcome");
+        //model.addObject("signinForm", new UserLoginForm());
+        model.addObject("signupForm", new UserCreateForm());
 
-    public String homePage() {
-        return "home/welcome";
+        if (error == null) {
+            return model;
+        } else {
+            if (error.equals("true")) {
+                model.addObject("error", true);
+            }
+        }
+
+        return model;
     }
 
     @RequestMapping(value = "/telenote", method = RequestMethod.GET)

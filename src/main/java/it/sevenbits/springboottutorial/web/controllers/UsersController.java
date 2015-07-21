@@ -56,9 +56,10 @@ public class UsersController {
                     .collect(Collectors.toList());
 
             //TODO заполнить модель ошибками и передать в шаблон
-            ModelAndView model = new ModelAndView("home/signin");
-            model.addObject("form", form);
+            ModelAndView model = new ModelAndView("home/welcome");
+            model.addObject("signupForm", form);
             model.addObject("errorMessages", errors);
+
             return model;
         }
 
@@ -68,7 +69,7 @@ public class UsersController {
             bindingResult.reject("Create.error", "Cant create user." + e.getMessage());
         }
 
-        return new ModelAndView("redirect:/signin");
+        return new ModelAndView("redirect:/");
     }
 
     @RequestMapping(value = "/resetPass", method = RequestMethod.GET)

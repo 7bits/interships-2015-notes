@@ -10,8 +10,10 @@ import java.util.regex.Pattern;
 public class CommonFieldValidator {
 
     /** Email exists pattern */
-    private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile(
-    "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE
+    public static final String VALID_EMAIL_ADDRESS_REGEX = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
+
+    private static final Pattern VALID_EMAIL_ADDRESS_PATTERN = Pattern.compile(
+            VALID_EMAIL_ADDRESS_REGEX, Pattern.CASE_INSENSITIVE
     );
     /** Pattern for whitespaces */
     private static final String WHITESPACE_PATTERN = "\\s+";
@@ -32,7 +34,7 @@ public class CommonFieldValidator {
      */
     public boolean isEmail(final String value) {
         if (value != null) {
-            Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(value);
+            Matcher matcher = VALID_EMAIL_ADDRESS_PATTERN .matcher(value);
             if (!matcher.find()) {
                 return false;
             }
