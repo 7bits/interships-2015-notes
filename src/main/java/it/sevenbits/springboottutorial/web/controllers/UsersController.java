@@ -44,11 +44,6 @@ public class UsersController {
         binder.addValidators(validator);
     }
 
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public ModelAndView registration() {
-        return new ModelAndView("home/signup", "form", new UserCreateForm());
-    }
-
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public ModelAndView handleRegistration(@Valid @ModelAttribute("form") UserCreateForm form,
                 BindingResult bindingResult) throws ServiceException {
@@ -61,7 +56,7 @@ public class UsersController {
                     .collect(Collectors.toList());
 
             //TODO заполнить модель ошибками и передать в шаблон
-            ModelAndView model = new ModelAndView("home/signup");
+            ModelAndView model = new ModelAndView("home/signin");
             model.addObject("form", form);
             model.addObject("errorMessages", errors);
             return model;
@@ -73,7 +68,7 @@ public class UsersController {
             bindingResult.reject("Create.error", "Cant create user." + e.getMessage());
         }
 
-        return new ModelAndView("home/signin");
+        return new ModelAndView("redirect:/signin");
     }
 
     @RequestMapping(value = "/resetPass", method = RequestMethod.GET)

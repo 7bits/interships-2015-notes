@@ -8,6 +8,7 @@ body{
 
 .container{
   	width: 100%;
+  	min-width: 560px;
   	padding: 0px;
   	background-color: #414141;
 }
@@ -65,6 +66,10 @@ body{
 .logMenu{
 	text-align: right;
 	margin-left: 10px;
+}
+
+.logMenu a {
+	color: white;
 }
 
 .addNote {	
@@ -134,6 +139,7 @@ div.menuWrapper div.noteManager div#circle span{
   	display: inherit;
   	margin-top: 50px;
   	padding-left: 50px;
+  	padding-right: 50px;
   	text-align: center;
 }
 

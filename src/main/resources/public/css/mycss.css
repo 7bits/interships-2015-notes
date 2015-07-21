@@ -1,7 +1,7 @@
 body{
-	font-family: "Comic Sans MS";
-	font-size: 14px;
-	background-color: gray;
+	font-family: "PT Sans MS";
+	font-size: 16px;
+	background-color: #414141;
 }
 .mainDiv{
 	width: 400px;
@@ -11,7 +11,6 @@ body{
   	text-align: center;
   	vertical-align: middle;
   	background-color: white;
-  	margin-top: 60px;
 }
 
 #top{
@@ -202,4 +201,12 @@ div.regDiv input:focus {
 
 .topBorder {
 	margin-top: -8px;
+}
+
+.modal-body {
+	padding: 0px;
+}
+
+.modal-dialog {
+	width: 400px;
 }

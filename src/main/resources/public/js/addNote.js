@@ -21,7 +21,7 @@
 			btnShare.classList.add("shaBtn");
 
 			var btnEdit = document.createElement("button"); 
-			btnEdit.classList.add("edBtn")
+			btnEdit.classList.add("edBtn");
 
 			divCell.appendChild(divContent);
 			divCell.appendChild(btnDel);
@@ -29,6 +29,7 @@
 			divCell.appendChild(btnEdit);
 
 			$(".noteDiv").append(divCell);
+			divCell.scrollIntoView(false);
 		})
 	})
 })(jQuery);
