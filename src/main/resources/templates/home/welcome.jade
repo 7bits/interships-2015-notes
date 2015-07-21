@@ -35,7 +35,7 @@ html
                     a(href='#signup', data-toggle='tab') Зарегистрироваться
                 #myTabContent.tab-content
                   #signin.tab-pane.fade.active.in
-                    form.formStyle(role='form', action='/signin', method='POST')
+                    form.formStyle(role='form', action='/signin', method='POST', name='signinForm')
                       input(type="hidden", name="#{_csrf.parameterName}", value="#{_csrf.token}")
                       .inputDiv.nextBlock
                         .form-group.regDiv
@@ -47,8 +47,11 @@ html
                       hr
                       .nextBlock.submitDiv
                         button.btn-default.submitBtn(type='submit') OK
+                      if error
+                        p
+                          |Почтовый адрес или пароль не верны.
                   #signup.tab-pane.fade
-                    form.formStyle(role='form', action='/signup', method='POST')
+                    form.formStyle(role='form', action='/signup', method='POST', name='signupForm')
                       input(type="hidden", name="#{_csrf.parameterName}", value="#{_csrf.token}")
                       .inputDiv.nextBlock
                         .form-group.regDiv
@@ -63,3 +66,6 @@ html
                       hr
                       .nextBlock.submitDiv
                         button.btn-default.submiteBtn(type='submit') Зарегистрироваться
+                      if errorMessages
+                        for message in errorMessages
+                          p= message

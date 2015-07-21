@@ -20,6 +20,7 @@ public class DatabaseConfig {
     public Flyway flyway() {
         Flyway flyway = new Flyway();
         flyway.setDataSource(dataSource);
+        //flyway.repair();
         return flyway;
     }
 

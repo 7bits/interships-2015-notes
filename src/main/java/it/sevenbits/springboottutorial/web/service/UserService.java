@@ -5,7 +5,6 @@ import it.sevenbits.springboottutorial.core.domain.Role;
 import it.sevenbits.springboottutorial.core.repository.User.IUserRepository;
 
 import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
-import it.sevenbits.springboottutorial.web.domain.UserLoginForm;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -64,27 +63,6 @@ public class UserService implements UserDetailsService {
         throw new UsernameNotFoundException("There are no user details for this username");
     }
 
-    public Long signIn(final UserLoginForm form) throws ServiceException {
-        final UserDetailsImpl userDetails = new UserDetailsImpl();
-        userDetails.setEmail(form.getEmail());
-        userDetails.setPassword(form.getPassword());
-
-        try {
-            Long id = repository.getIdByEmail(userDetails);
-
-            if (id < 0)
-                throw new ServiceException("Incorrect username or password!");
-
-            userDetails.setId(id);
-
-            String password = repository.getPasswordById(userDetails);
-
-            return userDetails.getPassword().equals(password) ? id : -1;
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while sign in user: " + e.getMessage(), e);
-        }
-    }
-
     public void updatePassword(final UserCreateForm form, String password) throws ServiceException {
 
         final UserDetailsImpl userDetails = new UserDetailsImpl();
@@ -128,21 +106,4 @@ public class UserService implements UserDetailsService {
             throw new ServiceException(e.getMessage());
         }
     }
-    /*public List<SubscriptionModel> findAll() throws ServiceException {
-        try {
-            List<Subscription> subscriptions = repository.findAll();
-            List<SubscriptionModel> models = new ArrayList<>(subscriptions.size());
-            for (Subscription s: subscriptions) {
-                models.add(new SubscriptionModel(
-                        s.getId(),
-                        s.getName(),
-                        s.getEmail()
-                ));
-            }
-
-            return models;
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while retrieving subscriptions: " + e.getMessage(), e);
-        }
-    }*/
 }

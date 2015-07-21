@@ -30,7 +30,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .defaultSuccessUrl("/telenote", true)
                     .loginPage("/signin")
                     .failureHandler(new FailureHandler())
-                    .failureUrl("/signin?error=true")
+                    .failureUrl("/?error=true")
                     .permitAll()
                     .and()
                 .logout()
