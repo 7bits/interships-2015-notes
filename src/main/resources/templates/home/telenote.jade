@@ -8,6 +8,7 @@ html
     link(rel='stylesheet', type='text/css', href='css/bootstrap.css')
     link(rel='stylesheet', type='text/css', href='css/telenote.css')
     script(src='js/jquery-1.11.3.js')
+    script(src='js/bootstrap.js')
     script(src='js/btnHandler.js')
     script(src='js/addNote.js')
     title Telenote
@@ -34,6 +35,11 @@ html
               .content
                 textarea(name='text') #{note.text}
               button.delBtn
-              button.shaBtn
+              .dropdown.dropup
+                button.dropdown-toggle.shaBtn(data-toggle='dropdown')
+                ul.dropdown-menu
+                  li.dropdown-submenu
+                    a(href='#')
+                      label Enter e-mail:&nbsp
+                      input#email_textbox(type='text', name='textbox', value='')
               button.edBtn
-

@@ -17,15 +17,20 @@
 			var btnDel = document.createElement("button");
 			btnDel.classList.add("delBtn");
 
-			var btnShare = document.createElement("button");
-			btnShare.classList.add("shaBtn");
+			// dropdown share button
+			var dropdownDiv = document.createElement("div");			
+			dropdownDiv.classList.add("dropdown", "dropup");
+
+			dropdownDiv.innerHTML += '<button class="dropdown-toggle shaBtn" data-toggle="dropdown">';
+      		dropdownDiv.innerHTML += '<ul class="dropdown-menu"><li><a href="#"><label>Enter e-mail: </label> <input type="text" name="textbox" id="email_textbox" value=""></a>';
+			//
 
 			var btnEdit = document.createElement("button"); 
 			btnEdit.classList.add("edBtn");
 
 			divCell.appendChild(divContent);
 			divCell.appendChild(btnDel);
-			divCell.appendChild(btnShare);
+			divCell.appendChild(dropdownDiv);
 			divCell.appendChild(btnEdit);
 
 			$(".noteDiv").append(divCell);

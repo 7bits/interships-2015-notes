@@ -42,7 +42,6 @@
 			}
 		});
 
-
 		window.onresize = function() {
 			var elementHeight = document.documentElement.clientHeight - 170;
 			var bodyHeight = document.documentElement.clientHeight;
