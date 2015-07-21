@@ -27,7 +27,7 @@ body{
 }
 
 .logoImg {
-	background-image: url("../img/logo.png");
+	background-image: url("/img/logo.png");
 	width: 74px;
 	height: 88px;
 	display: inline-block;
@@ -35,7 +35,7 @@ body{
 }
 
 .slogon {
-	background-image: url("../img/label.png");
+	background-image: url("/img/label.png");
 	width: 237px;
 	height: 32px;
 	display: inline-block;
