@@ -14,9 +14,9 @@ import java.io.IOException;
 public class FailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+                                        AuthenticationException exception)
+                                        throws IOException, ServletException {
         super.onAuthenticationFailure(request, response, exception);
-
-
     }
 }

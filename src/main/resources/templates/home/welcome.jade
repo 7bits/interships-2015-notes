@@ -5,6 +5,10 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', type='text/css', href='css/bootstrap.css')
     link(rel='stylesheet', type='text/css', href='css/telenote.css')
+    link(rel='stylesheet', type='text/css', href='css/mycss.css')
+    script(src='js/jquery-1.11.3.js')
+    script(src='js/bootstrap.js')
+    script(src='js/btnHandler.js')
     title Telenote
   body
     .container
@@ -14,9 +18,48 @@ html
           .slogon
         .in-outMenu
           .logMenu
-            a(href='/signin')
-              span Вход
+            a(href='#myModalBox', role='button', data-toggle='modal', class='js-enter') Вход
             br
-            a(href='/signup') Регистрация
+            a(href='#myModalBox', role='button', data-toggle='modal', class='js-reg') Регистрация
       .welcome
         span Для того, чтобы использовать наш сервис заметок, вам необходимо авторизоваться или зарегистрироваться в системе
+      #myModalBox.modal.fade
+        .modal-dialog
+          .modal-content
+            .modal-body
+              .mainDiv
+                ul#myTab.nav.nav-tabs
+                  li.active#signinHref
+                    a(href='#signin', data-toggle='tab') Войти
+                  li#signupHref
+                    a(href='#signup', data-toggle='tab') Зарегистрироваться
+                #myTabContent.tab-content
+                  #signin.tab-pane.fade.active.in
+                    form.formStyle(role='form', action='/signin', method='POST')
+                      input(type="hidden", name="#{_csrf.parameterName}", value="#{_csrf.token}")
+                      .inputDiv.nextBlock
+                        .form-group.regDiv
+                          label.labelProperty E-mail
+                          input.textboxRegProperty(type='textbox', name='username')
+                          label.labelProperty Пароль
+                          input.textboxRegProperty(type='password', name='password', autocomplete='off')
+                          a.forgot(href='/resetPass') Забыли пароль?
+                      hr
+                      .nextBlock.submitDiv
+                        button.btn-default.submitBtn(type='submit') OK
+                  #signup.tab-pane.fade
+                    form.formStyle(role='form', action='/signup', method='POST')
+                      input(type="hidden", name="#{_csrf.parameterName}", value="#{_csrf.token}")
+                      .inputDiv.nextBlock
+                        .form-group.regDiv
+                          label.labelProperty E-mail
+                          input.textboxRegProperty(type='textbox', name='email')
+                          label.labelProperty Имя
+                          input.textboxRegProperty(type='textbox', name='username')
+                          label.labelProperty Пароль
+                          input.textboxRegProperty(type='password', name='password', autocomplete='off')
+                          label.labelProperty Подтвердить пароль
+                          input.textboxRegProperty(type='password', name='passwordRepeat', autocomplete='off')
+                      hr
+                      .nextBlock.submitDiv
+                        button.btn-default.submiteBtn(type='submit') Зарегистрироваться

@@ -42,12 +42,35 @@
 			}
 		});
 
+
 		window.onresize = function() {
 			var elementHeight = document.documentElement.clientHeight - 170;
 			var bodyHeight = document.documentElement.clientHeight;
 			$(".workDiv").outerHeight(elementHeight);
 			$("body").outerHeight(bodyHeight);
 		};
+
+
+		$('.js-enter').click(function() {
+			document.getElementById('signup').classList.remove('active', 'in');
+			document.getElementById('signin').classList.add('active', 'in');
+			
+			document.getElementById('signinHref').classList.add('active');
+			document.getElementById('signupHref').classList.remove('active');
+		});
+
+
+		$('.js-reg').click(function() {
+			document.getElementById('signin').classList.remove('active', 'in');
+			document.getElementById('signup').classList.add('active', 'in');
 		
+			document.getElementById('signupHref').classList.add('active');
+			document.getElementById('signinHref').classList.remove('active');
+		});
+
+
+		$('li').click(function() {
+		    $(this).find('a').tab("show")
+		});
 	});
 })(jQuery);
