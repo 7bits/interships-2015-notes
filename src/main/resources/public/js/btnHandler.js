@@ -74,12 +74,63 @@
 
 
 		$(document).ready(function() {
-
 			if (document.location.href.match(/.+\/?error=true/g) != null) {
 				$('.js-enter').trigger('click');
 			} else if (document.location.href.match(/.+\/signup/g)) {
 				$('.js-reg').trigger('click');
 			};	
 		});
+
+		function IsEmail(email) {
+		  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		  return regex.test(email);
+		}
+
+		$(".email_textbox").keyup(function(event){
+    		if(event.keyCode == 13){
+    			var id = $(this).parents(".cell").attr("id");
+    			var email = $(this).val();    			
+
+    			var label = $(this).parent().find(".email_label");
+   			
+
+    			if(IsEmail(email)) {    				
+    				label.css("color", "rgb(94, 236, 151)");
+    				label.text("Правильный email!");
+    				label.css("display", "block");
+
+    				setTimeout(function(){	    		
+    					label.css("display", "none");    					
+    					$(".email_btn").click();
+    				},1000);
+    				
+    				var sendInfo = {
+    					id: id,
+    					email: email
+    				}
+
+    				$.ajax({
+	    				type: "POST",
+						url: "/telenote/share",
+						dataType: "json",
+						headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
+						data: sendInfo
+					}).done( function() {
+						alert("Расшарено");
+						// label.css("color", "rgb(94, 236, 151)");
+    		// 			label.text("Расшарено!");
+    		// 			label.css("display", "block");					
+					});
+				}
+    			else {
+    				label.text("Неправильный email!");
+    				label.css("display", "block");
+    				label.css("color", "#ef6161");
+    				
+    			}
+    			
+        	}
+    	});
+
 	});
 })(jQuery);

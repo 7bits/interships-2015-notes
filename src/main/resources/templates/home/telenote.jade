@@ -13,7 +13,7 @@ html
     script(src='js/btnHandler.js')
     script(src='js/addNote.js')
     title Telenote
-  body(onmousedown="return false", onselectstart="return false")
+  body
     .container
       .headWrapper
         .logoDiv
@@ -30,7 +30,7 @@ html
         .addNote
         #modal.modal
       .workDiv
-        .noteDiv(id="non-selectable")
+        .noteDiv
           for note in notes
             .cell(id=note.id)
               .content
@@ -40,13 +40,7 @@ html
                 button.dropdown-toggle.shaBtn(data-toggle='dropdown')
                 ul.dropdown-menu
                   li.dropdown-submenu
-                    a(href='#')
-                      input#email_textbox(type='text', name='textbox', value='', placeholder="Введите E-mail адресата")
+                    input.email_textbox(type='text', style="margin: 0 5px 0 5px;", value='', placeholder="Введите E-mail адресата")
+                    input.email_btn(type="button", style="display: none;")
+                    label.email_label(style="display: none;")
               button.edBtn
-    script.
-          document.getElementById("non-selectable").onmousedown = function (event) {
-          event.stopPropagation();
-          };
-          document.getElementById("non-selectable").onselectstart = function (event) {
-          event.stopPropagation();
-          };

@@ -22,13 +22,12 @@ public class NoteRepository implements INoteRepository {
     private NoteMapper mapper;
 
     @Override
-    public void updateNote(Note note) throws RepositoryException {
-
+    public void updateNote(final Note note) throws RepositoryException {
         mapper.updateNote(note);
     }
 
     @Override
-    public void deleteNote(Note note) throws RepositoryException {
+    public void deleteNote(final Note note) throws RepositoryException {
         if (note == null) {
             throw new RepositoryException("Note is null");
         }
@@ -41,7 +40,6 @@ public class NoteRepository implements INoteRepository {
 
     @Override
     public List<Note> findUserNotes(final Long userId) throws RepositoryException {
-
         try {
              return mapper.findUserNotes(userId);
         } catch (Exception e) {
@@ -50,8 +48,7 @@ public class NoteRepository implements INoteRepository {
     }
 
     @Override
-    public void addNote(Note note) throws RepositoryException {
-
+    public void addNote(final Note note) throws RepositoryException {
         try {
             mapper.addNote(note);
         } catch (Exception e) {
@@ -63,4 +60,15 @@ public class NoteRepository implements INoteRepository {
     public void linkUserWithNote(final UserNote userNote) throws RepositoryException {
         mapper.linkUserWithNote(userNote);
     }
+
+    @Override
+    public void duplicateNote(final Note note) throws RepositoryException {
+        mapper.duplicateNote(note);
+    }
+
+    @Override
+    public boolean isNoteBelongToUser(final UserNote userNote) throws RepositoryException {
+        return mapper.isNoteBelongToUser(userNote)  == 0 ? false : true;
+    }
+
 }

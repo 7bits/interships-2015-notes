@@ -16,4 +16,6 @@ public interface INoteRepository {
     List<Note> findUserNotes(final Long userId) throws RepositoryException;
     void addNote(final Note note) throws RepositoryException;
     void linkUserWithNote(final UserNote userNote) throws RepositoryException;
-}
+    void duplicateNote(final Note note) throws RepositoryException;
+    boolean isNoteBelongToUser(final UserNote userNote) throws RepositoryException;
+    }
