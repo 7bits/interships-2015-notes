@@ -64,6 +64,7 @@ public class UsersController {
         }
 
         try {
+            form.setEmail(form.getEmail().toLowerCase());
             userService.create(form);
         } catch (ServiceException e) {
             bindingResult.reject("Create.error", "Cant create user." + e.getMessage());

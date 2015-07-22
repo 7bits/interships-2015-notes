@@ -85,6 +85,10 @@ form.formStyle{
   	font-family: "Room";
 }
 
+.submitBtn:hover {
+	background-color: #636363;
+}
+
 .submitBtn:focus {
 	outline: none;
 	background-color: #383838;
