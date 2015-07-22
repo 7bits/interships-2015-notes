@@ -78,9 +78,8 @@
 			};	
 		});
 
-
+		var timeout_id;
 		$('.noteDiv').on('keyup', 'textarea', function() {
-			var timeout_id;
 			var data = {
 						id: $(this).parent().parent().attr('id'),
 						text: $(this).val()
