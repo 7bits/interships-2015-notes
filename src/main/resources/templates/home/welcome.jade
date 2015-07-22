@@ -43,9 +43,9 @@ html
                           input.textboxRegProperty(type='textbox', name='username', placeholder='e-mail')
                           input.textboxRegProperty(type='password', name='password', autocomplete='off', placeholder='пароль')
                           if error
-                            p(style='color: red; text-align: left;')
+                            p(class='errorText')
                               |Почтовый адрес или пароль не верны.
-                          button.btn-default.submitBtn(type='submit') OK
+                          button.btn-default.submitBtn(type='submit', class='loginSubmit') OK
                       a.forgot(href='/resetPass') Забыли пароль?
                   #signup.tab-pane.fade
                     form.formStyle(role='form', action='/signup', method='POST', name='signupForm')
@@ -58,6 +58,6 @@ html
                           input.textboxRegProperty(type='password', name='passwordRepeat', autocomplete='off', placeholder='подтвердить пароль')
                           if errorMessages
                             for message in errorMessages
-                              p(style="color: red; text-align: left;")= message
-                          button.btn-default.submitBtn(type='submit') Зарегистрироваться
+                              p(class="errorText")= message
+                          button.btn-default.submitBtn(type='submit', class='regSubmit') Зарегистрироваться
 

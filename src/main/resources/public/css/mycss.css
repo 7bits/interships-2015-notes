@@ -205,3 +205,8 @@ input[type='textbox'], input[type='password'] {
 .js-reg:hover, .js-enter:hover {
 	background-color: #414141;
 }
+
+.errorText {
+    color: red;
+    text-align: left;
+}

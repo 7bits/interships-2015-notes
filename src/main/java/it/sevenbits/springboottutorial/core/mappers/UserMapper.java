@@ -79,4 +79,7 @@ public interface UserMapper {
             @Result(column = "role", property = "role", javaType = Role.class)
     })
     UserDetailsImpl getUserByName(String name);
+
+    @Delete("DELETE FROM users WHERE email=#{email} OR id=#{id}")
+    void remove(final UserDetailsImpl user);
 }

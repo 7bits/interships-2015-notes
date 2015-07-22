@@ -7,6 +7,7 @@ import org.apache.catalina.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Description;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -68,5 +69,11 @@ public class UserRepository implements IUserRepository {
     @Override
     public Optional<UserDetailsImpl> getUserByName(String name) throws RepositoryException {
         return Optional.ofNullable(mapper.getUserByName(name));
+    }
+
+    @Override
+    @Description("You can remove users by email or by id.")
+    public void remove(final UserDetailsImpl user) throws RepositoryException {
+        mapper.remove(user);
     }
 }
