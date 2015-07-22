@@ -79,10 +79,15 @@ form.formStyle{
 	width: 100%;
 	padding: 13px 0 13px 0;
 	border: 0px;
-	background-color: #464646;
-	color: #2e2e2e;
+	background-color: #383838;
+	color: #e6e6e6 !important;
 	font-size: 17px;
   	font-family: "Room";
+}
+
+.submitBtn:focus {
+	outline: none;
+	background-color: #383838;
 }
 
 .regDiv {
@@ -143,6 +148,8 @@ div.regDiv input:focus {
 	border-radius: 0px;
 	border-bottom: 0px;
 	padding: 13px 0 13px 0;
+	font-size: 17px;
+  	font-family: "Room";
 }
 
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover,
@@ -184,4 +191,17 @@ input[type='textbox'], input[type='password'] {
   	font-family: "Roboto";
   	color: #7c7c7c;
   	margin-bottom: 22px;
+}
+
+.btn-default:hover {
+	background-color: #464646;
+}
+
+.js-reg:hover, .js-enter:hover,
+.js-reg:focus, .js-enter:focus {
+	text-decoration: none;
+}
+
+.js-reg:hover, .js-enter:hover {
+	background-color: #414141;
 }

@@ -42,7 +42,7 @@ html
                           input.textboxRegProperty(type='textbox', name='username', placeholder='e-mail')
                           input.textboxRegProperty(type='password', name='password', autocomplete='off', placeholder='пароль')
                           if error
-                            p
+                            p(style='color: red; text-align: left;')
                               |Почтовый адрес или пароль не верны.
                           button.btn-default.submitBtn(type='submit') OK
                       a.forgot(href='/resetPass') Забыли пароль?
@@ -57,6 +57,6 @@ html
                           input.textboxRegProperty(type='password', name='passwordRepeat', autocomplete='off', placeholder='подтвердить пароль')
                           if errorMessages
                             for message in errorMessages
-                              p= message
+                              p(style="color: red; text-align: left;")= message
                           button.btn-default.submitBtn(type='submit') Зарегистрироваться
 

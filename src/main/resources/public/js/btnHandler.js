@@ -69,7 +69,17 @@
 
 
 		$('li').click(function() {
-		    $(this).find('a').tab("show")
+		    $(this).find('a').tab("show");
+		});
+
+
+		$(document).ready(function() {
+
+			if (document.location.href.match(/.+\/?error=true/g) != null) {
+				$('.js-enter').trigger('click');
+			} else if (document.location.href.match(/.+\/signup/g)) {
+				$('.js-reg').trigger('click');
+			};	
 		});
 	});
 })(jQuery);
