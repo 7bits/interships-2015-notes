@@ -78,16 +78,15 @@
 		});
 
 
-		$(function() {
+		$('.noteDiv').on('keyup', 'textarea', function() {
 			var timeout_id;
-
-			$('textarea').keyup(function() {
-				clearTimeout(timeout_id);
-
-				var data = {
+			var data = {
 						id: $(this).parent().parent().attr('id'),
 						text: $(this).val()
 				}
+
+			$(function() {
+				clearTimeout(timeout_id);
 
 				timeout_id = setTimeout(function() {
 					App.Note.save(data, function() {});
