@@ -14,6 +14,7 @@
 
 			var textarea = document.createElement("textarea");
 			textarea.setAttribute("name", "text");
+			textarea.setAttribute("maxlength", "20000");
 
 			divContent.appendChild(textarea);
 				

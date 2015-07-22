@@ -35,7 +35,7 @@ html
           for note in notes
             .cell(id=note.id)
               .content
-                textarea(name='text') #{note.text}
+                textarea(name='text', maxlength='20000') #{note.text}
               button.delBtn
               .dropdown.dropup
                 button.dropdown-toggle.shaBtn(data-toggle='dropdown')
