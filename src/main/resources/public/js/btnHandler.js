@@ -1,28 +1,22 @@
 (function($){
-	$(document).ready(function() {
-		$('.noteDiv').on('click', '.edBtn', function(self) {
-			
-			var id = $(self.target).parent().attr("id");
-			var text = $(this).parent().find("textarea").val();
-			
-			var sendInfo = {
-				id: id,
-				text: text
-			};
+	$(document).ready(function () {
 
+
+		App.Note.save = function(data, callback) {
 			$.ajax({
 				type: "POST",
 				url: "/telenote",
 				dataType: "json",
 				headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
-				data: sendInfo
+				data: data
 			}).done(function(data) {
-				$(self.target).parent(".cell").attr("id", data);
+				callback(data);
 			});
-		});
+		};
+
 
 		$('.noteDiv').on('click', '.delBtn', function(self) {
-			
+			//функция удаления заметки из базы и с рабочего поля
 			var id = $(self.target).parent().attr("id");
 			
 			if (id == '-1') {
@@ -36,13 +30,11 @@
 					$(".cell[id=" + id + "]").remove();
 				});
 			}
-
-			if ($(".cell").length) {
-
-			}
 		});
 
+
 		window.onresize = function() {
+			//определение размера рабочей области сайта
 			var elementHeight = document.documentElement.clientHeight - 170;
 			var bodyHeight = document.documentElement.clientHeight;
 			$(".workDiv").outerHeight(elementHeight);
@@ -51,6 +43,7 @@
 
 
 		$('.js-enter').click(function() {
+			//вызов соответствующего таба по нажатии на ссылку
 			document.getElementById('signup').classList.remove('active', 'in');
 			document.getElementById('signin').classList.add('active', 'in');
 			
@@ -60,6 +53,7 @@
 
 
 		$('.js-reg').click(function() {
+			//вызов соответствующего таба по нажатии на ссылку
 			document.getElementById('signin').classList.remove('active', 'in');
 			document.getElementById('signup').classList.add('active', 'in');
 		
@@ -69,17 +63,36 @@
 
 
 		$('li').click(function() {
+			//активация модального окна
 		    $(this).find('a').tab("show");
 		});
 
 
 		$(document).ready(function() {
-
+			//обработка ошибок при авторизации
 			if (document.location.href.match(/.+\/?error=true/g) != null) {
 				$('.js-enter').trigger('click');
 			} else if (document.location.href.match(/.+\/signup/g)) {
 				$('.js-reg').trigger('click');
 			};	
 		});
+
+
+		$(function() {
+			var timeout_id;
+
+			$('textarea').keyup(function() {
+				clearTimeout(timeout_id);
+
+				var data = {
+						id: $(this).parent().parent().attr('id'),
+						text: $(this).val()
+				}
+
+				timeout_id = setTimeout(function() {
+					App.Note.save(data, function() {});
+				}, 1500);
+			})
+		})
 	});
 })(jQuery);

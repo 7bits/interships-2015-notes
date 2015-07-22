@@ -9,6 +9,7 @@ html
     link(rel='stylesheet', type='text/css', href='css/telenote.css')
     script(src='js/jquery-1.11.3.js')
     script(src='js/bootstrap.js')
+    script(src='js/app.js')
     script(src='js/preventSelection.js')
     script(src='js/btnHandler.js')
     script(src='js/addNote.js')
@@ -42,7 +43,6 @@ html
                   li.dropdown-submenu
                     a(href='#')
                       input#email_textbox(type='text', name='textbox', value='', placeholder="Введите E-mail адресата")
-              button.edBtn
     script.
           document.getElementById("non-selectable").onmousedown = function (event) {
           event.stopPropagation();

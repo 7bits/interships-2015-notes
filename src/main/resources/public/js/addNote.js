@@ -1,5 +1,8 @@
+//#include btnHandler.js::save
+
 (function($) {
-	$(document).ready( function() {
+	$(document).ready( function() {	
+		//функция обработки нажатия "+" и добавления заметки на рабочее поле
 		$('.addNote').click(function() {
 			var divCell = document.createElement("div");
 			divCell.setAttribute("class", "cell");
@@ -17,24 +20,28 @@
 			var btnDel = document.createElement("button");
 			btnDel.classList.add("delBtn");
 
-			// dropdown share button
 			var dropdownDiv = document.createElement("div");			
 			dropdownDiv.classList.add("dropdown", "dropup");
 
 			dropdownDiv.innerHTML += '<button class="dropdown-toggle shaBtn" data-toggle="dropdown">';
       		dropdownDiv.innerHTML += '<ul class="dropdown-menu"><li><a href="#"><input type="text" name="textbox" id="email_textbox" value="" placeholder="Введите E-mail адресата"></a>';
-			//
-
-			var btnEdit = document.createElement("button"); 
-			btnEdit.classList.add("edBtn");
 
 			divCell.appendChild(divContent);
 			divCell.appendChild(btnDel);
 			divCell.appendChild(dropdownDiv);
-			divCell.appendChild(btnEdit);
 
-			$(".noteDiv").append(divCell);
-			divCell.scrollIntoView(false);
+			$(".noteDiv").prepend(divCell);
+
+			$(function() {
+				var data = {
+					id: '-1',
+					text: ''
+				};
+
+				App.Note.save(data, function(id) {
+					document.getElementById('-1').setAttribute('id', id);
+				});
+			})
 		})
 	})
 })(jQuery);

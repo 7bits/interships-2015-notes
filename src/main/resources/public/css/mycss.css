@@ -1,6 +1,12 @@
 @font-face {
 	font-family: "Room";
 	src: url("fonts/Room/Room.otf");
+
+	font-family: "Roboto-Black";
+	src: url("fonts/Roboto/Roboto-Black.ttf");
+
+	font-family: "Roboto-bold";
+	src: url("fonts/Roboto/Roboto-Bold.ttf");
 }
 
 .mainDiv{
@@ -50,12 +56,6 @@ form.formStyle{
 .inputDiv{
 	margin: auto;
 	width: 80%;
-}
-
-.labelProperty{
-	float: left;
-	font-weight: bold;
-	clear: both;
 }
 
 .textboxProperty{
@@ -188,7 +188,7 @@ li.active {
 input[type='textbox'], input[type='password'] {
 	padding: 13px 13px;
 	font-size: 12px;
-  	font-family: "Roboto";
+  	font-family: "Roboto-Black";
   	color: #7c7c7c;
   	margin-bottom: 22px;
 }

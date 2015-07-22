@@ -1,5 +1,13 @@
+@font-face {
+	font-family: "Roboto-Condensed";
+	src: url("fonts/Roboto/Roboto-Black.ttf");
+
+	font-family: "Roboto-bold";
+	src: url("fonts/Roboto/Roboto-Bold.ttf");
+}
+
 body{
-	font-family: "PT Sans MS";
+	font-family: "Roboto-Black";
 	padding: 0px;
 	margin: 0px;
 	font-size: 16px;
@@ -70,6 +78,7 @@ body{
 
 .logMenu a {
 	color: white;
+	font-family: "Roboto-Black";
 }
 
 .addNote {	
@@ -104,7 +113,7 @@ hr{
 }
 
 div span{
-	font-weight: bold;
+	font-family: "Roboto-bold";
 }
 
 .menuWrapper{
@@ -220,7 +229,7 @@ div.menuWrapper div.noteManager div#circle span{
 	text-align: center;
 	margin: auto;
 	margin-top: 80px;
-	font-weight: bold;
+	font-family: "Roboto-bold";
 	color: #FFFFFF;
 }
 
