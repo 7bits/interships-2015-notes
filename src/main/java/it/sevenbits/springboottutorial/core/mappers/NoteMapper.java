@@ -46,4 +46,16 @@ public interface NoteMapper {
             "VALUES " +
             "(#{user_id}, #{note_id})")
     void linkUserWithNote(final UserNote userNote);
+
+    @Insert("INSERT INTO notes\n" +
+            "(text, note_date, created_at, updated_at)\n" +
+            "SELECT text, note_date, created_at, updated_at\n" +
+            "FROM notes WHERE id=#{id}")
+    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
+    void duplicateNote(final Note note);
+
+    @Select("SELECT count(*) " +
+            "FROM usernotes " +
+            "WHERE note_id=#{note_id} and user_id=#{user_id}")
+    int isNoteBelongToUser(final UserNote userNote);
 }

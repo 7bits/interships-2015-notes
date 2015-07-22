@@ -3,6 +3,8 @@ package it.sevenbits.springboottutorial.web.controllers;
 
 import it.sevenbits.springboottutorial.core.domain.Note;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
+import it.sevenbits.springboottutorial.core.repository.RepositoryException;
+import it.sevenbits.springboottutorial.web.domain.ShareForm;
 import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
 import it.sevenbits.springboottutorial.web.service.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,17 +78,32 @@ public class HomeController {
         if (id < 0) {
             return noteService.addNote(form, currentUser.getId());
         } else {
-            noteService.updateNote(form);
+            noteService.updateNote(form, currentUser.getId());
         }
 
         return form.getId();
     }
 
+
     @RequestMapping(value = "/telenote/{id:\\d+}", method = RequestMethod.DELETE)
-    public @ResponseBody void deleteNote(@PathVariable("id") Long id) throws ServiceException {
+    public @ResponseBody void deleteNote(@PathVariable("id") Long id, Authentication auth) throws ServiceException {
+        UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
+
         Note note = new Note();
         note.setId(id);
 
-        noteService.deleteNote(note);
+        noteService.deleteNote(note, currentUser.getId());
+    }
+
+    @RequestMapping(value = "/telenote/share", method = RequestMethod.POST)
+    public @ResponseBody
+    void shareNote (HttpServletRequest request, HttpServletResponse response, Authentication auth) throws RepositoryException, ServiceException{
+        UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
+
+        Long noteId = Long.parseLong(request.getParameter("id"));
+        String userEmail = request.getParameter("email");
+        ShareForm form = new ShareForm(noteId, userEmail);
+
+        noteService.shareNote(form, currentUser.getId());
     }
 }

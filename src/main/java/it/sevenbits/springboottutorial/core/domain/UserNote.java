@@ -8,6 +8,8 @@ public class UserNote {
     private Long user_id;
     private Long note_id;
 
+    public UserNote() {}
+
     public UserNote(Long user_id, Long note_id) {
         this.user_id = user_id;
         this.note_id = note_id;

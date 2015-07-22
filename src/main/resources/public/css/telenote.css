@@ -12,6 +12,10 @@ body{
 	margin: 0px;
 	font-size: 16px;
 	background-color: #414141;
+	-moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .container{

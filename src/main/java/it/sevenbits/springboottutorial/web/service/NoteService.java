@@ -1,12 +1,17 @@
 package it.sevenbits.springboottutorial.web.service;
 
 import it.sevenbits.springboottutorial.core.domain.Note;
+import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.repository.Note.INoteRepository;
+import it.sevenbits.springboottutorial.core.repository.RepositoryException;
+import it.sevenbits.springboottutorial.core.repository.User.IUserRepository;
 import it.sevenbits.springboottutorial.web.domain.NoteForm;
 import it.sevenbits.springboottutorial.web.domain.NoteModel;
+import it.sevenbits.springboottutorial.web.domain.ShareForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +25,12 @@ public class NoteService {
     @Autowired
     @Qualifier(value = "noteRepository")
     private INoteRepository repository;
+
+    @Autowired
+    @Qualifier(value = "theUserPersistRepository")
+    private IUserRepository userRepository;
+
+
 
   /*  public void saveNote(final NoteForm form) throws ServiceException {
         final Note note = new Note();
@@ -36,21 +47,30 @@ public class NoteService {
         }
     }*/
 
-    public void updateNote(final NoteForm form) throws ServiceException {
+    public void updateNote(final NoteForm form, Long user_id) throws ServiceException {
         final Note note = new Note();
         note.setId(form.getId());
         note.setText(form.getText());
+
+        UserNote userNote = new UserNote(user_id, note.getId());
         try {
-            repository.updateNote(note);
+            if(repository.isNoteBelongToUser(userNote))
+                repository.updateNote(note);
+            else
+                throw new ServiceException("Current note is not belong to user!");
         } catch (Exception e) {
             throw new ServiceException("An error occurred while saving note: " + e.getMessage(), e);
         }
     }
 
-    public void deleteNote(final Note note) throws ServiceException {
-
+    public void deleteNote(final Note note, Long user_id) throws ServiceException {
         try {
-            repository.deleteNote(note);
+            UserNote userNote = new UserNote(user_id, note.getId());
+
+            if(repository.isNoteBelongToUser(userNote))
+                repository.deleteNote(note);
+            else
+                throw new ServiceException("Current note is not belong to user!");
         } catch (Exception e) {
             throw new ServiceException("An error occurred while saving note: " + e.getMessage(), e);
         }
@@ -86,4 +106,37 @@ public class NoteService {
             throw new ServiceException("An error occurred while adding note: " + e.getMessage());
         }
     }
+    public void shareNote(final ShareForm form, Long user_id) throws RepositoryException, ServiceException {
+        final UserDetailsImpl userDetails = new UserDetailsImpl();
+        userDetails.setEmail(form.getUserEmail());
+
+        final Note note = new Note();
+        note.setId(form.getNoteId());
+
+        final UserNote whoShare = new UserNote();
+        whoShare.setNote_id(form.getNoteId());
+
+        final UserNote toWhomShare = new UserNote();
+
+        try {
+            if (userRepository.isEmailExists(userDetails)) {
+                // вместо id=1 возвращал id=2, надо разобраться
+                whoShare.setUser_id(user_id);
+                toWhomShare.setUser_id(userRepository.getIdByEmail(userDetails));
+                if(repository.isNoteBelongToUser(whoShare)) {
+                    repository.duplicateNote(note); // note id will be updated
+                    toWhomShare.setNote_id(note.getId());
+                    repository.linkUserWithNote(toWhomShare);
+                } else {
+                    throw new ServiceException("Current note is not belong to user!");
+                }
+
+            } else {
+                throw new ServiceException("E-mail is not exists!");
+            }
+        } catch (Exception e) {
+                throw new ServiceException("An error occurred while sharing note: " + e.getMessage());
+        }
+    }
+
 }
