@@ -120,9 +120,12 @@ public class NoteService {
 
         try {
             if (userRepository.isEmailExists(userDetails)) {
-                // вместо id=1 возвращал id=2, надо разобраться
                 whoShare.setUser_id(user_id);
                 toWhomShare.setUser_id(userRepository.getIdByEmail(userDetails));
+
+                if(whoShare.getUser_id() == toWhomShare.getUser_id())
+                    throw new ServiceException("You can't share note with yourself!!");
+
                 if(repository.isNoteBelongToUser(whoShare)) {
                     repository.duplicateNote(note); // note id will be updated
                     toWhomShare.setNote_id(note.getId());
@@ -132,7 +135,7 @@ public class NoteService {
                 }
 
             } else {
-                throw new ServiceException("E-mail is not exists!");
+                throw new ServiceException("E-mail(" + userDetails.getEmail() + ") is not exists!");
             }
         } catch (Exception e) {
                 throw new ServiceException("An error occurred while sharing note: " + e.getMessage());

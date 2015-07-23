@@ -24,8 +24,12 @@
 			var dropdownDiv = document.createElement("div");			
 			dropdownDiv.classList.add("dropdown", "dropup");
 
-			dropdownDiv.innerHTML += '<button class="dropdown-toggle shaBtn" data-toggle="dropdown">';
-      		dropdownDiv.innerHTML += '<ul class="dropdown-menu"><li><a href="#"><input type="text" name="textbox" id="email_textbox" value="" placeholder="Введите E-mail адресата"></a>';
+			var dropdownDivHTML = '<button class="dropdown-toggle shaBtn" data-toggle="dropdown"></button>'; 
+			dropdownDivHTML += '<ul class="dropdown-menu">' + '<li class="dropdown-submenu"><label>Владельцы:</label></li>';
+			dropdownDivHTML += '<li class="divider"></li>';
+			dropdownDivHTML += '<li><a href="#"><input type="text" name="textbox" id="email_textbox" value="" placeholder="Введите E-mail адресата"></a></ul>';
+
+			dropdownDiv.innerHTML += dropdownDivHTML;
 
 			divCell.appendChild(divContent);
 			divCell.appendChild(btnDel);

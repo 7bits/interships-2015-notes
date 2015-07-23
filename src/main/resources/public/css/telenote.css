@@ -259,3 +259,10 @@ div.menuWrapper div.noteManager div#circle span{
 .textLogo {
 	float: left;
 }
+
+.dropdown-menu .divider {
+  height: 1px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #f74e19;
+}

@@ -79,7 +79,7 @@
 		});
 
 		var oldVal ="";
-		$('.noteDiv').on('change keyup paste', 'textarea', function() {
+		$('.noteDiv').on('change keydown paste', 'textarea', function() {
 			var currentVal = $(this).val();
 
             if(currentVal == oldVal) {
@@ -105,7 +105,7 @@
 					App.Note.save(data, function() {
 						$('.status').text("Всё сохранено");
 					});
-				}, 1500);
+				}, 750);
 			})
 		})
 
