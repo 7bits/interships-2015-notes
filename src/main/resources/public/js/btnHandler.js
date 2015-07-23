@@ -50,6 +50,7 @@
 							};	
 					});
 
+					$('.status').text("Все заметки сохранены");
 					$('.workDiv').css('min-height', '0px');
 				});
 			}
@@ -103,7 +104,7 @@
 
 
 		var oldVal ="";
-		$('.noteDiv').on('change keydown paste', 'textarea', function() {
+		$('.noteDiv').on('keydown', 'textarea', function() {
 			var currentVal = $(this).val();
 
             if(currentVal == oldVal) {
@@ -116,7 +117,7 @@
 
 
 		var timeout_id;
-		$('.noteDiv').on('change keyup paste', 'textarea', function() {
+		$('.noteDiv').on('keyup', 'textarea', function() {
 			var data = {
 						id: $(this).parent().parent().attr('id'),
 						text: $(this).val()
