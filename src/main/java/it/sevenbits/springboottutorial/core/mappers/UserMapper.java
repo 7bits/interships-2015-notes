@@ -66,20 +66,6 @@ public interface UserMapper {
     })
     UserDetailsImpl getUserByEmail(String email);
 
-    @Select("SELECT * FROM users WHERE username=#{name};")
-    @Results({
-            @Result(column = "id", property = "id"),
-            @Result(column = "email", property = "email"),
-            @Result(column = "username", property = "username"),
-            @Result(column = "password", property = "password"),
-            @Result(column = "created_at", property = "createdAt"),
-            @Result(column = "updated_at", property = "updatedAt"),
-            @Result(column = "is_confirmed", property = "isConfirmed"),
-            @Result(column = "enabled", property = "enabled"),
-            @Result(column = "role", property = "role", javaType = Role.class)
-    })
-    UserDetailsImpl getUserByName(String name);
-
     @Delete("DELETE FROM users WHERE email=#{email} OR id=#{id}")
     void remove(final UserDetailsImpl user);
 }

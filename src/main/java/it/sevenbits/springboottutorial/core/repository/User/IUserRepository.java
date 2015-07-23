@@ -22,7 +22,5 @@ public interface IUserRepository {
 
     public Optional<UserDetailsImpl> getUserByEmail(String email)  throws RepositoryException;
 
-    public Optional<UserDetailsImpl> getUserByName(String name) throws RepositoryException;
-
     public void remove(final UserDetailsImpl user) throws RepositoryException;
 }

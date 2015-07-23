@@ -67,11 +67,6 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public Optional<UserDetailsImpl> getUserByName(String name) throws RepositoryException {
-        return Optional.ofNullable(mapper.getUserByName(name));
-    }
-
-    @Override
     @Description("You can remove users by email or by id.")
     public void remove(final UserDetailsImpl user) throws RepositoryException {
         mapper.remove(user);

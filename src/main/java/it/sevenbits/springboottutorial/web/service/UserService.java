@@ -98,12 +98,4 @@ public class UserService implements UserDetailsService {
             throw new ServiceException(e.getMessage());
         }
     }
-
-    public Optional<UserDetailsImpl> getUserByName(String name) throws ServiceException {
-        try {
-            return repository.getUserByName(name);
-        } catch (Exception e) {
-            throw new ServiceException(e.getMessage());
-        }
-    }
 }

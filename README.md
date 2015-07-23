@@ -62,5 +62,9 @@
 Перейти в ветку develop с помощью команды git checkout develop<br>
 Обновить ветку develop с помощью команды git pull origin develop<br>
 
+Запускаем тесты:
+```mvn package```
+
+Запустить приложение можно с помощью команды:
 ```mvn clean spring-boot:run```
 
