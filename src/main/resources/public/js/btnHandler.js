@@ -78,6 +78,12 @@
 			};	
 		});
 
+		
+		$('.noteDiv').on('keydown', 'textarea', function() {
+			$('.status').text("Сохранение...");
+		})
+
+
 		var timeout_id;
 		$('.noteDiv').on('keyup', 'textarea', function() {
 			var data = {
@@ -89,7 +95,9 @@
 				clearTimeout(timeout_id);
 
 				timeout_id = setTimeout(function() {
-					App.Note.save(data, function() {});
+					App.Note.save(data, function() {
+						$('.status').text("Всё сохранено");
+					});
 				}, 1500);
 			})
 		})
@@ -129,10 +137,7 @@
 						headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
 						data: sendInfo
 					}).done( function() {
-						alert("Расшарено");
-						// label.css("color", "rgb(94, 236, 151)");
-    		// 			label.text("Расшарено!");
-    		// 			label.css("display", "block");					
+						alert("Расшарено");					
 					});
 				}
     			else {

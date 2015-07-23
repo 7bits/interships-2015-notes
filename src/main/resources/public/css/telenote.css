@@ -39,6 +39,7 @@ body{
 }
 
 .logoImg {
+	float: left;
 	background-image: url("/img/logo.png");
 	width: 74px;
 	height: 88px;
@@ -52,7 +53,7 @@ body{
 	height: 32px;
 	display: inline-block;
 	margin-left: 23px;
-	margin-top: 27px;
+	margin-top: 15px;
 	vertical-align: top;
 }
 
@@ -240,4 +241,21 @@ div.menuWrapper div.noteManager div#circle span{
 .emptyMain {
 	text-align: center;
 	margin-top: 50px;
+}
+
+.status {
+	color: #f74e19;
+	cursor: default;
+	font-family: "Roboto-Black";
+}
+
+.statusDiv {
+	margin-top: 15px;
+  	margin-left: 23px;
+  	height: 32px;
+  	text-align: center;
+}
+
+.textLogo {
+	float: left;
 }
