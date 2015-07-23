@@ -2,11 +2,20 @@
 	font-family: "Room";
 	src: url("fonts/Room/Room.otf");
 
-	font-family: "Roboto-Black";
-	src: url("fonts/Roboto/Roboto-Black.ttf");
+	font-family: "Roboto-Light";
+	src: url("fonts/Roboto/Roboto-Light.ttf");
 
-	font-family: "Roboto-bold";
-	src: url("fonts/Roboto/Roboto-Bold.ttf");
+	font-family: "Roboto-LightItalic";
+	src: url("fonts/Roboto/Roboto-LightItalic.ttf");
+
+	font-family: "Roboto-Regular";
+	src: url("fonts/Roboto/Roboto-Regular.ttf");
+
+	font-family: "Roboto-Thin";
+	src: url("fonts/Roboto/Roboto-Thin.ttf");
+
+	font-family: "Roboto-ThinItalic";
+	src: url("fonts/Roboto/Roboto-ThinItalic.ttf");
 }
 
 .mainDiv{
@@ -66,6 +75,9 @@ form.formStyle{
 }
 
 .forgot {
+	font-family: "Roboto-Thin";
+	font-size: 12px;
+	color: white;
 	float: left;
 	clear: both;
 	margin-bottom: -22px;
@@ -83,15 +95,22 @@ form.formStyle{
 	color: #e6e6e6 !important;
 	font-size: 17px;
   	font-family: "Room";
-}
-
-.submitBtn:hover {
-	background-color: #636363;
+  	border-radius: 2px;
 }
 
 .submitBtn:focus {
 	outline: none;
 	background-color: #383838;
+}
+
+.submitBtn:active {
+	background-color: #636363 !important;
+	box-shadow: none !important;
+}
+
+.submiteBtn:hover {
+	box-shadow: 0 5px 5px #353535;
+	background-color: #383838 !important; 
 }
 
 .regDiv {
@@ -100,10 +119,14 @@ form.formStyle{
 }
 
 .textboxRegProperty{
+	font-family: "Roboto-Light";
+	font-size: 12px;
+	color: #525252;
 	float: right;
 	width: 100%;
-	border: 1px solid black;
 	margin-bottom: 10px;
+	border-radius: 2px;
+	border: 0px;
 }
 
 .middlePlace{
@@ -121,8 +144,8 @@ form.formStyle{
 	widows: 100%;
 }
 
-div.regDiv input:focus {
-	border: 1px solid orange;
+div.regDiv input:hover, .submitBtn:hover {
+	box-shadow: 0 5px 5px #353535;
 }
 
 .modal-body {
@@ -160,20 +183,10 @@ div.regDiv input:focus {
 .nav-tabs > li.active > a:focus {
 	border: 0px;
 	color: white;
-	background-color: #383838;
 }
 
 a {
 	color: #bdbdbd;
-}
-
-li a:hover, a.forgot:hover {
-	background-color: #414141;
-	color: #bdbdbd;
-}
-
-li:hover {
-	background-color: #414141;
 }
 
 a:focus {
@@ -198,7 +211,11 @@ input[type='textbox'], input[type='password'] {
 }
 
 .btn-default:hover {
-	background-color: #464646;
+	background-color: #383838;
+}
+
+.btn-default:active {
+	background-color: #636363 !important;
 }
 
 .js-reg:hover, .js-enter:hover,
@@ -206,11 +223,13 @@ input[type='textbox'], input[type='password'] {
 	text-decoration: none;
 }
 
-.js-reg:hover, .js-enter:hover {
-	background-color: #414141;
-}
-
 .errorText {
     color: red;
     text-align: left;
+}
+
+.regDiv p {
+	font-family: "Roboto-Light";
+	font-size: 12px;
+	color: white;
 }
