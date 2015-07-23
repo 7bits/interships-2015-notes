@@ -27,7 +27,30 @@
 					headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
 					url: "/telenote/" + id
 				}).done( function() {
-					$(".cell[id=" + id + "]").remove();
+					var element = $(".cell[id=" + id + "]");
+					element.css('min-width', '0px');
+					element.children('.delBtn').css('visibility', 'hidden');
+					element.children('.dropdown').css('visibility', 'hidden');
+
+					$('.noteDiv').css('min-height', '280px');
+					
+					element.animate({
+							height: '2px',
+							border: '0px',
+							marginTop: '123px'
+						}, 200, 'swing');
+
+					element.animate({
+							width: '0px',
+						}, 200, 'swing', function() {
+							element.remove();
+
+							if ($('.cell').length == 0) {
+								$('.noteDiv')[0].innerHTML += '<span id="emptyList">У вас нет заметок</span>';
+							};	
+					});
+
+					$('.noteDiv').css('min-height', '0px');
 				});
 			}
 		});
@@ -78,6 +101,7 @@
 			};	
 		});
 
+
 		var oldVal ="";
 		$('.noteDiv').on('change keydown paste', 'textarea', function() {
 			var currentVal = $(this).val();
@@ -103,7 +127,7 @@
 
 				timeout_id = setTimeout(function() {
 					App.Note.save(data, function() {
-						$('.status').text("Всё сохранено");
+						$('.status').text("Все заметки сохранены");
 					});
 				}, 750);
 			})

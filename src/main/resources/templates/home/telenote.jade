@@ -19,36 +19,36 @@ html
       .headWrapper
         .logoDiv
           .logoImg
-          .textLogo
-            .slogon
-            br
-            .statusDiv
-              span.status Всё сохранено
+          .slogon
         .in-outMenu
           .logMenu
-            a(href='/')
+            a#username(href='/')
               span #{username}
             br
-            a(href='/logout') Выход
+            a#logout(href='/logout') Выход
           .userImg
             img(src='img/user.png')
         .addNote
+        .statusDiv
+          span.status Все заметки сохранены
         #modal.modal
       .workDiv
         .noteDiv
-          for note in notes
-            .cell(id=note.id)
-              .content
-                textarea(name='text', maxlength='20000') #{note.text}
-              button.delBtn
-              .dropdown.dropup
-                button.dropdown-toggle.shaBtn(data-toggle='dropdown')
-                ul.dropdown-menu
-                  li.dropdown-submenu
-                    label Владельцы:
-                  li.divider
-                  li.dropdown-submenu
-                    input.email_textbox(type='text', style="margin: 0 5px 0 5px;", value='', placeholder="Введите E-mail адресата")
-                    input.email_btn(type="button", style="display: none;")
-                    label.email_label(style="display: none;")
-
+          if !notes
+            span#emptyList У вас нет заметок
+          else
+            for note in notes
+              .cell(id=note.id)
+                .content
+                  textarea(name='text', maxlength='20000') #{note.text}
+                button.delBtn
+                .dropdown.dropup
+                  button.dropdown-toggle.shaBtn(data-toggle='dropdown')
+                  ul.dropdown-menu
+                    li.dropdown-submenu
+                      label Владельцы:
+                    li.divider
+                    li.dropdown-submenu
+                      input.email_textbox(type='text', style="margin: 0 5px 0 5px;", value='', placeholder="Введите E-mail адресата")
+                      input.email_btn(type="button", style="display: none;")
+                      label.email_label(style="display: none;")

@@ -1,15 +1,28 @@
 @font-face {
-	font-family: "Roboto-Condensed";
-	src: url("fonts/Roboto/Roboto-Black.ttf");
+	font-family: "Room";
+	src: url("fonts/Room/Room.otf");
 
-	font-family: "Roboto-bold";
-	src: url("fonts/Roboto/Roboto-Bold.ttf");
+	font-family: "Roboto-Light";
+	src: url("fonts/Roboto/Roboto-Light.ttf");
+
+	font-family: "Roboto-LightItalic";
+	src: url("fonts/Roboto/Roboto-LightItalic.ttf");
+
+	font-family: "Roboto-Regular";
+	src: url("fonts/Roboto/Roboto-Regular.ttf");
+
+	font-family: "Roboto-Thin";
+	src: url("fonts/Roboto/Roboto-Thin.ttf");
+
+	font-family: "Roboto-ThinItalic";
+	src: url("fonts/Roboto/Roboto-ThinItalic.ttf");
 }
 
 body{
-	font-family: "Roboto-Black";
+	font-family: "Roboto-Light";
 	padding: 0px;
 	margin: 0px;
+	color: white;
 	font-size: 16px;
 	background-color: #414141;
 	-moz-user-select: none;
@@ -53,7 +66,7 @@ body{
 	height: 32px;
 	display: inline-block;
 	margin-left: 23px;
-	margin-top: 15px;
+	margin-top: 26px;
 	vertical-align: top;
 }
 
@@ -81,9 +94,16 @@ body{
 	margin-left: 10px;
 }
 
-.logMenu a {
+#username {
 	color: white;
-	font-family: "Roboto-Black";
+	font-family: "Roboto-Light";
+	font-size: 24px;
+}
+
+#logout {
+	font-family: "Roboto-Thin";
+	font-size: 20px;
+	color: white;
 }
 
 .addNote {	
@@ -108,19 +128,6 @@ body{
 	cursor: default; 
 }
 
-hr{
-	background-color: black;
-	width: 95%;
-	height: 2px;
-	border: none;
-	margin: auto;
-	margin-bottom: 10px;
-}
-
-div span{
-	font-family: "Roboto-bold";
-}
-
 .menuWrapper{
 	margin: 0 10px 0 10px;
 	width: 97%;
@@ -130,6 +137,10 @@ div span{
 
 div.menuWrapper div.noteManager div#circle span{
 	font-size: 16px;
+}
+
+a:hover {
+	color: white;
 }
 
 .noteManager{
@@ -163,6 +174,7 @@ div.menuWrapper div.noteManager div#circle span{
 }
 
 .cell{
+	vertical-align: top;
 	min-width: 270px;
 	max-width: 600px;
 	width: 31%;
@@ -215,6 +227,9 @@ div.menuWrapper div.noteManager div#circle span{
 }
 
 .content textarea {
+
+	font-family: "Roboto-Light";
+	font-size: 20px;
 	resize: none;
 	width: 100%;
 	height: 100%;
@@ -244,20 +259,17 @@ div.menuWrapper div.noteManager div#circle span{
 }
 
 .status {
-	color: #f74e19;
+	color: #a1a1a1;
 	cursor: default;
-	font-family: "Roboto-Black";
+	font-family: "Roboto-LightItalic";
+	font-size: 18px;
 }
 
 .statusDiv {
-	margin-top: 15px;
-  	margin-left: 23px;
-  	height: 32px;
-  	text-align: center;
-}
-
-.textLogo {
-	float: left;
+	float: right;
+	margin-right: 19px;
+	margin-top: 92px;
+	text-align: right;
 }
 
 .dropdown-menu .divider {
@@ -265,4 +277,8 @@ div.menuWrapper div.noteManager div#circle span{
   margin: 9px 0;
   overflow: hidden;
   background-color: #f74e19;
+}
+
+.emptyList {
+
 }
