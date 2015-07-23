@@ -7,7 +7,9 @@
 
 			if ($('#emptyList') != null) {
 				$('#emptyList').remove();
+				$('.workDiv').css('min-height', '260px');
 			}
+
 			var divCell = document.createElement("div");
 			divCell.setAttribute("class", "cell");
 			
@@ -37,7 +39,7 @@
 			divCell.appendChild(divContent);
 			divCell.appendChild(btnDel);
 			divCell.appendChild(dropdownDiv);
-			divCell.setAttribute('style', 'min-width: 0px; width: 0px;');
+			divCell.setAttribute('style', 'min-width: 0px; width: 0px; margin-top: 123px; height: 2px;');
 
 			$(".noteDiv").prepend(divCell);
 
@@ -45,9 +47,12 @@
 			btnDel = $(divCell).children('.delBtn');
 			dropdownDiv = $(divCell).children('.dropdown');
 
+			divCell.animate({width: '31%'}, 150, 'swing');
+
 			divCell.animate({
-				width: '31%'},
-				300, 'swing', function() {
+					height: '250px',
+					marginTop: '0px'},
+				150, 'swing', function() {
 					divCell.css('min-width', '270px');
 					btnDel.css('visibility', 'inherit');
 					dropdownDiv.css('visibility', 'inherit');

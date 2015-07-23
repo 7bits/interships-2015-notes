@@ -32,17 +32,17 @@
 					element.children('.delBtn').css('visibility', 'hidden');
 					element.children('.dropdown').css('visibility', 'hidden');
 
-					$('.noteDiv').css('min-height', '280px');
+					$('.workDiv').css('min-height', '260px');
 					
 					element.animate({
 							height: '2px',
 							border: '0px',
 							marginTop: '123px'
-						}, 200, 'swing');
+						}, 150, 'swing');
 
 					element.animate({
 							width: '0px',
-						}, 200, 'swing', function() {
+						}, 150, 'swing', function() {
 							element.remove();
 
 							if ($('.cell').length == 0) {
@@ -50,7 +50,7 @@
 							};	
 					});
 
-					$('.noteDiv').css('min-height', '0px');
+					$('.workDiv').css('min-height', '0px');
 				});
 			}
 		});
