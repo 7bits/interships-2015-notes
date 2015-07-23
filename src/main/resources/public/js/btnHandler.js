@@ -78,14 +78,21 @@
 			};	
 		});
 
-		
-		$('.noteDiv').on('keydown', 'textarea', function() {
+		var oldVal ="";
+		$('.noteDiv').on('change keyup paste', 'textarea', function() {
+			var currentVal = $(this).val();
+
+            if(currentVal == oldVal) {
+                return; //check to prevent multiple simultaneous triggers
+            }
+            oldVal = currentVal;
+
 			$('.status').text("Сохранение...");
 		})
 
 
 		var timeout_id;
-		$('.noteDiv').on('keyup', 'textarea', function() {
+		$('.noteDiv').on('change keyup paste', 'textarea', function() {
 			var data = {
 						id: $(this).parent().parent().attr('id'),
 						text: $(this).val()
