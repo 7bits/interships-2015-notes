@@ -103,7 +103,7 @@
 
 
 		var oldVal ="";
-		$('.noteDiv').on('change keyup paste', 'textarea', function() {
+		$('.noteDiv').on('change keydown paste', 'textarea', function() {
 			var currentVal = $(this).val();
 
             if(currentVal == oldVal) {
