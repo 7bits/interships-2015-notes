@@ -27,7 +27,30 @@
 					headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
 					url: "/telenote/" + id
 				}).done( function() {
-					$(".cell[id=" + id + "]").remove();
+					var element = $(".cell[id=" + id + "]");
+					element.css('min-width', '0px');
+					element.children('.delBtn').css('visibility', 'hidden');
+					element.children('.dropdown').css('visibility', 'hidden');
+
+					$('.noteDiv').css('min-height', '280px');
+					
+					element.animate({
+							height: '2px',
+							border: '0px',
+							marginTop: '123px'
+						}, 200, 'swing');
+
+					element.animate({
+							width: '0px',
+						}, 200, 'swing', function() {
+							element.remove();
+
+							if ($('.cell').length == 0) {
+								$('.noteDiv')[0].innerHTML += '<span id="emptyList">У вас нет заметок</span>';
+							};	
+					});
+
+					$('.noteDiv').css('min-height', '0px');
 				});
 			}
 		});
@@ -79,27 +102,33 @@
 		});
 
 		
-		$('.noteDiv').on('keydown', 'textarea', function() {
-			$('.status').text("Сохранение...");
+		$('.noteDiv').on('keydown', 'textarea', function(event) {
+			if ((event.keyCode != 37) && (event.keyCode != 38) && (event.keyCode != 39) && (event.keyCode != 40)) {
+				$('.status').text("Сохранение...");
+			};
 		})
 
 
 		var timeout_id;
 		$('.noteDiv').on('keyup', 'textarea', function() {
-			var data = {
-						id: $(this).parent().parent().attr('id'),
-						text: $(this).val()
-				}
 
-			$(function() {
-				clearTimeout(timeout_id);
+			if ((event.keyCode != 37) && (event.keyCode != 38) && (event.keyCode != 39) && (event.keyCode != 40)) {
 
-				timeout_id = setTimeout(function() {
-					App.Note.save(data, function() {
-						$('.status').text("Всё сохранено");
-					});
-				}, 1500);
-			})
+				var data = {
+							id: $(this).parent().parent().attr('id'),
+							text: $(this).val()
+					}
+
+				$(function() {
+					clearTimeout(timeout_id);
+
+					timeout_id = setTimeout(function() {
+						App.Note.save(data, function() {
+							$('.status').text("Все заметки сохранены");
+						});
+					}, 1500);
+				})
+			}
 		})
 
 		function IsEmail(email) {
