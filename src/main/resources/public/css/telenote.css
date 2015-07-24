@@ -1,19 +1,29 @@
 @font-face {
 	font-family: "Room";
 	src: url("fonts/Room/Room.otf");
+}
 
+@font-face {
 	font-family: "Roboto-Light";
 	src: url("fonts/Roboto/Roboto-Light.ttf");
+}
 
+@font-face {
 	font-family: "Roboto-LightItalic";
 	src: url("fonts/Roboto/Roboto-LightItalic.ttf");
+}
 
+@font-face {
 	font-family: "Roboto-Regular";
 	src: url("fonts/Roboto/Roboto-Regular.ttf");
+}
 
+@font-face {
 	font-family: "Roboto-Thin";
 	src: url("fonts/Roboto/Roboto-Thin.ttf");
+}
 
+@font-face {
 	font-family: "Roboto-ThinItalic";
 	src: url("fonts/Roboto/Roboto-ThinItalic.ttf");
 }
@@ -113,34 +123,15 @@ body{
 .addNote {	
 	float: right;
   	cursor: pointer;
-  	margin-top: 88px;
-  	margin-bottom: -29px;
   	background-image: url("../img/addBtn.png");
   	width: 61px;
   	height: 63px;
 }
 
 .addNoteDiv {
-	clear: both;
-	float: right;
-}
-
-.newNote {
-	margin-right: 10px;
-	margin-top: 10px;
-	float: right;
-	cursor: default; 
-}
-
-.menuWrapper{
-	margin: 0 10px 0 10px;
-	width: 97%;
-	margin-bottom: -16px;
-	float: left;
-}
-
-div.menuWrapper div.noteManager div#circle span{
-	font-size: 16px;
+	margin-top: 88px;
+  	margin-bottom: -29px;
+  	float: right;
 }
 
 a:hover {
@@ -270,8 +261,8 @@ a:hover {
 
 .statusDiv {
 	float: right;
-	margin-right: 73px;
-	width: 181px;
+	margin-right: 12px;
+	width: 200px;
 	text-align: right;
 }
 
