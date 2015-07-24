@@ -33,17 +33,19 @@ body{
 
 .container{
   	width: 100%;
-  	min-width: 560px;
+  	min-width: 840px;
   	padding: 0px;
   	background-color: #414141;
 }
 
 .headWrapper{
-
+	min-width: 840px;
 	width: 100%;
   	margin: auto;
   	height: 120px;
   	background-color: #313131;
+  	position: fixed;
+  	z-index: 1;
 }
 
 .logoDiv{
@@ -87,6 +89,8 @@ body{
 	width: 80px;
 	height: 80px;
 	margin-left: 19px;
+	background-image: url('../img/user.png');
+	background-size: cover;
 }
 
 .logMenu{
@@ -160,9 +164,8 @@ a:hover {
 
 .workDiv{
 	width: 100%;
-	overflow-y: auto;
   	display: inherit;
-  	margin-top: 50px;
+  	margin-top: 170px;
   	padding-left: 50px;
   	padding-right: 50px;
   	text-align: center;
@@ -267,8 +270,8 @@ a:hover {
 
 .statusDiv {
 	float: right;
-	margin-right: 19px;
-	margin-top: 92px;
+	margin-right: 73px;
+	width: 181px;
 	text-align: right;
 }
 
