@@ -43,19 +43,114 @@ body{
 
 .container{
   	width: 100%;
-  	min-width: 840px;
   	padding: 0px;
   	background-color: #414141;
 }
 
+@media only screen and (max-width: 840px) {
+	
+
+	.headWrapper {
+		min-width: 500px;
+		width: 100%;
+	  	margin: auto;
+	  	height: 60px !important;
+	  	background-color: #313131;
+	  	position: fixed;
+	  	z-index: 1;
+	}
+
+	.logoDiv {
+		float: left;
+		margin-top: 20px;
+	}
+
+	.logoImg {
+		display: none !important;
+	}
+
+	.slogon {
+		background-image: url("/img/label.png");
+		width: 237px;
+		height: 32px;
+		display: inline-block;
+		margin-left: 23px;
+		margin-top: -7px !important;
+		vertical-align: top;
+	}
+
+	.in-outMenu{
+		float: right;
+		text-align: justify;
+		margin-right: 33px;
+		margin-top: 20px;
+		display: inline-flex;
+	}
+
+	.rgihtMenu {
+		float: left;
+	}
+
+	.userImg{
+		display: none;
+	}
+
+	.logMenu{
+		text-align: right;
+		margin-left: 10px;
+		margin-top: -14px !important;
+		margin-right: -20px !important;
+	}
+
+	#username {
+		color: white;
+		font-family: "Roboto-Light";
+		font-size: 20px !important;
+	}
+
+	#logout {
+		font-family: "Roboto-Thin";
+		font-size: 16px !important;
+		color: white;
+	}
+
+	.addNoteDiv {
+		margin-top: 27px !important;
+	  	margin-bottom: -29px;
+	  	float: right;
+	  	margin-left: 65% !important;
+	}
+
+	.minStatus {
+		display: inherit !important;
+		float: right;
+		background-image: url('../img/ok.png');
+		background-repeat: no-repeat;
+		background-size: cover;
+		width: 23px;
+  		height: 18px;
+  		margin-top: 7px;
+  		font-size: 16px;
+  		cursor: default;
+	}
+
+	.status {
+		display: none !important;
+	}
+
+	.statusDiv {
+		width: 30px !important;
+	}
+}
+
 .headWrapper{
-	min-width: 840px;
+	min-width: 500px;
 	width: 100%;
-  	margin: auto;
-  	height: 120px;
-  	background-color: #313131;
-  	position: fixed;
-  	z-index: 1;
+	  margin: auto;
+	  height: 120px;
+	  background-color: #313131;
+	  position: fixed;
+	  z-index: 1;
 }
 
 .logoDiv{
@@ -132,6 +227,26 @@ body{
 	margin-top: 88px;
   	margin-bottom: -29px;
   	float: right;
+  	position: fixed;
+ 	margin-left: 55%;
+}
+
+.status {
+	color: #a1a1a1;
+	cursor: default;
+	font-family: "Roboto-LightItalic";
+	font-size: 18px;
+}
+
+.statusDiv {
+	float: right;
+	margin-right: 12px;
+	width: 200px;
+	text-align: right;
+}
+
+.minStatus {
+	display: none;
 }
 
 a:hover {
@@ -252,19 +367,7 @@ a:hover {
 	margin-top: 50px;
 }
 
-.status {
-	color: #a1a1a1;
-	cursor: default;
-	font-family: "Roboto-LightItalic";
-	font-size: 18px;
-}
 
-.statusDiv {
-	float: right;
-	margin-right: 12px;
-	width: 200px;
-	text-align: right;
-}
 
 .dropdown-menu .divider {
   height: 1px;
@@ -274,5 +377,5 @@ a:hover {
 }
 
 .emptyList {
-
+	color: white;
 }
