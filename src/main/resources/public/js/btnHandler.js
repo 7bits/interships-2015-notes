@@ -52,7 +52,13 @@
 							};	
 					});
 
-					$('.status').text("Все заметки сохранены");
+					if (document.documentElement.clientWidth > 840) {
+						$('.status').text("Все заметки сохранены");
+					} else {
+						$('.minStatus').text('');
+						$('.minStatus').css('background-image', 'url(../img/ok.png)');
+					};
+
 					$('.workDiv').css('min-height', '0px');
 				});
 			}
@@ -114,7 +120,13 @@
             }
             oldVal = currentVal;
 
-			$('.status').text("Сохранение...");
+            if (document.documentElement.clientWidth > 840) {
+            	$('.status').text("Сохранение...");
+            } else {
+            	$('.minStatus').css('background-image', 'none');
+            	$('.minStatus').text('...');
+            };
+			
 		})
 
 
@@ -129,7 +141,12 @@
 
 				timeout_id = setTimeout(function() {
 					App.Note.save(data, function() {
-						$('.status').text("Все заметки сохранены");
+						if (document.documentElement.clientWidth > 840) {
+							$('.status').text("Все заметки сохранены");
+						} else {
+							$('.minStatus').text('');
+							$('.minStatus').css('background-image', 'url(../img/ok.png)');
+						};
 					});
 				}, 750);
 			})
