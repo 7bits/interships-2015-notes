@@ -9,8 +9,11 @@ import it.sevenbits.springboottutorial.core.repository.User.IUserRepository;
 import it.sevenbits.springboottutorial.web.domain.NoteForm;
 import it.sevenbits.springboottutorial.web.domain.NoteModel;
 import it.sevenbits.springboottutorial.web.domain.ShareForm;
+import it.sevenbits.springboottutorial.web.domain.ShareResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -106,7 +109,7 @@ public class NoteService {
             throw new ServiceException("An error occurred while adding note: " + e.getMessage());
         }
     }
-    public void shareNote(final ShareForm form, Long user_id) throws RepositoryException, ServiceException {
+    public ResponseEntity<ShareResponse> shareNote(final ShareForm form, Long user_id) throws RepositoryException, ServiceException {
         final UserDetailsImpl userDetails = new UserDetailsImpl();
         userDetails.setEmail(form.getUserEmail());
 
@@ -124,22 +127,24 @@ public class NoteService {
                 toWhomShare.setUser_id(userRepository.getIdByEmail(userDetails));
 
                 if(whoShare.getUser_id() == toWhomShare.getUser_id())
-                    throw new ServiceException("You can't share note with yourself!!");
+                    return new ResponseEntity<>(new ShareResponse(false, "Вы не можете расшарить себе заметку!"), HttpStatus.BAD_REQUEST);
 
                 if(repository.isNoteBelongToUser(whoShare)) {
                     repository.duplicateNote(note); // note id will be updated
                     toWhomShare.setNote_id(note.getId());
                     repository.linkUserWithNote(toWhomShare);
                 } else {
-                    throw new ServiceException("Current note is not belong to user!");
+                    return new ResponseEntity<>(new ShareResponse(false, "Вы не можете удалить не свою заметку!"), HttpStatus.BAD_REQUEST);
                 }
 
             } else {
-                throw new ServiceException("E-mail(" + userDetails.getEmail() + ") is not exists!");
+                return new ResponseEntity<>(new ShareResponse(false, "Введенный email не найден!"), HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
-                throw new ServiceException("An error occurred while sharing note: " + e.getMessage());
+            return new ResponseEntity<>(new ShareResponse(false, "Возникла ошибка при шаринге заметки: " + e.getMessage()), HttpStatus.BAD_REQUEST);
         }
+        return new ResponseEntity<>(new ShareResponse(true, "Успешно расшарено!"), HttpStatus.OK);
     }
+
 
 }

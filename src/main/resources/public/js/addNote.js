@@ -36,7 +36,9 @@
 			var dropdownDivHTML = '<button class="dropdown-toggle shaBtn" data-toggle="dropdown"></button>'; 
 			dropdownDivHTML += '<ul class="dropdown-menu">' + '<li class="dropdown-submenu"><label>Владельцы:</label></li>';
 			dropdownDivHTML += '<li class="divider"></li>';
-			dropdownDivHTML += '<li><a href="#"><input type="text" name="textbox" id="email_textbox" value="" placeholder="Введите E-mail адресата"></a></ul>';
+			dropdownDivHTML += '<li><input class="email_textbox" style="margin: 0 5px 0 5px;" placeholder="Введите E-mail адресата" type="text" value="">';
+			dropdownDivHTML += '<label class="email_label" style="display: none;"></label></li></ul>';
+
 
 			dropdownDiv.innerHTML += dropdownDivHTML;
 

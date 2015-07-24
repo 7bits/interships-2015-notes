@@ -4,30 +4,32 @@ package it.sevenbits.springboottutorial.web.controllers;
 import it.sevenbits.springboottutorial.core.domain.Note;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
-import it.sevenbits.springboottutorial.web.domain.ShareForm;
-import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
-import it.sevenbits.springboottutorial.web.service.ServiceException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-//import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-//import org.springframework.web.servlet.ModelAndView;
-//import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
 import it.sevenbits.springboottutorial.web.domain.NoteForm;
+import it.sevenbits.springboottutorial.web.domain.ShareForm;
+import it.sevenbits.springboottutorial.web.domain.ShareResponse;
+import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
 import it.sevenbits.springboottutorial.web.service.NoteService;
-
+import it.sevenbits.springboottutorial.web.service.ServiceException;
 import org.apache.log4j.Logger;
-//import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+//import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.web.servlet.ModelAndView;
+//import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
+//import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Controller
@@ -97,13 +99,13 @@ public class HomeController {
 
     @RequestMapping(value = "/telenote/share", method = RequestMethod.POST)
     public @ResponseBody
-    void shareNote (HttpServletRequest request, HttpServletResponse response, Authentication auth) throws RepositoryException, ServiceException{
+    ResponseEntity<ShareResponse> shareNote (HttpServletRequest request, HttpServletResponse response, Authentication auth) throws RepositoryException, ServiceException{
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
 
         Long noteId = Long.parseLong(request.getParameter("id"));
         String userEmail = request.getParameter("email");
         ShareForm form = new ShareForm(noteId, userEmail);
 
-        noteService.shareNote(form, currentUser.getId());
+        return noteService.shareNote(form, currentUser.getId());
     }
 }

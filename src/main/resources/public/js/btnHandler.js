@@ -140,7 +140,7 @@
 		  return regex.test(email);
 		}
 
-		$(".email_textbox").keyup(function(event){
+		$('.noteDiv').on('keyup', ".email_textbox", function(event){
     		if(event.keyCode == 13){
     			var id = $(this).parents(".cell").attr("id");
     			var email = $(this).val();    			
@@ -148,15 +148,11 @@
     			var label = $(this).parent().find(".email_label");
    			
 
-    			if(IsEmail(email)) {    				
-    				label.css("color", "rgb(94, 236, 151)");
-    				label.text("Правильный email!");
-    				label.css("display", "block");
-
-    				setTimeout(function(){	    		
-    					label.css("display", "none");    					
-    					$(".email_btn").click();
-    				},1000);
+    			if(IsEmail(email)) {
+//    				setTimeout(function(){
+//    					label.css("display", "none");
+//    					$(".email_btn").click();
+//    				},1000);
     				
     				var sendInfo = {
     					id: id,
@@ -168,10 +164,17 @@
 						url: "/telenote/share",
 						dataType: "json",
 						headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
-						data: sendInfo
-					}).done( function() {
-						alert("Расшарено");					
-					});
+						data: sendInfo,
+						success: function(data) {
+							label.text(data.message);
+                            label.css("display", "block");
+                            label.css("color", "#32C87A");
+						}
+					}).fail( function(data) {
+						label.text(data.responseJSON.message);
+						label.css("display", "block");
+						label.css("color", "#ef6161");
+                	});
 				}
     			else {
     				label.text("Неправильный email!");

@@ -32,7 +32,7 @@ body{
 	font-family: "Roboto-Light";
 	padding: 0px;
 	margin: 0px;
-	color: white;
+	//color: white;
 	font-size: 16px;
 	background-color: #414141;
 	-moz-user-select: none;
@@ -275,4 +275,8 @@ a:hover {
 
 .emptyList {
 
+}
+
+.email_textbox {
+  color: black;
 }
