@@ -3,7 +3,9 @@ package it.sevenbits.springboottutorial;
 
 import it.sevenbits.springboottutorial.core.domain.Note;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
+import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.repository.Note.INoteRepository;
+import it.sevenbits.springboottutorial.core.repository.User.IUserRepository;
 import org.junit.*;
 import org.junit.runner.RunWith;
 
@@ -12,6 +14,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
@@ -23,30 +27,85 @@ public class NoteRepositoryTest {
 
     @Autowired
     @Qualifier(value = "noteRepository")
-    public INoteRepository repository;
+    public INoteRepository noteRep;
+
+    @Autowired
+    @Qualifier(value = "theUserPersistRepository")
+    public IUserRepository userRep;
 
     private Note note = new Note();
-
-    //private UserDetailsImpl user = new UserDetailsImpl();
+    private UserDetailsImpl user = new UserDetailsImpl();
 
     @Before
     public void create() throws Exception {
         note.setText("Путь праведника труден, ибо препятствуют ему самолюбивые и тираны, из злых людей.");
-        repository.addNote(note);
+        noteRep.addNote(note);
 
         assertNotNull(note.getId());
         assertTrue(note.getId().longValue() > 0);
-    }
 
-    @Test
-    public void update() throws Exception {
-        note.setText("Отче наш, сущий на небесах, да святится имя твое, да придет царство твое, да будет воля твоя.");
+        user.setEmail("ok@ok.oke");
+        user.setPassword("qwerty");
+        user.setUsername("Leo");
 
-        repository.updateNote(note);
+        userRep.create(user);
+
+        UserNote link = new UserNote();
+        link.setNote_id(note.getId());
+        link.setUser_id(user.getId());
+
+        noteRep.linkUserWithNote(link);
     }
 
     @After
     public void remove() throws Exception {
-        repository.deleteNote(note);
+        noteRep.deleteNote(note);
+        userRep.remove(user);
+    }
+
+    @Test
+    public void updateTest() throws Exception {
+        String text = note.getText();
+        note.setText("Отче наш, сущий на небесах, да святится имя твое, да придет царство твое, да будет воля твоя.");
+
+        noteRep.updateNote(note);
+
+        List<Note> list = noteRep.findUserNotes(user.getId());
+
+        assertFalse(list.isEmpty());
+        assertTrue(list.get(0).getText().equals(note.getText()));
+    }
+
+    @Test
+    public void duplicateNoteTest() throws Exception {
+        Note tNote = new Note();
+        tNote.setId(note.getId());
+        tNote.setText(note.getText());
+        tNote.setCreated_at(note.getCreated_at());
+        tNote.setNote_date(note.getUpdated_at());
+        tNote.setUpdated_at(note.getNote_date());
+
+        noteRep.duplicateNote(note);
+
+        UserNote link = new UserNote();
+        link.setNote_id(note.getId());
+        link.setUser_id(user.getId());
+
+        noteRep.linkUserWithNote(link);
+
+        List<Note> list = noteRep.findUserNotes(user.getId());
+        assertEquals(2, list.size());
+
+        noteRep.deleteNote(note);
+        note = tNote;
+    }
+
+    @Test
+    public void isNoteBelongToUserTest() throws Exception {
+        UserNote link = new UserNote();
+        link.setNote_id(note.getId());
+        link.setUser_id(user.getId());
+
+        assertTrue(noteRep.isNoteBelongToUser(link));
     }
 }
