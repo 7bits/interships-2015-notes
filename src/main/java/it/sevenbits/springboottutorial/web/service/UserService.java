@@ -50,7 +50,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {
             LOG.info("Loading user by email: " + email);
-            Optional<UserDetailsImpl> userDetails = this.getUserByEmail(email);
+            Optional<UserDetailsImpl> userDetails = this.getUserByEmail(email.toLowerCase());
             if (userDetails.isPresent() && userDetails.get().getRole().equals(Role.USER)) {
                 return userDetails.get();
             }
@@ -66,7 +66,7 @@ public class UserService implements UserDetailsService {
     public void updatePassword(final UserCreateForm form, String password) throws ServiceException {
 
         final UserDetailsImpl userDetails = new UserDetailsImpl();
-        userDetails.setEmail(form.getEmail());
+        userDetails.setEmail(form.getEmail().toLowerCase());
         userDetails.setPassword(password);
 
         try {
