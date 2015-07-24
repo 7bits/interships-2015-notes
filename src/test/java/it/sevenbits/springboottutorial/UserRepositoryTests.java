@@ -35,12 +35,8 @@ public class UserRepositoryTests {
 
         repository.create(user);
 
-        Long id = repository.getIdByEmail(user);
-
-        assertNotNull(id);
-        assertTrue(id.longValue() > 0);
-
-        user.setId(id);
+        assertNotNull(user.getId());
+        assertTrue(user.getId().longValue() > 0);
     }
 
     @After

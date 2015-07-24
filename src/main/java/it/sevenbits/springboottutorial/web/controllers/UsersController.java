@@ -44,8 +44,18 @@ public class UsersController {
         binder.addValidators(validator);
     }
 
+    @RequestMapping(value = "/signin", method = RequestMethod.GET)
+    public ModelAndView handleLoginGet() throws ServiceException {
+        return new ModelAndView("redirect:/");
+    }
+
+    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+    public ModelAndView handleRegistrationGet() throws ServiceException {
+        return new ModelAndView("redirect:/");
+    }
+
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public ModelAndView handleRegistration(@Valid @ModelAttribute("form") UserCreateForm form,
+    public ModelAndView handleRegistrationPost(@Valid @ModelAttribute("form") UserCreateForm form,
                 BindingResult bindingResult) throws ServiceException {
 
         if (bindingResult.hasErrors()) {

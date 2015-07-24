@@ -12,10 +12,16 @@ import java.util.List;
 public interface INoteRepository {
 
     void updateNote(final Note note) throws RepositoryException;
+
     void deleteNote(final Note note) throws RepositoryException;
+
     List<Note> findUserNotes(final Long userId) throws RepositoryException;
+
     void addNote(final Note note) throws RepositoryException;
+
     void linkUserWithNote(final UserNote userNote) throws RepositoryException;
+
     void duplicateNote(final Note note) throws RepositoryException;
+
     boolean isNoteBelongToUser(final UserNote userNote) throws RepositoryException;
-    }
+}
