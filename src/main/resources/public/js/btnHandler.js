@@ -15,6 +15,7 @@
 		};
 
 
+		var timeout_id;
 		$('.noteDiv').on('click', '.delBtn', function(self) {
 			//функция удаления заметки из базы и с рабочего поля
 			var id = $(self.target).parent().attr("id");
@@ -27,6 +28,7 @@
 					headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
 					url: "/telenote/" + id
 				}).done( function() {
+					clearTimeout(timeout_id);
 					var element = $(".cell[id=" + id + "]");
 					element.css('min-width', '0px');
 					element.children('.delBtn').css('visibility', 'hidden');
@@ -116,7 +118,6 @@
 		})
 
 
-		var timeout_id;
 		$('.noteDiv').on('keyup', 'textarea', function() {
 			var data = {
 						id: $(this).parent().parent().attr('id'),
