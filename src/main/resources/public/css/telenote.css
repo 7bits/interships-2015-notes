@@ -390,3 +390,7 @@ a:hover {
 #emptyList {
 	color: white;
 }
+.email_label {
+padding: 4px 6px 0 6px;
+margin-bottom: 0px;
+}

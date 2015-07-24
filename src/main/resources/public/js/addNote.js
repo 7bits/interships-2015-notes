@@ -34,8 +34,9 @@
 			dropdownDiv.setAttribute('style', 'visibility: hidden;');
 
 			var dropdownDivHTML = '<button class="dropdown-toggle shaBtn" data-toggle="dropdown"></button>'; 
-			dropdownDivHTML += '<ul class="dropdown-menu">' + '<li class="dropdown-submenu"><label>Владельцы:</label></li>';
-			dropdownDivHTML += '<li class="divider"></li>';
+			dropdownDivHTML += '<ul class="dropdown-menu">';
+			//dropdownDivHTML += '<li class="dropdown-submenu"><label>Владельцы:</label></li>';
+			//dropdownDivHTML += '<li class="divider"></li>';
 			dropdownDivHTML += '<li><input class="email_textbox" style="margin: 0 5px 0 5px;" placeholder="Введите E-mail адресата" type="text" value="">';
 			dropdownDivHTML += '<label class="email_label" style="display: none;"></label></li></ul>';
 
