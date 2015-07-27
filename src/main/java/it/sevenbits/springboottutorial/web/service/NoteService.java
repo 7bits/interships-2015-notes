@@ -127,21 +127,21 @@ public class NoteService {
                 toWhomShare.setUser_id(userRepository.getIdByEmail(userDetails));
 
                 if(whoShare.getUser_id() == toWhomShare.getUser_id())
-                    return new ResponseEntity<>(new ShareResponse(false, "Вы не можете расшарить себе заметку!"), HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>(new ShareResponse(false, "Вы не можете расшарить себе заметку!"), HttpStatus.NOT_ACCEPTABLE);
 
                 if(repository.isNoteBelongToUser(whoShare)) {
                     repository.duplicateNote(note); // note id will be updated
                     toWhomShare.setNote_id(note.getId());
                     repository.linkUserWithNote(toWhomShare);
                 } else {
-                    return new ResponseEntity<>(new ShareResponse(false, "Вы не можете удалить не свою заметку!"), HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>(new ShareResponse(false, "Вы не можете удалить не свою заметку!"), HttpStatus.NOT_ACCEPTABLE);
                 }
 
             } else {
-                return new ResponseEntity<>(new ShareResponse(false, "Введенный email не найден!"), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ShareResponse(false, "Введенный email не найден!"), HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
-            return new ResponseEntity<>(new ShareResponse(false, "Возникла ошибка при шаринге заметки: " + e.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ShareResponse(false, "Возникла ошибка при шаринге заметки: " + e.getMessage()), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(new ShareResponse(true, "Успешно расшарено!"), HttpStatus.OK);
     }
