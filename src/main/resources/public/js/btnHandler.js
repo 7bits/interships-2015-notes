@@ -18,7 +18,7 @@
 		var timeout_id;
 		$('.noteDiv').on('click', '.delBtn', function(self) {
 			//функция удаления заметки из базы и с рабочего поля
-			var id = $(self.target).parent().attr("id");
+			var id = $(self.target).parent().parent().attr("id");
 			
 			if (id == '-1') {
 				$(".cell[id=" + id + "]").remove();
@@ -67,10 +67,11 @@
 
 		window.onresize = function() {
 			//определение размера рабочей области сайта
-			var elementHeight = document.documentElement.clientHeight - 170;
+			var elementHeight = document.documentElement.clientHeight;
 			var bodyHeight = document.documentElement.clientHeight;
 			$(".workDiv").outerHeight(elementHeight);
 			$("body").outerHeight(bodyHeight);
+			$(".noteDiv").css('min-height', bodyHeight + 'px');
 		};
 
 
@@ -202,5 +203,113 @@
     			
         	}
     	});
+		
+
+		//Анимация панели с кнопками
+		$('.noteDiv').on('mouseenter', '.cell', function() {
+			var control = $(this).children('.control');
+			var delBtn = $(this).children('.control').children('.delBtn');
+			var shareBtn = $(this).children('.control').children('.dropdown').children('.shaBtn');
+
+			control.css('visibility', 'inherit');
+
+			control.stop();
+
+			control.animate({
+				height: '40px',
+				marginTop: '0px'
+			}, 200, 'swing', function() {
+				delBtn.css('height', '40px');
+				shareBtn.css('height', '40px');
+			});
+		}).on('mouseleave', '.cell', function() {
+			var control = $(this).children('.control');
+			var delBtn = $(this).children('.control').children('.delBtn');
+			var shareBtn = $(this).children('.control').children('.dropdown').children('.shaBtn');
+
+			delBtn.css('height', '0px');
+			shareBtn.css('height', '0px');
+
+			control.animate({
+				height: '0px',
+				marginTop: '40px'
+			}, 200, 'swing', function() {
+				control.css('visibility', 'hidden');
+			});
+		})
+
+
+		//фокусировка заметки
+		$('.workDiv').on('focus', 'textarea', function() {
+			var cell = $(this).parent().parent();
+			cell.css('background-color', '#d6d6d6')
+			$(this).css('background-color', '#d6d6d6');
+
+			var del = cell.children('.control').children('.delBtn');
+			del.css('background-color', '#d6d6d6');
+
+			$(del).mouseenter(function() {
+				$(this).css('background-color', '#e6e6e6');
+			}).mouseleave(function() {
+				$(this).css('background-color', '#d6d6d6');
+			})
+
+			var sha = cell.children('.control').children('.dropdown').children('.shaBtn');
+			sha.css('background-color', '#d6d6d6');
+
+			$(sha).mouseenter(function() {
+				$(this).css('background-color', '#e6e6e6');
+			}).mouseleave(function() {
+				$(this).css('background-color', '#d6d6d6');
+			})
+
+			cell.children('.control').css('border-color', '#bbbbbb');
+
+			$(cell)
+		}).on('blur', 'textarea', function() {
+			var cell = $(this).parent().parent();
+			cell.css('background-color', '#f5f5f5')
+			$(this).css('background-color', '#f5f5f5');
+
+			var del = cell.children('.control').children('.delBtn');
+			del.css('background-color', '#f5f5f5');
+
+			$(del).mouseenter(function() {
+				$(this).css('background-color', '#e2e2e2');
+			}).mouseleave(function() {
+				$(this).css('background-color', '#f5f5f5');
+			})
+
+			var sha = cell.children('.control').children('.dropdown').children('.shaBtn');
+			sha.css('background-color', '#f5f5f5');
+
+			$(sha).mouseenter(function() {
+				$(this).css('background-color', '#e2e2e2');
+			}).mouseleave(function() {
+				$(this).css('background-color', '#f5f5f5');
+			})
+
+			cell.children('.control').css('border-color', '#bbbbbb');
+			cell.children('.control').css('border-color', '#dcdcdc');
+		})
+
+
+		//drag'n'drop
+		$('.workDiv').on('mousedown', '.cell', function() {
+ 
+		    $( ".cell" ).sortable({
+		      connectWith: ".connectedSortable",
+		      revert: true
+		    });
+
+		    $(this).draggable({
+		      connectToSortable: ".connectedSortable",
+		      helper: "clone",
+		      revert: "invalid",
+		      cursor: 'move'
+		    });
+
+		    $(".cell").disableSelection();
+		})
 	});
 })(jQuery);
