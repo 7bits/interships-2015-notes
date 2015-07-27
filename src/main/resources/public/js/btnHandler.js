@@ -160,7 +160,7 @@
 		$('.noteDiv').on('keyup', ".email_textbox", function(event){
     		if(event.keyCode == 13){
     			var id = $(this).parents(".cell").attr("id");
-    			var email = $(this).val();    			
+    			var email = $(this).val().toLowerCase();
 
     			var label = $(this).parent().find(".email_label");
    			
