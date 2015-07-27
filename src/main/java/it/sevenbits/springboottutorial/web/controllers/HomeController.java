@@ -108,4 +108,14 @@ public class HomeController {
 
         return noteService.shareNote(form, currentUser.getId());
     }
+
+    @RequestMapping(value = "/change-pass", method = RequestMethod.GET)
+    public String getChangePass(final Model model, Authentication auth) throws ServiceException {
+        //UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
+
+        //model.addAttribute("username", currentUser.getUsername());
+        //model.addAttribute("notes", noteService.findUserNotes(currentUser.getId()));
+        //model.addAttribute("subscription", new UserForm());
+        return "home/confirmRegMail";
+    }
 }

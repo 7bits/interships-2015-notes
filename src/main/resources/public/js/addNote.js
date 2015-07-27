@@ -43,26 +43,28 @@
 
 			dropdownDiv.innerHTML += dropdownDivHTML;
 
+			var control = document.createElement("div");
+			control.classList.add("control");
+
+			control.appendChild(btnDel);
+			control.appendChild(dropdownDiv);
+
 			divCell.appendChild(divContent);
-			divCell.appendChild(btnDel);
-			divCell.appendChild(dropdownDiv);
-			divCell.setAttribute('style', 'min-width: 0px; width: 0px; margin-top: 123px; height: 2px;');
+			divCell.appendChild(control);
+			divCell.setAttribute('style', 'width: 0px; margin-top: 123px; height: 2px;');
 
 			$(".noteDiv").prepend(divCell);
 
 			divCell = $('#-1');
-			btnDel = $(divCell).children('.delBtn');
-			dropdownDiv = $(divCell).children('.dropdown');
 
-			divCell.animate({width: '31%'}, 150, 'swing');
+			divCell.animate({width: '350'}, 150, 'swing');
 
 			divCell.animate({
-					height: '250px',
+					height: '200px',
 					marginTop: '0px'},
 				150, 'swing', function() {
-					divCell.css('min-width', '270px');
-					btnDel.css('visibility', 'inherit');
-					dropdownDiv.css('visibility', 'inherit');
+					$(divCell).children('.control').children('.delBtn').css('visibility', 'inherit');
+					$(divCell).children('.control').children('.dropdown').css('visibility', 'inherit');
 					textarea.removeAttribute('style', 'padding: 0px');
 				}
 			)

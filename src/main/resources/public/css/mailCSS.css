@@ -1,0 +1,87 @@
+@font-face {
+	font-family: "Room";
+	src: url("fonts/Room/Room.otf");
+}
+
+@font-face {
+	font-family: "PTS";
+	src: url("fonts/PTSans/PTS55F.ttf");
+}
+
+body {
+	margin: 0px;
+	font-size: 14px;
+	font-family: "PTS"
+}
+
+.wrapper {
+	width: 100%;
+	display: inline-block;
+	text-align: center;
+}
+
+.mainDiv {
+	width: 500px;
+	padding: 10px 25px 10px 25px;
+	margin: auto;
+	margin-top: 70px;
+}
+
+.logoDiv {
+	display: inline-block;
+	margin-bottom: 30px;
+}
+
+.logoImg {
+	background-image: url("../img/logo.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: 45px;
+	height: 53px;
+	display: inline-block;
+  	float: left;
+}
+
+.slogon {
+	background-image: url("../img/dark-label.png");
+	background-size: cover;
+	float: left;
+	margin-top: 19px;
+	margin-left: 10px;
+  	width: 119px;
+  	height: 16px;
+}
+
+.info {
+	text-align: center;
+	width: 90%;
+  	margin: auto;
+}
+
+.message {
+	text-align: left;
+}
+
+button {
+	font-family: "Room";
+	margin-top: 10px;
+	border: 0px;
+	color: white !important;
+	background-color: #383838 !important;
+	width: 200px;
+  	height: 40px;
+}
+
+.footer {
+	margin-top: 40px;
+	color: #8e8e8e;
+}
+
+.mainConfDiv {
+	background-color: #eeeeee;
+}
+
+hr {
+	border-top: 1px solid #c0c0c0;
+	width: 100%;
+}
