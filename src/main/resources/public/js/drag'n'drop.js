@@ -10,56 +10,39 @@
     	};
 
     	$('.noteDiv').on('mousedown', '.control', function() {
-  			
     		var self = $(this);
 
-    		if (self.parent().index()-1 == -1) {
-				checkPosition = {
-					id_cur: self.parent().attr('id'),
-					id_prev: 0,
-					id_next: $('.cell:eq(' + (self.parent().index()+1) + ')').attr('id')
-				}
-			} else if (self.parent().index()+1 == self.parent().parent().children().length) {
-				checkPosition = {
-					id_cur: self.parent().attr('id'),
-					id_prev: $('.cell:eq(' + (self.parent().index()-1) + ')').attr('id'),
-					id_next: 0
-				}
-			} else {
-				checkPosition = {
-					id_cur: self.parent().attr('id'),
-					id_prev: $('.cell:eq(' + (self.parent().index()-1) + ')').attr('id'),
-					id_next: $('.cell:eq(' + (self.parent().index()+1) + ')').attr('id')
-				}
-			};
+			var prev_index = self.parent().index() - 1;
+			var next_index = self.parent().index() + 1;
+
+			var id_cur = self.parent().attr('id');
+			var id_prev = (prev_index == -1) 				   ? 0 : $('.cell:eq(' + prev_index + ')').attr('id');
+			var id_next = (next_index == $('.content').length) ? 0 : $('.cell:eq(' + next_index + ')').attr('id');
+
+			checkPosition = {
+				id_cur: id_cur,
+				id_prev: id_prev,
+				id_next: id_next
+			}
   		})
 
 
     	$('.noteDiv').on('mouseup', '.control', function() {
-			
     		var self = $(this);
 
 			setTimeout(function() {
+				var prev_index = self.parent().index() - 1;
+				var next_index = self.parent().index() + 1;
 
-				if (self.parent().index()-1 == -1) {
-					var sendData = {
-						id_cur: self.parent().attr('id'),
-						id_prev: 0,
-						id_next: $('.cell:eq(' + (self.parent().index()+1) + ')').attr('id')
-					}
-				} else if (self.parent().index()+1 == self.parent().parent().children().length) {
-					var sendData = {
-						id_cur: self.parent().attr('id'),
-						id_prev: $('.cell:eq(' + (self.parent().index()-1) + ')').attr('id'),
-						id_next: 0
-					}
-				} else {
-					var sendData = {
-						id_cur: self.parent().attr('id'),
-						id_prev: $('.cell:eq(' + (self.parent().index()-1) + ')').attr('id'),
-						id_next: $('.cell:eq(' + (self.parent().index()+1) + ')').attr('id')
-					}
-				};
+				var id_cur = self.parent().attr('id');
+				var id_prev = (prev_index == -1) 				   ? 0 : $('.cell:eq(' + prev_index + ')').attr('id');
+				var id_next = (next_index == $('.content').length) ? 0 : $('.cell:eq(' + next_index + ')').attr('id');
+
+				var sendData = {
+					id_cur: id_cur,
+					id_prev: id_prev,
+					id_next: id_next
+				}
 
 				if (checkPosition.id_prev != sendData.id_prev || checkPosition.id_next != sendData.id_next) {
 					$.ajax({
@@ -70,7 +53,7 @@
 						data: sendData
 					})
 				};
-			}, 500);
+			}, 50);
 		})
 	})		
 })(jQuery);

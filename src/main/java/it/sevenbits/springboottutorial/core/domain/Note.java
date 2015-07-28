@@ -16,28 +16,95 @@ public class Note {
     private Timestamp updated_at;
     private Long parent_note_id;
     private String uuid;
-    private float user_order;
-
+    private float note_order;
 
     public String generateUUID() {
         return UUID.randomUUID().toString();
     }
 
-    public String getUuid() {
+    public float getNote_order()
+    {
+        return note_order;
+    }
+
+    public void setNote_order(float note_order)
+    {
+        this.note_order = note_order;
+    }
+
+    public String getUuid()
+    {
         return uuid;
     }
 
-    public void setUuid(String uuid) {
+    public void setUuid(String uuid)
+    {
         this.uuid = uuid;
     }
 
-    public Long getParent_note_id() {
+    public Long getParent_note_id()
+    {
         return parent_note_id;
     }
 
-    public void setParent_note_id(Long parent_note_id) {
+    public void setParent_note_id(Long parent_note_id)
+    {
         this.parent_note_id = parent_note_id;
     }
+
+    public Timestamp getUpdated_at()
+    {
+        return updated_at;
+    }
+
+    public void setUpdated_at(Timestamp updated_at)
+    {
+        this.updated_at = updated_at;
+    }
+
+    public Timestamp getCreated_at()
+    {
+        return created_at;
+    }
+
+    public void setCreated_at(Timestamp created_at)
+    {
+        this.created_at = created_at;
+    }
+
+    public Timestamp getNote_date()
+    {
+        return note_date;
+    }
+
+    public void setNote_date(Timestamp note_date)
+    {
+        this.note_date = note_date;
+    }
+
+    public String getText()
+    {
+        return text;
+    }
+
+    public void setText(String text)
+    {
+        this.text = text;
+    }
+
+    public Long getId()
+    {
+        return id;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+
+
+
+
     //private List<String> category;
     //private List<String> category;
 
@@ -48,51 +115,5 @@ public class Note {
     //private enum state {TODO, IN_PROGRESS, DONE};
     //private List<String> subnotes;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Timestamp getNote_date() {
-        return note_date;
-    }
-
-    public void setNote_date(Timestamp note_date) {
-        this.note_date = note_date;
-    }
-
-    public Timestamp getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
-    }
-
-    public Timestamp getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
-    }
-
-    public float getUser_order() {
-        return user_order;
-    }
-
-    public void setUser_order(float user_order) {
-        this.user_order = user_order;
-    }
 }

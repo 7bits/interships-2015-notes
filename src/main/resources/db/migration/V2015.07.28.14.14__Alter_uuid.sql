@@ -1,1 +1,1 @@
-ALTER TABLE notes ADD COLUMN uuid char(36) not null;
+ALTER TABLE notes ADD COLUMN uuid char(36) NOT NULL;
