@@ -49,12 +49,27 @@ public class NoteRepository implements INoteRepository {
     }
 
     @Override
+    public void updateNotesByUuid(Note note) throws RepositoryException {
+        mapper.updateNotesByUuid(note);
+    }
+
+    @Override
+    public String getUuidById(Long noteId) throws RepositoryException {
+        return mapper.getUuidById(noteId);
+    }
+
+    @Override
     public void addNote(final Note note) throws RepositoryException {
         try {
             mapper.addNote(note);
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while adding note: " + e.getMessage(), e);
         }
+    }
+
+    @Override
+    public boolean isNoteAlreadyShared(UserNote userNote) throws RepositoryException {
+        return mapper.isNoteAlreadyShared(userNote) == 0 ? false : true;
     }
 
     @Override
@@ -69,7 +84,7 @@ public class NoteRepository implements INoteRepository {
 
     @Override
     public boolean isNoteBelongToUser(final UserNote userNote) throws RepositoryException {
-        return mapper.isNoteBelongToUser(userNote)  == 0 ? false : true;
+        return mapper.isNoteBelongToUser(userNote) == 0 ? false : true;
     }
 
     @Override

@@ -2,6 +2,7 @@ package it.sevenbits.springboottutorial.core.domain;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Admin on 13.07.2015.
@@ -14,6 +15,19 @@ public class Note {
     private Timestamp created_at;
     private Timestamp updated_at;
     private Long parent_note_id;
+    private String uuid;
+
+    public String generateUUID() {
+        return UUID.randomUUID().toString();
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 
     public Long getParent_note_id() {
         return parent_note_id;

@@ -27,4 +27,10 @@ public interface INoteRepository {
     boolean isNoteBelongToUser(final UserNote userNote) throws RepositoryException;
 
     UserDetailsImpl getUserWhoSharedNote(final Long noteId) throws RepositoryException;
+
+    String getUuidById(Long noteId) throws RepositoryException;
+
+    void updateNotesByUuid(final Note note) throws RepositoryException;
+
+    boolean isNoteAlreadyShared(UserNote userNote) throws RepositoryException;
 }

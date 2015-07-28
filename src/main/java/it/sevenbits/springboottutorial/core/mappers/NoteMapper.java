@@ -33,13 +33,14 @@ public interface NoteMapper {
             @Result(column = "note_date", property = "note_date"),
             @Result(column = "created_at", property = "created_at"),
             @Result(column = "updated_at", property = "updated_at"),
-            @Result(column = "parent_note_id", property = "parent_note_id")
+            @Result(column = "parent_note_id", property = "parent_note_id"),
+            @Result(column = "uuid", property = "uuid")
     } )
     List<Note> findUserNotes(final Long userId);
 
     @Insert("INSERT INTO notes " +
-            "(text) " +
-            "VALUES (#{text})")
+            "(text, uuid) " +
+            "VALUES (#{text}, #{uuid})")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void addNote(final Note note);
 
@@ -50,8 +51,8 @@ public interface NoteMapper {
     void linkUserWithNote(final UserNote userNote);
 
     @Insert("INSERT INTO notes\n" +
-            "(text, note_date, created_at, parent_note_id)\n" +
-            "SELECT text, note_date, created_at, #{id}\n" +
+            "(text, note_date, created_at, parent_note_id, uuid)\n" +
+            "SELECT text, note_date, created_at, #{id}, uuid\n" +
             "FROM notes WHERE id=#{id}")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void duplicateNote(final Note note);
@@ -80,11 +81,21 @@ public interface NoteMapper {
     })
     Long getParentNoteId(Long noteId);
 
-    @Select("select id\n" +
-    "from notes\n" +
-    "where parent_note_id = #{noteId}")
-    @Results({
-            @Result(column = "id", property = "id")
-    })
-    List<Long> getDependentNotes(Long noteId);
+    @Select("SELECT uuid\n" +
+            "from notes\n" +
+            "where id = #{id}")
+    String getUuidById(Long noteId);
+
+    @Select("UPDATE notes\n" +
+            "SET text=#{text}, updated_at=DEFAULT\n" +
+            "where uuid = #{uuid}")
+    void updateNotesByUuid(Note note);
+
+    @Select("SELECT COUNT(*)\n" +
+            "from usernotes\n" +
+            "where note_id IN\n" +
+            "(SELECT id from notes where uuid=\n" +
+            "(SELECT uuid from notes where id=#{note_id}))\n" +
+            "and user_id=#{user_id};")
+    int isNoteAlreadyShared(UserNote userNote);
 }

@@ -58,8 +58,9 @@ public class NoteService {
         UserNote userNote = new UserNote(user_id, note.getId());
         try {
             if(repository.isNoteBelongToUser(userNote)) {
-                //if(repository.)
-                repository.updateNote(note);
+                note.setUuid(repository.getUuidById(note.getId()));
+                repository.updateNotesByUuid(note);
+                //repository.updateNote(note);
             } else {
                 throw new ServiceException("Current note is not belong to user!");
             }
@@ -68,9 +69,9 @@ public class NoteService {
         }
     }
 
-    public void deleteNote(final Note note, Long user_id) throws ServiceException {
+    public void deleteNote(final Note note, Long userId) throws ServiceException {
         try {
-            UserNote userNote = new UserNote(user_id, note.getId());
+            UserNote userNote = new UserNote(userId, note.getId());
 
             if(repository.isNoteBelongToUser(userNote))
                 repository.deleteNote(note);
@@ -106,9 +107,9 @@ public class NoteService {
     }
 
     public Long addNote(final NoteForm form, Long user_id) throws ServiceException {
-
         Note note = new Note();
         note.setText(form.getText());
+        note.setUuid(note.generateUUID());
         try {
             repository.addNote(note);
 
@@ -140,6 +141,14 @@ public class NoteService {
                     return new ResponseEntity<>(new ShareResponse(false, "Вы не можете расшарить себе заметку!"), HttpStatus.NOT_ACCEPTABLE);
 
                 if(repository.isNoteBelongToUser(whoShare)) {
+                    final UserNote curNoteIdNextUser = new UserNote();
+                    curNoteIdNextUser.setNote_id(whoShare.getNote_id());
+                    curNoteIdNextUser.setUser_id(toWhomShare.getUser_id());
+
+                    if(repository.isNoteAlreadyShared(curNoteIdNextUser)) {
+                        return new ResponseEntity<>(new ShareResponse(false, "Эта заметка уже расшарена указанному пользователю!"), HttpStatus.NOT_ACCEPTABLE);
+                    }
+
                     repository.duplicateNote(note); // note id will be updated
                     toWhomShare.setNote_id(note.getId());
                     repository.linkUserWithNote(toWhomShare);
@@ -155,6 +164,5 @@ public class NoteService {
         }
         return new ResponseEntity<>(new ShareResponse(true, "Успешно расшарено!"), HttpStatus.OK);
     }
-
 
 }
