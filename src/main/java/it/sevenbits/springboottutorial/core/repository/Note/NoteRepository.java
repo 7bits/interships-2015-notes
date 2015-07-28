@@ -3,6 +3,7 @@ package it.sevenbits.springboottutorial.core.repository.Note;
 
 import it.sevenbits.springboottutorial.core.domain.Note;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
+import it.sevenbits.springboottutorial.core.domain.OrderData;
 import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.mappers.NoteMapper;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
@@ -92,4 +93,13 @@ public class NoteRepository implements INoteRepository {
         return mapper.getUserWhoSharedNote(noteId);
     }
 
+    @Override
+    public void updateOrder(final OrderData orderData) throws RepositoryException {
+        mapper.updateOrder(orderData);
+    }
+
+    @Override
+    public void updateFirstElementOrder(final OrderData orderData) throws RepositoryException {
+        mapper.updateFirstElementOrder(orderData);
+    }
 }

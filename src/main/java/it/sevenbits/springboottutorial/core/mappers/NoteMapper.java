@@ -2,9 +2,9 @@ package it.sevenbits.springboottutorial.core.mappers;
 
 import it.sevenbits.springboottutorial.core.domain.Note;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
+import it.sevenbits.springboottutorial.core.domain.OrderData;
 import it.sevenbits.springboottutorial.core.domain.UserNote;
 import org.apache.ibatis.annotations.*;
-
 import javax.validation.groups.ConvertGroup;
 import java.util.List;
 
@@ -22,11 +22,11 @@ public interface NoteMapper {
             "WHERE id=#{id}")
     void updateNote(final Note note);
 
-    @Select("SELECT id, text, note_date, created_at, updated_at, parent_note_id\n" +
+    @Select("SELECT id, text, note_date, created_at, updated_at, user_order, parent_note_id\n" +
             "FROM notes INNER JOIN usernotes\n" +
             "ON user_id=#{userId}\n" +
             "WHERE notes.id=usernotes.note_id\n" +
-            "ORDER BY updated_at DESC")
+            "ORDER BY user_order DESC")
     @Results({
             @Result(column = "id", property = "id"),
             @Result(column = "text", property = "text"),
@@ -34,13 +34,16 @@ public interface NoteMapper {
             @Result(column = "created_at", property = "created_at"),
             @Result(column = "updated_at", property = "updated_at"),
             @Result(column = "parent_note_id", property = "parent_note_id"),
-            @Result(column = "uuid", property = "uuid")
-    } )
+            @Result(column = "uuid", property = "uuid"),
+            @Result(column = "user_order", property = "user_order")
+    })
     List<Note> findUserNotes(final Long userId);
 
     @Insert("INSERT INTO notes " +
-            "(text, uuid) " +
-            "VALUES (#{text}, #{uuid})")
+            "(text, uuid, user_order) " +
+            "VALUES (#{text}, #{uuid}, ( " +
+            "   SELECT MAX(user_order) + 1 " +
+            "   FROM notes))")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void addNote(final Note note);
 
@@ -61,7 +64,6 @@ public interface NoteMapper {
             "FROM usernotes " +
             "WHERE note_id=#{note_id} and user_id=#{user_id}")
     int isNoteBelongToUser(final UserNote userNote);
-
 
     @Select("select users.email, users.username\n" +
             "from users\n" +
@@ -98,4 +100,20 @@ public interface NoteMapper {
             "(SELECT uuid from notes where id=#{note_id}))\n" +
             "and user_id=#{user_id};")
     int isNoteAlreadyShared(UserNote userNote);
+
+    @Update("UPDATE notes\n" +
+            "SET user_order = \n" +
+            "(SELECT sum(user_order)/2.0\n" +
+            "FROM notes\n" +
+            "WHERE id = #{id_prev} or id = #{id_next})\n" +
+            "WHERE id = #{id_cur}")
+    void updateOrder(final OrderData orderData);
+
+    @Update("UPDATE notes\n" +
+            "SET user_order = \n" +
+            "(SELECT user_order + 1\n" +
+            "FROM notes\n" +
+            "WHERE id = #{id_next})\n" +
+            "WHERE id = #{id_cur}")
+    void updateFirstElementOrder(final OrderData orderData);
 }

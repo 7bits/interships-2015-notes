@@ -16,6 +16,8 @@ public class Note {
     private Timestamp updated_at;
     private Long parent_note_id;
     private String uuid;
+    private float user_order;
+
 
     public String generateUUID() {
         return UUID.randomUUID().toString();
@@ -84,5 +86,13 @@ public class Note {
 
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public float getUser_order() {
+        return user_order;
+    }
+
+    public void setUser_order(float user_order) {
+        this.user_order = user_order;
     }
 }

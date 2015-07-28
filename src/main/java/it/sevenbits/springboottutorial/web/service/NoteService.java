@@ -1,9 +1,11 @@
 package it.sevenbits.springboottutorial.web.service;
 
 import it.sevenbits.springboottutorial.core.domain.Note;
+import it.sevenbits.springboottutorial.core.domain.OrderData;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.repository.Note.INoteRepository;
+import it.sevenbits.springboottutorial.core.repository.Note.NoteRepository;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
 import it.sevenbits.springboottutorial.core.repository.User.IUserRepository;
 import it.sevenbits.springboottutorial.web.domain.NoteForm;
@@ -165,4 +167,18 @@ public class NoteService {
         return new ResponseEntity<>(new ShareResponse(true, "Успешно расшарено!"), HttpStatus.OK);
     }
 
+    public void updateOrder(final OrderData orderData) throws ServiceException {
+
+        try {
+            if (orderData.getId_next() == 0L) {
+                repository.updateOrder(orderData);
+            } else if (orderData.getId_prev().equals(0L)) {
+                repository.updateFirstElementOrder(orderData);
+            } else {
+                repository.updateOrder(orderData);
+            }
+        } catch (RepositoryException e) {
+            throw new ServiceException("Не удалось сохранить порядок заметок" + e.getMessage());
+        }
+    }
 }
