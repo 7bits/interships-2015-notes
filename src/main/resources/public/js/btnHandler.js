@@ -292,24 +292,5 @@
 			cell.children('.control').css('border-color', '#bbbbbb');
 			cell.children('.control').css('border-color', '#dcdcdc');
 		})
-
-
-		//drag'n'drop
-		$('.workDiv').on('mousedown', '.cell', function() {
- 
-		    $( ".cell" ).sortable({
-		      connectWith: ".connectedSortable",
-		      revert: true
-		    });
-
-		    $(this).draggable({
-		      connectToSortable: ".connectedSortable",
-		      helper: "clone",
-		      revert: "invalid",
-		      cursor: 'move'
-		    });
-
-		    $(".cell").disableSelection();
-		})
 	});
 })(jQuery);
