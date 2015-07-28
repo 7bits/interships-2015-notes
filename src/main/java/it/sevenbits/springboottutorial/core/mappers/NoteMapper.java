@@ -1,6 +1,7 @@
 package it.sevenbits.springboottutorial.core.mappers;
 
 import it.sevenbits.springboottutorial.core.domain.Note;
+import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.domain.UserNote;
 import org.apache.ibatis.annotations.*;
 
@@ -21,7 +22,7 @@ public interface NoteMapper {
             "WHERE id=#{id}")
     void updateNote(final Note note);
 
-    @Select("SELECT id, text, note_date, created_at, updated_at\n" +
+    @Select("SELECT id, text, note_date, created_at, updated_at, parent_note_id\n" +
             "FROM notes INNER JOIN usernotes\n" +
             "ON user_id=#{userId}\n" +
             "WHERE notes.id=usernotes.note_id\n" +
@@ -31,7 +32,8 @@ public interface NoteMapper {
             @Result(column = "text", property = "text"),
             @Result(column = "note_date", property = "note_date"),
             @Result(column = "created_at", property = "created_at"),
-            @Result(column = "updated_at", property = "updated_at")
+            @Result(column = "updated_at", property = "updated_at"),
+            @Result(column = "parent_note_id", property = "parent_note_id")
     } )
     List<Note> findUserNotes(final Long userId);
 
@@ -48,8 +50,8 @@ public interface NoteMapper {
     void linkUserWithNote(final UserNote userNote);
 
     @Insert("INSERT INTO notes\n" +
-            "(text, note_date, created_at, updated_at)\n" +
-            "SELECT text, note_date, created_at, updated_at\n" +
+            "(text, note_date, created_at, parent_note_id)\n" +
+            "SELECT text, note_date, created_at, #{id}\n" +
             "FROM notes WHERE id=#{id}")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void duplicateNote(final Note note);
@@ -58,4 +60,31 @@ public interface NoteMapper {
             "FROM usernotes " +
             "WHERE note_id=#{note_id} and user_id=#{user_id}")
     int isNoteBelongToUser(final UserNote userNote);
+
+
+    @Select("select users.email, users.username\n" +
+            "from users\n" +
+            "where users.id = (select user_id from usernotes\n" +
+            "where note_id = (select parent_note_id from notes where id=#{noteId}))")
+    @Results({
+            @Result(column = "email", property = "email"),
+            @Result(column = "username", property = "username"),
+    })
+    UserDetailsImpl getUserWhoSharedNote(final Long noteId);
+
+    @Select("select parent_note_id\n" +
+            "from notes\n" +
+            "where id = #{noteId}")
+    @Results({
+            @Result(column = "id", property = "id")
+    })
+    Long getParentNoteId(Long noteId);
+
+    @Select("select id\n" +
+    "from notes\n" +
+    "where parent_note_id = #{noteId}")
+    @Results({
+            @Result(column = "id", property = "id")
+    })
+    List<Long> getDependentNotes(Long noteId);
 }

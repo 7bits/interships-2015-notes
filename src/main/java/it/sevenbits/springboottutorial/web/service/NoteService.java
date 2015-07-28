@@ -57,10 +57,12 @@ public class NoteService {
 
         UserNote userNote = new UserNote(user_id, note.getId());
         try {
-            if(repository.isNoteBelongToUser(userNote))
+            if(repository.isNoteBelongToUser(userNote)) {
+                //if(repository.)
                 repository.updateNote(note);
-            else
+            } else {
                 throw new ServiceException("Current note is not belong to user!");
+            }
         } catch (Exception e) {
             throw new ServiceException("An error occurred while saving note: " + e.getMessage(), e);
         }
@@ -86,7 +88,15 @@ public class NoteService {
             List<NoteModel> models = new ArrayList<>(notes.size());
 
             for (Note n : notes) {
-                models.add(new NoteModel(n.getId(), n.getText(), n.getNote_date(), n.getCreated_at(), n.getUpdated_at()));
+                if(n.getParent_note_id() != null) {
+                    UserDetailsImpl userWhoSharedNote = repository.getUserWhoSharedNote(n.getId());
+                    models.add(new NoteModel(n.getId(), n.getText(), n.getNote_date(), n.getCreated_at(), n.getUpdated_at(),
+                            userWhoSharedNote.getEmail(),userWhoSharedNote.getUsername()));
+                } else {
+                    models.add(new NoteModel(n.getId(), n.getText(), n.getNote_date(), n.getCreated_at(), n.getUpdated_at()));
+                }
+
+
             }
 
             return models;

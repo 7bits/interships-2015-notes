@@ -2,6 +2,7 @@ package it.sevenbits.springboottutorial.core.repository.Note;
 
 
 import it.sevenbits.springboottutorial.core.domain.Note;
+import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.mappers.NoteMapper;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
@@ -69,6 +70,11 @@ public class NoteRepository implements INoteRepository {
     @Override
     public boolean isNoteBelongToUser(final UserNote userNote) throws RepositoryException {
         return mapper.isNoteBelongToUser(userNote)  == 0 ? false : true;
+    }
+
+    @Override
+    public UserDetailsImpl getUserWhoSharedNote(final Long noteId) throws RepositoryException {
+        return mapper.getUserWhoSharedNote(noteId);
     }
 
 }

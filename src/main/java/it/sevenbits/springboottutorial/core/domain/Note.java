@@ -13,7 +13,15 @@ public class Note {
     private Timestamp note_date;
     private Timestamp created_at;
     private Timestamp updated_at;
+    private Long parent_note_id;
 
+    public Long getParent_note_id() {
+        return parent_note_id;
+    }
+
+    public void setParent_note_id(Long parent_note_id) {
+        this.parent_note_id = parent_note_id;
+    }
     //private List<String> category;
     //private List<String> category;
 

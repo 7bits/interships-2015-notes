@@ -1,6 +1,7 @@
 package it.sevenbits.springboottutorial.core.repository.Note;
 
 import it.sevenbits.springboottutorial.core.domain.Note;
+import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
 
@@ -24,4 +25,6 @@ public interface INoteRepository {
     void duplicateNote(final Note note) throws RepositoryException;
 
     boolean isNoteBelongToUser(final UserNote userNote) throws RepositoryException;
+
+    UserDetailsImpl getUserWhoSharedNote(final Long noteId) throws RepositoryException;
 }
