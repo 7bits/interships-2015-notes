@@ -13,6 +13,8 @@ public class Note {
     private Timestamp note_date;
     private Timestamp created_at;
     private Timestamp updated_at;
+    private float user_order;
+
 
     //private List<String> category;
     //private List<String> category;
@@ -62,5 +64,13 @@ public class Note {
 
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public float getUser_order() {
+        return user_order;
+    }
+
+    public void setUser_order(float user_order) {
+        this.user_order = user_order;
     }
 }
