@@ -10,7 +10,7 @@ spring:
     password:
 
 mail:
-    username: ivashchenko.leo@gmail.com
+    username: tele.notes.7bits@gmail.com
     password:
     protocol: smtp
     host: smtp.gmail.com
@@ -36,7 +36,7 @@ spring:
     password:
 
 mail:
-    username: ivashchenko.leo@gmail.com
+    username: tele.notes.7bits@gmail.com
     password:
     protocol: smtp
     host: smtp.gmail.com

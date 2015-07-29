@@ -88,11 +88,6 @@ public class UsersController {
             form.setEmail(form.getEmail().toLowerCase());
 
             userService.create(form);
-
-            ModelAndView model = new ModelAndView("home/confirmRegMail");
-            model.addObject("confirmLink", "http://www.tele-notes.7bits.it/confirm?token=" + userService.getToken(form.getEmail()) + "&email=" + form.getEmail());
-
-            emailService.sendMail(form.getEmail(), "Tele-notes. Подтверждение регистрации.", view);
         } catch (ServiceException e) {
             LOG.info(e.getMessage());
 
@@ -126,6 +121,23 @@ public class UsersController {
         model.addAttribute("subscription", form);
         return "home/signin";*/
         return "home/errors";
+    }
+
+    @RequestMapping(value = "/send", method = RequestMethod.GET)
+    public String sendEmail(String email) {
+        try {
+            if (!email.isEmpty()) {
+                String link = "http://tele-notes.7bits.it/confirm?token=" + userService.getToken(email) + "&email=" + email;
+                //ModelAndView model = new ModelAndView("home/confirmRegMail");
+                //model.addObject("confirmLink", );
+
+                emailService.sendConfirm(email, "Tele-notes. Подтверждение регистрации.", link);
+            }
+        } catch (ServiceException e) {
+
+        }
+
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/confirm", method = RequestMethod.GET)
