@@ -21,6 +21,8 @@ public interface INoteRepository {
 
     void addNote(final Note note) throws RepositoryException;
 
+    void addFirstNote(final Note note) throws RepositoryException;
+
     void linkUserWithNote(final UserNote userNote) throws RepositoryException;
 
     void duplicateNote(final Note note) throws RepositoryException;

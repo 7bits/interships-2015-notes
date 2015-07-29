@@ -69,6 +69,15 @@ public class NoteRepository implements INoteRepository {
     }
 
     @Override
+    public void addFirstNote(final Note note) throws RepositoryException {
+        try {
+            mapper.addFirstNote(note);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while adding note: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
     public boolean isNoteAlreadyShared(UserNote userNote) throws RepositoryException {
         return mapper.isNoteAlreadyShared(userNote) == 0 ? false : true;
     }

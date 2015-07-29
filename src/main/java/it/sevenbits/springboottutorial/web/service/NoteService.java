@@ -98,8 +98,6 @@ public class NoteService {
                 } else {
                     models.add(new NoteModel(n.getId(), n.getText(), n.getNote_date(), n.getCreated_at(), n.getUpdated_at()));
                 }
-
-
             }
 
             return models;
@@ -113,7 +111,12 @@ public class NoteService {
         note.setText(form.getText());
         note.setUuid(note.generateUUID());
         try {
-            repository.addNote(note);
+
+            if (repository.findUserNotes(user_id).size() == 0) {
+                repository.addFirstNote(note);
+            } else {
+                repository.addNote(note);
+            }
 
             UserNote userNote = new UserNote(user_id, note.getId());
             repository.linkUserWithNote(userNote);

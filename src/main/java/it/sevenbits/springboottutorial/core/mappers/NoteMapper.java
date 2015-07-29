@@ -39,11 +39,19 @@ public interface NoteMapper {
     })
     List<Note> findUserNotes(final Long userId);
 
-    @Insert("INSERT INTO notes " +
-            "(text, uuid, note_order) " +
-            "VALUES (#{text}, #{uuid}, nextval('note_order_seq'))")
+    @Insert("INSERT INTO notes\n" +
+            "(text, uuid, note_order)\n" +
+            "VALUES (#{text}, #{uuid},\n" +
+            "   (SELECT MAX(note_order) + 1\n" +
+            "   FROM notes))")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void addNote(final Note note);
+
+    @Insert("INSERT INTO notes\n" +
+            "(text, uuid, note_order)\n" +
+            "VALUES (#{text}, #{uuid}, nextval('note_order_seq'))")
+    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
+    void addFirstNote(final Note note);
 
     @Insert("INSERT INTO usernotes " +
             "(user_id, note_id) " +
