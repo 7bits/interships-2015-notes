@@ -71,4 +71,14 @@ public class UserRepository implements IUserRepository {
     public void remove(final UserDetailsImpl user) throws RepositoryException {
         mapper.remove(user);
     }
+
+    @Override
+    public void confirm(String email) throws RepositoryException {
+        mapper.confirm(email);
+    }
+
+    @Override
+    public String getTokenByEmail(String email) throws RepositoryException {
+        return mapper.getTokenById(email);
+    }
 }

@@ -52,6 +52,7 @@ public class UserService implements UserDetailsService {
             LOG.info("Loading user by email: " + email);
             Optional<UserDetailsImpl> userDetails = this.getUserByEmail(email.toLowerCase());
             if (userDetails.isPresent() && userDetails.get().getRole().equals(Role.USER)) {
+            //if (userDetails.isPresent() && userDetails.get().getRole().equals(Role.USER) && userDetails.get().getIsConfirmed()) {
                 return userDetails.get();
             }
         } catch (Exception e) {
@@ -94,6 +95,22 @@ public class UserService implements UserDetailsService {
     public Optional<UserDetailsImpl> getUserById(Long id) throws ServiceException {
         try {
             return repository.getUserById(id);
+        } catch (Exception e) {
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    public void confirm(String email) throws ServiceException {
+        try {
+            repository.confirm(email);
+        } catch (Exception e) {
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    public String getToken(String email) throws ServiceException {
+        try {
+            return repository.getTokenByEmail(email);
         } catch (Exception e) {
             throw new ServiceException(e.getMessage());
         }

@@ -62,10 +62,18 @@ public interface UserMapper {
             @Result(column = "updated_at", property = "updatedAt"),
             @Result(column = "is_confirmed", property = "isConfirmed"),
             @Result(column = "enabled", property = "enabled"),
-            @Result(column = "role", property = "role", javaType = Role.class)
+            @Result(column = "role", property = "role", javaType = Role.class),
+            @Result(column = "token", property = "token")
     })
     UserDetailsImpl getUserByEmail(String email);
 
     @Delete("DELETE FROM users WHERE email=#{email} OR id=#{id}")
     void remove(final UserDetailsImpl user);
+
+    @Update("UPDATE users SET is_confirmed=TRUE " +
+            "WHERE email=#{email};")
+    void confirm(String email);
+
+    @Select("SELECT token FROM users WHERE email=#{email}")
+    String getTokenById(String email);
 }

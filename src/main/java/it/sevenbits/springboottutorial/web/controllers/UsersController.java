@@ -1,6 +1,9 @@
 package it.sevenbits.springboottutorial.web.controllers;
 
+import de.neuland.jade4j.spring.template.SpringTemplateLoader;
+import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
+import it.sevenbits.springboottutorial.web.service.EmailService;
 import it.sevenbits.springboottutorial.web.service.ServiceException;
 import it.sevenbits.springboottutorial.web.service.validators.UserCreateFormValidator;
 import it.sevenbits.springboottutorial.web.service.UserService;
@@ -19,11 +22,14 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.View;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 //import java.util.NoSuchElementException;
 /**
@@ -38,6 +44,12 @@ public class UsersController {
 
     @Autowired
     private UserCreateFormValidator validator;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private SpringTemplateLoader jade;
 
     @InitBinder("form")
     public void initBinder(WebDataBinder binder) {
@@ -65,7 +77,6 @@ public class UsersController {
                     .map(ObjectError::getDefaultMessage)
                     .collect(Collectors.toList());
 
-            //TODO заполнить модель ошибками и передать в шаблон
             ModelAndView model = new ModelAndView("home/welcome");
             model.addObject("signupForm", form);
             model.addObject("errorMessages", errors);
@@ -75,9 +86,20 @@ public class UsersController {
 
         try {
             form.setEmail(form.getEmail().toLowerCase());
+
             userService.create(form);
+
+            ModelAndView model = new ModelAndView("home/confirmRegMail");
+            model.addObject("confirmLink", "http://www.tele-notes.7bits.it/confirm?token=" + userService.getToken(form.getEmail()) + "&email=" + form.getEmail());
+
+            emailService.sendMail(form.getEmail(), "Tele-notes. Подтверждение регистрации.", view);
         } catch (ServiceException e) {
-            bindingResult.reject("Create.error", "Cant create user." + e.getMessage());
+            LOG.info(e.getMessage());
+
+            List<String> errors = new ArrayList<>();
+            errors.add("Не удалось зарегестрировать пользователя.");
+
+            return new ModelAndView("home/welcome", "errorMessages", errors);
         }
 
         return new ModelAndView("redirect:/");
@@ -104,5 +126,26 @@ public class UsersController {
         model.addAttribute("subscription", form);
         return "home/signin";*/
         return "home/errors";
+    }
+
+    @RequestMapping(value = "/confirm", method = RequestMethod.GET)
+    public String confirmEmail(String token, String email) {
+        if (token.isEmpty() || email.isEmpty()) {
+            return "home/errors";
+        }
+
+        try {
+            Optional<UserDetailsImpl> user = userService.getUserByEmail(email);
+            if (!user.isPresent() && !user.get().getToken().equals(token)) {
+                return "home/errors";
+            }
+
+            userService.confirm(email);
+            LOG.info(email + " confirmed!!");
+        } catch (ServiceException ex) {
+            return "home/errors";
+        }
+
+        return "redirect:/";
     }
 }

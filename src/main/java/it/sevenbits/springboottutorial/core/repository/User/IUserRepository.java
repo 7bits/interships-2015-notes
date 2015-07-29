@@ -24,4 +24,7 @@ public interface IUserRepository {
 
     public void remove(final UserDetailsImpl user) throws RepositoryException;
 
+    public void confirm(String email) throws RepositoryException;
+
+    public String getTokenByEmail(String email) throws RepositoryException;
 }

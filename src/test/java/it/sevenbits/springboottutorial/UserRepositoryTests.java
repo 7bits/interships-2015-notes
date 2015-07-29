@@ -105,6 +105,23 @@ public class UserRepositoryTests {
     }
 
     @Test
+    public void confirmTest() throws Exception {
+        repository.confirm(user.getEmail());
+
+        Optional<UserDetailsImpl> tUser = repository.getUserByEmail(user.getEmail());
+        assertTrue(tUser.isPresent());
+        assertTrue(tUser.get().getIsConfirmed());
+    }
+
+    @Test
+    public void getTokenTest() throws Exception {
+        String token = repository.getTokenByEmail(user.getEmail());
+
+        assertFalse(token.isEmpty());
+        assertTrue(token.length() == 32);
+    }
+
+    @Test
     public void getUserByNameTest() throws Exception {
         Optional<UserDetailsImpl> tUser = repository.getUserById(user.getId());
 

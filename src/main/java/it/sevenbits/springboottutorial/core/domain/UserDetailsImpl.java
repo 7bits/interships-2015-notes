@@ -28,6 +28,8 @@ public class UserDetailsImpl implements UserDetails {
 
     private Boolean enabled;
 
+    private String token;
+
     private Role role;
 
     @Override
@@ -55,6 +57,14 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public static long getSerialVersionUID() {
