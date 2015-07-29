@@ -40,7 +40,8 @@ public class NoteRepositoryTest {
     @Before
     public void create() throws Exception {
         note.setText("Путь праведника труден, ибо препятствуют ему самолюбивые и тираны, из злых людей.");
-        noteRep.addNote(note);
+        note.setUuid(note.generateUUID());
+        noteRep.addFirstNote(note);
 
         assertNotNull(note.getId());
         assertTrue(note.getId().longValue() > 0);
@@ -111,10 +112,22 @@ public class NoteRepositoryTest {
     }
 
     @Test
-    public void getUserWhoSharedNoteTest(final Long noteId) throws Exception {
-        UserDetailsImpl tuser = noteRep.getUserWhoSharedNote(note.getId());
+    public void getUserWhoSharedNoteTest() throws Exception {
+        Note tNote = new Note();
+        tNote.setId(note.getId());
+        tNote.setText(note.getText());
+        tNote.setCreated_at(note.getCreated_at());
+        tNote.setNote_date(note.getUpdated_at());
+        tNote.setUpdated_at(note.getNote_date());
 
+        noteRep.duplicateNote(note);
+
+        UserDetailsImpl tuser = noteRep.getUserWhoSharedNote(note.getId());
+        assertNotNull(tuser);
         assertEquals(tuser.getEmail(), user.getEmail());
+
+        noteRep.deleteNote(note);
+        note = tNote;
     }
 
     @Test
@@ -139,7 +152,7 @@ public class NoteRepositoryTest {
         link.setNote_id(note.getId());
         link.setUser_id(user.getId());
 
-        assertFalse(noteRep.isNoteAlreadyShared(link));
+        assertTrue(noteRep.isNoteAlreadyShared(link));
     }
 
     @Test
