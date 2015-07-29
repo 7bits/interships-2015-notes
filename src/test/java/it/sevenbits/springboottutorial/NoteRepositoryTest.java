@@ -5,6 +5,7 @@ import it.sevenbits.springboottutorial.core.domain.Note;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.repository.Note.INoteRepository;
+import it.sevenbits.springboottutorial.core.repository.RepositoryException;
 import it.sevenbits.springboottutorial.core.repository.User.IUserRepository;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -107,5 +108,47 @@ public class NoteRepositoryTest {
         link.setUser_id(user.getId());
 
         assertTrue(noteRep.isNoteBelongToUser(link));
+    }
+
+    @Test
+    public void getUserWhoSharedNoteTest(final Long noteId) throws Exception {
+        UserDetailsImpl tuser = noteRep.getUserWhoSharedNote(note.getId());
+
+        assertEquals(tuser.getEmail(), user.getEmail());
+    }
+
+    @Test
+    public void getUuidByIdTest() throws Exception {
+        String uuid = noteRep.getUuidById(note.getId());
+
+        assertNotNull(uuid);
+        assertFalse(uuid.isEmpty());
+    }
+
+    @Test
+    public void updateNotesByUuidTest() throws Exception {
+        String uuid = noteRep.getUuidById(note.getId());
+
+        note.setText("Ololo");
+        noteRep.updateNotesByUuid(note);
+    }
+
+    @Test
+    public void isNoteAlreadySharedTest() throws Exception {
+        UserNote link = new UserNote();
+        link.setNote_id(note.getId());
+        link.setUser_id(user.getId());
+
+        assertFalse(noteRep.isNoteAlreadyShared(link));
+    }
+
+    @Test
+    public void updateOrderTest() throws Exception {
+
+    }
+
+    @Test
+    public void updateFirstElementOrderTest() throws Exception {
+
     }
 }
