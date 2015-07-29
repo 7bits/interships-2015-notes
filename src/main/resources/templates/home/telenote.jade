@@ -43,8 +43,7 @@ html
           else
             for note in notes
               .cell(id=note.id)
-                .content
-                  textarea(name='text', maxlength='20000') #{note.text}
+                .content #{note.text}
                 .control
                   button.delBtn
                   .dropdown.dropup
