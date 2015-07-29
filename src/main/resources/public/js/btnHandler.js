@@ -33,8 +33,6 @@
 					element.css('min-width', '0px');
 					element.children('.delBtn').css('visibility', 'hidden');
 					element.children('.dropdown').css('visibility', 'hidden');
-
-					$('.workDiv').css('min-height', '260px');
 					
 					element.animate({
 							height: '2px',
@@ -58,8 +56,6 @@
 						$('.minStatus').text('');
 						$('.minStatus').css('background-image', 'url(../img/ok.png)');
 					};
-
-					$('.workDiv').css('min-height', '0px');
 				});
 			}
 		});
@@ -67,11 +63,11 @@
 
 		window.onresize = function() {
 			//определение размера рабочей области сайта
-			var elementHeight = document.documentElement.clientHeight;
+			//var elementHeight = document.documentElement.clientHeight;
 			var bodyHeight = document.documentElement.clientHeight;
-			$(".workDiv").outerHeight(elementHeight);
+			//$(".workDiv").outerHeight(elementHeight);
 			$("body").outerHeight(bodyHeight);
-			$(".noteDiv").css('min-height', bodyHeight + 'px');
+			//$(".noteDiv").css('min-height', bodyHeight + 'px');
 		};
 
 
@@ -130,10 +126,10 @@
 			
 		})
 
-
+		//автосейвер
 		$('.noteDiv').on('keyup', 'textarea', function() {
 			var data = {
-						id: $(this).parent().parent().attr('id'),
+						id: $(this).closest('.cell').attr('id'),
 						text: $(this).val()
 				}
 
@@ -239,39 +235,60 @@
 		})
 
 
-		//фокусировка заметки
-		$('.workDiv').on('focus', 'textarea', function() {
-			var cell = $(this).parent().parent();
-			cell.css('background-color', '#d6d6d6')
-			$(this).css('background-color', '#d6d6d6');
+		$('.workDiv').on('click', '.cell', function() {
 
-			var del = cell.children('.control').children('.delBtn');
-			del.css('background-color', '#d6d6d6');
+			if ($('textarea')[0] == null) {
 
-			$(del).mouseenter(function() {
-				$(this).css('background-color', '#e6e6e6');
-			}).mouseleave(function() {
-				$(this).css('background-color', '#d6d6d6');
-			})
+				var self = $(this);
+				self.css('background-color', '#d6d6d6')
+				self.children('.content').children('textarea').css('background-color', '#d6d6d6');
 
-			var sha = cell.children('.control').children('.dropdown').children('.shaBtn');
-			sha.css('background-color', '#d6d6d6');
+				var del = self.children('.control').children('.delBtn');
+				del.css('background-color', '#d6d6d6');
 
-			$(sha).mouseenter(function() {
-				$(this).css('background-color', '#e6e6e6');
-			}).mouseleave(function() {
-				$(this).css('background-color', '#d6d6d6');
-			})
+				$(del).mouseenter(function() {
+					$(this).css('background-color', '#e6e6e6');
+				}).mouseleave(function() {
+					$(this).css('background-color', '#d6d6d6');
+				})
 
-			cell.children('.control').css('border-color', '#bbbbbb');
+				var sha = self.children('.control').children('.dropdown').children('.shaBtn');
+				sha.css('background-color', '#d6d6d6');
 
-			$(cell)
+				$(sha).mouseenter(function() {
+					$(this).css('background-color', '#e6e6e6');
+				}).mouseleave(function() {
+					$(this).css('background-color', '#d6d6d6');
+				})
+
+				self.children('.control').css('border-color', '#bbbbbb');
+
+				var textarea = document.createElement('textarea');
+				textarea.setAttribute('name', 'text');
+				textarea.setAttribute('maxlength', '20000');
+				textarea.setAttribute('class', 'js-textarea');
+
+				self.children('.content').css('display', 'none');
+				self.prepend(textarea);
+
+				$('textarea').text(self.children('.content').text());
+				self.children('.content').text('');
+
+				$('textarea').trigger('focus');
+			};
+
 		}).on('blur', 'textarea', function() {
-			var cell = $(this).parent().parent();
-			cell.css('background-color', '#f5f5f5')
-			$(this).css('background-color', '#f5f5f5');
 
-			var del = cell.children('.control').children('.delBtn');
+			var self = $(this).closest('.cell');
+			self.css('background-color', '#f5f5f5')
+			
+			var textarea = $('.js-textarea');
+			self.children('.content').text(textarea.val());
+
+			textarea.remove();
+			self.children('.content').css('display', 'inherit');		
+
+			var del = self.children('.control').children('.delBtn');
 			del.css('background-color', '#f5f5f5');
 
 			$(del).mouseenter(function() {
@@ -280,7 +297,7 @@
 				$(this).css('background-color', '#f5f5f5');
 			})
 
-			var sha = cell.children('.control').children('.dropdown').children('.shaBtn');
+			var sha = self.children('.control').children('.dropdown').children('.shaBtn');
 			sha.css('background-color', '#f5f5f5');
 
 			$(sha).mouseenter(function() {
@@ -289,8 +306,7 @@
 				$(this).css('background-color', '#f5f5f5');
 			})
 
-			cell.children('.control').css('border-color', '#bbbbbb');
-			cell.children('.control').css('border-color', '#dcdcdc');
+			self.children('.control').css('border-color', '#dcdcdc');
 		})
 	});
 })(jQuery);
