@@ -347,7 +347,7 @@ a:hover {
 	background-color: #e2e2e2;
 }
 
-.js-textarea {
+.textarea {
 
 	font-family: "Roboto-Light";
 	font-size: 15px;
@@ -357,11 +357,12 @@ a:hover {
 	background-color: #d6d6d6;
 	padding: 8px 14px 8px 14px;
 	color: #000000;
+	display: block;
 }
 
-.js-textarea:active,
-.js-textarea:focus, 
-.js-textarea {
+.textarea:active,
+.textarea:focus, 
+.textarea {
 	padding: 8px 14px 8px 14px;
 	border: none;
 	outline: none;

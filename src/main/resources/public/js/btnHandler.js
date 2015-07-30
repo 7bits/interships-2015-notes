@@ -266,7 +266,7 @@
 				var textarea = document.createElement('textarea');
 				textarea.setAttribute('name', 'text');
 				textarea.setAttribute('maxlength', '20000');
-				textarea.setAttribute('class', 'js-textarea');
+				textarea.classList.add('js-textarea', 'textarea');
 
 				self.children('.content').css('display', 'none');
 				self.prepend(textarea);
