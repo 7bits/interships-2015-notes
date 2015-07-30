@@ -272,10 +272,10 @@
 				self.children('.content').css('display', 'none');
 				self.prepend(textarea);
 
-				$('textarea').text(self.children('.content').text());
+				$('.js-textarea').text(self.children('.content').text());
 				self.children('.content').text('');
 
-				$('textarea').trigger('focus');
+				$('.js-textarea').trigger('focus');
 			} else {
 				$('.js-textarea').trigger('blur');
 				$(this).trigger('click');

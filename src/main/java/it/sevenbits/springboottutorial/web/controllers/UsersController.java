@@ -1,5 +1,6 @@
 package it.sevenbits.springboottutorial.web.controllers;
 
+import com.jcraft.jsch.Session;
 import de.neuland.jade4j.spring.template.SpringTemplateLoader;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +24,8 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.validation.BindingResult;
-import org.springframework.web.servlet.View;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,7 @@ import java.util.stream.Collectors;
 /**
  * Created by sevenbits on 16.07.15.
  */
+
 @Controller
 public class UsersController {
     private static Logger LOG = Logger.getLogger(HomeController.class);
@@ -62,13 +65,16 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public ModelAndView handleRegistrationGet() throws ServiceException {
-        return new ModelAndView("redirect:/");
+    public ModelAndView handleRegistrationGet(HttpSession session) throws ServiceException {
+        ModelAndView mav = new ModelAndView("redirect:/");
+        mav.addObject("form", (UserCreateForm)session.getAttribute("userForm"));
+
+        return mav;
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public ModelAndView handleRegistrationPost(@Valid @ModelAttribute("form") UserCreateForm form,
-                BindingResult bindingResult) throws ServiceException {
+                BindingResult bindingResult, HttpSession session) throws ServiceException {
 
         if (bindingResult.hasErrors()) {
             List<String> errors = bindingResult
@@ -76,6 +82,8 @@ public class UsersController {
                     .stream()
                     .map(ObjectError::getDefaultMessage)
                     .collect(Collectors.toList());
+
+            session.setAttribute("userForm", form);
 
             ModelAndView model = new ModelAndView("home/welcome");
             model.addObject("signupForm", form);
@@ -93,7 +101,7 @@ public class UsersController {
 
             List<String> errors = new ArrayList<>();
             errors.add("Не удалось зарегестрировать пользователя.");
-
+            session.setAttribute("userForm", form);
             return new ModelAndView("home/welcome", "errorMessages", errors);
         }
 
