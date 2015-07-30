@@ -235,6 +235,7 @@
 		})
 
 
+		//подмена активного элемента
 		$('.workDiv').on('click', '.cell', function() {
 
 			if ($('textarea')[0] == null) {
@@ -275,6 +276,9 @@
 				self.children('.content').text('');
 
 				$('textarea').trigger('focus');
+			} else {
+				$('.js-textarea').trigger('blur');
+				$(this).trigger('click');
 			};
 
 		}).on('blur', 'textarea', function() {

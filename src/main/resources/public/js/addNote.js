@@ -3,6 +3,10 @@
 		//функция обработки нажатия "+" и добавления заметки на рабочее поле
 		$('.addNote').click(function() {
 
+			if ($('#emptyList') != null) {
+				$('#emptyList').remove();
+			};
+
 			var divCell = document.createElement("div");
 			divCell.setAttribute("class", "cell");
 			
