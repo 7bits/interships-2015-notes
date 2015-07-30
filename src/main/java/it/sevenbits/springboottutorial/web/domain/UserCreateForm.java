@@ -21,11 +21,11 @@ public class UserCreateForm {
 
     @NotNull(message="Почтовый адрес не должен быть пустым")
     @Size(min=1, max=255, message="Почтовый адрес, допустимое количество символов от 1 до 255")
-    @Pattern(regexp=CommonFieldValidator.VALID_EMAIL_ADDRESS_REGEX, message="Мыло - не мыло.")
+    @Pattern(regexp=CommonFieldValidator.VALID_EMAIL_ADDRESS_REGEX, message="e-mail не валиден")
     private String email;
 
     @NotNull(message="Имя пользователя не должно быть пустым.")
-    @Pattern(regexp="^[A-Za-z0-9]+", message="Имя пользователя может состоять только из букв и цифр.")
+    @Pattern(regexp="^[A-Za-z0-9]+", message="Имя пользователя может состоять только из латинских букв и цифр.")
     @Size(min=1, max=255, message="Имя пользователя, допустимое количество символов от 1 до 255")
     private String username;
 
@@ -34,8 +34,6 @@ public class UserCreateForm {
     @Pattern(regexp="(([a-z]+[A-Z]+[0-9]+)|([a-z]+[0-9]+[A-Z]+)|([A-Z]+[a-z]+[0-9]+)|([A-Z]+[0-9]+[a-z]+)|([0-9]+[A-Z]+[a-z]+)|([0-9]+[a-z]+[A-Z]+))",
     message="Пароль должен содержать хотя бы одну цифру, одну заглавную букву, одну букву в нижнем регистре.")
     private String password;
-
-    private String passwordRepeat;
 
     public String getEmail() {
         return email;
@@ -61,21 +59,12 @@ public class UserCreateForm {
         this.password = password;
     }
 
-    public String getPasswordRepeat() {
-        return passwordRepeat;
-    }
-
-    public void setPasswordRepeat(String password) {
-        this.passwordRepeat = password;
-    }
-
     @Override
     public String toString() {
         return "UserForm{" +
                 "email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", passwordRepeat='" + passwordRepeat + '\'' +
                 '}';
     }
 }
