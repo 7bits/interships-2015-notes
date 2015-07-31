@@ -47,3 +47,16 @@ html
                 .control
                   button.delBtn
                   button.shaBtn
+        .shareUsers
+          form(role='form', action='/search', method='POST')
+            input(type="hidden", name="#{_csrf.parameterName}", value="#{_csrf.token}")
+            span(style='color: #FFFFFF') Поиск по владельцу
+              .option-container
+                input(type='checkbox', id='0', name='0')
+                label.answer_label(for='0') Мои заметки
+            for shareUser in shareUsers
+              .option-container
+                input(type='checkbox', id='#{shareUser.id}', name='#{shareUser.id}')
+                label.answer_label(for='#{shareUser.id}') #{shareUser.username} (#{shareUser.email})
+            div
+              input(type='submit', value='Поиск')

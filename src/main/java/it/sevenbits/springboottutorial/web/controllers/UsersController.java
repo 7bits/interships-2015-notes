@@ -139,7 +139,7 @@ public class UsersController {
         return "home/signin";*/
         return "home/errors";
     }
-    
+
     /*@RequestMapping(value = "/send", method = RequestMethod.GET)
     public String sendEmail(String email) {
         try {
