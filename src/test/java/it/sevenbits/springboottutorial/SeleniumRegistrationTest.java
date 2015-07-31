@@ -71,7 +71,8 @@ public class SeleniumRegistrationTest {
 
         submit.submit();
 
-        assertEquals("http://127.0.0.1:9000/", driver.getCurrentUrl());
+        assertEquals("http://127.0.0.1:9000/signup", driver.getCurrentUrl());
+        driver.findElement(By.className("toMain")).click();
 
         List<WebElement> error = driver.findElements(By.className("errorText"));
         assertTrue(error.isEmpty());
