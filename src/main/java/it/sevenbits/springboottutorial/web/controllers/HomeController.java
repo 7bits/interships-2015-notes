@@ -41,15 +41,29 @@ public class HomeController {
     //private static Long user_id;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView homePage(String error) {
+    public ModelAndView homePage(HttpServletRequest request) {
         ModelAndView model = new ModelAndView("home/welcome");
         //model.addObject("signinForm", new UserLoginForm());
         model.addObject("signupForm", new UserCreateForm());
 
-        if (error == null) {
-            return model;
-        } else if (error.equals("true")) {
-            model.addObject("error", true);
+        // TODO: need to move to utils
+        Object error = request.getSession().getAttribute("ERROR");
+        Object name = request.getSession().getAttribute("USER_NAME");
+        Boolean is_error = Boolean.FALSE;
+        String username = "";
+        if (error != null) {
+            is_error = (Boolean)error;
+            request.getSession().removeAttribute("ERROR");
+        }
+        if (name != null) {
+            username = (String)name;
+            request.getSession().removeAttribute("USER_NAME");
+        }
+        // TODO: end(need to move to utils)
+
+        if (is_error) {
+            model.addObject("error", is_error);
+            model.addObject("username", username);
         }
 
         return model;

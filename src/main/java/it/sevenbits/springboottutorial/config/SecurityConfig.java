@@ -1,5 +1,6 @@
 package it.sevenbits.springboottutorial.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -20,6 +21,14 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Bean
+    public FailureHandler failureHandler() {
+        FailureHandler failureHandler = new FailureHandler();
+        failureHandler.setDefaultFailureUrl("/");
+
+        return failureHandler;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -30,9 +39,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                     .defaultSuccessUrl("/telenote", true)
                     .loginPage("/signin")
-                    .failureHandler(new FailureHandler())
-                    .failureUrl("/?error=true")
-                    .permitAll()
+                    .failureHandler(failureHandler())
+                .permitAll()
                     .and()
                 .logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

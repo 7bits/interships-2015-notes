@@ -343,6 +343,10 @@ a:hover {
 	padding: 8px 14px 8px 14px;
 	font-family: "Roboto-Light";
 	font-size: 15px;
+	display: block;
+	word-wrap: break-word;
+	word-break: normal;
+	overflow-y: auto 
 }
 
 .cell button:hover {
@@ -390,6 +394,7 @@ a:hover {
 	margin-top: 40px;
 	visibility: hidden;
 	cursor: -webkit-grab;
+	display: block;
 }
 
 .dropdown-menu .divider {
