@@ -435,7 +435,7 @@ margin-bottom: 0px;
 }
 
 .answer_label {
-  padding-left: 24px;
+  padding-left: 6px;
   color: #ffffff;
 }
 
@@ -447,10 +447,10 @@ margin-bottom: 0px;
   padding-bottom: 8px;
 }
 
-input[type="checkbox"] {
+/*input[type="checkbox"] {
   display:none;
-}
-input[type="checkbox"] + label {
+}*/
+/*input[type="checkbox"] + label {
   display:inline-block;
   margin:-1px 4px 0 0;
   vertical-align:middle;
@@ -459,4 +459,8 @@ input[type="checkbox"] + label {
 }
 input[type="checkbox"]:checked + label {
   background:url(../img/c_checked.png) left top no-repeat;
+}*/
+
+.modalShare {
+
 }
