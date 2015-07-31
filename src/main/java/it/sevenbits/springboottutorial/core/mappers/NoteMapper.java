@@ -173,7 +173,7 @@ public interface NoteMapper {
             "<if test='list.size() == 0 and !showMyNotes'>",
                 "NULL)",
             "</if>",
-            "</where>",
+            "</where> ORDER BY note_order desc",
             "</script>"})
     List<Note> getNotesByUserIdList(@Param("list") List<Long> shareUserIds,
                                     @Param("currentUserId") Long currentUserId,
