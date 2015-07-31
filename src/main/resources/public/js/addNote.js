@@ -1,5 +1,3 @@
-//#include btnHandler.js::save
-
 (function($) {
 	$(document).ready( function() {	
 		//функция обработки нажатия "+" и добавления заметки на рабочее поле
@@ -7,8 +5,7 @@
 
 			if ($('#emptyList') != null) {
 				$('#emptyList').remove();
-				$('.workDiv').css('min-height', '260px');
-			}
+			};
 
 			var divCell = document.createElement("div");
 			divCell.setAttribute("class", "cell");
@@ -18,12 +15,12 @@
 			var divContent = document.createElement("div");
 			divContent.setAttribute("class", "content");
 
-			var textarea = document.createElement("textarea");
-			textarea.setAttribute("name", "text");
-			textarea.setAttribute("maxlength", "20000");
-			textarea.setAttribute('style', 'padding: 0px');
+			// var textarea = document.createElement("textarea");
+			// textarea.setAttribute("name", "text");
+			// textarea.setAttribute("maxlength", "20000");
+			// textarea.setAttribute('style', 'padding: 0px');
 
-			divContent.appendChild(textarea);
+			//divContent.appendChild(textarea);
 				
 			var btnDel = document.createElement("button");
 			btnDel.classList.add("delBtn");
@@ -65,7 +62,7 @@
 				150, 'swing', function() {
 					$(divCell).children('.control').children('.delBtn').css('visibility', 'inherit');
 					$(divCell).children('.control').children('.dropdown').css('visibility', 'inherit');
-					textarea.removeAttribute('style', 'padding: 0px');
+					//textarea.removeAttribute('style', 'padding: 0px');
 				}
 			)
 

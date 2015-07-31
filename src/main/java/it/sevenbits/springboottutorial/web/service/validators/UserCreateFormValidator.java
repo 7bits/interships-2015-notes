@@ -27,15 +27,7 @@ public class UserCreateFormValidator implements Validator {
         UserCreateForm form = (UserCreateForm) target;
         LOG.debug("Validating user with email = " + form.getEmail());
 
-        validatePasswords(errors, form);
         validateEmail(errors, form);
-    }
-
-    private void validatePasswords(Errors errors, UserCreateForm form) {
-        if (!form.getPassword().equals(form.getPasswordRepeat())) {
-            errors.reject("password.no_match", "Пароли не совпадают.");
-            return;
-        }
     }
 
     private void validateEmail(Errors errors, UserCreateForm form) {
