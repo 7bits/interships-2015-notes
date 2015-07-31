@@ -22,7 +22,7 @@ public interface NoteMapper {
             "WHERE id=#{id}")
     void updateNote(final Note note);
 
-    @Select("SELECT id, text, note_date, created_at, updated_at, note_order, parent_note_id\n" +
+    @Select("SELECT id, text, note_date, created_at, updated_at, parent_note_id, parent_user_id, uuid, note_order\n" +
             "FROM notes INNER JOIN usernotes\n" +
             "ON user_id=#{userId}\n" +
             "WHERE notes.id=usernotes.note_id\n" +
@@ -34,10 +34,22 @@ public interface NoteMapper {
             @Result(column = "created_at", property = "created_at"),
             @Result(column = "updated_at", property = "updated_at"),
             @Result(column = "parent_note_id", property = "parent_note_id"),
+            @Result(column = "parent_user_id", property = "parent_user_id"),
             @Result(column = "uuid", property = "uuid"),
             @Result(column = "note_order", property = "note_order")
     })
     List<Note> findUserNotes(final Long userId);
+
+    @Select("SELECT id, username, email from users WHERE id IN\n" +
+            "(SELECT parent_user_id FROM notes INNER JOIN usernotes on user_id=#{userId}\n" +
+            " where notes.id = usernotes.note_id AND parent_user_id IS NOT NULL\n" +
+            " GROUP BY parent_user_id)")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "username", property = "username"),
+            @Result(column = "email", property = "email")
+    })
+    List<UserDetailsImpl> findShareUsers(final Long userId);
 
     @Insert("INSERT INTO notes\n" +
             "(text, uuid, note_order)\n" +
@@ -56,30 +68,40 @@ public interface NoteMapper {
     @Insert("INSERT INTO usernotes " +
             "(user_id, note_id) " +
             "VALUES " +
-            "(#{user_id}, #{note_id})")
-    void linkUserWithNote(final UserNote userNote);
+            "(#{userId}, #{noteId})")
+    void linkUserWithNote(@Param("userId") Long userId, @Param("noteId")final Long noteId);
 
     @Insert("INSERT INTO notes\n" +
-            "(text, note_date, created_at, parent_note_id, uuid)\n" +
-            "SELECT text, note_date, created_at, #{id}, uuid\n" +
+            "(text, note_date, created_at, parent_note_id, parent_user_id, uuid)\n" +
+            "SELECT text, note_date, created_at, #{id}, #{parent_user_id}, uuid\n" +
             "FROM notes WHERE id=#{id}")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void duplicateNote(final Note note);
 
     @Select("SELECT count(*) " +
             "FROM usernotes " +
-            "WHERE note_id=#{note_id} and user_id=#{user_id}")
-    int isNoteBelongToUser(final UserNote userNote);
+            "WHERE note_id=#{noteId} and user_id=#{userId}")
+    int isNoteBelongToUser(@Param("noteId")final Long noteId, @Param("userId")final Long userId);
 
-    @Select("select users.email, users.username\n" +
+    @Select("select id, users.email, users.username\n" +
             "from users\n" +
             "where users.id = (select user_id from usernotes\n" +
             "where note_id = (select parent_note_id from notes where id=#{noteId}))")
     @Results({
+            @Result(column = "id", property = "id"),
             @Result(column = "email", property = "email"),
             @Result(column = "username", property = "username"),
     })
     UserDetailsImpl getUserWhoSharedNote(final Long noteId);
+
+    @Select("select users.email, users.username\n" +
+            "from users\n" +
+            "INNER JOIN notes ON users.id = notes.parent_user_id where id=#{noteId}))")
+    @Results({
+            @Result(column = "email", property = "email"),
+            @Result(column = "username", property = "username"),
+    })
+    UserDetailsImpl getUserWhoSharedNote2(final Long noteId);
 
     @Select("select parent_note_id\n" +
             "from notes\n" +
@@ -122,4 +144,38 @@ public interface NoteMapper {
             "WHERE id = #{id_next})\n" +
             "WHERE id = #{id_cur}")
     void updateFirstElementOrder(final OrderData orderData);
+
+    //SELECT id, text, note_date, created_at, updated_at, parent_note_id, parent_user_id, uuid, note_order
+    //from notes INNER JOIN usernotes on user_id=1 where notes.id=usernotes.note_id AND parent_user_id IN (2,5);
+    @Select({"<script>",
+            "SELECT id, text, note_date, created_at, updated_at, parent_note_id, parent_user_id, uuid, note_order",
+            "from notes",
+            "INNER JOIN usernotes on user_id=#{currentUserId}",
+            "<where> notes.id=usernotes.note_id",
+            "AND (",
+            "<if test='list.size() != 0 and showMyNotes'>",
+                "parent_user_id IN",
+                "<foreach item='item' index='index' collection='list'",
+                "open='(' separator=',' close=')'>",
+                "#{item}",
+                "</foreach> OR parent_user_id IS NULL)",
+            "</if>",
+            "<if test='list.size() != 0 and !showMyNotes'>",
+                "parent_user_id IN",
+                "<foreach item='item' index='index' collection='list'",
+                "open='(' separator=',' close=')'>",
+                "#{item}",
+                "</foreach>)",
+            "</if>",
+            "<if test='list.size() == 0 and showMyNotes'>",
+                "parent_user_id IS NULL)",
+            "</if>",
+            "<if test='list.size() == 0 and !showMyNotes'>",
+                "NULL)",
+            "</if>",
+            "</where>",
+            "</script>"})
+    List<Note> getNotesByUserIdList(@Param("list") List<Long> shareUserIds,
+                                    @Param("currentUserId") Long currentUserId,
+                                    @Param("showMyNotes") boolean showMyNotes);
 }

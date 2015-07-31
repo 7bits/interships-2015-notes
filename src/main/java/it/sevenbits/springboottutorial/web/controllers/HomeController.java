@@ -13,7 +13,6 @@ import it.sevenbits.springboottutorial.web.service.NoteService;
 import it.sevenbits.springboottutorial.web.service.ServiceException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -26,6 +25,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
 
 //import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.web.servlet.ModelAndView;
@@ -65,7 +67,7 @@ public class HomeController {
 
         model.addAttribute("username", currentUser.getUsername());
         model.addAttribute("notes", noteService.findUserNotes(currentUser.getId()));
-        //model.addAttribute("subscription", new UserForm());
+        model.addAttribute("shareUsers", noteService.findShareUsers(currentUser.getId()));
         return "home/telenote";
     }
 
@@ -118,5 +120,38 @@ public class HomeController {
                 Long.parseLong(request.getParameter("id_next")));
 
         noteService.updateOrder(orderData);
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    //public ModelAndView handleRegistrationPost(@Valid @ModelAttribute("form") UserCreateForm form) throws ServiceException {
+    public String getSharedNotesByUserIdList(final Model model, HttpServletRequest request,
+                                             HttpServletResponse response, Authentication auth) throws ServiceException {
+        UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
+        boolean showMyNotes = false;
+        List<Long> shareUserIds = new ArrayList<>();
+
+        // read all checked params
+        for (Entry<String, String[]> entry : request.getParameterMap().entrySet())
+        {
+            if(entry.getValue()[0].equals("on"))
+                shareUserIds.add(Long.parseLong(entry.getKey()));
+        }
+
+        // if nothing is checked - redirect
+        if(shareUserIds.size() == 0)
+            return "redirect:/telenote";
+
+        // check first param(showMyNotes) and delete it from list
+        if(shareUserIds.get(0) == 0) {
+            showMyNotes = true;
+            shareUserIds.remove(0);
+        }
+
+        List<Note> sharedNotesByUsers = noteService.getNotesByUserIdList(shareUserIds, currentUser.getId(), showMyNotes);
+
+        model.addAttribute("username", currentUser.getUsername());
+        model.addAttribute("notes", sharedNotesByUsers);
+        model.addAttribute("shareUsers", noteService.findShareUsers(currentUser.getId()));
+        return "home/telenote";
     }
 }
