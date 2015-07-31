@@ -1,7 +1,5 @@
 package it.sevenbits.springboottutorial.web.controllers;
 
-import com.jcraft.jsch.Session;
-import de.neuland.jade4j.spring.template.SpringTemplateLoader;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
 import it.sevenbits.springboottutorial.web.service.EmailService;
@@ -25,6 +23,9 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.validation.BindingResult;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -51,9 +52,6 @@ public class UsersController {
     @Autowired
     private EmailService emailService;
 
-    @Autowired
-    private SpringTemplateLoader jade;
-
     @InitBinder("form")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(validator);
@@ -74,7 +72,7 @@ public class UsersController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public ModelAndView handleRegistrationPost(@Valid @ModelAttribute("form") UserCreateForm form,
-                BindingResult bindingResult, HttpSession session) throws ServiceException {
+                BindingResult bindingResult, HttpSession session, HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             List<String> errors = bindingResult
@@ -96,6 +94,15 @@ public class UsersController {
             form.setEmail(form.getEmail().toLowerCase());
 
             userService.create(form);
+
+            if (!form.getEmail().isEmpty()) {
+                String link = "http://tele-notes.7bits.it/confirm?token=" + userService.getToken(form.getEmail()) + "&email=" + form.getEmail();
+                //ModelAndView model = new ModelAndView("home/confirmRegMail");
+                //model.addObject("confirmLink", );
+                LOG.info("Sended email to " + form.getEmail());
+                emailService.sendConfirm(form.getEmail(), "Tele-notes. Подтверждение регистрации.", link);
+            }
+            //request.login(form.getEmail(), form.getPassword());
         } catch (ServiceException e) {
             LOG.info(e.getMessage());
 
@@ -103,9 +110,11 @@ public class UsersController {
             errors.add("Не удалось зарегестрировать пользователя.");
             session.setAttribute("userForm", form);
             return new ModelAndView("home/welcome", "errorMessages", errors);
-        }
+        } /*catch (ServletException e) {
+            LOG.info(e.getMessage());
+        }*/
 
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("home/checkMail");
     }
 
     @RequestMapping(value = "/resetPass", method = RequestMethod.GET)
@@ -131,14 +140,14 @@ public class UsersController {
         return "home/errors";
     }
 
-    @RequestMapping(value = "/send", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/send", method = RequestMethod.GET)
     public String sendEmail(String email) {
         try {
             if (!email.isEmpty()) {
                 String link = "http://tele-notes.7bits.it/confirm?token=" + userService.getToken(email) + "&email=" + email;
                 //ModelAndView model = new ModelAndView("home/confirmRegMail");
                 //model.addObject("confirmLink", );
-
+                LOG.info("Sended email to " + email);
                 emailService.sendConfirm(email, "Tele-notes. Подтверждение регистрации.", link);
             }
         } catch (ServiceException e) {
@@ -146,7 +155,7 @@ public class UsersController {
         }
 
         return "redirect:/";
-    }
+    }*/
 
     @RequestMapping(value = "/confirm", method = RequestMethod.GET)
     public String confirmEmail(String token, String email) {

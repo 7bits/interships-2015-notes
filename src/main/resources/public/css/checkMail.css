@@ -1,0 +1,74 @@
+body {
+	margin: 0px;
+	background-color: #414141;
+}
+
+.wrapper {
+	width: 100%;
+	display: inline-block;
+	text-align: center;
+}
+
+.mainDiv, .mainConfDiv {
+	width: 700px;
+	padding: 10px 25px 10px 25px;
+	margin: auto;
+	margin-top: 70px;
+	border: 2px solid black;
+}
+
+.logo {
+	display: inline-block;
+}
+
+.image {
+	background-image: url("../img/convert.png");
+	background-repeat: no-repeat;
+	width: 80px;
+	height: 80px;
+	display: inline-block;
+  	float: left;
+}
+
+.logo span {
+	float: left;
+	margin-top: 30px;
+}
+
+.info {
+	text-align: center;
+}
+
+button {
+	margin-top: 30px;
+}
+
+.footer {
+	margin-top: 40px;
+}
+
+.mainDiv {
+	background-color: #ffe599;
+}
+
+.mainConfDiv {
+	background-color: #eeeeee;
+}
+
+.topBorder
+	margin-top: -8px;
+}
+
+.resetB {
+    height: 300px;
+}
+
+.toMain {
+    text-decoration: none;
+    color: blue;
+}
+
+.checkMailDiv {
+    font-size: 18px;
+    font-family: "Comic Sans MS";
+}
