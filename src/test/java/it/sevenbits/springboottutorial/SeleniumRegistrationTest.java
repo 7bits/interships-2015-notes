@@ -40,7 +40,7 @@ public class SeleniumRegistrationTest {
     private WebElement email;
     private WebElement username;
     private WebElement password;
-    private WebElement passwordRepeat;
+    //private WebElement passwordRepeat;
     private WebElement submit;
 
     private void findInputFields() {
@@ -54,7 +54,7 @@ public class SeleniumRegistrationTest {
         email = driver.findElement(By.ByCssSelector.cssSelector("form[name=signupForm] input[name=email]"));
         username = driver.findElement(By.ByCssSelector.cssSelector("form[name=signupForm] input[name=username]"));
         password = driver.findElement(By.ByCssSelector.cssSelector("form[name=signupForm] input[name=password]"));
-        passwordRepeat = driver.findElement(By.ByCssSelector.cssSelector("form[name=signupForm] input[name=passwordRepeat]"));
+        //passwordRepeat = driver.findElement(By.ByCssSelector.cssSelector("form[name=signupForm] input[name=passwordRepeat]"));
         submit = driver.findElement(By.ByCssSelector.cssSelector("form[name=signupForm] .regSubmit"));
     }
 
@@ -67,7 +67,7 @@ public class SeleniumRegistrationTest {
         email.sendKeys(user.getEmail());
         username.sendKeys(user.getUsername());
         password.sendKeys(user.getPassword());
-        passwordRepeat.sendKeys(user.getPassword());
+        //passwordRepeat.sendKeys(user.getPassword());
 
         submit.submit();
 
@@ -101,7 +101,7 @@ public class SeleniumRegistrationTest {
         username.click();
         username.sendKeys(user.getUsername());
         password.sendKeys(user.getPassword());
-        passwordRepeat.sendKeys(user.getPassword());
+        //passwordRepeat.sendKeys(user.getPassword());
     }
 
     @Test
@@ -109,7 +109,7 @@ public class SeleniumRegistrationTest {
         email.sendKeys(user.getEmail());
         username.sendKeys("Leo");
         password.sendKeys(user.getPassword());
-        passwordRepeat.sendKeys(user.getPassword());
+        //passwordRepeat.sendKeys(user.getPassword());
     }
 
     @Test
@@ -117,7 +117,7 @@ public class SeleniumRegistrationTest {
         email.sendKeys(user.getEmail());
         username.sendKeys(user.getUsername());
         password.sendKeys("123");
-        passwordRepeat.sendKeys(user.getPassword());
+        //passwordRepeat.sendKeys(user.getPassword());
     }
 
     @Test
@@ -125,7 +125,7 @@ public class SeleniumRegistrationTest {
         email.sendKeys(user.getEmail());
         username.sendKeys(user.getUsername());
         password.sendKeys(user.getPassword());
-        passwordRepeat.sendKeys("123");
+        //passwordRepeat.sendKeys("123");
     }
 
     @Test
@@ -133,7 +133,7 @@ public class SeleniumRegistrationTest {
         email.sendKeys(user.getEmail());
         username.sendKeys(user.getUsername());
         password.sendKeys(user.getPassword());
-        passwordRepeat.sendKeys(user.getPassword());
+        //passwordRepeat.sendKeys(user.getPassword());
     }
 
     @BeforeClass
