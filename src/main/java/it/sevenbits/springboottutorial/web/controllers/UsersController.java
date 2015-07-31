@@ -132,7 +132,7 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/send", method = RequestMethod.GET)
-    public String sendEmail(String email) {
+    public String sendEmail(String email) throws ServiceException {
         try {
             if (!email.isEmpty()) {
                 String link = "http://tele-notes.7bits.it/confirm?token=" + userService.getToken(email) + "&email=" + email;
@@ -142,7 +142,7 @@ public class UsersController {
                 emailService.sendConfirm(email, "Tele-notes. Подтверждение регистрации.", link);
             }
         } catch (ServiceException e) {
-
+            throw new ServiceException(e.getMessage());
         }
 
         return "redirect:/";

@@ -46,15 +46,4 @@ html
                 .content #{note.text}
                 .control
                   button.delBtn
-                  .dropdown.dropup
-                    button.dropdown-toggle.shaBtn(data-toggle='dropdown')
-                    ul.dropdown-menu
-                      li.dropdown-submenu
-                        |Владельцы:
-                        br
-                        |#{note.usernameOfShareUser} (#{note.emailOfShareUser})
-                      li.divider
-                      li.dropdown-submenu
-                        input.email_textbox(type='text', style="margin: 0 5px 0 5px;", value='', placeholder="Введите E-mail адресата")
-                        input.email_btn(type="button", style="display: none;")
-                        label.email_label(style="display: none;")
+                  button.shaBtn

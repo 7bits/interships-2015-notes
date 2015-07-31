@@ -32,7 +32,7 @@
 					var element = $(".cell[id=" + id + "]");
 					element.css('min-width', '0px');
 					element.children('.delBtn').css('visibility', 'hidden');
-					element.children('.dropdown').css('visibility', 'hidden');
+					element.children('.shaBtn').css('visibility', 'hidden');
 					
 					element.animate({
 							height: '2px',
@@ -100,7 +100,7 @@
 		$(document).ready(function() {
 			//обработка ошибок при авторизации
 
-			if (document.location.href.match(/.+\/?error=true/g) != null) {
+			if ($('.js-login-form').data('error') == true) {
 				$('.js-enter').trigger('click');
 			} else if (document.location.href.match(/.+\/signup/g)) {
 				$('.js-reg').trigger('click');
@@ -154,19 +154,14 @@
 		  return regex.test(email);
 		}
 
-		$('.noteDiv').on('keyup', ".email_textbox", function(event){
+		$('body').on('keyup', ".textboxRegProperty", function(event){
     		if(event.keyCode == 13){
-    			var id = $(this).parents(".cell").attr("id");
+    			var id = $(this).attr("id");
     			var email = $(this).val().toLowerCase();
 
-    			var label = $(this).parent().find(".email_label");
+    			var label = $('.js-shareStatus');
    			
-
     			if(IsEmail(email)) {
-//    				setTimeout(function(){
-//    					label.css("display", "none");
-//    					$(".email_btn").click();
-//    				},1000);
     				
     				var sendInfo = {
     					id: id,
@@ -181,20 +176,19 @@
 						data: sendInfo,
 						success: function(data) {
 							label.text(data.message);
-                            label.css("display", "block");
-                            label.css("color", "#32C87A");
+							label.css('display', 'block');
+							label.css('color', '#32c87a');
 						}
 					}).fail( function(data) {
 						label.text(data.responseJSON.message);
-						label.css("display", "block");
-						label.css("color", "#ef6161");
+                        label.css("display", "block");
+                        label.css("color", "#ef6161 ");
                 	});
 				}
     			else {
     				label.text("Неправильный email!");
-    				label.css("display", "block");
-    				label.css("color", "#ef6161");
-    				
+                   	label.css("display", "block");
+                   	label.css("color", "#ef6161 ");
     			}
     			
         	}
@@ -205,7 +199,7 @@
 		$('.noteDiv').on('mouseenter', '.cell', function() {
 			var control = $(this).children('.control');
 			var delBtn = $(this).children('.control').children('.delBtn');
-			var shareBtn = $(this).children('.control').children('.dropdown').children('.shaBtn');
+			var shareBtn = $(this).children('.control').children('.shaBtn');
 
 			control.css('visibility', 'inherit');
 
@@ -221,7 +215,7 @@
 		}).on('mouseleave', '.cell', function() {
 			var control = $(this).children('.control');
 			var delBtn = $(this).children('.control').children('.delBtn');
-			var shareBtn = $(this).children('.control').children('.dropdown').children('.shaBtn');
+			var shareBtn = $(this).children('.control').children('.shaBtn');
 
 			delBtn.css('height', '0px');
 			shareBtn.css('height', '0px');
@@ -236,11 +230,11 @@
 
 
 		//подмена активного элемента
-		$('.workDiv').on('click', '.cell', function() {
+		$('.workDiv').on('click', '.content', function() {
 
 			if ($('textarea')[0] == null) {
 
-				var self = $(this);
+				var self = $(this).parent();
 				self.css('background-color', '#d6d6d6')
 				self.children('.content').children('textarea').css('background-color', '#d6d6d6');
 
@@ -253,7 +247,7 @@
 					$(this).css('background-color', '#d6d6d6');
 				})
 
-				var sha = self.children('.control').children('.dropdown').children('.shaBtn');
+				var sha = self.children('.control').children('.shaBtn');
 				sha.css('background-color', '#d6d6d6');
 
 				$(sha).mouseenter(function() {
@@ -290,7 +284,7 @@
 			self.children('.content').text(textarea.val());
 
 			textarea.remove();
-			self.children('.content').css('display', 'inherit');		
+			self.children('.content').css('display', 'block');		
 
 			var del = self.children('.control').children('.delBtn');
 			del.css('background-color', '#f5f5f5');
@@ -301,7 +295,7 @@
 				$(this).css('background-color', '#f5f5f5');
 			})
 
-			var sha = self.children('.control').children('.dropdown').children('.shaBtn');
+			var sha = self.children('.control').children('.shaBtn');
 			sha.css('background-color', '#f5f5f5');
 
 			$(sha).mouseenter(function() {
@@ -311,6 +305,54 @@
 			})
 
 			self.children('.control').css('border-color', '#dcdcdc');
+		})
+
+
+		//Обработчик кнопки share и генерация модельного окна
+		$('.workDiv').on('click', '.shaBtn', function() {
+
+			var self = $(this);
+			$('textarea').trigger('blur');
+
+			if ($('#dialog')[0] == null) {
+				var container = $('.container');
+
+				var modal = document.createElement('div');
+				modal.setAttribute('id', 'dialog');
+
+				var text = document.createElement('input');
+				text.setAttribute('class', 'textboxRegProperty');
+				text.setAttribute('type', 'textbox');
+				text.setAttribute('id', self.closest('.cell').attr("id"));
+				text.setAttribute('style', 'color: black; font-size: 15px; width: 100%;');
+				text.setAttribute('placeholder', 'Введите email');
+
+				var label = document.createElement('label');
+				label.setAttribute('style', 'font-size: 15px; color: white; display: none');
+				label.setAttribute('class', 'js-shareStatus');
+
+				modal.appendChild(text);
+				modal.appendChild(label);
+				container.append(modal);
+
+				$('#dialog').dialog();
+				$('.ui-dialog-titlebar').css('padding', '0px');
+				$('.ui-dialog-titlebar').css('border-radius', '0px');
+				$('.ui-dialog-titlebar-close').text('X');
+				$('.ui-dialog-titlebar-close').attr('style', 'color: black; text-align: center; font-size: 13px;');
+
+				$('.textboxRegProperty').trigger('focus');
+			} else {
+				$('.ui-dialog-titlebar-close').trigger('click');
+				self.trigger('click');
+			};
+			
+		})
+
+
+		$('body').on('click', '.ui-dialog-titlebar-close', function() {
+			$(this).closest('.ui-dialog').remove();
+			$('#dialog').remove();
 		})
 	});
 })(jQuery);

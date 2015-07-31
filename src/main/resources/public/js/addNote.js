@@ -26,25 +26,16 @@
 			btnDel.classList.add("delBtn");
 			btnDel.setAttribute('style', 'visibility: hidden;');
 
-			var dropdownDiv = document.createElement("div");			
-			dropdownDiv.classList.add("dropdown", "dropup");
-			dropdownDiv.setAttribute('style', 'visibility: hidden;');
+			var shaBtn = document.createElement("button");			
+			shaBtn.classList.add("shaBtn");
+			shaBtn.setAttribute('style', 'visibility: hidden;');
 
-			var dropdownDivHTML = '<button class="dropdown-toggle shaBtn" data-toggle="dropdown"></button>'; 
-			dropdownDivHTML += '<ul class="dropdown-menu">';
-			//dropdownDivHTML += '<li class="dropdown-submenu"><label>Владельцы:</label></li>';
-			//dropdownDivHTML += '<li class="divider"></li>';
-			dropdownDivHTML += '<li><input class="email_textbox" style="margin: 0 5px 0 5px;" placeholder="Введите E-mail адресата" type="text" value="">';
-			dropdownDivHTML += '<label class="email_label" style="display: none;"></label></li></ul>';
-
-
-			dropdownDiv.innerHTML += dropdownDivHTML;
 
 			var control = document.createElement("div");
 			control.classList.add("control");
 
 			control.appendChild(btnDel);
-			control.appendChild(dropdownDiv);
+			control.appendChild(shaBtn);
 
 			divCell.appendChild(divContent);
 			divCell.appendChild(control);
@@ -61,7 +52,7 @@
 					marginTop: '0px'},
 				150, 'swing', function() {
 					$(divCell).children('.control').children('.delBtn').css('visibility', 'inherit');
-					$(divCell).children('.control').children('.dropdown').css('visibility', 'inherit');
+					$(divCell).children('.control').children('.shaBtn').css('visibility', 'inherit');
 					//textarea.removeAttribute('style', 'padding: 0px');
 				}
 			)

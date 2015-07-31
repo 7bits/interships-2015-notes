@@ -36,11 +36,11 @@ html
                     a(href='#signup', data-toggle='tab') Зарегистрироваться
                 #myTabContent.tab-content
                   #signin.tab-pane.fade.active.in
-                    form.formStyle(role='form', action='/signin', method='POST', name='signinForm')
+                    form.formStyle.js-login-form(role='form', action='/signin', method='POST', name='signinForm', data-error='#{error}')
                       input(type="hidden", name="#{_csrf.parameterName}", value="#{_csrf.token}")
                       .inputDiv.nextBlock
                         .form-group.regDiv
-                          input.textboxRegProperty(type='textbox', name='username', placeholder='e-mail')
+                          input.textboxRegProperty(type='textbox', name='username', placeholder='e-mail', value='#{username}')
                           input.textboxRegProperty(type='password', name='password', autocomplete='off', placeholder='пароль')
                           if error
                             p(class='errorText')
