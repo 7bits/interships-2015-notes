@@ -1,4 +1,5 @@
 # interships-2015-notes
+GitHub RETARD test.
 Необходимое программное обеспечение:
 <ul>
 <li>java8</li>
