@@ -59,7 +59,7 @@ public class NoteService {
 
         UserNote userNote = new UserNote(user_id, note.getId());
         try {
-            if(repository.isNoteBelongToUser(userNote)) {
+            if(repository.isNoteBelongToUser(note.getId(), user_id)) {
                 note.setUuid(repository.getUuidById(note.getId()));
                 repository.updateNotesByUuid(note);
                 //repository.updateNote(note);
@@ -75,7 +75,7 @@ public class NoteService {
         try {
             UserNote userNote = new UserNote(userId, note.getId());
 
-            if(repository.isNoteBelongToUser(userNote))
+            if(repository.isNoteBelongToUser(note.getId(), userId))
                 repository.deleteNote(note);
             else
                 throw new ServiceException("Current note is not belong to user!");
@@ -89,20 +89,20 @@ public class NoteService {
         try {
             List<Note> notes = repository.findUserNotes(userId);
             List<NoteModel> models = new ArrayList<>(notes.size());
-
             for (Note n : notes) {
-                if(n.getParent_note_id() != null) {
-                    UserDetailsImpl userWhoSharedNote = repository.getUserWhoSharedNote(n.getId());
-                    models.add(new NoteModel(n.getId(), n.getText(), n.getNote_date(), n.getCreated_at(), n.getUpdated_at(),
-                            userWhoSharedNote.getEmail(),userWhoSharedNote.getUsername()));
-                } else {
                     models.add(new NoteModel(n.getId(), n.getText(), n.getNote_date(), n.getCreated_at(), n.getUpdated_at()));
-                }
             }
-
             return models;
         } catch (Exception e) {
             throw new ServiceException("An error occurred while finding user notes: " + e.getMessage());
+        }
+    }
+
+    public List<UserDetailsImpl> findShareUsers(final Long userId) throws ServiceException {
+        try {
+            return repository.findShareUsers(userId);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while finding share users: " + e.getMessage());
         }
     }
 
@@ -119,13 +119,14 @@ public class NoteService {
             }
 
             UserNote userNote = new UserNote(user_id, note.getId());
-            repository.linkUserWithNote(userNote);
+            repository.linkUserWithNote(user_id, note.getId());
             return note.getId();
         } catch (Exception e) {
             throw new ServiceException("An error occurred while adding note: " + e.getMessage());
         }
     }
-    public ResponseEntity<ShareResponse> shareNote(final ShareForm form, Long user_id) throws RepositoryException, ServiceException {
+    public ResponseEntity<ShareResponse> shareNote(final ShareForm form, Long parentUserId) throws RepositoryException, ServiceException {
+        Long parentNoteId = form.getNoteId();
         final UserDetailsImpl userDetails = new UserDetailsImpl();
         userDetails.setEmail(form.getUserEmail());
 
@@ -139,13 +140,13 @@ public class NoteService {
 
         try {
             if (userRepository.isEmailExists(userDetails)) {
-                whoShare.setUser_id(user_id);
+                whoShare.setUser_id(parentUserId);
                 toWhomShare.setUser_id(userRepository.getIdByEmail(userDetails));
 
                 if(whoShare.getUser_id() == toWhomShare.getUser_id())
                     return new ResponseEntity<>(new ShareResponse(false, "Вы не можете расшарить себе заметку!"), HttpStatus.NOT_ACCEPTABLE);
 
-                if(repository.isNoteBelongToUser(whoShare)) {
+                if(repository.isNoteBelongToUser(parentNoteId, parentUserId)) {
                     final UserNote curNoteIdNextUser = new UserNote();
                     curNoteIdNextUser.setNote_id(whoShare.getNote_id());
                     curNoteIdNextUser.setUser_id(toWhomShare.getUser_id());
@@ -154,9 +155,10 @@ public class NoteService {
                         return new ResponseEntity<>(new ShareResponse(false, "Эта заметка уже расшарена указанному пользователю!"), HttpStatus.NOT_ACCEPTABLE);
                     }
 
+                    note.setParent_user_id(parentUserId);
                     repository.duplicateNote(note); // note id will be updated
                     toWhomShare.setNote_id(note.getId());
-                    repository.linkUserWithNote(toWhomShare);
+                    repository.linkUserWithNote(toWhomShare.getUser_id(), toWhomShare.getNote_id());
                 } else {
                     return new ResponseEntity<>(new ShareResponse(false, "Вы не можете удалить не свою заметку!"), HttpStatus.NOT_ACCEPTABLE);
                 }
@@ -183,5 +185,15 @@ public class NoteService {
         } catch (RepositoryException e) {
             throw new ServiceException("Не удалось сохранить порядок заметок" + e.getMessage());
         }
+    }
+
+    public List<Note> getNotesByUserIdList(List<Long> shareUserIds, Long parentUserId, boolean showMyNotes) throws ServiceException {
+        try {
+            return repository.getNotesByUserIdList(shareUserIds, parentUserId, showMyNotes);
+        } catch (RepositoryException e) {
+            throw new ServiceException("Не удалось получить расшаренные заметки" + e.getMessage());
+        }
+
+
     }
 }

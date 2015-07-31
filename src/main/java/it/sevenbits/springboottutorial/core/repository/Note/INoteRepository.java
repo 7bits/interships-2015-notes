@@ -23,11 +23,11 @@ public interface INoteRepository {
 
     void addFirstNote(final Note note) throws RepositoryException;
 
-    void linkUserWithNote(final UserNote userNote) throws RepositoryException;
+    void linkUserWithNote(final Long userId, final Long noteId) throws RepositoryException;
 
     void duplicateNote(final Note note) throws RepositoryException;
 
-    boolean isNoteBelongToUser(final UserNote userNote) throws RepositoryException;
+    boolean isNoteBelongToUser(final Long noteId, final Long userId) throws RepositoryException;
 
     UserDetailsImpl getUserWhoSharedNote(final Long noteId) throws RepositoryException;
 
@@ -40,4 +40,8 @@ public interface INoteRepository {
     void updateOrder(final OrderData orderData) throws RepositoryException;
 
     void updateFirstElementOrder(final OrderData orderData) throws RepositoryException;
+
+    List<Note> getNotesByUserIdList(final List<Long> shareUserIds, final Long parentUserId, final boolean showMyNotes) throws RepositoryException;
+
+    List<UserDetailsImpl> findShareUsers(final Long userId) throws  RepositoryException;
 }

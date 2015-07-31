@@ -276,8 +276,10 @@ a:hover {
   	text-align: center;
 }
 
-.noteDiv{
+.noteDiv {
+	float: left;
 	width: 100%;
+	padding-right: 250px;
 	display: inline-block;
 }
 
@@ -405,4 +407,51 @@ a:hover {
 .email_label {
 padding: 4px 6px 0 6px;
 margin-bottom: 0px;
+}
+
+.float-left {
+  float:left;
+}
+.text-align-left {
+  text-align: left;
+}
+.shareUsers {
+  width: 250px;
+  height: 400px;
+  overflow: hidden;
+  position: fixed;
+  right: 10px;
+  /* border: #FF0 dashed 1px; */
+  /* border-radius: 5px; */
+  outline: 1px dashed rgb(255, 255, 255);
+  outline-offset: 5px;
+  outline-style: dotted;
+  /* Box-shadow: 0px 0px 0px 2px #f00; */
+}
+
+.answer_label {
+  padding-left: 24px;
+  color: #ffffff;
+}
+
+.option-container {
+  text-align: left;
+  width: 250px;
+  height: auto;
+  float: left;
+  padding-bottom: 8px;
+}
+
+input[type="checkbox"] {
+  display:none;
+}
+input[type="checkbox"] + label {
+  display:inline-block;
+  margin:-1px 4px 0 0;
+  vertical-align:middle;
+  background:url(../img/c_unchecked.png) left top no-repeat;
+  cursor:pointer;
+}
+input[type="checkbox"]:checked + label {
+  background:url(../img/c_checked.png) left top no-repeat;
 }

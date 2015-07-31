@@ -52,11 +52,7 @@ public class NoteRepositoryTest {
 
         userRep.create(user);
 
-        UserNote link = new UserNote();
-        link.setNote_id(note.getId());
-        link.setUser_id(user.getId());
-
-        noteRep.linkUserWithNote(link);
+        noteRep.linkUserWithNote(note.getId(), user.getId());
     }
 
     @After
@@ -89,11 +85,7 @@ public class NoteRepositoryTest {
 
         noteRep.duplicateNote(note);
 
-        UserNote link = new UserNote();
-        link.setNote_id(note.getId());
-        link.setUser_id(user.getId());
-
-        noteRep.linkUserWithNote(link);
+        noteRep.linkUserWithNote(note.getId(), user.getId());
 
         List<Note> list = noteRep.findUserNotes(user.getId());
         assertEquals(2, list.size());
@@ -104,11 +96,7 @@ public class NoteRepositoryTest {
 
     @Test
     public void isNoteBelongToUserTest() throws Exception {
-        UserNote link = new UserNote();
-        link.setNote_id(note.getId());
-        link.setUser_id(user.getId());
-
-        assertTrue(noteRep.isNoteBelongToUser(link));
+        assertTrue(noteRep.isNoteBelongToUser(note.getId(), user.getId()));
     }
 
     @Test

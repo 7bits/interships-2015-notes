@@ -83,8 +83,8 @@ public class NoteRepository implements INoteRepository {
     }
 
     @Override
-    public void linkUserWithNote(final UserNote userNote) throws RepositoryException {
-        mapper.linkUserWithNote(userNote);
+    public void linkUserWithNote(final Long userId, final Long noteId) throws RepositoryException {
+        mapper.linkUserWithNote(userId, noteId);
     }
 
     @Override
@@ -93,8 +93,13 @@ public class NoteRepository implements INoteRepository {
     }
 
     @Override
-    public boolean isNoteBelongToUser(final UserNote userNote) throws RepositoryException {
-        return mapper.isNoteBelongToUser(userNote) == 0 ? false : true;
+    public boolean isNoteBelongToUser(final Long noteId, final Long userId) throws RepositoryException {
+        return mapper.isNoteBelongToUser(noteId, userId) == 0 ? false : true;
+    }
+
+    @Override
+    public List<Note> getNotesByUserIdList(final List<Long> shareUserIds, final Long parentUserId, final boolean showMyNotes) throws RepositoryException {
+        return mapper.getNotesByUserIdList(shareUserIds, parentUserId, showMyNotes);
     }
 
     @Override
@@ -105,6 +110,11 @@ public class NoteRepository implements INoteRepository {
     @Override
     public void updateOrder(final OrderData orderData) throws RepositoryException {
         mapper.updateOrder(orderData);
+    }
+
+    @Override
+    public List<UserDetailsImpl> findShareUsers(Long userId) throws RepositoryException {
+        return mapper.findShareUsers(userId);
     }
 
     @Override

@@ -15,8 +15,17 @@ public class Note {
     private Timestamp created_at;
     private Timestamp updated_at;
     private Long parent_note_id;
+    private Long parent_user_id;
     private String uuid;
     private float note_order;
+
+    public Long getParent_user_id() {
+        return parent_user_id;
+    }
+
+    public void setParent_user_id(Long parent_user_id) {
+        this.parent_user_id = parent_user_id;
+    }
 
     public String generateUUID() {
         return UUID.randomUUID().toString();
