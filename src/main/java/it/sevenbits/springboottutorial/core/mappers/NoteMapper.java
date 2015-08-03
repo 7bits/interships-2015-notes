@@ -69,7 +69,7 @@ public interface NoteMapper {
             "(user_id, note_id) " +
             "VALUES " +
             "(#{userId}, #{noteId})")
-    void linkUserWithNote(@Param("userId") Long userId, @Param("noteId")final Long noteId);
+    void linkUserWithNote(@Param("userId") final Long userId, @Param("noteId") final Long noteId);
 
     @Insert("INSERT INTO notes\n" +
             "(text, note_date, created_at, parent_note_id, parent_user_id, uuid)\n" +

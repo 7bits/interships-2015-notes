@@ -51,8 +51,10 @@ public class NoteRepositoryTest {
         user.setUsername("Leo");
 
         userRep.create(user);
+        assertNotNull(note.getId());
+        assertTrue(note.getId().longValue() > 0);
 
-        noteRep.linkUserWithNote(note.getId(), user.getId());
+        noteRep.linkUserWithNote(user.getId(), note.getId());
     }
 
     @After
@@ -85,7 +87,7 @@ public class NoteRepositoryTest {
 
         noteRep.duplicateNote(note);
 
-        noteRep.linkUserWithNote(note.getId(), user.getId());
+        noteRep.linkUserWithNote(user.getId(), note.getId());
 
         List<Note> list = noteRep.findUserNotes(user.getId());
         assertEquals(2, list.size());
