@@ -47,78 +47,6 @@ body{
   	background-color: #414141;
 }
 
-@media only screen and (max-width: 800px) {
-	
-	.headWrapper {
-	  	height: 60px !important;
-	}
-
-	.logoImg {
-		display: none !important;
-	}
-
-	.slogon {
-		margin-top: 4px !important;
-	}
-
-	.userImg{
-		display: none;
-	}
-
-	.logMenu{
-		margin-top: -14px !important;
-		margin-right: -6px !important;
-	}
-
-	.user {
-		margin-top: 6px !important;
-  		margin-bottom: -4px !important;
-	}
-
-	#username {
-		font-size: 15px !important;
-	}
-
-	#logout {
-		font-size: 11px !important;
-	}
-
-	.addNoteDiv {
-		margin-top: 38px !important;
-	  	margin-left: 65% !important;
-	}
-
-	.minStatus {
-		display: inherit !important;
-		float: right;
-		background-image: url('../img/ok.png');
-		background-repeat: no-repeat;
-		background-size: cover;
-		width: 17px;
-  		height: 13px;
-  		margin-top: 7px;
-  		font-size: 16px;
-  		cursor: default;
-  		color: white;
-	}
-
-	.status {
-		display: none !important;
-	}
-
-	.statusDiv {
-		width: 30px !important;
-	}
-
-	.welcome {
-		margin-top: 80px !important;
-	}
-
-	.workDiv {
-		margin-top: 110px !important;
-	}
-}
-
 .headWrapper{
 	width: 100%;
 	margin: auto;
@@ -321,6 +249,7 @@ a:hover {
 
 .delBtn {
 	background-image: url("../img/delBtn.png");
+	float: right;
 }
 
 .delBtn:active {
@@ -329,11 +258,14 @@ a:hover {
 
 .shaBtn {
 	background-image: url("../img/shareBtn.png");
-	float: right;
 }
 
 .shaBtn:active { 
 	background-image: url("../img/shareBtn-click.png");
+}
+
+.btnHeightZero {
+	height: 0px;
 }
 
 .content {
@@ -463,4 +395,81 @@ input[type="checkbox"]:checked + label {
 
 .modalShare {
 
+}
+
+/*ЭТО ДОЛЖНО БЫТЬ В САМОМ КОНЦЕ!!!*/
+@media screen and (max-width: 800px) {
+	
+	.headWrapper {
+	  	height: 60px;
+	}
+
+	.logoImg {
+		display: none;
+	}
+
+	.slogon {
+		margin-top: 4px;
+	}
+
+	.userImg{
+		display: none;
+	}
+
+	.logMenu{
+		margin-top: -14px;
+		margin-right: -6px;
+	}
+
+	.user {
+		margin-top: 6px;
+  		margin-bottom: -4px;
+	}
+
+	#username {
+		font-size: 15px;
+	}
+
+	#logout {
+		font-size: 11px;
+	}
+
+	.addNoteDiv {
+		margin-top: 38px;
+	  	margin-left: 65%;
+	}
+
+	.minStatus {
+		display: inherit;
+		float: right;
+		background-image: url('../img/ok.png');
+		background-repeat: no-repeat;
+		background-size: cover;
+		width: 17px;
+  		height: 13px;
+  		margin-top: 7px;
+  		font-size: 16px;
+  		cursor: default;
+  		color: white;
+	}
+
+	.minStatusTyping {
+		background-image: none;
+	}
+
+	.status {
+		display: none;
+	}
+
+	.statusDiv {
+		width: 30px;
+	}
+
+	.welcome {
+		margin-top: 80px;
+	}
+
+	.workDiv {
+		margin-top: 110px;
+	}
 }

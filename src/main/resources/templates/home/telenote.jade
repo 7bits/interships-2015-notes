@@ -8,14 +8,15 @@ html
     link(rel='stylesheet', type='text/css', href='css/bootstrap.css')
     link(rel='stylesheet', type='text/css', href='css/jquery-ui.css')
     link(rel='stylesheet', type='text/css', href='css/telenote.css')
-    script(src='js/jquery-1.11.3.js')
-    script(src='js/jquery-ui.js')
-    script(src='js/bootstrap.js')
-    script(src='js/app.js')
-    script(src='js/preventSelection.js')
-    script(src='js/btnHandler.js')
-    script(src='js/addNote.js')
-    script(src="js/drag'n'drop.js")
+    link(rel='stylesheet', type='text/css', href='css/modal.css')
+    script(src='js/jsLibs/jquery-1.11.3.js')
+    script(src='js/jsLibs/jquery-ui.js')
+    script(src='js/jsLibs/bootstrap.js')
+    script(src='js/myJS/app.js')
+    script(src='js/myJS/preventSelection.js')
+    script(src='js/myJS/btnHandler.js')
+    script(src='js/myJS/addNote.js')
+    script(src="js/myJS/drag'n'drop.js")
     title Telenote
   body
     .container
@@ -45,18 +46,20 @@ html
               .cell(id=note.id)
                 .content #{note.text}
                 .control
-                  button.delBtn
                   button.shaBtn
-        .shareUsers
-          form(role='form', action='/search', method='POST')
-            input(type="hidden", name="#{_csrf.parameterName}", value="#{_csrf.token}")
-            span(style='color: #FFFFFF') Поиск по владельцу
-              .option-container
-                input(type='checkbox', id='0', name='0')
-                label.answer_label(for='0') Мои заметки
-            for shareUser in shareUsers
-              .option-container
-                input(type='checkbox', id='#{shareUser.id}', name='#{shareUser.id}')
-                label.answer_label(for='#{shareUser.id}') #{shareUser.username} (#{shareUser.email})
-            div
-              input(type='submit', value='Показать')
+                  button.delBtn
+  .modalWindow
+    .shareMainDiv
+      .shareWrapper Поделиться с друзьями
+      .shareMiddle
+        .syncUsers
+        .shareUser
+          .shareUserImg.addShareUserImg
+          .focusDiv
+            input.addShareEmail(type='textbox', placeholder='Введите адрес')
+            .shareActionDiv
+              button.addShare
+            label.shareMessage
+    .shareFooter
+      button#modalClose.shareAplay
+  #overlay
