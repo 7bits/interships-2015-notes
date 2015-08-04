@@ -100,7 +100,7 @@ public class UsersController {
                 //ModelAndView model = new ModelAndView("home/confirmRegMail");
                 //model.addObject("confirmLink", );
                 LOG.info("Sended email to " + form.getEmail());
-                emailService.sendConfirm(form.getEmail(), "Tele-notes. Подтверждение регистрации.", link);
+                emailService.sendConfirm(form, "Tele-notes. Подтверждение регистрации.", link);
             }
             //request.login(form.getEmail(), form.getPassword());
         } catch (ServiceException e) {

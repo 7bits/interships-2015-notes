@@ -11,6 +11,8 @@ import de.neuland.jade4j.JadeConfiguration;
 import de.neuland.jade4j.spring.view.JadeViewResolver;
 import de.neuland.jade4j.spring.template.SpringTemplateLoader;
 import de.neuland.jade4j.template.JadeTemplate;
+import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
+import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -59,15 +61,16 @@ public class EmailService {
         }
     }
 
-    public void sendConfirm(String to, String subject, String link) throws ServiceException  {
+    public void sendConfirm(UserCreateForm to, String subject, String link) throws ServiceException  {
         try {
             JadeTemplate template = jade.getTemplate("home/confirmRegMail");
             HashMap<String, Object> model = new HashMap<String, Object>();
             model.put("confirmLink", link);
+            model.put("username", to.getUsername());
 
             String html = jade.renderTemplate(template, model);
 
-            sendMail(to, subject, html);
+            sendMail(to.getEmail(), subject, html);
         } catch (Exception e) {
             throw new ServiceException(e.getMessage(), e);
         }
