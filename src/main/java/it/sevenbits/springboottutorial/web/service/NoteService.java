@@ -110,6 +110,7 @@ public class NoteService {
         Note note = new Note();
         note.setText(form.getText());
         note.setUuid(note.generateUUID());
+        note.setParent_user_id(user_id);
         try {
 
             if (repository.findUserNotes(user_id).size() == 0) {
@@ -144,7 +145,7 @@ public class NoteService {
                 toWhomShare.setUser_id(userRepository.getIdByEmail(userDetails));
 
                 if(whoShare.getUser_id() == toWhomShare.getUser_id())
-                    return new ResponseEntity<>(new ShareResponse(false, "Вы не можете расшарить себе заметку!"), HttpStatus.NOT_ACCEPTABLE);
+                    return new ResponseEntity<>(new ShareResponse(false, "Это ваша заметка"), HttpStatus.NOT_ACCEPTABLE);
 
                 if(repository.isNoteBelongToUser(parentNoteId, parentUserId)) {
                     final UserNote curNoteIdNextUser = new UserNote();
@@ -152,7 +153,7 @@ public class NoteService {
                     curNoteIdNextUser.setUser_id(toWhomShare.getUser_id());
 
                     if(repository.isNoteAlreadyShared(curNoteIdNextUser)) {
-                        return new ResponseEntity<>(new ShareResponse(false, "Эта заметка уже расшарена указанному пользователю!"), HttpStatus.NOT_ACCEPTABLE);
+                        return new ResponseEntity<>(new ShareResponse(false, "Пользователь уже добавен"), HttpStatus.NOT_ACCEPTABLE);
                     }
 
                     note.setParent_user_id(parentUserId);
@@ -193,7 +194,18 @@ public class NoteService {
         } catch (RepositoryException e) {
             throw new ServiceException("Не удалось получить расшаренные заметки" + e.getMessage());
         }
+    }
 
+    public UserDetailsImpl getUserWhoSharedNote(Long noteId) throws ServiceException {
+        try {
+            if (repository.isParentNoteIdExists(noteId) != null){
+                return repository.getUserWhoSharedNote(noteId);
+            } else {
+                return repository.getUserWhoOwnNote(noteId);
+            }
 
+        } catch (RepositoryException e) {
+            throw new ServiceException("не удалось найти пользователя в базе" + e.getMessage());
+        }
     }
 }
