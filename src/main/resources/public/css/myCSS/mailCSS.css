@@ -1,11 +1,11 @@
 @font-face {
 	font-family: "Room";
-	src: url("fonts/Room/Room.otf");
+	src: url("/css/fonts/Room/Room.otf");
 }
 
 @font-face {
 	font-family: "PTS";
-	src: url("fonts/PTSans/PTS55F.ttf");
+	src: url("/css/fonts/PTSans/PTS55F.ttf");
 }
 
 body {
@@ -33,7 +33,7 @@ body {
 }
 
 .logoImg {
-	background-image: url("../img/logo.png");
+	background-image: url("/img/logo.png");
 	background-repeat: no-repeat;
 	background-size: cover;
 	width: 45px;
@@ -43,7 +43,7 @@ body {
 }
 
 .slogon {
-	background-image: url("../img/dark-label.png");
+	background-image: url("/img/dark-label.png");
 	background-size: cover;
 	float: left;
 	margin-top: 19px;

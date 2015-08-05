@@ -1,21 +1,21 @@
 @font-face {
 	font-family: "Roboto-Light";
-	src: url("fonts/Roboto/Roboto-Light.ttf");
+	src: url("/css/fonts/Roboto/Roboto-Light.ttf");
 }
 
 @font-face {
 	font-family: "Roboto-Regular";
-	src: url("fonts/Roboto/Roboto-Regular.ttf");
+	src: url("/css/fonts/Roboto/Roboto-Regular.ttf");
 }
 
 @font-face {
 	font-family: "Roboto-LightItalic";
-	src: url("fonts/Roboto/Roboto-LightItalic.ttf");
+	src: url("/css/fonts/Roboto/Roboto-LightItalic.ttf");
 }
 
 @font-face {
 	font-family: "Roboto-Italic";
-	src: url("fonts/Roboto/Roboto-Italic.ttf");
+	src: url("/css/fonts/Roboto/Roboto-Italic.ttf");
 }
 
 .modalWindow {
@@ -114,15 +114,15 @@
 }
 
 .addShareUserImg {
-	background-image: url('../img/addShare.png');
+	background-image: url('/img/addShare.png');
 }
 
 .ownerImg {
-	background-image: url('../img/user.png');
+	background-image: url('/img/user.png');
 }
 
 .unsetImg {
-	background-image: url('../img/shareNotRegUser.png');
+	background-image: url('/img/shareNotRegUser.png');
 }
 
 .shareActionDiv {
@@ -145,7 +145,7 @@
 }
 
 .addShare {
-	background-image: url("../img/addShareBtn.png");
+	background-image: url("/img/addShareBtn.png");
 	background-repeat: no-repeat;
 	border-radius: 50px;
 	width: 20px;
@@ -178,7 +178,7 @@
 }
 
 .shareAplay {
-	background-image: url("../img/ok.png");
+	background-image: url("/img/ok.png");
 	background-color: #fefefe;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -197,5 +197,5 @@
 }
 
 .shareAplay:active {
-	background-image: url('../img/okActive.png');
+	background-image: url('/img/okActive.png');
 }

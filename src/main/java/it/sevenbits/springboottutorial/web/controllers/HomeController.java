@@ -39,7 +39,6 @@ public class HomeController {
     private NoteService noteService;
 
     private static Logger LOG = Logger.getLogger(HomeController.class);
-    //private static Long user_id;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView homePage(HttpServletRequest request) {

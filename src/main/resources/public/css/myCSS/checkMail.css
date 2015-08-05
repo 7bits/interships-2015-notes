@@ -22,7 +22,7 @@ body {
 }
 
 .image {
-	background-image: url("../img/convert.png");
+	background-image: url("/img/convert.png");
 	background-repeat: no-repeat;
 	width: 80px;
 	height: 80px;
