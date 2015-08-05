@@ -9,6 +9,7 @@ html
     link(rel='stylesheet', type='text/css', href='css/libCSS/jquery-ui.css')
     link(rel='stylesheet', type='text/css', href='css/myCSS/telenote.css')
     link(rel='stylesheet', type='text/css', href='css/myCSS/modal.css')
+    link(rel='stylesheet', type='text/css', href='css/myCSS/'+user.style+'.css')
     script(src='js/jsLibs/jquery-1.11.3.js')
     script(src='js/jsLibs/jquery-ui.js')
     script(src='js/jsLibs/bootstrap.js')
@@ -22,12 +23,13 @@ html
     .container
       .headWrapper
         .logoDiv
-          .logoImg
-          .slogon
+          a(href='/telenote')
+            .logoImg
+            .slogon
         .in-outMenu
           .logMenu
             a#username(href='/account')
-              .user#{username}
+              .user#{user.username}
             a#logout(href='/logout') Выход
           .userImg
         .addNoteDiv

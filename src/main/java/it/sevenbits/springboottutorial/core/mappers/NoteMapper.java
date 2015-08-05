@@ -200,4 +200,9 @@ public interface NoteMapper {
     List<Note> getNotesByUserIdList(@Param("list") List<Long> shareUserIds,
                                     @Param("currentUserId") Long currentUserId,
                                     @Param("showMyNotes") boolean showMyNotes);
+
+    @Select("SELECT style\n" +
+            "FROM users\n" +
+            "WHERE id=#{userId}")
+    String getUserStyle(Long userId);
 }

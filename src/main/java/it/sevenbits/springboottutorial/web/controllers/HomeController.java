@@ -8,7 +8,7 @@ import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
 import it.sevenbits.springboottutorial.web.domain.NoteForm;
 import it.sevenbits.springboottutorial.web.domain.ShareForm;
-import it.sevenbits.springboottutorial.web.domain.ShareResponse;
+import it.sevenbits.springboottutorial.web.domain.ResponseMessage;
 import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
 import it.sevenbits.springboottutorial.web.service.NoteService;
 import it.sevenbits.springboottutorial.web.service.ServiceException;
@@ -72,10 +72,15 @@ public class HomeController {
     @RequestMapping(value = "/telenote", method = RequestMethod.GET)
     public String getTelenote(final Model model, Authentication auth) throws ServiceException {
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
-
-        model.addAttribute("username", currentUser.getUsername());
+/*
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("rel='stylesheet', type='text/css', href='css/myCSS/");
+        stringBuilder.append(noteService.getUserStyle(currentUser.getId()));
+        stringBuilder.append(".css'");
+*/
+        model.addAttribute("user", currentUser);
         model.addAttribute("notes", noteService.findUserNotes(currentUser.getId()));
-        model.addAttribute("shareUsers", noteService.findShareUsers(currentUser.getId()));
+        //model.addAttribute("shareUsers", noteService.findShareUsers(currentUser.getId()));
         return "home/telenote";
     }
 
@@ -132,7 +137,7 @@ public class HomeController {
 
     @RequestMapping(value = "/telenote/share", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<ShareResponse> shareNote (HttpServletRequest request, HttpServletResponse response, Authentication auth) throws RepositoryException, ServiceException{
+    ResponseEntity<ResponseMessage> shareNote (HttpServletRequest request, HttpServletResponse response, Authentication auth) throws RepositoryException, ServiceException{
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
 
         Long noteId = Long.parseLong(request.getParameter("id"));

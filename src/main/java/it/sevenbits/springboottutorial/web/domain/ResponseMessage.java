@@ -3,7 +3,7 @@ package it.sevenbits.springboottutorial.web.domain;
 
 import java.io.Serializable;
 
-public class ShareResponse implements Serializable {
+public class ResponseMessage implements Serializable {
     private Boolean success;
     private String message;
 
@@ -23,7 +23,7 @@ public class ShareResponse implements Serializable {
         this.message = message;
     }
 
-    public ShareResponse(Boolean success, String message) {
+    public ResponseMessage(Boolean success, String message) {
 
         this.success = success;
         this.message = message;

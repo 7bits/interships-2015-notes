@@ -48,4 +48,6 @@ public interface INoteRepository {
     Long isParentNoteIdExists(Long noteId) throws RepositoryException;
 
     UserDetailsImpl getUserWhoOwnNote(Long noteId) throws RepositoryException;
+
+    String getUserStyle(Long userId) throws RepositoryException;
 }

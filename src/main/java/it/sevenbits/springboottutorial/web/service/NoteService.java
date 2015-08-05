@@ -5,18 +5,16 @@ import it.sevenbits.springboottutorial.core.domain.OrderData;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.repository.Note.INoteRepository;
-import it.sevenbits.springboottutorial.core.repository.Note.NoteRepository;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
 import it.sevenbits.springboottutorial.core.repository.User.IUserRepository;
 import it.sevenbits.springboottutorial.web.domain.NoteForm;
 import it.sevenbits.springboottutorial.web.domain.NoteModel;
 import it.sevenbits.springboottutorial.web.domain.ShareForm;
-import it.sevenbits.springboottutorial.web.domain.ShareResponse;
+import it.sevenbits.springboottutorial.web.domain.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -126,7 +124,7 @@ public class NoteService {
             throw new ServiceException("An error occurred while adding note: " + e.getMessage());
         }
     }
-    public ResponseEntity<ShareResponse> shareNote(final ShareForm form, Long parentUserId) throws RepositoryException, ServiceException {
+    public ResponseEntity<ResponseMessage> shareNote(final ShareForm form, Long parentUserId) throws RepositoryException, ServiceException {
         Long parentNoteId = form.getNoteId();
         final UserDetailsImpl userDetails = new UserDetailsImpl();
         userDetails.setEmail(form.getUserEmail());
@@ -145,7 +143,7 @@ public class NoteService {
                 toWhomShare.setUser_id(userRepository.getIdByEmail(userDetails));
 
                 if(whoShare.getUser_id() == toWhomShare.getUser_id())
-                    return new ResponseEntity<>(new ShareResponse(false, "Это ваша заметка"), HttpStatus.NOT_ACCEPTABLE);
+                    return new ResponseEntity<>(new ResponseMessage(false, "Это ваша заметка"), HttpStatus.NOT_ACCEPTABLE);
 
                 if(repository.isNoteBelongToUser(parentNoteId, parentUserId)) {
                     final UserNote curNoteIdNextUser = new UserNote();
@@ -153,7 +151,7 @@ public class NoteService {
                     curNoteIdNextUser.setUser_id(toWhomShare.getUser_id());
 
                     if(repository.isNoteAlreadyShared(curNoteIdNextUser)) {
-                        return new ResponseEntity<>(new ShareResponse(false, "Пользователь уже добавен"), HttpStatus.NOT_ACCEPTABLE);
+                        return new ResponseEntity<>(new ResponseMessage(false, "Пользователь уже добавен"), HttpStatus.NOT_ACCEPTABLE);
                     }
 
                     note.setParent_user_id(parentUserId);
@@ -161,16 +159,16 @@ public class NoteService {
                     toWhomShare.setNote_id(note.getId());
                     repository.linkUserWithNote(toWhomShare.getUser_id(), toWhomShare.getNote_id());
                 } else {
-                    return new ResponseEntity<>(new ShareResponse(false, "Вы не можете удалить не свою заметку!"), HttpStatus.NOT_ACCEPTABLE);
+                    return new ResponseEntity<>(new ResponseMessage(false, "Вы не можете удалить не свою заметку!"), HttpStatus.NOT_ACCEPTABLE);
                 }
 
             } else {
-                return new ResponseEntity<>(new ShareResponse(false, "Введенный email не найден!"), HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(new ResponseMessage(false, "Введенный email не найден!"), HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
-            return new ResponseEntity<>(new ShareResponse(false, "Возникла ошибка при шаринге заметки: " + e.getMessage()), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ResponseMessage(false, "Возникла ошибка при шаринге заметки: " + e.getMessage()), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(new ShareResponse(true, "Успешно расшарено!"), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseMessage(true, "Успешно расшарено!"), HttpStatus.OK);
     }
 
     public void updateOrder(final OrderData orderData) throws ServiceException {
@@ -206,6 +204,14 @@ public class NoteService {
 
         } catch (RepositoryException e) {
             throw new ServiceException("не удалось найти пользователя в базе" + e.getMessage());
+        }
+    }
+
+    public String getUserStyle(Long userId) throws ServiceException {
+        try {
+            return repository.getUserStyle(userId);
+        } catch (RepositoryException e) {
+            throw new ServiceException("Ошибка чтения стиля" + e.getMessage());
         }
     }
 }

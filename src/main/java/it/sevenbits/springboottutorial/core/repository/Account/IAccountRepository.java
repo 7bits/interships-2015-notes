@@ -1,7 +1,12 @@
 package it.sevenbits.springboottutorial.core.repository.Account;
 
-/**
- * Created by vik on 04.08.15.
- */
+
+import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
+import it.sevenbits.springboottutorial.core.repository.RepositoryException;
+
 public interface IAccountRepository {
+
+    void changeTheme(UserDetailsImpl user) throws RepositoryException;
+
+    void changeUsername(UserDetailsImpl user) throws RepositoryException;
 }

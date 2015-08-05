@@ -132,4 +132,9 @@ public class NoteRepository implements INoteRepository {
     public UserDetailsImpl getUserWhoOwnNote(Long noteId) throws RepositoryException {
         return mapper.getUserWhoOwnNote(noteId);
     }
+
+    @Override
+    public String getUserStyle(Long userId) throws RepositoryException {
+        return mapper.getUserStyle(userId);
+    }
 }
