@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name="_csrf", content="#{_csrf.token}")
+    meta(name="_csrf_header", content="#{_csrf.headerName}")
+    link(rel='stylesheet', type='text/css', href='css/libCSS/bootstrap.css')
+    link(rel='stylesheet', type='text/css', href='css/myCSS/telenote.css')
+    script(src='js/jsLibs/jquery-1.11.3.js')
+    script(src='js/myJS/app.js')
+    script(src='js/myJS/preventSelection.js')
+  body
+    .container
+      .headWrapper
+        .logoDiv
+          .logoImg
+          .slogon
+        .in-outMenu
+          .logMenu
+            a#username(href='#')
+              .user#{username}
+            a#logout(href='/logout') Выход
+          .userImg
+      .workDiv

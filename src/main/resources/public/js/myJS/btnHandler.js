@@ -51,7 +51,7 @@
 					$('.status').text("Все заметки сохранены");
 				} else {
 					$('.minStatus').text('');
-					$('.minStatus').css('background-image', 'url(../img/ok.png)');
+					$('.minStatus').css('background-image', "url('/img/ok.png')");
 				};
 			});
 		});
@@ -182,6 +182,7 @@
                 });
 			}
     		else {
+    			$('.addShareEmail').trigger('focus');
     			infoLabel.text("Неверный адрес!");
                 infoLabel.css("display", "block");
                 infoLabel.css("color", "#f74e19");
@@ -333,10 +334,11 @@
 				200, function() {
 					$(this).css('display', 'none');
 					$('#overlay').fadeOut(200);
+					$('.syncUsers').empty();
+					$('.shareMessage').css('display', 'none');
 			});
 
-			$('.syncUsers').empty();
-			$('.shareMessage').css('display', 'none');
+			
 		})
 
 
@@ -371,8 +373,6 @@
 					 			"<div class='shareUserEmail'>" + data[i].email + "</div>" + 
 					 		"</div>" +
 					 	"</div>");
-
-
 					};
 				}
 			})
@@ -384,6 +384,7 @@
 			$('.addShareEmail').css('border-bottom', '1px solid #383838');
 		}).blur(function() {
 			$('.addShareEmail').css('border-bottom', '0');
+			$('.shareMessage').css('display', 'none');
 		})
 
 

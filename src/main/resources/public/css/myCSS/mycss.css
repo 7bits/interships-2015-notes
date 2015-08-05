@@ -1,21 +1,21 @@
 @font-face {
 	font-family: "Room";
-	src: url("fonts/Room/Room.otf");
+	src: url("/css/fonts/Room/Room.otf");
 
 	font-family: "Roboto-Light";
-	src: url("fonts/Roboto/Roboto-Light.ttf");
+	src: url("/css/fonts/Roboto/Roboto-Light.ttf");
 
 	font-family: "Roboto-LightItalic";
-	src: url("fonts/Roboto/Roboto-LightItalic.ttf");
+	src: url("/css/fonts/Roboto/Roboto-LightItalic.ttf");
 
 	font-family: "Roboto-Regular";
-	src: url("fonts/Roboto/Roboto-Regular.ttf");
+	src: url("/css/fonts/Roboto/Roboto-Regular.ttf");
 
 	font-family: "Roboto-Thin";
-	src: url("fonts/Roboto/Roboto-Thin.ttf");
+	src: url("/css/fonts/Roboto/Roboto-Thin.ttf");
 
 	font-family: "Roboto-ThinItalic";
-	src: url("fonts/Roboto/Roboto-ThinItalic.ttf");
+	src: url("/css/fonts/Roboto/Roboto-ThinItalic.ttf");
 }
 
 .mainDiv{
