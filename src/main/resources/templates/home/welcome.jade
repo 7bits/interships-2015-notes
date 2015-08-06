@@ -20,9 +20,9 @@ html
           .slogon
         .in-outMenu
           .logMenu
-            a#username(href='#myModalBox', role='button', data-toggle='modal', class='js-enter') Вход
+            a#username(href='#myModalBox', role='button', data-toggle='modal', class='js-enter enter') Вход
             br
-            a#logout(href='#myModalBox', role='button', data-toggle='modal', class='js-reg') Регистрация
+            a#logout(href='#myModalBox', role='button', data-toggle='modal', class='js-reg reg') Регистрация
       .welcome
         span Войдите в систему, чтобы использовать наш сервис
       #myModalBox.modal.fade
@@ -46,7 +46,7 @@ html
                           if error
                             p(class='errorText')
                               |Почтовый адрес или пароль не верны.
-                          button.btn-default.submitBtn(type='submit', class='loginSubmit') Войти
+                          button.submitBtn(type='submit', class='loginSubmit') Войти
                       a.forgot(href='/resetPass') Забыли пароль?
                   #signup.tab-pane.fade
                     form.formStyle(role='form', action='/signup', method='POST', name='signupForm')
@@ -59,5 +59,5 @@ html
                           if errorMessages
                             for message in errorMessages
                               p(class="errorText")= message
-                          button.btn-default.submitBtn(type='submit', class='regSubmit') Зарегистрироваться
+                          button.submitBtn(type='submit', class='regSubmit') Зарегистрироваться
 
