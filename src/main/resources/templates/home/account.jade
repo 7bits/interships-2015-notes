@@ -28,7 +28,7 @@ html
           .userImg
       .workDiv
         .changeName
-          input#changeNameTextbox(type='textbox', value='#{user.username}')
+          input#changeNameTextbox(type='textbox', value='#{user.username}', maxlength='30')
           button#changeNameBtn Сменить имя
         .changePass
           input#changePassTextboxOld(type='password', placeholder='старый пароль')
