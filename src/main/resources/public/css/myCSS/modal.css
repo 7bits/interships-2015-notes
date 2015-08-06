@@ -1,0 +1,201 @@
+@font-face {
+	font-family: "Roboto-Light";
+	src: url("/css/fonts/Roboto/Roboto-Light.ttf");
+}
+
+@font-face {
+	font-family: "Roboto-Regular";
+	src: url("/css/fonts/Roboto/Roboto-Regular.ttf");
+}
+
+@font-face {
+	font-family: "Roboto-LightItalic";
+	src: url("/css/fonts/Roboto/Roboto-LightItalic.ttf");
+}
+
+@font-face {
+	font-family: "Roboto-Italic";
+	src: url("/css/fonts/Roboto/Roboto-Italic.ttf");
+}
+
+.modalWindow {
+	width: 500px;
+	background: white;
+	position: fixed;
+	top: 40%;
+	left: 50%;
+	margin-top: -205px;
+	margin-left: -250px;
+	display: none;
+	opacity: 0;
+	z-index: 3;
+}
+
+#modalClose {
+
+}
+
+#overlay {
+	z-index: 2;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: black;
+	opacity: 0.8;
+	display: none;
+}
+
+.shareMainDiv {
+	margin: auto;
+	width: 100%;
+	height: 100%;
+	padding: 12px;
+	background-color: #fefefe;
+}
+
+.shareWrapper {
+	padding: 3px 9px 10px 9px;
+	border-bottom: 1px solid #cecece;
+	font-family: "Roboto-Regular";
+	color: #3f3f3f;
+	font-size: 21px;
+}
+
+.shareMiddle {
+	padding: 13px 6px 13px 6px;
+	width: 100%;
+	max-height: 
+}
+
+.syncUsers {
+	max-height: 213px;
+	overflow-y: auto;
+}
+
+.shareUser {
+	width: 100%;
+	height: 62px;
+	margin-bottom: 9px;
+}
+
+.shareUserImg {
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: 62px;
+  	width: 62px;
+  	float: left;
+  	margin-right: 15px;
+  	border-radius: 50px;
+}
+
+.shareUserInfo {
+	float: left;
+	width: 326px;
+}
+
+.shareUserName {
+	font-family: "Roboto-Regular";
+	font-size: 14px;
+	color: #3f3f3f;
+	margin-top: 11px;
+}
+
+.shareUserName span {
+	font-family: "Roboto-LightItalic";
+	color: #383838;
+}
+
+.shareUserEmail {
+	font-family: "Roboto-Light";
+	font-size: 15px;
+	background-color: #fefefe;
+}
+
+.addShareUserImg {
+	background-image: url('/img/addShare.png');
+}
+
+.ownerImg {
+	background-image: url('/img/user.png');
+}
+
+.unsetImg {
+	background-image: url('/img/shareNotRegUser.png');
+}
+
+.shareActionDiv {
+	float: left;
+}
+
+.addShareEmail {
+	margin-top: 17px;
+	border: 0px;
+	width: 326px;
+	margin-right: 16px;
+	font-size: 14px;
+	font-family: "Roboto-Light";
+	color: #383838;
+	float: left;
+}
+
+.addShareEmail:focus {
+	outline: none
+}
+
+.addShare {
+	background-image: url("/img/addShareBtn.png");
+	background-repeat: no-repeat;
+	border-radius: 50px;
+	width: 20px;
+  	height: 20px;
+  	background-position: center;
+  	border: 0px;
+  	background-color: #fefefe;
+  	margin-top: 20px;
+  	display: none;
+}
+
+.addShare:focus {
+	outline: none;
+}
+
+.shareMessage {
+	font-family: "Roboto-LightItalic";
+	font-size: 14px;
+	color: #f74e19;  
+	margin-right: 2px;
+	display: none;
+	width: 400px;
+}
+
+.shareFooter {
+	border-top: 1px solid #cecece;
+	height: 40px;
+	width: 100%;
+	background-color: #fefefe;
+}
+
+.shareAplay {
+	background-image: url("/img/ok.png");
+	background-color: #fefefe;
+	background-position: center;
+	background-repeat: no-repeat;
+	float: right;
+	width: 80px;
+	height: 40px;
+	border: 0px;
+}
+
+.shareAplay:hover {
+	background-color: #e2e2e2;
+}
+
+.shareAplay:focus {
+	outline: none;
+}
+
+.shareAplay:active {
+	background-image: url('/img/okActive.png');
+}

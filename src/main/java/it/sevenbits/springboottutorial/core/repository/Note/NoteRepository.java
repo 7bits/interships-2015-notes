@@ -7,6 +7,7 @@ import it.sevenbits.springboottutorial.core.domain.OrderData;
 import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.mappers.NoteMapper;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
+import org.apache.catalina.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -120,5 +121,20 @@ public class NoteRepository implements INoteRepository {
     @Override
     public void updateFirstElementOrder(final OrderData orderData) throws RepositoryException {
         mapper.updateFirstElementOrder(orderData);
+    }
+
+    @Override
+    public Long isParentNoteIdExists(Long noteId) throws RepositoryException {
+        return mapper.isParentNoteIdExists(noteId);
+    }
+
+    @Override
+    public UserDetailsImpl getUserWhoOwnNote(Long noteId) throws RepositoryException {
+        return mapper.getUserWhoOwnNote(noteId);
+    }
+
+    @Override
+    public String getUserStyle(Long userId) throws RepositoryException {
+        return mapper.getUserStyle(userId);
     }
 }

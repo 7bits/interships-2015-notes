@@ -32,6 +32,9 @@ public class UserDetailsImpl implements UserDetails {
 
     private Role role;
 
+    private String style;
+
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -133,5 +136,13 @@ public class UserDetailsImpl implements UserDetails {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getStyle() {
+        return style;
+    }
+
+    public void setStyle(String style) {
+        this.style = style;
     }
 }

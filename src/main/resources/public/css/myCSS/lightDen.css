@@ -1,0 +1,44 @@
+body {
+	background-color: #d7dbe2;
+}
+
+.container {
+  	background-color: #d7dbe2;
+}
+
+.headWrapper {
+	background-color: #20406c;
+}
+
+.status {
+	color: #ededed;
+}
+
+.cell {
+	background-color: #ffffff;
+}
+
+.delBtn, .shaBtn {
+	background-color: #ffffff;
+}
+
+.cell button:hover {
+	background-color: #ebedf0;
+}
+
+.textarea {
+	color: #010101;
+	background-color: #ffffff;
+}
+
+.welcome {
+	color: #010101;
+}
+
+.control {
+	border-top: 1px solid #e1e1e1;
+}
+
+#emptyList {
+	color: #010101;
+}

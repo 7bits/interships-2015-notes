@@ -44,4 +44,10 @@ public interface INoteRepository {
     List<Note> getNotesByUserIdList(final List<Long> shareUserIds, final Long parentUserId, final boolean showMyNotes) throws RepositoryException;
 
     List<UserDetailsImpl> findShareUsers(final Long userId) throws  RepositoryException;
+
+    Long isParentNoteIdExists(Long noteId) throws RepositoryException;
+
+    UserDetailsImpl getUserWhoOwnNote(Long noteId) throws RepositoryException;
+
+    String getUserStyle(Long userId) throws RepositoryException;
 }

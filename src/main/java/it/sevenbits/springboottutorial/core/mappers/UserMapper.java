@@ -18,9 +18,9 @@ public interface UserMapper {
     void insert(final UserDetailsImpl userDetails);
 
     //Повесить уникальный индекс на email, и тогда он не вставит запись если такой mail есть. ???
-    @Select("SELECT count(*) " +
-            "FROM users " +
-            "WHERE email=#{email};")
+    @Select("SELECT count(*)\n" +
+            "FROM users\n" +
+            "WHERE email = #{email}")
     int isEmailExists(final UserDetailsImpl userDetails);
 
     @Select("SELECT id " +

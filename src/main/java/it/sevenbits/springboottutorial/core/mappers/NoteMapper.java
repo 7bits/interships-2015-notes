@@ -6,6 +6,7 @@ import it.sevenbits.springboottutorial.core.domain.OrderData;
 import it.sevenbits.springboottutorial.core.domain.UserNote;
 import org.apache.ibatis.annotations.*;
 import javax.validation.groups.ConvertGroup;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,28 +41,32 @@ public interface NoteMapper {
     })
     List<Note> findUserNotes(final Long userId);
 
-    @Select("SELECT id, username, email from users WHERE id IN\n" +
-            "(SELECT parent_user_id FROM notes INNER JOIN usernotes on user_id=#{userId}\n" +
-            " where notes.id = usernotes.note_id AND parent_user_id IS NOT NULL\n" +
-            " GROUP BY parent_user_id)")
+    @Select("SELECT id, username, email, enabled\n" +
+            "FROM users WHERE id IN\n" +
+            "   (SELECT parent_user_id\n" +
+            "   FROM notes INNER JOIN usernotes\n" +
+            "   ON user_id=#{userId}\n" +
+            "   WHERE notes.id = usernotes.note_id AND parent_user_id IS NOT NULL\n" +
+            "   GROUP BY parent_user_id)")
     @Results({
             @Result(column = "id", property = "id"),
             @Result(column = "username", property = "username"),
-            @Result(column = "email", property = "email")
+            @Result(column = "email", property = "email"),
+            @Result(column = "enabled", property = "enabled"),
     })
     List<UserDetailsImpl> findShareUsers(final Long userId);
 
     @Insert("INSERT INTO notes\n" +
-            "(text, uuid, note_order)\n" +
-            "VALUES (#{text}, #{uuid},\n" +
+            "(text, uuid, parent_user_id, note_order)\n" +
+            "VALUES (#{text}, #{uuid}, #{parent_user_id},\n" +
             "   (SELECT MAX(note_order) + 1\n" +
             "   FROM notes))")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void addNote(final Note note);
 
     @Insert("INSERT INTO notes\n" +
-            "(text, uuid, note_order)\n" +
-            "VALUES (#{text}, #{uuid}, nextval('note_order_seq'))")
+            "(text, uuid, parent_user_id, note_order)\n" +
+            "VALUES (#{text}, #{uuid}, #{parent_user_id}, nextval('note_order_seq'))")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void addFirstNote(final Note note);
 
@@ -83,25 +88,42 @@ public interface NoteMapper {
             "WHERE note_id=#{noteId} and user_id=#{userId}")
     int isNoteBelongToUser(@Param("noteId")final Long noteId, @Param("userId")final Long userId);
 
-    @Select("select id, users.email, users.username\n" +
-            "from users\n" +
-            "where users.id = (select user_id from usernotes\n" +
-            "where note_id = (select parent_note_id from notes where id=#{noteId}))")
+    @Select(
+            "SELECT id, email, username, enabled\n" +
+            "FROM users\n" +
+            "WHERE id =\n" +
+            "    (SELECT user_id\n" +
+            "    FROM usernotes\n" +
+            "    WHERE note_id = \n" +
+            "       (SELECT parent_note_id\n" +
+            "       FROM notes\n" +
+            "       WHERE id=#{noteId}))")
     @Results({
-            @Result(column = "id", property = "id"),
+            @Result(column = "username", property = "username"),
             @Result(column = "email", property = "email"),
             @Result(column = "username", property = "username"),
+            @Result(column = "enabled", property = "enabled"),
     })
     UserDetailsImpl getUserWhoSharedNote(final Long noteId);
 
-    @Select("select users.email, users.username\n" +
-            "from users\n" +
-            "INNER JOIN notes ON users.id = notes.parent_user_id where id=#{noteId}))")
+    @Select("SELECT id, email, username, enabled\n" +
+            "FROM users\n" +
+            "WHERE id = \n" +
+            "   (SELECT user_id\n" +
+            "   FROM usernotes\n" +
+            "   WHERE note_id = #{noteId})")
     @Results({
+            @Result(column = "username", property = "username"),
             @Result(column = "email", property = "email"),
             @Result(column = "username", property = "username"),
+            @Result(column = "enabled", property = "enabled"),
     })
-    UserDetailsImpl getUserWhoSharedNote2(final Long noteId);
+    UserDetailsImpl getUserWhoOwnNote(final Long noteId);
+
+    @Select("SELECT parent_note_id\n" +
+            "FROM notes\n" +
+            "WHERE id = #{noteId}")
+    Long isParentNoteIdExists(Long noteId);
 
     @Select("select parent_note_id\n" +
             "from notes\n" +
@@ -178,4 +200,9 @@ public interface NoteMapper {
     List<Note> getNotesByUserIdList(@Param("list") List<Long> shareUserIds,
                                     @Param("currentUserId") Long currentUserId,
                                     @Param("showMyNotes") boolean showMyNotes);
+
+    @Select("SELECT style\n" +
+            "FROM users\n" +
+            "WHERE id=#{userId}")
+    String getUserStyle(Long userId);
 }

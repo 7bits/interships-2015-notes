@@ -1,0 +1,29 @@
+.workDiv {
+	width: 400px;
+	margin: auto;
+	margin-top: 118px;
+}
+
+.userStyle {
+	width: 100%;
+	height: 23px;
+	margin-bottom: 25px;
+}
+
+.dropdownStyles {
+	float: left;
+}
+
+#changeNameTextbox, #changePassTextbox {
+	float: left;
+	color: #010101;
+}
+
+.changeName, .changePass {
+	height: 28px;
+	margin-bottom: 25px;
+}
+
+#changeNameBtn, #changePassBtn {
+	float: right;
+}

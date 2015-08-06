@@ -1,7 +1,6 @@
 (function($){
 	$(document).ready(function () {
 
-
 		App.Note.save = function(data, callback) {
 			$.ajax({
 				type: "POST",
@@ -15,59 +14,53 @@
 		};
 
 
-		var timeout_id;
+		var timeoutId;
+
 		$('.noteDiv').on('click', '.delBtn', function(self) {
 			//функция удаления заметки из базы и с рабочего поля
-			var id = $(self.target).parent().parent().attr("id");
+			var id = $(this).closest('.cell').attr("id");
 			
-			if (id == '-1') {
-				$(".cell[id=" + id + "]").remove();
-			} else {
-				$.ajax({
-					type: "DELETE",
-					headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
-					url: "/telenote/" + id
-				}).done( function() {
-					clearTimeout(timeout_id);
-					var element = $(".cell[id=" + id + "]");
-					element.css('min-width', '0px');
-					element.children('.delBtn').css('visibility', 'hidden');
-					element.children('.shaBtn').css('visibility', 'hidden');
+			$.ajax({
+				type: "DELETE",
+				headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
+				url: "/telenote/" + id
+			}).done( function() {
+				clearTimeout(timeoutId);
+				var cell = $(".cell[id=" + id + "]");
+				cell.css('min-width', '0px');
+				cell.children('.delBtn').css('visibility', 'hidden');
+				cell.children('.shaBtn').css('visibility', 'hidden');
 					
-					element.animate({
-							height: '2px',
-							border: '0px',
-							marginTop: '123px'
-						}, 150, 'swing');
+				cell.animate({
+						height: '2px',
+						border: '0px',
+						marginTop: '123px'
+					}, 150, 'swing');
 
-					element.animate({
-							width: '0px',
-						}, 150, 'swing', function() {
-							element.remove();
+				cell.animate({
+						width: '0px',
+					}, 150, 'swing', function() {
+						cell.remove();
 
-							if ($('.cell').length == 0) {
-								$('.noteDiv')[0].innerHTML += '<span id="emptyList">У вас нет заметок</span>';
-							};	
-					});
-
-					if (document.documentElement.clientWidth > 840) {
-						$('.status').text("Все заметки сохранены");
-					} else {
-						$('.minStatus').text('');
-						$('.minStatus').css('background-image', 'url(../img/ok.png)');
-					};
+						if ($('.cell').length == 0) {
+							$('.noteDiv')[0].innerHTML += '<span id="emptyList">У вас нет заметок</span>';
+						};	
 				});
-			}
+
+				if (document.documentElement.clientWidth > 840) {
+					$('.status').text("Все заметки сохранены");
+				} else {
+					$('.minStatus').text('');
+					$('.minStatus').css('background-image', "url('/img/ok.png')");
+				};
+			});
 		});
 
 
 		window.onresize = function() {
 			//определение размера рабочей области сайта
-			//var elementHeight = document.documentElement.clientHeight;
 			var bodyHeight = document.documentElement.clientHeight;
-			//$(".workDiv").outerHeight(elementHeight);
 			$("body").outerHeight(bodyHeight);
-			//$(".noteDiv").css('min-height', bodyHeight + 'px');
 		};
 
 
@@ -113,14 +106,15 @@
 			var currentVal = $(this).val();
 
             if(currentVal == oldVal) {
-                return; //check to prevent multiple simultaneous triggers
+                return; //проверка изменения состояния текста
             }
+
             oldVal = currentVal;
 
-            if (document.documentElement.clientWidth > 840) {
+            if (document.documentElement.clientWidth > 800) {
             	$('.status').text("Сохранение...");
             } else {
-            	$('.minStatus').css('background-image', 'none');
+            	$('.minStatus').addClass('minStatusTyping');
             	$('.minStatus').text('...');
             };
 			
@@ -129,77 +123,78 @@
 		//автосейвер
 		$('.noteDiv').on('keyup', 'textarea', function() {
 			var data = {
-						id: $(this).closest('.cell').attr('id'),
-						text: $(this).val()
-				}
+				id: $(this).closest('.cell').attr('id'),
+				text: $(this).val()
+			}
 
 			$(function() {
-				clearTimeout(timeout_id);
+				clearTimeout(timeoutId);
 
-				timeout_id = setTimeout(function() {
+				timeoutId = setTimeout(function() {
 					App.Note.save(data, function() {
-						if (document.documentElement.clientWidth > 840) {
+						if (document.documentElement.clientWidth > 800) {
 							$('.status').text("Все заметки сохранены");
 						} else {
 							$('.minStatus').text('');
-							$('.minStatus').css('background-image', 'url(../img/ok.png)');
+							$('.minStatus').removeClass('minStatusTyping');
 						};
 					});
 				}, 750);
 			})
 		})
 
+
 		function IsEmail(email) {
-		  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-		  return regex.test(email);
+		  var emailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		  return emailRegex.test(email);
 		}
 
-		$('body').on('keyup', ".textboxRegProperty", function(event){
-    		if(event.keyCode == 13){
-    			var id = $(this).attr("id");
-    			var email = $(this).val().toLowerCase();
 
-    			var label = $('.js-shareStatus');
+		//расшаривание
+		$('.addShare').click(function() {
+
+    		var id = $('.modalWindow').attr('id');
+    		var email = $('.addShareEmail').val().toLowerCase();
+    		var infoLabel = $('.shareMessage');
    			
-    			if(IsEmail(email)) {
+    		if(IsEmail(email)) {
     				
-    				var sendInfo = {
-    					id: id,
-    					email: email
-    				}
-
-    				$.ajax({
-	    				type: "POST",
-						url: "/telenote/share",
-						dataType: "json",
-						headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
-						data: sendInfo,
-						success: function(data) {
-							label.text(data.message);
-							label.css('display', 'block');
-							label.css('color', '#32c87a');
-						}
-					}).fail( function(data) {
-						label.text(data.responseJSON.message);
-                        label.css("display", "block");
-                        label.css("color", "#ef6161 ");
-                	});
-				}
-    			else {
-    				label.text("Неправильный email!");
-                   	label.css("display", "block");
-                   	label.css("color", "#ef6161 ");
+    			var sendInfo = {
+    				id: id,
+    				email: email
     			}
-    			
-        	}
+
+    			$.ajax({
+	    			type: "POST",
+					url: "/telenote/share",
+					dataType: "json",
+					headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
+					data: sendInfo,
+					success: function(data) {
+						infoLabel.text(data.message);
+						infoLabel.css('display', 'block');
+						infoLabel.css('color', '#32c87a');
+					}
+				}).fail(function(data) {
+					infoLabel.text(data.responseJSON.message);
+                    infoLabel.css("display", "block");
+                    infoLabel.css("color", "#f74e19");
+                });
+			}
+    		else {
+    			$('.addShareEmail').trigger('focus');
+    			infoLabel.text("Неверный адрес!");
+                infoLabel.css("display", "block");
+                infoLabel.css("color", "#f74e19");
+    		}
     	});
 		
 
 		//Анимация панели с кнопками
 		$('.noteDiv').on('mouseenter', '.cell', function() {
-			var control = $(this).children('.control');
-			var delBtn = $(this).children('.control').children('.delBtn');
-			var shareBtn = $(this).children('.control').children('.shaBtn');
+			var control = $(this).find('.control');
+			var delBtn = $(this).find('.delBtn');
+			var shareBtn = $(this).find('.shaBtn');
 
 			control.css('visibility', 'inherit');
 
@@ -213,12 +208,12 @@
 				shareBtn.css('height', '40px');
 			});
 		}).on('mouseleave', '.cell', function() {
-			var control = $(this).children('.control');
-			var delBtn = $(this).children('.control').children('.delBtn');
-			var shareBtn = $(this).children('.control').children('.shaBtn');
+			var control = $(this).find('.control');
+			var delBtn = $(this).find('.delBtn');
+			var shareBtn = $(this).find('.shaBtn');
 
-			delBtn.css('height', '0px');
-			shareBtn.css('height', '0px');
+			delBtn.addClass('btnHeightZero');
+			shareBtn.addClass('btnHeightZero');
 
 			control.animate({
 				height: '0px',
@@ -308,51 +303,98 @@
 		})
 
 
-		//Обработчик кнопки share и генерация модельного окна
+		//Обработчик кнопки share и генерация модального окна
 		$('.workDiv').on('click', '.shaBtn', function() {
 
-			var self = $(this);
 			$('textarea').trigger('blur');
 
-			if ($('#dialog')[0] == null) {
-				var container = $('.container');
+			var self = $(this).closest('.cell');
+			var id = self.attr('id');
+			$('.modalWindow').attr('id', id);
 
-				var modal = document.createElement('div');
-				modal.setAttribute('id', 'dialog');
+			checkSharedNote(id);
 
-				var text = document.createElement('input');
-				text.setAttribute('class', 'textboxRegProperty');
-				text.setAttribute('type', 'textbox');
-				text.setAttribute('id', self.closest('.cell').attr("id"));
-				text.setAttribute('style', 'color: black; font-size: 15px; width: 100%;');
-				text.setAttribute('placeholder', 'Введите email');
+			$('#overlay').fadeIn(200, 
+				function() {
+					$('.modalWindow').css('display', 'block').animate({
+						opacity: 1,
+						top: '45%'},
+						200);
+			});
 
-				var label = document.createElement('label');
-				label.setAttribute('style', 'font-size: 15px; color: white; display: none');
-				label.setAttribute('class', 'js-shareStatus');
+			$('.addShareEmail').trigger('focus');
+		})
 
-				modal.appendChild(text);
-				modal.appendChild(label);
-				container.append(modal);
+		//Выход из модального окна
+		$('body').on('click', '#modalClose', function() {
 
-				$('#dialog').dialog();
-				$('.ui-dialog-titlebar').css('padding', '0px');
-				$('.ui-dialog-titlebar').css('border-radius', '0px');
-				$('.ui-dialog-titlebar-close').text('X');
-				$('.ui-dialog-titlebar-close').attr('style', 'color: black; text-align: center; font-size: 13px;');
+			$('.modalWindow').animate({
+				opacity: 0,
+				top: '45%'},
+				200, function() {
+					$(this).css('display', 'none');
+					$('#overlay').fadeOut(200);
+					$('.syncUsers').empty();
+					$('.shareMessage').css('display', 'none');
+			});
 
-				$('.textboxRegProperty').trigger('focus');
-			} else {
-				$('.ui-dialog-titlebar-close').trigger('click');
-				self.trigger('click');
-			};
 			
 		})
 
 
-		$('body').on('click', '.ui-dialog-titlebar-close', function() {
-			$(this).closest('.ui-dialog').remove();
-			$('#dialog').remove();
+		//функция запроса синхронизированных пользователей
+		function checkSharedNote(noteId) {
+
+			sendInfo = {
+				id: noteId
+			};
+
+			$.ajax({
+	    		type: "POST",
+				url: "/telenote/checknote",
+				dataType: "json",
+				data: sendInfo,
+				headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
+				success: function(data) {
+
+					$('.syncUsers').prepend("<div id='owner' class='shareUser'>" +
+					 		"<div class='shareUserImg unsetImg'></div>" +
+					 		"<div class='shareUserInfo'>" + 
+					 			"<div class='shareUserName'>" + data[0].username + "<span> (автор)</span></div>" + 
+					 			"<div class='shareUserEmail'>" + data[0].email + "</div>" + 
+					 		"</div>" +
+					 	"</div>");
+
+					for (var i = data.length-1; i > 0; i--) {
+					 	$('#owner').after("<div id='" +  data[i].id + "' class='shareUser'>" +
+					 		"<div class='shareUserImg unsetImg'></div>" +
+					 		"<div class='shareUserInfo'>" + 
+					 			"<div class='shareUserName'>" + data[i].username + "</div>" + 
+					 			"<div class='shareUserEmail'>" + data[i].email + "</div>" + 
+					 		"</div>" +
+					 	"</div>");
+					};
+				}
+			})
+		}
+
+
+
+		$('.addShareEmail').focus(function() {
+			$('.addShareEmail').css('border-bottom', '1px solid #383838');
+		}).blur(function() {
+			$('.addShareEmail').css('border-bottom', '0');
+			$('.shareMessage').css('display', 'none');
+		})
+
+
+		//поведение плюсика в шаринге
+		$('.addShareEmail').keydown(function() {
+			if ($(this).val() == "") {
+				$('.addShare').css('display', 'none');
+			} else {
+				$('.addShare').css('display', 'block');
+			};
 		})
 	});
 })(jQuery);

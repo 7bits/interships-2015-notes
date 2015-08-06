@@ -1,31 +1,31 @@
 @font-face {
 	font-family: "Room";
-	src: url("fonts/Room/Room.otf");
+	src: url("/css/fonts/Room/Room.otf");
 }
 
 @font-face {
 	font-family: "Roboto-Light";
-	src: url("fonts/Roboto/Roboto-Light.ttf");
+	src: url("/css/fonts/Roboto/Roboto-Light.ttf");
 }
 
 @font-face {
 	font-family: "Roboto-LightItalic";
-	src: url("fonts/Roboto/Roboto-LightItalic.ttf");
+	src: url("/css/fonts/Roboto/Roboto-LightItalic.ttf");
 }
 
 @font-face {
 	font-family: "Roboto-Regular";
-	src: url("fonts/Roboto/Roboto-Regular.ttf");
+	src: url("/css/fonts/Roboto/Roboto-Regular.ttf");
 }
 
 @font-face {
 	font-family: "Roboto-Thin";
-	src: url("fonts/Roboto/Roboto-Thin.ttf");
+	src: url("/css/fonts/Roboto/Roboto-Thin.ttf");
 }
 
 @font-face {
 	font-family: "Roboto-ThinItalic";
-	src: url("fonts/Roboto/Roboto-ThinItalic.ttf");
+	src: url("/css/fonts/Roboto/Roboto-ThinItalic.ttf");
 }
 
 body{
@@ -33,7 +33,6 @@ body{
 	padding: 0px;
 	margin: 0px;
 	font-size: 16px;
-	background-color: #414141;
 	-moz-user-select: none;
     -khtml-user-select: none;
     -webkit-user-select: none;
@@ -44,86 +43,12 @@ body{
 	min-width: 460px;
   	width: 100%;
   	padding: 0px;
-  	background-color: #414141;
-}
-
-@media only screen and (max-width: 800px) {
-	
-	.headWrapper {
-	  	height: 60px !important;
-	}
-
-	.logoImg {
-		display: none !important;
-	}
-
-	.slogon {
-		margin-top: 4px !important;
-	}
-
-	.userImg{
-		display: none;
-	}
-
-	.logMenu{
-		margin-top: -14px !important;
-		margin-right: -6px !important;
-	}
-
-	.user {
-		margin-top: 6px !important;
-  		margin-bottom: -4px !important;
-	}
-
-	#username {
-		font-size: 15px !important;
-	}
-
-	#logout {
-		font-size: 11px !important;
-	}
-
-	.addNoteDiv {
-		margin-top: 38px !important;
-	  	margin-left: 65% !important;
-	}
-
-	.minStatus {
-		display: inherit !important;
-		float: right;
-		background-image: url('../img/ok.png');
-		background-repeat: no-repeat;
-		background-size: cover;
-		width: 17px;
-  		height: 13px;
-  		margin-top: 7px;
-  		font-size: 16px;
-  		cursor: default;
-  		color: white;
-	}
-
-	.status {
-		display: none !important;
-	}
-
-	.statusDiv {
-		width: 30px !important;
-	}
-
-	.welcome {
-		margin-top: 80px !important;
-	}
-
-	.workDiv {
-		margin-top: 110px !important;
-	}
 }
 
 .headWrapper{
 	width: 100%;
 	margin: auto;
 	height: 88px;
-	background-color: #313131;
 	position: fixed;
 	z-index: 1;
 	box-shadow: 0px 3px 15px 0px rgba(0, 0, 0, 0.15);
@@ -137,7 +62,7 @@ body{
 .logoImg {
 	float: left;
 	background-image: url("/img/logo.png");
-	width: 55px;
+	width: 53px;
 	height: 65px;
 	display: inline-block;
 	margin-left: 15px;
@@ -172,7 +97,7 @@ body{
 	width: 50px;
 	height: 50px;
 	margin-left: 16px;
-	background-image: url('../img/user.png');
+	background-image: url('/img/user.png');
 	background-size: cover;
 }
 
@@ -219,7 +144,7 @@ body{
 }
 
 .addNote img:active {
-	background: url("../img/addBtn-click.png");
+	background: url("/img/addBtn-click.png");
 	box-shadow: 0px 10px 12.45px 2.55px rgba(0, 0, 0, 0.15); 
 }
 
@@ -232,7 +157,6 @@ body{
 }
 
 .status {
-	color: #a1a1a1;
 	cursor: default;
 	font-family: "Roboto-LightItalic";
 	font-size: 12px;
@@ -279,7 +203,6 @@ a:hover {
 .noteDiv {
 	float: left;
 	width: 100%;
-	padding-right: 250px;
 	display: inline-block;
 }
 
@@ -288,7 +211,6 @@ a:hover {
 	vertical-align: top;
 	width: 350px;
 	height: 200px;
-	background-color: #f5f5f5;
 	margin: 0 18px 32px 18px; 
 	display: inline-block;
 	box-shadow: 0px 3px 9.1px 0.9px rgba(0, 0, 0, 0.15);
@@ -308,7 +230,6 @@ a:hover {
 	float: left;
 	width: 80px;
   	height: 0px;
-	background-color: #f5f5f5;
 	border: 0px;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -320,20 +241,24 @@ a:hover {
 }
 
 .delBtn {
-	background-image: url("../img/delBtn.png");
-}
-
-.delBtn:active {
-	background-image: url("../img/delBtn-click.png");
-}
-
-.shaBtn {
-	background-image: url("../img/shareBtn.png");
+	background-image: url("/img/delBtn.png");
 	float: right;
 }
 
+.delBtn:active {
+	background-image: url("/img/delBtn-click.png");
+}
+
+.shaBtn {
+	background-image: url("/img/shareBtn.png");
+}
+
 .shaBtn:active { 
-	background-image: url("../img/shareBtn-click.png");
+	background-image: url("/img/shareBtn-click.png");
+}
+
+.btnHeightZero {
+	height: 0px;
 }
 
 .content {
@@ -349,20 +274,13 @@ a:hover {
 	overflow-y: auto 
 }
 
-.cell button:hover {
-	background-color: #e2e2e2;
-}
-
 .textarea {
-
 	font-family: "Roboto-Light";
 	font-size: 15px;
 	resize: none;
 	width: 100%;
 	height: 159px;
-	background-color: #d6d6d6;
 	padding: 8px 14px 8px 14px;
-	color: #000000;
 	display: block;
 }
 
@@ -379,7 +297,6 @@ a:hover {
 	margin: auto;
 	margin-top: 140px;
 	font-family: "Roboto-bold";
-	color: #FFFFFF;
 	width: 80%;
 }
 
@@ -389,7 +306,6 @@ a:hover {
 }
 
 .control {
-	border-top: 1px solid #dcdcdc;
 	height: 0px;
 	margin-top: 40px;
 	visibility: hidden;
@@ -405,13 +321,9 @@ a:hover {
   z-index: 1;
 }
 
-#emptyList {
-	color: white;
-}
-
 .email_label {
-padding: 4px 6px 0 6px;
-margin-bottom: 0px;
+	padding: 4px 6px 0 6px;
+	margin-bottom: 0px;
 }
 
 .float-left {
@@ -454,13 +366,90 @@ margin-bottom: 0px;
   display:inline-block;
   margin:-1px 4px 0 0;
   vertical-align:middle;
-  background:url(../img/c_unchecked.png) left top no-repeat;
+  background:url(/img/c_unchecked.png) left top no-repeat;
   cursor:pointer;
 }
 input[type="checkbox"]:checked + label {
-  background:url(../img/c_checked.png) left top no-repeat;
+  background:url(/img/c_checked.png) left top no-repeat;
 }*/
 
 .modalShare {
 
+}
+
+/*ЭТО ДОЛЖНО БЫТЬ В САМОМ КОНЦЕ!!!*/
+@media screen and (max-width: 800px) {
+	
+	.headWrapper {
+	  	height: 60px;
+	}
+
+	.logoImg {
+		display: none;
+	}
+
+	.slogon {
+		margin-top: 4px;
+	}
+
+	.userImg{
+		display: none;
+	}
+
+	.logMenu{
+		margin-top: -14px;
+		margin-right: -6px;
+	}
+
+	.user {
+		margin-top: 6px;
+  		margin-bottom: -4px;
+	}
+
+	#username {
+		font-size: 15px;
+	}
+
+	#logout {
+		font-size: 11px;
+	}
+
+	.addNoteDiv {
+		margin-top: 38px;
+	  	margin-left: 65%;
+	}
+
+	.minStatus {
+		display: inherit;
+		float: right;
+		background-image: url('/img/ok.png');
+		background-repeat: no-repeat;
+		background-size: cover;
+		width: 17px;
+  		height: 13px;
+  		margin-top: 7px;
+  		font-size: 16px;
+  		cursor: default;
+  		color: white;
+	}
+
+	.minStatusTyping {
+		background-image: none;
+	}
+
+	.status {
+		display: none;
+	}
+
+	.statusDiv {
+		width: 30px;
+	}
+
+	.welcome {
+		margin-top: 80px;
+	}
+
+	.workDiv {
+		margin-top: 110px;
+	}
 }
