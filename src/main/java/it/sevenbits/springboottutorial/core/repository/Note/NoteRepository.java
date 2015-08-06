@@ -114,8 +114,8 @@ public class NoteRepository implements INoteRepository {
     }
 
     @Override
-    public List<UserDetailsImpl> findShareUsers(Long userId) throws RepositoryException {
-        return mapper.findShareUsers(userId);
+    public List<UserDetailsImpl> findShareUsers(Long noteId) throws RepositoryException {
+        return mapper.findShareUsers(noteId);
     }
 
     @Override

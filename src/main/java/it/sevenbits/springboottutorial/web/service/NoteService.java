@@ -11,6 +11,7 @@ import it.sevenbits.springboottutorial.web.domain.NoteForm;
 import it.sevenbits.springboottutorial.web.domain.NoteModel;
 import it.sevenbits.springboottutorial.web.domain.ShareForm;
 import it.sevenbits.springboottutorial.web.domain.ResponseMessage;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Admin on 13.07.2015.
@@ -96,9 +98,9 @@ public class NoteService {
         }
     }
 
-    public List<UserDetailsImpl> findShareUsers(final Long userId) throws ServiceException {
+    public List<UserDetailsImpl> findShareUsers(final Long noteId) throws ServiceException {
         try {
-            return repository.findShareUsers(userId);
+            return repository.findShareUsers(noteId);
         } catch (Exception e) {
             throw new ServiceException("An error occurred while finding share users: " + e.getMessage());
         }
@@ -168,7 +170,11 @@ public class NoteService {
         } catch (Exception e) {
             return new ResponseEntity<>(new ResponseMessage(false, "Возникла ошибка при шаринге заметки: " + e.getMessage()), HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(new ResponseMessage(true, "Успешно расшарено!"), HttpStatus.OK);
+
+        Optional<UserDetailsImpl> user = userRepository.getUserByEmail(form.getUserEmail());
+        String username = user.get().getUsername();
+
+        return new ResponseEntity<>(new ResponseMessage(true, "Успешно расшарено!", username), HttpStatus.OK);
     }
 
     public void updateOrder(final OrderData orderData) throws ServiceException {

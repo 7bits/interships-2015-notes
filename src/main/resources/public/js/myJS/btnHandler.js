@@ -171,10 +171,14 @@
 					dataType: "json",
 					headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
 					data: sendInfo,
-					success: function(data) {
+					success: function(data){
 						infoLabel.text(data.message);
 						curClass = 'messageSuccess';
 						infoLabel.addClass(curClass);
+
+						addingShareUser(data)
+
+						$('.addShareEmail').val('');
 					}
 				}).fail(function(data) {
 					infoLabel.text(data.responseJSON.message);
@@ -193,6 +197,26 @@
     			infoLabel.removeClass(curClass);
     		}, 5000)
     	});
+
+
+		function addingShareUser(data) {
+			
+			var shareUser = "<div id='js-newShare' class='shareUser' style='height: 0px;'></div>";
+			var innerShareUser = "<div class='shareUserImg unsetImg'></div>"+
+			"<div class='shareUserInfo'>"+
+				"<div class='shareUserName'>"+data.username+"</div>"+
+				"<div class='shareUserEmail'>"+$('.addShareEmail').val()+"</div>"+
+			"</div>";
+
+			$('.syncUsers').append(shareUser);
+
+			shareUser = $('#js-newShare').animate({
+				height: '62px'
+			}, 300, 'swing', function() {
+				shareUser.append(innerShareUser);
+				shareUser.removeAttr('id').removeAttr('style');
+			})
+		}
 		
 
 		//Анимация панели с кнопками

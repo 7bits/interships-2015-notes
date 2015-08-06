@@ -41,20 +41,22 @@ public interface NoteMapper {
     })
     List<Note> findUserNotes(final Long userId);
 
-    @Select("SELECT id, username, email, enabled\n" +
-            "FROM users WHERE id IN\n" +
-            "   (SELECT parent_user_id\n" +
-            "   FROM notes INNER JOIN usernotes\n" +
-            "   ON user_id=#{userId}\n" +
-            "   WHERE notes.id = usernotes.note_id AND parent_user_id IS NOT NULL\n" +
-            "   GROUP BY parent_user_id)")
+    @Select("SELECT id, email, username, enabled\n" +
+            "FROM users\n" +
+            "WHERE id =\n" +
+            "    (SELECT user_id\n" +
+            "    FROM usernotes\n" +
+            "    WHERE note_id = \n" +
+            "       (SELECT id\n" +
+            "       FROM notes\n" +
+            "       WHERE parent_note_id=#{noteId}))")
     @Results({
             @Result(column = "id", property = "id"),
             @Result(column = "username", property = "username"),
             @Result(column = "email", property = "email"),
             @Result(column = "enabled", property = "enabled"),
     })
-    List<UserDetailsImpl> findShareUsers(final Long userId);
+    List<UserDetailsImpl> findShareUsers(final Long noteId);
 
     @Insert("INSERT INTO notes\n" +
             "(text, uuid, parent_user_id, note_order)\n" +
@@ -88,8 +90,7 @@ public interface NoteMapper {
             "WHERE note_id=#{noteId} and user_id=#{userId}")
     int isNoteBelongToUser(@Param("noteId")final Long noteId, @Param("userId")final Long userId);
 
-    @Select(
-            "SELECT id, email, username, enabled\n" +
+    @Select("SELECT id, email, username, enabled\n" +
             "FROM users\n" +
             "WHERE id =\n" +
             "    (SELECT user_id\n" +
