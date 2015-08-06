@@ -31,8 +31,10 @@ html
           input#changeNameTextbox(type='textbox', value='#{user.username}')
           button#changeNameBtn Сменить имя
         .changePass
-          input#changePassTextbox(type='password', placeholder='новый пароль')
+          input#changePassTextboxOld(type='password', placeholder='старый пароль')
+          input#changePassTextboxNew(type='password', placeholder='новый пароль')
           button#changePassBtn Сменить пароль
+          label#changePassMessage.changePassMessage
         .userStyle
           .dropdownStyles
             select#select(value='#{user.style}')

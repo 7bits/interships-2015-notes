@@ -229,29 +229,7 @@
 
 			if ($('textarea')[0] == null) {
 
-				var self = $(this).parent();
-				self.css('background-color', '#d6d6d6')
-				self.children('.content').children('textarea').css('background-color', '#d6d6d6');
-
-				var del = self.children('.control').children('.delBtn');
-				del.css('background-color', '#d6d6d6');
-
-				$(del).mouseenter(function() {
-					$(this).css('background-color', '#e6e6e6');
-				}).mouseleave(function() {
-					$(this).css('background-color', '#d6d6d6');
-				})
-
-				var sha = self.children('.control').children('.shaBtn');
-				sha.css('background-color', '#d6d6d6');
-
-				$(sha).mouseenter(function() {
-					$(this).css('background-color', '#e6e6e6');
-				}).mouseleave(function() {
-					$(this).css('background-color', '#d6d6d6');
-				})
-
-				self.children('.control').css('border-color', '#bbbbbb');
+				var self = $(this).parent('.cell');
 
 				var textarea = document.createElement('textarea');
 				textarea.setAttribute('name', 'text');
@@ -273,33 +251,12 @@
 		}).on('blur', 'textarea', function() {
 
 			var self = $(this).closest('.cell');
-			self.css('background-color', '#f5f5f5')
 			
 			var textarea = $('.js-textarea');
 			self.children('.content').text(textarea.val());
 
 			textarea.remove();
-			self.children('.content').css('display', 'block');		
-
-			var del = self.children('.control').children('.delBtn');
-			del.css('background-color', '#f5f5f5');
-
-			$(del).mouseenter(function() {
-				$(this).css('background-color', '#e2e2e2');
-			}).mouseleave(function() {
-				$(this).css('background-color', '#f5f5f5');
-			})
-
-			var sha = self.children('.control').children('.shaBtn');
-			sha.css('background-color', '#f5f5f5');
-
-			$(sha).mouseenter(function() {
-				$(this).css('background-color', '#e2e2e2');
-			}).mouseleave(function() {
-				$(this).css('background-color', '#f5f5f5');
-			})
-
-			self.children('.control').css('border-color', '#dcdcdc');
+			self.children('.content').css('display', 'block');	
 		})
 
 

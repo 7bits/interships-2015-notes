@@ -118,7 +118,7 @@ public class HomeController {
         return users;
     }
 
-    @RequestMapping(value = "/telenote/{noteId:\\d+}#{userId:\\d+}", method = RequestMethod.GET)
+    @RequestMapping(value = "/telenote/{noteId:\\d+}={userId:\\d+}", method = RequestMethod.GET)
     public void breakSync(@PathVariable("noteId") Long noteId, @PathVariable("userId") Long userId) throws ServiceException {
         UserNote userNote = new UserNote();
         userNote.setNote_id(noteId);

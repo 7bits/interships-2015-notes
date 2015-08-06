@@ -42,3 +42,28 @@ body {
 #emptyList {
 	color: #010101;
 }
+
+#select {
+	background-color: #20406c;
+	color: #ededed;
+}
+
+button {
+	background-color: #20406c;
+	border: none;
+	color: #ededed;
+}
+
+button:focus {
+	outline: none;
+}
+
+.changePassMessageError {
+	color: #f74e19;
+	display: block;
+}
+
+.changePassMessageSuccess {
+	color: #32c87a;
+	display: block;
+}
