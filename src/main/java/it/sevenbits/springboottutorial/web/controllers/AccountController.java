@@ -38,7 +38,7 @@ public class AccountController {
         return "home/account";
     }
 
-    @RequestMapping(value = "/account/style{style:\\w+}", method = RequestMethod.GET)
+    @RequestMapping(value = "/account/style/{style:\\w+}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<ResponseMessage> changeTheme(@PathVariable("style") String style, Authentication auth) throws ServiceException {
         UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
@@ -48,7 +48,7 @@ public class AccountController {
         return new ResponseEntity<>(new ResponseMessage(true, "ok"), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/account/changename/{name:.+}", method = RequestMethod.GET)
+    @RequestMapping(value = "/account/changename/{name:\\S+}", method = RequestMethod.GET)
     public @ResponseBody
     ResponseEntity<ResponseMessage> changeUsername(@PathVariable("name") String name, Authentication auth) throws ServiceException {
         UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
@@ -61,4 +61,15 @@ public class AccountController {
         }
     }
 
+    @RequestMapping(value = "/account/changepass/{oldPass:\\w+}={newPass:\\w+}", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity<ResponseMessage> changePass(@PathVariable("oldPass") String oldPass, @PathVariable("newPass") String newPass, Authentication auth) throws ServiceException {
+        UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
+
+        try {
+            return accountService.changePass(oldPass, newPass, user);
+        } catch (ServiceException e) {
+            throw new ServiceException(e.getMessage());
+        }
+    }
 }

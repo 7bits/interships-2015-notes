@@ -9,4 +9,6 @@ public interface IAccountRepository {
     void changeTheme(UserDetailsImpl user) throws RepositoryException;
 
     void changeUsername(UserDetailsImpl user) throws RepositoryException;
+
+    void changePass(UserDetailsImpl user) throws RepositoryException;
 }

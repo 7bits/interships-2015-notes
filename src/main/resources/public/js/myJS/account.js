@@ -10,7 +10,7 @@
 					dataType: "json",
 					headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
 					success: function() {
-						$('#dinamic').attr('href', 'css/myCSS/'+$('select').val()+'.css');
+						$('#dinamic').attr('href', 'css/myCSS/'+$('#select').val()+'.css');
 					}
 				})
 			};
@@ -18,16 +18,18 @@
 
 
 		$('#changeNameBtn').click(function() {
-			if ($('.user').text() != $('#changeNameTextbox').val()) {
 
-				if (!checkUsername($('#changeNameTextbox').val())) {
+			var changeName = $('#changeNameTextbox').val();
+			if ($('.user').text() != changeName) {
+
+				if (!checkUsername(changeName)) {
 					$.ajax({
 						type: "GET",
-						url: "/account/changename/" + $('#changeNameTextbox').val(),
+						url: "/account/changename/" + changeName,
 						dataType: "json",
 						headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
 						success: function() {
-							$('.user').text($('#changeNameTextbox').val());
+							$('.user').text(changeName);
 						}
 					})
 				};
@@ -39,5 +41,39 @@
 			return regexName.test(username);
 		}
 
+
+		$('#changePassBtn').click(function() {
+			var oldPass = $('#changePassTextboxOld').val();
+			var newPass = $('#changePassTextboxNew').val();
+			var curClass;
+
+			if ((oldPass == newPass) || (newPass == '') || (oldPass == '')) {
+				return;
+			} else {
+				$.ajax({
+					type: "GET",
+					url: "/account/changepass/"+oldPass+"="+newPass,
+					dataType: "json",
+					headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
+					success: function() {
+						$('#changePassTextboxOld').val('');
+						$('#changePassTextboxNew').val('');
+						$('#changePassMessage').removeClass('changePassMessage').addClass('changePassMessageSuccess');
+						$('#changePassMessage').text('пароль изменён');
+
+						curClass = 'changePassMessageSuccess';
+					}
+				}).fail(function(data) {
+					$('#changePassMessage').removeClass('changePassMessage').addClass('changePassMessageError');
+					$('#changePassMessage').text('ошибка');
+
+					curClass = 'changePassMessageError';
+				})
+
+				setTimeout(function() {
+					$('#changePassMessage').removeClass(curClass).addClass('changePassMessage');
+				}, 5000);
+			};
+		})
 	})
 })(jQuery);
