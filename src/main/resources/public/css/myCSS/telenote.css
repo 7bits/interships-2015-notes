@@ -125,7 +125,8 @@ body{
 }
 
 .addNote {	
-	float: right;	
+	float: right;
+	border-radius: 50px;	
 }
 
 .addNote img {
@@ -185,12 +186,6 @@ a:hover {
 
 #normalize{
 	margin-top: 0px;
-}
-
-.centrum{
-	display: inline-block;
-	text-align: center;
-	border-color: black;
 }
 
 .workDiv{
@@ -271,7 +266,8 @@ a:hover {
 	display: block;
 	word-wrap: break-word;
 	word-break: normal;
-	overflow-y: auto 
+	overflow-y: auto;
+	color: #010101; 
 }
 
 .textarea {
@@ -313,25 +309,6 @@ a:hover {
 	display: block;
 }
 
-.dropdown-menu .divider {
-  height: 1px;
-  margin: 9px 0;
-  overflow: hidden;
-  background-color: #f74e19;
-  z-index: 1;
-}
-
-.email_label {
-	padding: 4px 6px 0 6px;
-	margin-bottom: 0px;
-}
-
-.float-left {
-  float:left;
-}
-.text-align-left {
-  text-align: left;
-}
 .shareUsers {
   width: 250px;
   height: 400px;
@@ -344,19 +321,6 @@ a:hover {
   outline-offset: 5px;
   outline-style: dotted;
   /* Box-shadow: 0px 0px 0px 2px #f00; */
-}
-
-.answer_label {
-  padding-left: 6px;
-  color: #ffffff;
-}
-
-.option-container {
-  text-align: left;
-  width: 250px;
-  height: auto;
-  float: left;
-  padding-bottom: 8px;
 }
 
 /*input[type="checkbox"] {
@@ -372,10 +336,6 @@ a:hover {
 input[type="checkbox"]:checked + label {
   background:url(/img/c_checked.png) left top no-repeat;
 }*/
-
-.modalShare {
-
-}
 
 /*ЭТО ДОЛЖНО БЫТЬ В САМОМ КОНЦЕ!!!*/
 @media screen and (max-width: 800px) {

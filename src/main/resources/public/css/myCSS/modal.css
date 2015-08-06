@@ -20,7 +20,7 @@
 
 .modalWindow {
 	width: 500px;
-	background: white;
+	background: #fefefe;
 	position: fixed;
 	top: 40%;
 	left: 50%;
@@ -138,6 +138,7 @@
 	font-family: "Roboto-Light";
 	color: #383838;
 	float: left;
+	background-color: #fefefe;
 }
 
 .addShareEmail:focus {
@@ -198,4 +199,14 @@
 
 .shareAplay:active {
 	background-image: url('/img/okActive.png');
+}
+
+.messageSuccess {
+	color: #32c87a;
+	display: block !important;
+}
+
+.messageFail {
+	color: #f74e19;
+	display: block !important;
 }

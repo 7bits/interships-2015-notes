@@ -156,6 +156,7 @@
     		var id = $('.modalWindow').attr('id');
     		var email = $('.addShareEmail').val().toLowerCase();
     		var infoLabel = $('.shareMessage');
+    		var curClass;
    			
     		if(IsEmail(email)) {
     				
@@ -172,21 +173,25 @@
 					data: sendInfo,
 					success: function(data) {
 						infoLabel.text(data.message);
-						infoLabel.css('display', 'block');
-						infoLabel.css('color', '#32c87a');
+						curClass = 'messageSuccess';
+						infoLabel.addClass(curClass);
 					}
 				}).fail(function(data) {
 					infoLabel.text(data.responseJSON.message);
-                    infoLabel.css("display", "block");
-                    infoLabel.css("color", "#f74e19");
+					curClass = 'messageFail';
+                    infoLabel.addClass(curClass);
                 });
 			}
     		else {
     			$('.addShareEmail').trigger('focus');
     			infoLabel.text("Неверный адрес!");
-                infoLabel.css("display", "block");
-                infoLabel.css("color", "#f74e19");
+    			curClass = 'messageFail';
+                infoLabel.addClass(curClass);
     		}
+
+    		setTimeout(function() {
+    			infoLabel.removeClass(curClass);
+    		}, 5000)
     	});
 		
 
