@@ -28,11 +28,11 @@ html
           .userImg
       .workDiv
         .changeName
-          input#changeNameTextbox(type='textbox', value='#{user.username}', maxlength='30')
+          input#changeNameTextbox(type='textbox', value='#{user.username}', maxlength='20')
           button#changeNameBtn Сменить имя
         .changePass
-          input#changePassTextboxOld(type='password', placeholder='старый пароль')
-          input#changePassTextboxNew(type='password', placeholder='новый пароль')
+          input#changePassTextboxOld(type='password', placeholder='старый пароль', maxlength='20')
+          input#changePassTextboxNew(type='password', placeholder='новый пароль', maxlength='20')
           button#changePassBtn Сменить пароль
           label#changePassMessage.changePassMessage
         .userStyle

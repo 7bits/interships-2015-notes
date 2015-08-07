@@ -1,19 +1,24 @@
 doctype html
 html
   head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name="_csrf", content="#{_csrf.token}")
+    meta(name="_csrf_header", content="#{_csrf.headerName}")
     link(rel='stylesheet', type='text/css', href='css/myCSS/welcome.css')
   body
     .mainDiv
       .perfomanceDiv
-        .logoImg
-        .slogon
+        .imgDiv
+          .logoImg
+          .slogon
         .perfomanceMessage
           h1
             | Организуйте дела, идеи, мысли.
             br
             | Делитесь с друзьями.
           h2
-            | Зарегистрируйтесь на TeleNotes.
+            | Зарегистрируйтесь на TeleNote.
             br
             | Cоздавайте и редактируйте текстовые заметки.
             br
@@ -27,10 +32,12 @@ html
         .loginDiv
           form.signinForm(role='form', action='/signin', method='POST', name='signinForm')
             span.formHead Вход
-            input(type='hidden', name='', value='')
+            input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
             .inputData
-              input(type='textbox', ,='', name='username', placeholder='e-mail', value='')
-              input(type='password', ,='', name='password', autocomplete='off', placeholder='пароль')
+              input(type='textbox', name='username', placeholder='e-mail', value='#{username}')
+              if error
+                span.loginError Адрес и пароль не совпадают!
+              input(type='password', name='password', autocomplete='off', placeholder='пароль')
             button.loginSubmit(type='submit') Войти
         .overlayReg
         .regDiv
@@ -38,7 +45,7 @@ html
             span.formHead Регистрация
             input(type='hidden', name='', value='')
             .inputData
-              input(type='textbox', ,='', name='email', placeholder='e-mail', value='')
-              input(type='textbox', ,='', name='username', placeholder='имя', value='')
-              input(type='password', ,='', name='password', autocomplete='off', placeholder='пароль')
+              input(type='textbox', name='email', placeholder='e-mail', value='#{signupForm.email}')
+              input(type='textbox', name='username', placeholder='имя', value='#{signupForm.username}')
+              input(type='password', name='password', autocomplete='off', placeholder='пароль', value='#{signupForm.password}')
             button.loginSubmit(type='submit') Зарегистрироваться
