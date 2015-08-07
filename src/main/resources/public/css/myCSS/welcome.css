@@ -1,21 +1,21 @@
 @font-face {
 	font-family: "Roboto-Light";
-	src: url("css/fonts/Roboto/Roboto-Light.ttf");
+	src: url("/css/fonts/Roboto/Roboto-Light.ttf");
 }
 
 @font-face {
 	font-family: "Room";
-	src: url("css/fonts/Room/Room.otf");
+	src: url("/css/fonts/Room/Room.otf");
 }
 
 @font-face {
 	font-family: "Lato-Regular";
-	src: url("css/fonts/Lato/Lato-Regular.ttf");
+	src: url("/css/fonts/Lato/Lato-Regular.ttf");
 }
 
 @font-face {
 	font-family: "Lato-Light";
-	src: url("css/fonts/Lato/Lato-Light.ttf");
+	src: url("/css/fonts/Lato/Lato-Light.ttf");
 }
 
 
@@ -23,41 +23,50 @@ body {
 	margin: 0px;
 	border: 0px;
 	padding: 0px;
-	background-image: url("../img/welcomeBackground.png");
+	background-image: url("/img/welcomeBackground.png");
 	background-size: cover;
 	background-position: center;
 }
 
 .perfomanceDiv, .logRegDiv {
 	position: absolute;
+	top: 11%;
 }
 
 .perfomanceDiv {
-	top: 10%;
+	left: 10%;
+}
+
+.imgDiv {
+	width: 100%;
+  	height: 121px;
 }
 
 .logoImg {
 	background-image: url("/img/logo.png");
 	background-size: cover;
 	background-position: center;
-	width: 17px;
-	height: 23px;
+	width: 58px;
+  	height: 71px;
 	float: left;
 }
 
 .slogon {
-	background-image: url("/img/slogon.png");
+	background-image: url("/img/dark-label.png");
 	background-size: cover;
 	background-position: center;
-	width: 30px;
-	height: 13px;
+	width: 143px;
+  	height: 19px;
 	float: left;
+	margin-top: 27px;
+  	margin-left: 10px;
 }
 
 h1 {
 	font-size: 24px;
   	font-family: "Lato-Regular";
   	color: rgb(0, 0, 0);
+  	margin-bottom: 32px;
 }
 
 h2 {
@@ -74,6 +83,7 @@ h2 {
 
 .loginDiv, .regDiv {	
 	padding: 15px 15px 8px 15px;
+	position: relative;
 } 
 
 .formHead {
@@ -96,14 +106,14 @@ h2 {
 
 .overlayLogin {
 	width: 310px;
-  	height: 209px;
-  	margin-bottom: -213px;
+  	height: 186px;
+  	margin-bottom: -186px;
 }
 
 .overlayReg {
 	width: 310px;
-  	height: 264px;
-  	margin-bottom: -268px;
+  	height: 233px;
+  	margin-bottom: -233px;
 }
 
 .signinForm, .signupForm {
@@ -111,15 +121,15 @@ h2 {
 }
 
 .inputData {
-	margin-top: 10px;
+	margin-top: 13px;
 }
 
 input[type='textbox'], input[type='password'] {
 	font-size: 12px;
   	font-family: "Roboto-Light";
-  	color: rgb(180, 180, 180);
+  	color: black;
   	width: 260px;
-  	height: 45px;
+  	height: 36px;
   	border-radius: 2px;
   	box-shadow: 0px 5px 7.6px 0.4px rgba(0, 0, 0, 0.05);
   	background-color: rgb(255, 255, 255);
@@ -132,9 +142,26 @@ input[type='textbox'], input[type='password'] {
 	border-radius: 2px;
 	background-color: rgb(32, 64, 108);
 	width: 280px;
-  	height: 45px;
+  	height: 36px;
   	border: 0px;
   	font-size: 20px;
   	font-family: "Room";
   	color: rgb(255, 255, 255);
+}
+
+.loginError {
+	float: left;
+	margin-top: -41px;
+  	margin-left: 270px;
+  	width: 233px;
+  	background-color: white;
+  	height: 23px;
+  	padding-top: 5px;
+  	padding-right: 6px;
+  	text-align: right;
+}
+
+@media screen and (max-width: 900px) {
+
+
 }
