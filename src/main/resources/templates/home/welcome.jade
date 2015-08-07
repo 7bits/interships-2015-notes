@@ -1,63 +1,44 @@
 doctype html
 html
   head
-    meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    link(rel='stylesheet', type='text/css', href='css/libCSS/bootstrap.css')
-    link(rel='stylesheet', type='text/css', href='css//myCSS/telenote.css')
     link(rel='stylesheet', type='text/css', href='css/myCSS/welcome.css')
-    link(rel='stylesheet', type='text/css', href='css/myCSS/darkDen.css')
-    script(src='js/jsLibs/jquery-1.11.3.js')
-    script(src='js/jsLibs/bootstrap.js')
-    script(src='js/myJS/app.js')
-    script(src='js/myJS/btnHandler.js')
-    title Telenote
   body
-    .container
-      .headWrapper
-        .logoDiv
-          .logoImg
-          .slogon
-        .in-outMenu
-          .logMenu
-            a#username(href='#myModalBox', role='button', data-toggle='modal', class='js-enter enter') Вход
+    .mainDiv
+      .perfomanceDiv
+        .logoImg
+        .slogon
+        .perfomanceMessage
+          h1
+            | Организуйте дела, идеи, мысли.
             br
-            a#logout(href='#myModalBox', role='button', data-toggle='modal', class='js-reg reg') Регистрация
-      .welcome
-        span Войдите в систему, чтобы использовать наш сервис
-      #myModalBox.modal.fade
-        .modal-dialog
-          .modal-content
-            .modal-body
-              .mainDiv
-                ul#myTab.nav.nav-tabs
-                  li.active#signinHref
-                    a(href='#signin', data-toggle='tab') Войти
-                  li#signupHref
-                    a(href='#signup', data-toggle='tab') Зарегистрироваться
-                #myTabContent.tab-content
-                  #signin.tab-pane.fade.active.in
-                    form.formStyle.js-login-form(role='form', action='/signin', method='POST', name='signinForm', data-error='#{error}')
-                      input(type="hidden", name="#{_csrf.parameterName}", value="#{_csrf.token}")
-                      .inputDiv.nextBlock
-                        .form-group.regDiv
-                          input.textboxRegProperty(type='textbox', name='username', placeholder='e-mail', value='#{username}')
-                          input.textboxRegProperty(type='password', name='password', autocomplete='off', placeholder='пароль')
-                          if error
-                            p(class='errorText')
-                              |Почтовый адрес или пароль не верны.
-                          button.submitBtn(type='submit', class='loginSubmit') Войти
-                      a.forgot(href='/resetPass') Забыли пароль?
-                  #signup.tab-pane.fade
-                    form.formStyle(role='form', action='/signup', method='POST', name='signupForm')
-                      input(type="hidden", name="#{_csrf.parameterName}", value="#{_csrf.token}")
-                      .inputDiv.nextBlock
-                        .form-group.regDiv
-                          input.textboxRegProperty(type='textbox', name='email', placeholder='e-mail', value='#{signupForm.email}')
-                          input.textboxRegProperty(type='textbox', name='username', placeholder='имя', value='#{signupForm.username}')
-                          input.textboxRegProperty(type='password', name='password', autocomplete='off', placeholder='пароль', value='#{signupForm.password}')
-                          if errorMessages
-                            for message in errorMessages
-                              p(class="errorText")= message
-                          button.submitBtn(type='submit', class='regSubmit') Зарегистрироваться
-
+            | Делитесь с друзьями.
+          h2
+            | Зарегистрируйтесь на TeleNotes.
+            br
+            | Cоздавайте и редактируйте текстовые заметки.
+            br
+            | Записывайте мысли, идеи, дела, рецепты.
+            br
+            | Делитесь заметками с семьёй и друзьями.
+            br
+            | Ведите дела вместе.
+      .logRegDiv
+        .overlayLogin
+        .loginDiv
+          form.signinForm(role='form', action='/signin', method='POST', name='signinForm')
+            span.formHead Вход
+            input(type='hidden', name='', value='')
+            .inputData
+              input(type='textbox', ,='', name='username', placeholder='e-mail', value='')
+              input(type='password', ,='', name='password', autocomplete='off', placeholder='пароль')
+            button.loginSubmit(type='submit') Войти
+        .overlayReg
+        .regDiv
+          form.signupForm(role='form', action='/signup', method='POST', name='signupForm')
+            span.formHead Регистрация
+            input(type='hidden', name='', value='')
+            .inputData
+              input(type='textbox', ,='', name='email', placeholder='e-mail', value='')
+              input(type='textbox', ,='', name='username', placeholder='имя', value='')
+              input(type='password', ,='', name='password', autocomplete='off', placeholder='пароль')
+            button.loginSubmit(type='submit') Зарегистрироваться
