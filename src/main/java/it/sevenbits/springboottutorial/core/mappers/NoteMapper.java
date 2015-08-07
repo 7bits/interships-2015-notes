@@ -19,7 +19,7 @@ public interface NoteMapper {
     void deleteNote(final Note note);
 
     @Update("UPDATE notes " +
-            "SET text = #{text}, updated_at = DEFAULT " +
+            "SET text = #{text}, updated_at = DEFAULT, parent_note_id = #{parent_note_id} " +
             "WHERE id=#{id}")
     void updateNote(final Note note);
 
@@ -206,4 +206,14 @@ public interface NoteMapper {
             "FROM users\n" +
             "WHERE id=#{userId}")
     String getUserStyle(Long userId);
+
+    @Select("SELECT parent_note_id, id FROM notes WHERE uuid=(SELECT uuid FROM notes WHERE id=#{id})")
+    List<Note> getNotesWithSameUuidById(Long id);
+
+    @Update({"<script>UPDATE notes SET uuid=#{uuid} WHERE id IN ",
+            "<foreach item='item' index='index' collection='list'",
+                "open='(' separator=',' close=')'>",
+            "#{item}",
+            "</foreach></script>"})
+    void updateUuidById(@Param("list") List<Long> notesId, @Param("uuid") String uuid);
 }

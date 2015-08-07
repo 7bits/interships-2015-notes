@@ -50,4 +50,8 @@ public interface INoteRepository {
     UserDetailsImpl getUserWhoOwnNote(Long noteId) throws RepositoryException;
 
     String getUserStyle(Long userId) throws RepositoryException;
+
+    List<Note> getNotesWithSameUuidById(Long id) throws RepositoryException;
+
+    void updateUuidById(final List<Long> notes, String uuid) throws RepositoryException;
 }

@@ -27,7 +27,7 @@ public class Note {
         this.parent_user_id = parent_user_id;
     }
 
-    public String generateUUID() {
+    public static String generateUUID() {
         return UUID.randomUUID().toString();
     }
 

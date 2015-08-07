@@ -32,7 +32,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/signup", "/signin", "/confirm", "/send")
+                .antMatchers("/signup", "/signin", "/confirm")
                     .permitAll()
                 .anyRequest().authenticated()
                     .and()
@@ -57,6 +57,5 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity webSecurity) throws Exception {
         webSecurity.ignoring().antMatchers("/resources/public/**", "/img/*.png");
-
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -40,7 +41,7 @@ public class NoteRepositoryTest {
     @Before
     public void create() throws Exception {
         note.setText("Путь праведника труден, ибо препятствуют ему самолюбивые и тираны, из злых людей.");
-        note.setUuid(note.generateUUID());
+        note.setUuid(Note.generateUUID());
         noteRep.addFirstNote(note);
 
         assertNotNull(note.getId());
@@ -153,5 +154,37 @@ public class NoteRepositoryTest {
     @Test
     public void updateFirstElementOrderTest() throws Exception {
 
+    }
+
+    @Test
+    public void getNotesWithSameUuidByIdTest() throws Exception {
+        List<Note> list = noteRep.getNotesWithSameUuidById(note.getId());
+
+        assertFalse(list.isEmpty());
+        assertTrue(list.size() == 1);
+    }
+
+    @Test
+    public void updateUuidByIdTest() throws Exception {
+        Note tnote = new Note();
+        tnote.setText("Путь праведника труден, ибо препятствуют ему самолюбивые и тираны, из злых людей.");
+        tnote.setUuid(Note.generateUUID());
+        noteRep.addNote(tnote);
+
+        assertNotNull(tnote.getId());
+        assertTrue(tnote.getId().longValue() > 0);
+
+        ArrayList<Long> notes = new ArrayList<>();
+        notes.add(tnote.getId());
+        notes.add(note.getId());
+
+        noteRep.updateUuidById(notes, Note.generateUUID());
+
+        List<Note> list = noteRep.getNotesWithSameUuidById(note.getId());
+
+        assertFalse(list.isEmpty());
+        assertTrue(list.size() == 2);
+
+        noteRep.deleteNote(tnote);
     }
 }

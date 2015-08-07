@@ -18,9 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by Admin on 13.07.2015.
@@ -109,7 +107,7 @@ public class NoteService {
     public Long addNote(final NoteForm form, Long user_id) throws ServiceException {
         Note note = new Note();
         note.setText(form.getText());
-        note.setUuid(note.generateUUID());
+        note.setUuid(Note.generateUUID());
         note.setParent_user_id(user_id);
         try {
 
@@ -218,6 +216,51 @@ public class NoteService {
             return repository.getUserStyle(userId);
         } catch (RepositoryException e) {
             throw new ServiceException("Ошибка чтения стиля" + e.getMessage());
+        }
+    }
+
+    public void deleteShareLink(NoteModel root) throws ServiceException {
+        try {
+            HashMap<Long, ArrayList<Long>> map = new HashMap<>();
+            List<Note> notes = repository.getNotesWithSameUuidById(root.getId());
+            List<Long> result = new ArrayList<>();
+            Stack<Long> stack = new Stack<>();
+
+            for (Note note : notes) {
+                if (map.containsKey(note.getParent_note_id())) {
+                    ArrayList<Long> list = map.get(note.getParent_note_id());
+                    list.add(note.getId());
+
+                    map.replace(note.getParent_note_id(), list);
+                } else {
+                    ArrayList<Long> list = new ArrayList<>();
+                    list.add(note.getId());
+
+                    map.put(note.getParent_note_id(), list);
+                }
+            }
+
+            stack.push(root.getId());
+            while (!stack.isEmpty()) {
+                Long key = stack.pop();
+                List<Long> list = map.get(key);
+                result.add(key);
+                if (list != null && !list.isEmpty()) {
+                    for (Long item : list) {
+                        stack.push(item);
+                    }
+                }
+            }
+
+            Note updNote = new Note();
+            updNote.setId(root.getId());
+            updNote.setText(root.getText());
+            updNote.setParent_note_id(null);
+
+            repository.updateNote(updNote);
+            repository.updateUuidById(result, Note.generateUUID());
+        } catch (RepositoryException e) {
+            throw new ServiceException(e.getMessage());
         }
     }
 }

@@ -137,4 +137,10 @@ public class NoteRepository implements INoteRepository {
     public String getUserStyle(Long userId) throws RepositoryException {
         return mapper.getUserStyle(userId);
     }
+
+    @Override
+    public List<Note> getNotesWithSameUuidById(Long id) { return mapper.getNotesWithSameUuidById(id); }
+
+    @Override
+    public void updateUuidById(final List<Long> notes, String uuid) { mapper.updateUuidById(notes, uuid); }
 }
