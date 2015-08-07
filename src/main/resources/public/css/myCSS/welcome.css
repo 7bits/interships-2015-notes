@@ -1,225 +1,140 @@
 @font-face {
+	font-family: "Roboto-Light";
+	src: url("css/fonts/Roboto/Roboto-Light.ttf");
+}
+
+@font-face {
 	font-family: "Room";
-	src: url("/css/fonts/Room/Room.otf");
-
-	font-family: "Roboto-Light";
-	src: url("/css/fonts/Roboto/Roboto-Light.ttf");
-
-	font-family: "Roboto-LightItalic";
-	src: url("/css/fonts/Roboto/Roboto-LightItalic.ttf");
-
-	font-family: "Roboto-Regular";
-	src: url("/css/fonts/Roboto/Roboto-Regular.ttf");
-
-	font-family: "Roboto-Thin";
-	src: url("/css/fonts/Roboto/Roboto-Thin.ttf");
-
-	font-family: "Roboto-ThinItalic";
-	src: url("/css/fonts/Roboto/Roboto-ThinItalic.ttf");
+	src: url("css/fonts/Room/Room.otf");
 }
 
-.mainDiv{
-	width: 400px;
-	display: inline-block;
-  	text-align: center;
-  	vertical-align: middle;
-  	background-color: #414141;
+@font-face {
+	font-family: "Lato-Regular";
+	src: url("css/fonts/Lato/Lato-Regular.ttf");
 }
 
-.btnProperty{
-	width: 51%;
-    margin-right: -5px;
+@font-face {
+	font-family: "Lato-Light";
+	src: url("css/fonts/Lato/Lato-Light.ttf");
 }
 
-.rightBtn{
-	margin-left: -2px;
-}
 
-.btnPos{
-	width: 100%;
-	margin: auto;
-}
-
-#signWith{
-	float: left;
-}
-
-.nextBlock{
-	margin-bottom: 20px;
-	display: inline-block;
-  	text-align: center;
-  	width: 100%
-}
-
-form.formStyle{
-	display: inline-block;
-  	text-align: center;
-  	width: 100%;
-  	background-color: #414141;
-}
-
-.inputDiv{
-	margin: auto;
-	width: 80%;
-}
-
-.textboxProperty{
-	float: right;
-	padding-left: 3px;
-	margin-bottom: 20px;
-	border: 1px solid black;
-}
-
-.forgot {
-	font-family: "Roboto-Thin";
-	font-size: 12px;
-	color: white;
-	float: left;
-	clear: both;
-	margin-bottom: -22px;
-}
-
-.forgotDiv{
-	margin-top: 100px;
-}
-
-.submitBtn {
-	width: 100%;
-	padding: 13px 0 13px 0;
+body {
+	margin: 0px;
 	border: 0px;
-	background-color: #383838;
-	color: #e6e6e6;
-	font-size: 17px;
-  	font-family: "Room";
-  	border-radius: 2px;
-}
-
-.submitBtn:focus {
-	outline: none;
-	background-color: #383838;
-	color: #e6e6e6;
-}
-
-.submitBtn:active {
-	background-color: #636363;
-	box-shadow: none;
-	color: #e6e6e6;
-}
-
-.submiteBtn:hover {
-	box-shadow: 0 5px 5px #353535;
-	background-color: #383838;
-	color: #e6e6e6; 
-}
-
-.regDiv {
-	float: left;
-	width: 100%;
-}
-
-.textboxRegProperty{
-	font-family: "Roboto-Light";
-	font-size: 12px;
-	color: #525252;
-	float: right;
-	width: 100%;
-	margin-bottom: 10px;
-	border-radius: 2px;
-	border: 0px;
-}
-
-.middlePlace{
-	 width: 100%;
-	  display: inline-block;
-	  text-align: center;
-}
-
-#hintFormat{
-	display: inline-block;
-  	text-align: justify;
-}
-
-.workDiv{
-	widows: 100%;
-}
-
-div.regDiv input:hover, .submitBtn:hover {
-	box-shadow: 0 5px 5px #353535;
-}
-
-.modal-body {
 	padding: 0px;
+	background-image: url("../img/welcomeBackground.png");
+	background-size: cover;
+	background-position: center;
 }
 
-.modal-dialog {
-	width: 400px;
+.perfomanceDiv, .logRegDiv {
+	position: absolute;
 }
 
-.nav-tabs {
-	border: 0px;
-	margin-bottom: 32px;
+.perfomanceDiv {
+	top: 10%;
 }
 
-.nav-tabs li {
-	width: 50%;
-	margin: 0px;
-	background-color: #383838;
-	color: white;
-	margin-bottom: -2px;
+.logoImg {
+	background-image: url("/img/logo.png");
+	background-size: cover;
+	background-position: center;
+	width: 17px;
+	height: 23px;
+	float: left;
 }
 
-.nav-tabs > li > a {
-	margin: 0px;
-	border: 0px;
-	border-radius: 0px;
-	border-bottom: 0px;
-	padding: 13px 0 13px 0;
-	font-size: 17px;
-  	font-family: "Room";
+.slogon {
+	background-image: url("/img/slogon.png");
+	background-size: cover;
+	background-position: center;
+	width: 30px;
+	height: 13px;
+	float: left;
 }
 
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover,
-.nav-tabs > li.active > a:focus {
-	border: 0px;
-	color: white;
+h1 {
+	font-size: 24px;
+  	font-family: "Lato-Regular";
+  	color: rgb(0, 0, 0);
 }
 
-a {
-	color: #bdbdbd;
+h2 {
+	font-size: 14px;
+  	font-family: "Lato-Light";
+  	color: rgb(0, 0, 0);
 }
 
-a:focus {
-	outline: none;
-	text-decoration: none;
+.logRegDiv {
+	width: 310px;
+	top: 10%;
+  	left: 55%;
 }
 
-li.active {
-	border-bottom: 2px solid orange;
+.loginDiv, .regDiv {	
+	padding: 15px 15px 8px 15px;
+} 
+
+.formHead {
+	margin: auto;
+	color: black;
+	font-family: "Room";
+	opacity: 1;
+	font-size: 18px;
 }
 
-.nav-tabs:hover {
-	background-color: #414141;
+.loginDiv {
+	margin-bottom: 30px;
+}
+
+.overlayLogin, .overlayReg {
+	opacity: 0.18;
+	border-radius: 3px;
+	background-color: #6a6e74;
+}
+
+.overlayLogin {
+	width: 310px;
+  	height: 209px;
+  	margin-bottom: -213px;
+}
+
+.overlayReg {
+	width: 310px;
+  	height: 264px;
+  	margin-bottom: -268px;
+}
+
+.signinForm, .signupForm {
+	text-align: center;
+}
+
+.inputData {
+	margin-top: 10px;
 }
 
 input[type='textbox'], input[type='password'] {
-	padding: 13px 13px;
 	font-size: 12px;
-  	font-family: "Roboto-Black";
-  	color: #7c7c7c;
-  	margin-bottom: 22px;
+  	font-family: "Roboto-Light";
+  	color: rgb(180, 180, 180);
+  	width: 260px;
+  	height: 45px;
+  	border-radius: 2px;
+  	box-shadow: 0px 5px 7.6px 0.4px rgba(0, 0, 0, 0.05);
+  	background-color: rgb(255, 255, 255);
+  	padding: 0 10px 0 10px;
+  	border: 0px;
+  	margin-bottom: 10px;
 }
 
-.reg:hover, .enter:hover,
-.reg:focus, .enter:focus {
-	text-decoration: none;
-}
-
-.errorText {
-    color: red;
-    text-align: left;
-}
-
-.regDiv p {
-	font-family: "Roboto-Light";
-	font-size: 12px;
+.loginSubmit {
+	border-radius: 2px;
+	background-color: rgb(32, 64, 108);
+	width: 280px;
+  	height: 45px;
+  	border: 0px;
+  	font-size: 20px;
+  	font-family: "Room";
+  	color: rgb(255, 255, 255);
 }
