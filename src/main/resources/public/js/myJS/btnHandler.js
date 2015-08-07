@@ -358,6 +358,9 @@
 					 			"<div class='shareUserName'>" + data[i].username + "</div>" + 
 					 			"<div class='shareUserEmail'>" + data[i].email + "</div>" + 
 					 		"</div>" +
+					 		"<div class='shareActionDiv'>"+
+					 			"<button class='deleteShare'></button>"+
+					 		"</div>"+
 					 	"</div>");
 					};
 				}

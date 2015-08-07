@@ -210,3 +210,24 @@
 	color: #f74e19;
 	display: block !important;
 }
+
+.deleteShare {
+	background-image: url("/img/deleteShare.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	border-radius: 50px;
+	width: 18px;
+  	height: 18px;
+  	border: 0px;
+  	background-color: #fefefe;
+  	margin-top: 20px;	
+}
+
+.deleteShare:focus {
+	outline: none;
+}
+
+.deleteShare:active {
+	background-image: url("/img/deleteShareActive.png");
+}
