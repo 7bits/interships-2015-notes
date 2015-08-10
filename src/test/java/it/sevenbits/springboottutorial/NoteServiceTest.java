@@ -1,4 +1,4 @@
-package it.sevenbits.springboottutorial;
+/*package it.sevenbits.springboottutorial;
 
 import it.sevenbits.springboottutorial.core.domain.Note;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
@@ -69,7 +69,7 @@ public class NoteServiceTest {
         //List<UserDetailsImpl> users = new ArrayList<>();
 
         //создал еще 3 пользователей
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 6; i++) {
             UserDetailsImpl user = new UserDetailsImpl();
             user.setEmail(RandomStringUtils.randomAlphabetic(4) + "@ok.oke");
             user.setPassword("qwerty");
@@ -84,6 +84,7 @@ public class NoteServiceTest {
         ResponseEntity<ResponseMessage> message = noteService.shareNote(share, user.getId());
         System.out.println(message.getBody().getMessage());
         assertEquals(message.getStatusCode(), HttpStatus.OK);
+
         //расшарил с 1 пользователем заметку, парент юзер - глобальный юзер
         share.setUserEmail(users.get(1).getEmail());
         message = noteService.shareNote(share, user.getId());
@@ -91,6 +92,9 @@ public class NoteServiceTest {
         assertEquals(message.getStatusCode(), HttpStatus.OK);
 
         List<Note> zeroUserNotes  = noteRep.findUserNotes(users.get(0).getId());
+        assertTrue(zeroUserNotes.size() == 1);
+
+        List<Note> firstUserNotes = noteRep.findUserNotes(users.get(1).getId());
         assertTrue(zeroUserNotes.size() == 1);
 
         //расшарил с 2 пользователем заметку 0 юзера, парент юзер - юзер номер 0
@@ -106,18 +110,38 @@ public class NoteServiceTest {
         System.out.println(message.getBody().getMessage());
         assertEquals(message.getStatusCode(), HttpStatus.OK);
 
-        List<NoteModel> notes = noteService.findUserNotes(users.get(0).getId());
-        assertTrue(notes.size() == 1);
-        System.out.println("zero user email = " + users.get(0).getEmail());
+        //расшарил с 4 пользователем заметку, парент юзер - юзер номер 1
+        share.setUserEmail(users.get(4).getEmail());
+        share.setNoteId(firstUserNotes.get(0).getId());
+        message = noteService.shareNote(share, users.get(1).getId());
+        System.out.println(message.getBody().getMessage());
+        assertEquals(message.getStatusCode(), HttpStatus.OK);
 
-        noteService.deleteShareLink(notes.get(0));
+        //расшарил с 5 пользователем заметку, парент юзер - юзер номер 1
+        share.setUserEmail(users.get(5).getEmail());
+        message = noteService.shareNote(share, users.get(1).getId());
+        System.out.println(message.getBody().getMessage());
+        assertEquals(message.getStatusCode(), HttpStatus.OK);
+
+        List<NoteModel> notes = noteService.findUserNotes(user.getId());
+        assertTrue(notes.size() == 1);
+
+        noteService.deleteShareLink(notes.get(0), users.get(0).getId());
 
         List<Note> globalUserNotes = noteRep.findUserNotes(user.getId());
         assertTrue(globalUserNotes.size() == 1);
         zeroUserNotes = noteRep.findUserNotes(users.get(0).getId());
         assertTrue(zeroUserNotes.size() == 1);
+        firstUserNotes = noteRep.findUserNotes(users.get(1).getId());
+        assertTrue(firstUserNotes .size() == 1);
+        List<Note> secondUserNotes = noteRep.findUserNotes(users.get(2).getId());
+        assertTrue(secondUserNotes.size() == 1);
 
         assertNotEquals(zeroUserNotes.get(0).getUuid(), globalUserNotes.get(0).getUuid());
+        assertNotEquals(globalUserNotes.get(0).getUuid(), secondUserNotes.get(0).getUuid());
+        assertEquals(zeroUserNotes.get(0).getUuid(), secondUserNotes.get(0).getUuid());
+        assertEquals(globalUserNotes.get(0).getUuid(), firstUserNotes.get(0).getUuid());
+
         assertNull(zeroUserNotes.get(0).getParent_note_id());
 
         for (UserDetailsImpl user : users) {
@@ -129,4 +153,4 @@ public class NoteServiceTest {
     public void destroy() throws Exception {
         userRepository.remove(user);
     }
-}
+}*/

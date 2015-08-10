@@ -220,8 +220,8 @@ public class NoteService {
         }
     }
 
-    public void deleteShareLink(NoteModel root) throws ServiceException {
-        try {
+    public void deleteShareLink(Long root, Long userId) throws ServiceException {
+        /*try {
             HashMap<Long, ArrayList<Long>> map = new HashMap<>();
             List<Note> notes = repository.getNotesWithSameUuidById(root.getId());
             List<Long> result = new ArrayList<>();
@@ -229,10 +229,7 @@ public class NoteService {
 
             for (Note note : notes) {
                 if (map.containsKey(note.getParent_note_id())) {
-                    ArrayList<Long> list = map.get(note.getParent_note_id());
-                    list.add(note.getId());
-
-                    map.replace(note.getParent_note_id(), list);
+                    map.get(note.getParent_note_id()).add(note.getId());
                 } else {
                     ArrayList<Long> list = new ArrayList<>();
                     list.add(note.getId());
@@ -262,6 +259,45 @@ public class NoteService {
             repository.updateUuidById(result, Note.generateUUID());
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage());
+        }*/
+
+        try {
+            HashMap<Long, ArrayList<Long>> map = new HashMap<>();
+            List<Note> notes = repository.getNotesWithSameUuidById(root);
+            Long unsyncNote = repository.getUserNoteByParentId(userId, root);
+            List<Long> result = new ArrayList<Long>();
+
+            for (Note note : notes) {
+                    if (map.containsKey(note.getParent_note_id())) {
+                        map.get(note.getParent_note_id()).add(note.getId());
+                    } else {
+                        ArrayList<Long> list = new ArrayList<>();
+                        list.add(note.getId());
+                        map.put(note.getParent_note_id(), list);
+                    }
+            }
+
+            map.get(root).remove(unsyncNote);
+            update(map, result, root);
+
+            Note updNote = new Note();
+            updNote.setId(unsyncNote);
+            //updNote.setText(root);
+            updNote.setParent_note_id(null);
+
+            repository.updateNote(updNote);
+            repository.updateUuidById(result, Note.generateUUID());
+        } catch (RepositoryException e) {
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    private static void update(HashMap<Long, ArrayList<Long>> map, List<Long> result, Long root) {
+        result.add(root);
+        if (map.containsKey(root)) {
+            for (Long id: map.get(root)) {
+                update(map, result, id);
+            }
         }
     }
 }

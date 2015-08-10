@@ -18,8 +18,9 @@ public interface NoteMapper {
             "WHERE id=#{id}")
     void deleteNote(final Note note);
 
-    @Update("UPDATE notes " +
-            "SET text = #{text}, updated_at = DEFAULT, parent_note_id = #{parent_note_id} " +
+    @Update("UPDATE notes\n" +
+            "SET " +
+            "updated_at = DEFAULT, parent_note_id = #{parent_note_id}\n" +
             "WHERE id=#{id}")
     void updateNote(final Note note);
 
@@ -41,7 +42,7 @@ public interface NoteMapper {
     })
     List<Note> findUserNotes(final Long userId);
 
-    @Select("SELECT id, email, username, enabled\n" +
+    /*@Select("SELECT id, email, username, enabled\n" +
             "FROM users\n" +
             "WHERE id =\n" +
             "    (SELECT user_id\n" +
@@ -50,6 +51,19 @@ public interface NoteMapper {
             "       (SELECT id\n" +
             "       FROM notes\n" +
             "       WHERE parent_note_id=#{noteId}))")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "username", property = "username"),
+            @Result(column = "email", property = "email"),
+            @Result(column = "enabled", property = "enabled"),
+    })*/
+    @Select("select users.id, email, username, enabled\n" +
+            "from users\n" +
+            "inner join usernotes\n" +
+            "on users.id=user_id\n" +
+            "inner join notes\n" +
+            "on usernotes.note_id=notes.id\n" +
+            "where notes.parent_note_id=#{noteId}")
     @Results({
             @Result(column = "id", property = "id"),
             @Result(column = "username", property = "username"),
@@ -216,4 +230,12 @@ public interface NoteMapper {
             "#{item}",
             "</foreach></script>"})
     void updateUuidById(@Param("list") List<Long> notesId, @Param("uuid") String uuid);
+
+    @Select("SELECT id\n" +
+            "FROM notes\n" +
+            "INNER JOIN usernotes\n" +
+            "ON id=note_id\n" +
+            "WHERE parent_note_id=#{parentId}\n" +
+            "AND user_id=#{userId}")
+    Long getUserNoteByParentId(@Param("userId") Long userId, @Param("parentId") Long parentId);
 }
