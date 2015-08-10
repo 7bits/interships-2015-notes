@@ -33,6 +33,10 @@ body {
 	background-position: center;
 }
 
+.mainDiv {
+	min-width: 540px;
+}
+
 .perfomanceDiv, .logRegDiv {
 	position: absolute;
 	top: 11%;
@@ -83,7 +87,7 @@ h2 {
 .logRegDiv {
 	width: 310px;
 	top: 10%;
-  	left: 57%;
+  	left: 59%;
 }
 
 .loginDiv, .regDiv {	
@@ -157,16 +161,92 @@ input[type='textbox'], input[type='password'] {
 .loginError {
 	float: left;
 	margin-top: -41px;
-  	margin-left: 270px;
+  	margin-left: 240px;
   	width: 233px;
   	background-color: white;
-  	height: 23px;
-  	padding-top: 5px;
+  	height: 22px;
+  	padding-top: 6px;;
   	padding-right: 6px;
   	text-align: right;
+  	font-size: 13px;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1200px) {
 
+	input[type='textbox'], input[type='password'] {
+		width: 180px;
+	}
 
+	.loginSubmit {
+		width: 200px;
+	}
+
+	.logRegDiv {
+		left: 54%;
+		width: 230px;
+	}
+
+	.overlayLogin, .overlayReg {
+		width: 230px;
+	}
+
+	.loginError {
+		margin-left: 155px;
+	}
+}
+
+@media screen and (max-width: 890px) {
+
+	h1 {
+		font-size: 16px;
+	}
+
+	h2 {
+		font-size: 11px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+
+	.logoImg {
+		width: 30px;
+  		height: 37px;
+	}
+
+	.slogon {
+		margin-top: 10px;
+	}
+
+	h1, h2 {
+		display: none;
+	}
+
+	.perfomanceDiv {
+		position: inherit;
+  		height: 40px;
+  		margin: auto;
+  		text-align: center;
+  		display: flex;
+  		margin-top: 15px;
+	}
+
+	.imgDiv {
+		width: 183px;
+		height: 40px;
+  		margin: auto;
+	}
+
+	.logRegDiv {
+		position: inherit;
+		margin: auto;
+		margin-top: 10px;
+	}
+
+	.loginError {
+	  	margin-left: 200px;
+	  	margin-top: -40px;
+	  	width: 160px;
+	  	height: 18px;
+	  	font-size: 11px;
+	}
 }
