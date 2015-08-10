@@ -9,6 +9,11 @@
 }
 
 @font-face {
+	font-family: "Room-Thin";
+	src: url("/css/fonts/Room/Room-Thin.otf");
+}
+
+@font-face {
 	font-family: "Lato-Regular";
 	src: url("/css/fonts/Lato/Lato-Regular.ttf");
 }
@@ -145,7 +150,7 @@ input[type='textbox'], input[type='password'] {
   	height: 36px;
   	border: 0px;
   	font-size: 20px;
-  	font-family: "Room";
+  	font-family: "Room-Thin";
   	color: rgb(255, 255, 255);
 }
 

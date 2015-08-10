@@ -35,11 +35,18 @@
 }
 
 #changePassBtn {
-	margin-top: -21px;
+	margin-top: 20px;
+}
+
+form {
+	float: left;
+  	width: 213px;
+  	color: black;
 }
 
 input {
 	padding: 6px;
+	margin-bottom: 4px;
 }
 
 #select {

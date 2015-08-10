@@ -43,7 +43,7 @@ html
         .regDiv
           form.signupForm(role='form', action='/signup', method='POST', name='signupForm')
             span.formHead Регистрация
-            input(type='hidden', name='', value='')
+            input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
             .inputData
               input(type='textbox', name='email', placeholder='e-mail', value='#{signupForm.email}')
               input(type='textbox', name='username', placeholder='имя', value='#{signupForm.username}')

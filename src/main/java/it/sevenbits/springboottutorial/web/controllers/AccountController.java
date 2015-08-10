@@ -1,7 +1,9 @@
 package it.sevenbits.springboottutorial.web.controllers;
 
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
+import it.sevenbits.springboottutorial.web.domain.ChangePassForm;
 import it.sevenbits.springboottutorial.web.domain.ResponseMessage;
+import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
 import it.sevenbits.springboottutorial.web.service.AccountService;
 import it.sevenbits.springboottutorial.web.service.NoteService;
 import it.sevenbits.springboottutorial.web.service.ServiceException;
@@ -12,13 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Controller
 public class AccountController {
@@ -61,10 +61,12 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value = "/account/changepass/{oldPass:\\w+}={newPass:\\w+}", method = RequestMethod.GET)
+    @RequestMapping(value = "/account/changepass", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<ResponseMessage> changePass(@PathVariable("oldPass") String oldPass, @PathVariable("newPass") String newPass, Authentication auth) throws ServiceException {
+    ResponseEntity<ResponseMessage> changePass(@Valid @ModelAttribute("form") ChangePassForm form, Authentication auth) throws ServiceException {
         UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
+        String oldPass = form.getOldPass();
+        String newPass = form.getNewPass();
 
         try {
             return accountService.changePass(oldPass, newPass, user);

@@ -30,9 +30,11 @@ html
         .changeName
           input#changeNameTextbox(type='textbox', value='#{user.username}', maxlength='20')
           button#changeNameBtn Сменить имя
+        input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
         .changePass
-          input#changePassTextboxOld(type='password', placeholder='старый пароль', maxlength='20')
-          input#changePassTextboxNew(type='password', placeholder='новый пароль', maxlength='20')
+          form(role='form', action='/account/changepass', method='POST', name='changePassForm')
+            input#changePassTextboxOld(type='password', name='oldPass', placeholder='старый пароль', maxlength='20', value='#{signupForm.oldPass}')
+            input#changePassTextboxNew(type='password', name='newPass', placeholder='новый пароль', maxlength='20', value='#{signupForm.newPass}')
           button#changePassBtn Сменить пароль
           label#changePassMessage.changePassMessage
         .userStyle

@@ -50,10 +50,16 @@
 			if ((oldPass == newPass) || (newPass == '') || (oldPass == '')) {
 				return;
 			} else {
+				var data = {
+					oldPass: oldPass,
+					newPass: newPass
+				};
+
 				$.ajax({
-					type: "GET",
-					url: "/account/changepass/"+oldPass+"="+newPass,
+					type: "POST",
+					url: "/account/changepass",
 					dataType: "json",
+					data: data,
 					headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
 					success: function() {
 						$('#changePassTextboxOld').val('');
