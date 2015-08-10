@@ -14,8 +14,29 @@
 					"<button class='shaBtn' style='visibility: hidden;'></button>"+
 				"</div>"+
 			"</div>"
-			
-			$(".noteDiv").prepend(cell);
+
+
+			if($("div[id='ns_']").length > 0) {
+				$("div[id='ns_']").prepend(cell);
+			} else {
+				var pMyNotesSection = document.createElement("p");
+				pMyNotesSection.textContent= "Мои Заметки";
+				pMyNotesSection.setAttribute("class", "pNoteSection");
+				pMyNotesSection.setAttribute("id", "pMyNotes");
+				//pMyNotesSection.setAttribute("text","Мои Заметки");
+
+				var myNotesSection = document.createElement("div");
+				myNotesSection.setAttribute("class", "noteSection");
+				myNotesSection.setAttribute("id", "ns_");
+
+				$(".noteDiv").prepend(myNotesSection);
+				$(".noteDiv").prepend(pMyNotesSection);
+				$("div[id='ns_']").prepend(cell);
+				$( ".noteSection" ).sortable();
+                $( ".noteSection" ).disableSelection();
+			}
+
+			//$(".noteDiv").prepend(cell);
 
 			cell = $('#new');
 

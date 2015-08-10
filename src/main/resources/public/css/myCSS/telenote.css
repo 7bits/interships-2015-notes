@@ -337,6 +337,14 @@ input[type="checkbox"]:checked + label {
   background:url(/img/c_checked.png) left top no-repeat;
 }*/
 
+noteSection {
+
+}
+
+p.pNoteSection {
+  color: #F74E19;
+}
+
 /*ЭТО ДОЛЖНО БЫТЬ В САМОМ КОНЦЕ!!!*/
 @media screen and (max-width: 800px) {
 	

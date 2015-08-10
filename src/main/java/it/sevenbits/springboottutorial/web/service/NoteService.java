@@ -88,7 +88,8 @@ public class NoteService {
             List<Note> notes = repository.findUserNotes(userId);
             List<NoteModel> models = new ArrayList<>(notes.size());
             for (Note n : notes) {
-                    models.add(new NoteModel(n.getId(), n.getText(), n.getNote_date(), n.getCreated_at(), n.getUpdated_at()));
+                models.add(new NoteModel(n.getId(), n.getText(), n.getNote_date(), n.getCreated_at(), n.getUpdated_at(),
+                        n.getParent_note_id(), n.getParent_user_id(), n.getUuid(), n.getNote_order()));
             }
             return models;
         } catch (Exception e) {

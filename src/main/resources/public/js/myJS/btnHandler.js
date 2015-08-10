@@ -42,9 +42,18 @@
 					}, 150, 'swing', function() {
 						cell.remove();
 
+						var myNotesNoteSection = $("[id='ns_'");
+
+						if(myNotesNoteSection.length > 0) {
+							if(myNotesNoteSection.children().length == 0) {
+								myNotesNoteSection.remove();
+								$("[id='pMyNotes']").remove();
+							}
+						}
+
 						if ($('.cell').length == 0) {
 							$('.noteDiv')[0].innerHTML += '<span id="emptyList">У вас нет заметок</span>';
-						};	
+						};
 				});
 
 				if (document.documentElement.clientWidth > 840) {

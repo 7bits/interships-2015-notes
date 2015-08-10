@@ -1,7 +1,11 @@
 (function($) {
 	$(document).ready(function() {
-		$( ".noteDiv" ).sortable();
-    	$( ".noteDiv" ).disableSelection();
+		//		$( ".noteSection" ).sortable({
+        //        	cancel: "p, span, br"
+        //        });
+
+		$( ".noteSection" ).sortable();
+		$( ".noteSection" ).disableSelection();
 
     	var checkPosition = {
     		id_cur: -1,

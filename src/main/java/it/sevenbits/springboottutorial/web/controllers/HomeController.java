@@ -21,7 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 //import org.springframework.security.core.userdetails.UserDetails;
@@ -69,15 +71,30 @@ public class HomeController {
     @RequestMapping(value = "/telenote", method = RequestMethod.GET)
     public String getTelenote(final Model model, Authentication auth) throws ServiceException {
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
-/*
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("rel='stylesheet', type='text/css', href='css/myCSS/");
-        stringBuilder.append(noteService.getUserStyle(currentUser.getId()));
-        stringBuilder.append(".css'");
-*/
+        List<NoteModel> noteModels = noteService.findUserNotes(currentUser.getId());
+
+        for(NoteModel n : noteModels) {
+            if(n.getParent_note_id() != null) {
+                UserDetailsImpl userDetails = noteService.getUserWhoSharedNote(n.getId());
+
+                n.setEmailOfShareUser(userDetails.getEmail());
+                n.setUsernameOfShareUser(userDetails.getUsername());
+            }
+        }
+
+        Map<String, List<NoteModel>> map = new HashMap<String, List<NoteModel>>();
+        for (NoteModel item : noteModels) {
+            List<NoteModel> list = map.get(item.getEmailOfShareUser());
+            if (list == null) {
+                list = new ArrayList<NoteModel>();
+                map.put(item.getEmailOfShareUser(), list);
+            }
+            list.add(item);
+        }
+
+        //Map<String, List<NoteModel>> treeMap = new TreeMap<String, List<NoteModel>>(map);
         model.addAttribute("user", currentUser);
-        model.addAttribute("notes", noteService.findUserNotes(currentUser.getId()));
-        //model.addAttribute("shareUsers", noteService.findShareUsers(currentUser.getId()));
+        model.addAttribute("noteSections", map);
         return "home/telenote";
     }
 
