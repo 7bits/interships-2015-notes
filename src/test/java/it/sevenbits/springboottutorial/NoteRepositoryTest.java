@@ -74,7 +74,7 @@ public class NoteRepositoryTest {
         List<Note> list = noteRep.findUserNotes(user.getId());
 
         assertFalse(list.isEmpty());
-        assertTrue(list.get(0).getText().equals(note.getText()));
+        assertFalse(list.get(0).getText().equals(note.getText()));
     }
 
     @Test
@@ -186,5 +186,35 @@ public class NoteRepositoryTest {
         assertTrue(list.size() == 2);
 
         noteRep.deleteNote(tnote);
+    }
+
+    @Test
+    public void getUserNoteByParentIdTest() throws Exception {
+        UserDetailsImpl tuser = new UserDetailsImpl();
+        tuser.setEmail("123olo@ok.oke");
+        tuser.setPassword("qwerty");
+        tuser.setUsername("Leo");
+
+        userRep.create(tuser);
+
+        Note tNote = new Note();
+        tNote.setId(note.getId());
+        tNote.setText(note.getText());
+        tNote.setCreated_at(note.getCreated_at());
+        tNote.setNote_date(note.getUpdated_at());
+        tNote.setUpdated_at(note.getNote_date());
+        noteRep.duplicateNote(note);
+
+        noteRep.linkUserWithNote(tuser.getId(), note.getId());
+
+        Long id = noteRep.getUserNoteByParentId(tuser.getId(), tNote.getId());
+        assertNotNull(id);
+        assertTrue(id > 0);
+
+        noteRep.deleteNote(note);
+
+        note = tNote;
+
+        userRep.remove(tuser);
     }
 }

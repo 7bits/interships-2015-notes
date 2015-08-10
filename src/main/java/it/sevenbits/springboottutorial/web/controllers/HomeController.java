@@ -11,6 +11,7 @@ import it.sevenbits.springboottutorial.web.service.NoteService;
 import it.sevenbits.springboottutorial.web.service.ServiceException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -142,6 +143,13 @@ public class HomeController {
         ShareForm form = new ShareForm(noteId, userEmail);
 
         return noteService.shareNote(form, currentUser.getId());
+    }
+
+    @RequestMapping(value = "telenote/deletesync", method = RequestMethod.POST)
+    public ResponseEntity<ResponseMessage> deleteSync(HttpServletRequest request,Authentication auth) throws ServiceException {
+        noteService.deleteShareLink(Long.parseLong(request.getParameter("noteId")), Long.parseLong(request.getParameter("userId")));
+
+        return new ResponseEntity<>(new ResponseMessage(true, "Разрыв совершён"), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/telenote/order", method = RequestMethod.POST)

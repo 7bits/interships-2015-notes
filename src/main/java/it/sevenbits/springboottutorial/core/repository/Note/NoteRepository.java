@@ -143,4 +143,9 @@ public class NoteRepository implements INoteRepository {
 
     @Override
     public void updateUuidById(final List<Long> notes, String uuid) { mapper.updateUuidById(notes, uuid); }
+
+    @Override
+    public Long getUserNoteByParentId(Long userId, Long parentId) throws RepositoryException {
+        return mapper.getUserNoteByParentId(userId, parentId);
+    }
 }

@@ -54,4 +54,6 @@ public interface INoteRepository {
     List<Note> getNotesWithSameUuidById(Long id) throws RepositoryException;
 
     void updateUuidById(final List<Long> notes, String uuid) throws RepositoryException;
+
+    Long getUserNoteByParentId(Long userId, Long parentId) throws RepositoryException;
 }

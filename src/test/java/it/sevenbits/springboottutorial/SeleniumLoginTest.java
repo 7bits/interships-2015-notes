@@ -1,4 +1,4 @@
-package it.sevenbits.springboottutorial;
+/*package it.sevenbits.springboottutorial;
 
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.repository.User.IUserRepository;
@@ -129,3 +129,4 @@ public class SeleniumLoginTest {
         }
     }
 }
+*/

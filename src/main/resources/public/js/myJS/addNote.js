@@ -31,16 +31,15 @@
 			)
 
 			$(function() {
-				var data = {
-					id: '-1',
-					text: ''
-				};
+            	var data = {
+            		id: '-1',
+            		text: ''
+            	};
 
-				App.Note.save(data, function(id) {
-					$('#new').attr('id', id);
-				});				
-			})
-
+            	App.Note.save(data, function(id) {
+            		$('#new').attr('id', id);
+            	});
+            })
 		})
 	})
 })(jQuery);

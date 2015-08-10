@@ -10,6 +10,8 @@
 				data: data
 			}).done(function(data) {
 				callback(data);
+			}).fail(function(data) {
+			    debugger;
 			});
 		};
 
@@ -385,5 +387,26 @@
 				$('.addShare').css('display', 'block');
 			};
 		})
+
+
+		//удаление синхронизации
+        $('.modalWindow').on('click', '.deleteShare', function() {
+
+            var sendInfo = {
+              userId: $(this).closest('.shareUser').attr('id'),
+              noteId: $(this).closest('.modalWindow').attr('id')
+            };
+
+            $.ajax({
+            	type: "POST",
+                url: "/telenote/deletesync",
+            	dataType: "json",
+            	data: sendInfo,
+            	headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
+            	success: function(data) {
+                    alert("1");
+                }
+            });
+        })
 	});
 })(jQuery);
