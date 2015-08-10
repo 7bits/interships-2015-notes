@@ -217,6 +217,9 @@
 			"<div class='shareUserInfo'>"+
 				"<div class='shareUserName'>"+data.username+"</div>"+
 				"<div class='shareUserEmail'>"+$('.addShareEmail').val()+"</div>"+
+			"</div>"+
+			"<div class='shareActionDiv'>"+
+					"<button class='deleteShare'></button>"+
 			"</div>";
 
 			$('.syncUsers').append(shareUser);
@@ -413,7 +416,11 @@
             	data: sendInfo,
             	headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
             	success: function(data) {
-                    alert("1");
+                    $('#'+sendInfo.userId).empty().animate({
+                    	height: '0px'
+                    }, 300, 'swing', function() {
+                    	$('#'+sendInfo.userId).remove();
+                    })
                 }
             });
         })
