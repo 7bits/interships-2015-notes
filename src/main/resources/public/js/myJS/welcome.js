@@ -31,9 +31,23 @@
 		})
 
 		function ErrorsAnimate(element) {
+			element.attr('style', 'margin-left: 0px;');
+			var width = document.documentElement.clientWidth;
+			var margin;
+
+			if (width > 1200) {
+				margin = '282px';
+			} else if (width > 600 && width < 1200) {
+				margin = '202px';
+			} else {
+				margin = '200px';
+			};
+
 			element.animate({
-				marginLeft: '282px'
-			}, 200)
+					marginLeft: margin
+				}, 200, 'swing', function() {
+					element.removeAttr('style');
+			});
 		}
 	})
 })(jQuery);

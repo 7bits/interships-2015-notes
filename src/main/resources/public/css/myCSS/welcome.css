@@ -174,7 +174,7 @@ input[type='textbox'], input[type='password']:active {
   	background-position-x: 10px;
 	float: left;
 	margin-top: -40px;
-  	margin-left: 0px;
+  	margin-left: 282px;
   	width: 187px;
   	background-color: white;
   	height: 21px;
@@ -217,7 +217,7 @@ input[type='textbox'], input[type='password']:active {
 	}
 
 	.errorDiv {
-		margin-left: 201px;
+		margin-left: 202px;
 	}
 }
 
@@ -271,9 +271,9 @@ input[type='textbox'], input[type='password']:active {
 	.errorDiv {
 		background-position-y: 3px;
 	  	margin-left: 200px;
-	  	margin-top: -40px;
-	  	width: 160px;
-	  	height: 18px;
+	  	margin-top: -39px;
+ 		width: 175px;
+  		height: 19px;
 	  	font-size: 11px;
 	}
 }
