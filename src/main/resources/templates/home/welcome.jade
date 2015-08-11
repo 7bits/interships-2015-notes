@@ -6,6 +6,8 @@ html
     meta(name="_csrf", content="#{_csrf.token}")
     meta(name="_csrf_header", content="#{_csrf.headerName}")
     link(rel='stylesheet', type='text/css', href='css/myCSS/welcome.css')
+    script(src='js/jsLibs/jquery-1.11.3.js')
+    script(src='js/myJS/welcome.js')
   body
     .mainDiv
       .perfomanceDiv
@@ -34,9 +36,10 @@ html
             span.formHead Вход
             input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
             .inputData
-              input(type='textbox', name='username', placeholder='e-mail', value='#{username}')
+              input#js-logText(type='textbox', name='username', placeholder='e-mail', value='#{username}')
               if error
-                span.loginError Адрес и пароль не совпадают!
+                .errorDiv.loginError
+                  span#js-loginError Адрес и пароль не совпадают
               input(type='password', name='password', autocomplete='off', placeholder='пароль')
             button.loginSubmit(type='submit') Войти
         .overlayReg
@@ -45,7 +48,16 @@ html
             span.formHead Регистрация
             input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
             .inputData
-              input(type='textbox', name='email', placeholder='e-mail', value='#{signupForm.email}')
-              input(type='textbox', name='username', placeholder='имя', value='#{signupForm.username}')
-              input(type='password', name='password', autocomplete='off', placeholder='пароль', value='#{signupForm.password}')
+              input#js-regEmail(type='textbox', name='email', placeholder='e-mail', value='#{signupForm.email}')
+              if emailError
+                .errorDiv.emailError
+                  span#js-regEmailMess Неправильный адрес
+              input#js-regUsername(type='textbox', name='username', placeholder='имя', value='#{signupForm.username}')
+              if usernameError
+                .errorDiv.nameError
+                  span#js-regUsernameMess Неподходящее имя
+              input#js-regPass(type='password', name='password', autocomplete='off', placeholder='пароль', value='#{signupForm.password}')
+              if passwordError
+                .errorDiv.passError
+                  span#js-regPassMess Пароль слишком прост
             button.loginSubmit(type='submit') Зарегистрироваться

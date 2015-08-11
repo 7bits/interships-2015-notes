@@ -88,6 +88,7 @@ h2 {
 	width: 310px;
 	top: 10%;
   	left: 59%;
+  	margin-bottom: 15px;
 }
 
 .loginDiv, .regDiv {	
@@ -108,9 +109,9 @@ h2 {
 }
 
 .overlayLogin, .overlayReg {
-	opacity: 0.18;
-	border-radius: 3px;
-	background-color: #6a6e74;
+	border-radius: 4px;
+	background-color: rgba(176, 184, 193, 0.8);
+  	opacity: 0.302;
 }
 
 .overlayLogin {
@@ -138,37 +139,62 @@ input[type='textbox'], input[type='password'] {
   	font-family: "Roboto-Light";
   	color: black;
   	width: 260px;
-  	height: 36px;
+  	height: 30px;
   	border-radius: 2px;
   	box-shadow: 0px 5px 7.6px 0.4px rgba(0, 0, 0, 0.05);
   	background-color: rgb(255, 255, 255);
   	padding: 0 10px 0 10px;
-  	border: 0px;
+  	border: 1px solid white;
   	margin-bottom: 10px;
+}
+
+input[type='textbox'], input[type='password']:hover {
+	box-shadow: 0px 5px 7.6px 0.4px rgba(0, 0, 0, 0.1);
+} 
+
+input[type='textbox'], input[type='password']:active {
+	box-shadow: 0px 5px 7.6px 0.4px rgba(0, 0, 0, 0.1);
 }
 
 .loginSubmit {
 	border-radius: 2px;
 	background-color: rgb(32, 64, 108);
 	width: 280px;
-  	height: 36px;
+  	height: 32px;
   	border: 0px;
-  	font-size: 20px;
+  	font-size: 18px;
   	font-family: "Room-Thin";
   	color: rgb(255, 255, 255);
 }
 
-.loginError {
+.errorDiv {
+	background-image: url("/img/errorIcon.png");
+	background-repeat: no-repeat;
+	background-position-y: 5px;
+  	background-position-x: 10px;
 	float: left;
-	margin-top: -41px;
-  	margin-left: 240px;
-  	width: 233px;
+	margin-top: -40px;
+  	margin-left: 0px;
+  	width: 187px;
   	background-color: white;
-  	height: 22px;
-  	padding-top: 6px;;
+  	height: 21px;
+  	padding-top: 7px;;
   	padding-right: 6px;
   	text-align: right;
-  	font-size: 13px;
+  	font-size: 12px;
+  	font-family: "Roboto-Light"
+}
+
+.emailError {
+	width: 140px;
+}
+
+.nameError {
+	width: 131px;
+}
+
+.passError {
+	width: 152px;
 }
 
 @media screen and (max-width: 1200px) {
@@ -190,8 +216,8 @@ input[type='textbox'], input[type='password'] {
 		width: 230px;
 	}
 
-	.loginError {
-		margin-left: 155px;
+	.errorDiv {
+		margin-left: 201px;
 	}
 }
 
@@ -242,7 +268,8 @@ input[type='textbox'], input[type='password'] {
 		margin-top: 10px;
 	}
 
-	.loginError {
+	.errorDiv {
+		background-position-y: 3px;
 	  	margin-left: 200px;
 	  	margin-top: -40px;
 	  	width: 160px;

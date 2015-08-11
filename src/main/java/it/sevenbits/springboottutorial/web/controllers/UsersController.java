@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
@@ -75,18 +76,19 @@ public class UsersController {
                 BindingResult bindingResult, HttpSession session, HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
-            List<String> errors = bindingResult
-                    .getAllErrors()
-                    .stream()
-                    .map(ObjectError::getDefaultMessage)
-                    .collect(Collectors.toList());
+            ModelAndView model = new ModelAndView("home/welcome");
+            List<String> matcher = new ArrayList<String>();
+
+            for (ObjectError objectError : bindingResult.getAllErrors()) {
+
+                if(!matcher.contains(((FieldError) objectError).getField())) {
+                    matcher.add(((FieldError) objectError).getField());
+                    model.addObject(((FieldError) objectError).getField() + "Error", ((FieldError) objectError).getField());
+                }
+            }
 
             session.setAttribute("userForm", form);
-
-            ModelAndView model = new ModelAndView("home/welcome");
             model.addObject("signupForm", form);
-            model.addObject("errorMessages", errors);
-
             return model;
         }
 
