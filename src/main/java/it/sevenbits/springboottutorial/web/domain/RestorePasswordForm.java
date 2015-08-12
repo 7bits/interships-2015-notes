@@ -11,15 +11,25 @@ public class RestorePasswordForm {
 
     @NotNull(message="Пароль не должен быть пустым")
     @Size(min=5, max=255, message="Пароль, допустимое количество символов от 5 до 255")
-    private String oldPass;
+    private String password;
 
     @NotNull(message="Пароль не должен быть пустым")
     @Size(min=5, max=255, message="Пароль, допустимое количество символов от 5 до 255")
     @Pattern(regexp="(([a-z]+[A-Z]+[0-9]+)|([a-z]+[0-9]+[A-Z]+)|([A-Z]+[a-z]+[0-9]+)|([A-Z]+[0-9]+[a-z]+)|([0-9]+[A-Z]+[a-z]+)|([0-9]+[a-z]+[A-Z]+))",
             message = "Пароль должен содержать хотя бы одну цифру, одну заглавную букву, одну букву в нижнем регистре.")
-    private String newPass;
+    private String passwordRepeat;
 
     private String token;
+
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getToken() {
         return token;
@@ -29,19 +39,19 @@ public class RestorePasswordForm {
         this.token = token;
     }
 
-    public String getOldPass() {
-        return oldPass;
+    public String getPassword() {
+        return password;
     }
 
-    public void setOldPass(String oldPass) {
-        this.oldPass = oldPass;
+    public void setPassword(String oldPass) {
+        this.password = oldPass;
     }
 
-    public String getNewPass() {
-        return newPass;
+    public String getPasswordRepeat() {
+        return passwordRepeat;
     }
 
-    public void setNewPass(String newPass) {
-        this.newPass = newPass;
+    public void setPasswordRepeat(String newPass) {
+        this.passwordRepeat = newPass;
     }
 }

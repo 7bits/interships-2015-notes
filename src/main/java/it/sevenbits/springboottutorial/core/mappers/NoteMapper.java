@@ -114,7 +114,7 @@ public interface NoteMapper {
             "       FROM notes\n" +
             "       WHERE id=#{noteId}))")
     @Results({
-            @Result(column = "username", property = "username"),
+            @Result(column = "id", property = "id"),
             @Result(column = "email", property = "email"),
             @Result(column = "username", property = "username"),
             @Result(column = "enabled", property = "enabled"),
@@ -128,7 +128,7 @@ public interface NoteMapper {
             "   FROM usernotes\n" +
             "   WHERE note_id = #{noteId})")
     @Results({
-            @Result(column = "username", property = "username"),
+            @Result(column = "id", property = "id"),
             @Result(column = "email", property = "email"),
             @Result(column = "username", property = "username"),
             @Result(column = "enabled", property = "enabled"),

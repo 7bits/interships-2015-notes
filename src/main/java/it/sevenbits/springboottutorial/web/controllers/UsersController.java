@@ -125,17 +125,18 @@ public class UsersController {
 
     @RequestMapping(value = "/resetpass", method = RequestMethod.GET)
     public ModelAndView resetPass(String token, String email) {
-        if (token.isEmpty() || email.isEmpty()) {
+        boolean isEmptyInput = token == null || email == null || token.isEmpty() || email.isEmpty();
+        if (isEmptyInput) {
             ModelAndView model = new ModelAndView("home/resetPass");
-            model.addObject("form", new UserCreateForm());
+            model.addObject("resetForm", new UserCreateForm());
 
             return model;
         }
 
         try {
             if (token.equals(userService.getToken(email))) {
-                ModelAndView model = new ModelAndView("home/changePass", "token", token);
-                model.addObject("form", new RestorePasswordForm());
+                ModelAndView model = new ModelAndView("home/newpass", "token", token);
+                model.addObject("resetForm", new RestorePasswordForm());
                 model.addObject("email", email);
 
                 return model;
@@ -153,7 +154,7 @@ public class UsersController {
             Optional<UserDetailsImpl> user = userService.getUserByEmail(form.getEmail());
             if (user.isPresent()) {
                 String token = userService.setNewToken(user.get().getEmail());
-                String link = "http://tele-notes.7bits.it/resetPass?token=" + token + "&email=" + form.getEmail();
+                String link = "http://tele-notes.7bits.it/resetpass?token=" + token + "&email=" + form.getEmail();
 
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("link", link);
@@ -168,16 +169,34 @@ public class UsersController {
         }
 
         ModelAndView model = new ModelAndView("home/checkMail");
-        model.addObject("message", "На ваш почтовый адрес отправлено письмо с с инструкцией по восстановлению пароля." +
-                "Пожалуйста, проверьте почту и следуйте инструкции.");
+        model.addObject("message", "Письмо с инструкцией подтверждения регистрации выслано на ваш адресс:");
         model.addObject("title", "Восстановление пароля");
+        model.addObject("email", form.getEmail());
 
         return model;
     }
 
-    @RequestMapping(value = "/updatePass", method = RequestMethod.POST)
-    public ModelAndView updatePass(@ModelAttribute UserCreateForm form) {
-        return new ModelAndView("home/errors");
+    @RequestMapping(value = "/updatepass", method = RequestMethod.POST)
+    public ModelAndView updatePass(@ModelAttribute RestorePasswordForm form) {
+        try {
+            Optional<UserDetailsImpl> user = userService.getUserByEmail(form.getEmail());
+            if (user.isPresent() && form.getToken().equals(userService.getToken(form.getEmail()))
+                    && form.getPassword().equals(form.getPasswordRepeat())) {
+
+                UserCreateForm userForm = new UserCreateForm();
+                userForm.setEmail(form.getEmail());
+
+                userService.updatePassword(userForm, form.getPassword());
+            } else {
+                ModelAndView model = new ModelAndView("home/newpass");
+
+                return model;
+            }
+        } catch (ServiceException ex) {
+            return new ModelAndView("home/errors", "error", ex.getMessage());
+        }
+
+        return new ModelAndView("redirect:/");
     }
     /*@RequestMapping(value = "/send", method = RequestMethod.GET)
     public String sendEmail(String email) {

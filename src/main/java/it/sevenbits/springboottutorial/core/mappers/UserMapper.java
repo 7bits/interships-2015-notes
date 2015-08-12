@@ -35,7 +35,7 @@ public interface UserMapper {
 
     @Update("UPDATE users " +
             "SET password=#{password} " +
-            "WHERE id=#{id};")
+            "WHERE email=#{email};")
     void updatePassword(final UserDetailsImpl userDetails);
 
     @Select("SELECT * FROM users WHERE id=#{id};")

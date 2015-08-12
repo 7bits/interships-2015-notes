@@ -72,17 +72,12 @@ public class UserService implements UserDetailsService {
 
         final UserDetailsImpl userDetails = new UserDetailsImpl();
         userDetails.setEmail(form.getEmail().toLowerCase());
-        userDetails.setPassword(password);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        userDetails.setPassword(encoder.encode(password));
 
         try {
-            if (repository.isEmailExists(userDetails)) {
-                userDetails.setId(repository.getIdByEmail(userDetails));
-                repository.updatePassword(userDetails);
-            } else {
-                throw new ServiceException("E-mail is not exists!");
-            }
-        }
-        catch (Exception e) {
+            repository.updatePassword(userDetails);
+        } catch (Exception e) {
             throw new ServiceException("E-mail is not exists!");
         }
     }

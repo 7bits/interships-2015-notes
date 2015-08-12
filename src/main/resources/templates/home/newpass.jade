@@ -7,6 +7,7 @@ html
     meta(name="_csrf_header", content="#{_csrf.headerName}")
     link(rel='stylesheet', type='text/css', href='css/myCSS/welcome.css')
     link(rel='stylesheet', type='text/css', href='css/myCSS/resetPass.css')
+    link(rel='stylesheet', type='text/css', href='css/myCSS/newpass.css')
   body
     .mainDiv
       .perfomanceDiv
@@ -31,12 +32,18 @@ html
       .logRegDiv
         .overlayLogin
         .loginDiv
-          form.signinForm(role='form', action='/resetpass', method='POST', name='resetForm')
+          form.signinForm(role='form', action='/updatepass', method='POST', name='resetForm')
             span.formHead Восстановление пароля
             input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
+            input(type='hidden', name='token', value='#{token}')
+            input(type='hidden', name='email', value='#{email}')
             .inputData
-              input#js-logText(type='textbox', name='email', placeholder='e-mail', value='#{email}')
-              if emailError
-                .errorDiv.emailError
-                  span#js-regEmailMess Неправильный адрес
-            button.loginSubmit(type='submit') Продолжить
+              input#js-regPass(type='password', name='password', autocomplete='off', placeholder='Новый пароль', value='#{resetForm.password}')
+              if passwordError
+                .errorDiv.passError
+                  span#js-regPassMess1 Пароль слишком прост
+              input#js-regPass(type='password', name='passwordRepeat', autocomplete='off', placeholder='Ещё раз', value='#{resetForm.password}')
+              if passwordError
+                .errorDiv.passError
+                  span#js-regPassMess2 Пароли не совпадают
+            button.loginSubmit(type='submit') Восстановить
