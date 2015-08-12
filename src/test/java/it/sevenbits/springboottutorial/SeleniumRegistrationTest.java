@@ -1,4 +1,4 @@
-/*package it.sevenbits.springboottutorial;
+package it.sevenbits.springboottutorial;
 
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.repository.User.IUserRepository;
@@ -44,18 +44,11 @@ public class SeleniumRegistrationTest {
     private WebElement submit;
 
     private void findInputFields() {
-        WebElement element = driver.findElement(By.className("js-reg"));
-
-        assertTrue(element.isEnabled());
-        assertTrue(element.isDisplayed());
-
-        element.click();
-
         email = driver.findElement(By.ByCssSelector.cssSelector("form[name=signupForm] input[name=email]"));
         username = driver.findElement(By.ByCssSelector.cssSelector("form[name=signupForm] input[name=username]"));
         password = driver.findElement(By.ByCssSelector.cssSelector("form[name=signupForm] input[name=password]"));
         //passwordRepeat = driver.findElement(By.ByCssSelector.cssSelector("form[name=signupForm] input[name=passwordRepeat]"));
-        submit = driver.findElement(By.ByCssSelector.cssSelector("form[name=signupForm] .regSubmit"));
+        submit = driver.findElement(By.ByCssSelector.cssSelector("form[name=signupForm] .loginSubmit"));
     }
 
     @Before
@@ -72,10 +65,10 @@ public class SeleniumRegistrationTest {
         submit.submit();
 
         assertEquals("http://127.0.0.1:9000/signup", driver.getCurrentUrl());
-        driver.findElement(By.className("toMain")).click();
+        driver.findElement(By.className("backToMain")).click();
 
-        List<WebElement> error = driver.findElements(By.className("errorText"));
-        assertTrue(error.isEmpty());
+        /*List<WebElement> error = driver.findElements(By.className("errorText"));
+        assertTrue(error.isEmpty());*/
 
         findInputFields();
     }
@@ -85,7 +78,8 @@ public class SeleniumRegistrationTest {
         submit.submit();
         //submit.click();
 
-        List<WebElement> error = driver.findElements(By.className("errorText"));
+        assertEquals(driver.getCurrentUrl(), "http://127.0.0.1:9000/signup");
+        List<WebElement> error = driver.findElements(By.className("errorDiv"));
         assertFalse(error.isEmpty());
 
         try {
@@ -105,37 +99,29 @@ public class SeleniumRegistrationTest {
         //passwordRepeat.sendKeys(user.getPassword());
     }
 
-    @Test
+    /*@Test
     public void regWrongUsernameTest() throws Exception {
         email.sendKeys(user.getEmail());
         username.sendKeys("Leo");
         password.sendKeys(user.getPassword());
         //passwordRepeat.sendKeys(user.getPassword());
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void regWrongPasswordTest() throws Exception {
         email.sendKeys(user.getEmail());
         username.sendKeys(user.getUsername());
         password.sendKeys("123");
         //passwordRepeat.sendKeys(user.getPassword());
-    }
+    }*/
 
-    @Test
-    public void regWrongPasswordRepeatTest() throws Exception {
-        email.sendKeys(user.getEmail());
-        username.sendKeys(user.getUsername());
-        password.sendKeys(user.getPassword());
-        //passwordRepeat.sendKeys("123");
-    }
-
-    @Test
+    /*@Test
     public void regUserExist() throws Exception {
         email.sendKeys(user.getEmail());
         username.sendKeys(user.getUsername());
         password.sendKeys(user.getPassword());
         //passwordRepeat.sendKeys(user.getPassword());
-    }
+    }*/
 
     @BeforeClass
     public static void initDriver() {
@@ -156,4 +142,3 @@ public class SeleniumRegistrationTest {
         driver.close();
     }
 }
-*/

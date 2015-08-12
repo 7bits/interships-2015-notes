@@ -1,4 +1,4 @@
-/*package it.sevenbits.springboottutorial;
+package it.sevenbits.springboottutorial;
 
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.repository.User.IUserRepository;
@@ -73,13 +73,6 @@ public class SeleniumLoginTest {
 
         driver.get("http://127.0.0.1:9000");
 
-        WebElement element = driver.findElement(By.className("js-enter"));
-
-        assertTrue(element.isEnabled());
-        assertTrue(element.isDisplayed());
-
-        element.click();
-
         email = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] input[name=username]"));
         password = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] input[name=password]"));
         submit = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] .loginSubmit"));
@@ -107,7 +100,7 @@ public class SeleniumLoginTest {
 
         submit.submit();
 
-        driver.findElement(By.className("errorText"));
+        driver.findElement(By.className("errorDiv"));
     }
 
     @Test
@@ -117,7 +110,7 @@ public class SeleniumLoginTest {
 
         submit.submit();
 
-        driver.findElement(By.className("errorText"));
+        driver.findElement(By.className("errorDiv"));
     }
 
     @After
@@ -129,4 +122,3 @@ public class SeleniumLoginTest {
         }
     }
 }
-*/

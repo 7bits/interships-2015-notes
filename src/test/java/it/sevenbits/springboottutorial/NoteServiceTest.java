@@ -150,7 +150,18 @@ public class NoteServiceTest {
     public void destroy() throws Exception {
         userRepository.remove(user);
 
+        Note note = new Note();
+        note.setId(newNoteId);
+        noteRep.deleteNote(note);
+
         for (UserDetailsImpl user : users) {
+            List<Note> userNotes = noteRep.findUserNotes(user.getId());
+            if (!userNotes.isEmpty()) {
+                for (Note usernote : userNotes) {
+                    noteRep.deleteNote(usernote);
+                }
+            }
+
             userRepository.remove(user);
         }
     }
