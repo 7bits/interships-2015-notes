@@ -1,0 +1,47 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name="_csrf", content="#{_csrf.token}")
+    meta(name="_csrf_header", content="#{_csrf.headerName}")
+    link(rel='stylesheet', type='text/css', href='css/myCSS/welcome.css')
+    link(rel='stylesheet', type='text/css', href='css/myCSS/resetPass.css')
+    link(rel='stylesheet', type='text/css', href='css/myCSS/newpass.css')
+  body
+    .mainDiv
+      .perfomanceDiv
+        .imgDiv
+          .logoImg
+          .slogon
+        .perfomanceMessage
+          h1
+            | Организуйте дела, идеи, мысли.
+            br
+            | Делитесь с друзьями.
+          h2
+            | Зарегистрируйтесь на TeleNote.
+            br
+            | Cоздавайте и редактируйте текстовые заметки.
+            br
+            | Записывайте мысли, идеи, дела, рецепты.
+            br
+            | Делитесь заметками с семьёй и друзьями.
+            br
+            | Ведите дела вместе.
+      .logRegDiv
+        .overlayLogin
+        .loginDiv
+          form.signinForm(role='form', action='/resetpass', method='POST', name='resetForm')
+            span.formHead Восстановление пароля
+            input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
+            .inputData
+              input#js-regPass(type='password', name='password', autocomplete='off', placeholder='Новый пароль', value='#{resetForm.password}')
+              if passwordError
+                .errorDiv.passError
+                  span#js-regPassMess1 Пароль слишком прост
+              input#js-regPass(type='password', name='password', autocomplete='off', placeholder='Ещё раз', value='#{resetForm.password}')
+              if passwordError
+                .errorDiv.passError
+                  span#js-regPassMess2 Пароли не совпадают
+            button.loginSubmit(type='submit') Восстановить
