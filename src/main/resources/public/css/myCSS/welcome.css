@@ -106,6 +106,7 @@ h2 {
 
 .loginDiv {
 	margin-bottom: 30px;
+	height: 182px;
 }
 
 .overlayLogin, .overlayReg {
@@ -116,14 +117,14 @@ h2 {
 
 .overlayLogin {
 	width: 310px;
-  	height: 186px;
-  	margin-bottom: -186px;
+  	height: 200px;
+  	margin-bottom: -200px;
 }
 
 .overlayReg {
 	width: 310px;
-  	height: 233px;
-  	margin-bottom: -233px;
+  	height: 221px;
+  	margin-bottom: -221px;
 }
 
 .signinForm, .signupForm {
@@ -195,6 +196,15 @@ input[type='textbox'], input[type='password']:active {
 
 .passError {
 	width: 152px;
+}
+
+.forgotPass {
+	font-family: "Roboto-Light";
+	font-size: 12px;
+	color: black;
+	float: right;
+	margin-top: 10px;
+	
 }
 
 @media screen and (max-width: 1200px) {

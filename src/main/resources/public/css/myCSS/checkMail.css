@@ -1,74 +1,60 @@
-body {
-	margin: 0px;
-	background-color: #414141;
+@font-face {
+	font-family: "Roboto-Light";
+	src: url("/css/fonts/Roboto/Roboto-Light.ttf");
 }
 
-.wrapper {
-	width: 100%;
-	display: inline-block;
+
+@font-face {
+	font-family: "Roboto-Thin";
+	src: url("/css/fonts/Roboto/Roboto-Thin.ttf");
+}
+
+
+@font-face {
+	font-family: "Roboto-Regular";
+	src: url("/css/fonts/Roboto/Roboto-Regular.ttf");
+}
+
+.overlayCheckMail {
+	border-radius: 4px;
+	background-color: rgba(176, 184, 193, 0.8);
+  	opacity: 0.302;
+  	width: 310px;
+  	height: 175px;
+ 	margin-bottom: -175px;
+}
+
+.logRegDiv {
+	top: 30%;
+}
+
+.checkYourMail {
 	text-align: center;
+	padding: 15px 35px 8px 35px;
+	position: relative;
 }
 
-.mainDiv, .mainConfDiv {
-	width: 700px;
-	padding: 10px 25px 10px 25px;
-	margin: auto;
-	margin-top: 70px;
-	border: 2px solid black;
-}
-
-.logo {
-	display: inline-block;
-}
-
-.image {
-	background-image: url("/img/convert.png");
-	background-repeat: no-repeat;
-	width: 80px;
-	height: 80px;
-	display: inline-block;
+.infoCheckMail {
+	text-align: left;
   	float: left;
+  	font-family: "Roboto-Light";
+  	font-size: 12px;
 }
 
-.logo span {
+.backToMain {
+	background-image: url("/img/backIcon.png");
+	background-repeat: no-repeat;
+	background-position-y: 4px;
+	margin-left: -26px;
+ 	padding-left: 26px;
 	float: left;
-	margin-top: 30px;
+  	margin-top: 20px;
+ 	color: gray;
+  	text-decoration: underline;
 }
 
-.info {
-	text-align: center;
-}
-
-button {
-	margin-top: 30px;
-}
-
-.footer {
-	margin-top: 40px;
-}
-
-.mainDiv {
-	background-color: #ffe599;
-}
-
-.mainConfDiv {
-	background-color: #eeeeee;
-}
-
-.topBorder
-	margin-top: -8px;
-}
-
-.resetB {
-    height: 300px;
-}
-
-.toMain {
-    text-decoration: none;
-    color: blue;
-}
-
-.checkMailDiv {
-    font-size: 18px;
-    font-family: "Comic Sans MS";
+.mailForCheck {
+	font-family: "Roboto-Regular";
+	font-size: 12px;
+	float: left;
 }

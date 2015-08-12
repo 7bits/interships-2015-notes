@@ -3,19 +3,42 @@ html
   head
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    link(rel='stylesheet', type='text/css', href='/css/libCSS/bootstrap.css')
-    link(rel='stylesheet', type='text/css', href='/css/myCSS/checkMail.css')
-    link(rel='stylesheet', type='text/css', href='/css/myCSS/telenote.css')
-    title Reset password
+    meta(name="_csrf", content="#{_csrf.token}")
+    meta(name="_csrf_header", content="#{_csrf.headerName}")
+    link(rel='stylesheet', type='text/css', href='css/myCSS/welcome.css')
+    link(rel='stylesheet', type='text/css', href='css/myCSS/checkMail.css')
   body
-    .container
-      .headWrapper
-        .logoDiv
+    .mainDiv
+      .perfomanceDiv
+        .imgDiv
           .logoImg
           .slogon
-      .workDiv
-        span(style='color: #f5f5f5;') На ваш почтовый адрес отправлено письмо с подтверждением регистрации. Пожалуйста, проверьте почту и следуйте инструкции.
-        br
-        br
-        a(href="/", class="toMain")
-          button(style='color: #f5f5f5; background-color: #313131; border: 0px; padding: 10px;').btn-default.submitBtn Вернуться на главную
+        .perfomanceMessage
+          h1
+            | Организуйте дела, идеи, мысли.
+            br
+            | Делитесь с друзьями.
+          h2
+            | Зарегистрируйтесь на TeleNote.
+            br
+            | Cоздавайте и редактируйте текстовые заметки.
+            br
+            | Записывайте мысли, идеи, дела, рецепты.
+            br
+            | Делитесь заметками с семьёй и друзьями.
+            br
+            | Ведите дела вместе.
+      .logRegDiv
+        .overlayCheckMail
+        .checkYourMail
+          span.formHead Регистрация
+          br
+          br
+          span.infoCheckMail Письмо с инструкцией подтверждения регистрации выслано на ваш адресс:
+          br
+          span.mailForCheck #{email}
+          br
+          br
+          span.infoCheckMail Проверьте свой почтовый ящик
+          a(href='/')
+            .backToMainвернуться на главную

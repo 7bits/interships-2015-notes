@@ -116,7 +116,12 @@ public class UsersController {
             LOG.info(e.getMessage());
         }*/
 
-        return new ModelAndView("home/checkMail");
+        return new ModelAndView("home/checkMail", "email", form.getEmail());
+    }
+
+    @RequestMapping(value = "/checkmail", method = RequestMethod.GET)
+    public String test() {
+        return "/home/checkMail";
     }
 
     @RequestMapping(value = "/resetPass", method = RequestMethod.GET)

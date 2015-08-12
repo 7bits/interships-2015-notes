@@ -42,6 +42,7 @@ html
                   span#js-loginError Адрес и пароль не совпадают
               input(type='password', name='password', autocomplete='off', placeholder='пароль')
             button.loginSubmit(type='submit') Войти
+            a.forgotPass(href='/resetpass') Забыли пароль?
         .overlayReg
         .regDiv
           form.signupForm(role='form', action='/signup', method='POST', name='signupForm')
