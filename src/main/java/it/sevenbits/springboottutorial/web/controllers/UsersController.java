@@ -169,7 +169,7 @@ public class UsersController {
         }
 
         ModelAndView model = new ModelAndView("home/checkMail");
-        model.addObject("message", "Письмо с инструкцией подтверждения регистрации выслано на ваш адресс:");
+        model.addObject("message", "Письмо с инструкцией подтверждения регистрации выслано на ваш адрес:");
         model.addObject("title", "Восстановление пароля");
         model.addObject("email", form.getEmail());
 
