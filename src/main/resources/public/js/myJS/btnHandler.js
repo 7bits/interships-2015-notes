@@ -183,9 +183,6 @@
 					headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
 					data: sendInfo,
 					success: function(data){
-						infoLabel.text(data.message);
-						curClass = 'messageSuccess';
-						infoLabel.addClass(curClass);
 
 						addingShareUser(data)
 
