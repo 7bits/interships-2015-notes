@@ -26,12 +26,14 @@
 
 .logRegDiv {
 	top: 30%;
+	width: 310px;
 }
 
 .checkYourMail {
 	text-align: center;
 	padding: 15px 35px 8px 35px;
 	position: relative;
+	width: 240px;
 }
 
 .infoCheckMail {
@@ -57,4 +59,8 @@
 	font-family: "Roboto-Regular";
 	font-size: 12px;
 	float: left;
+}
+
+.resPassHead {
+	font-size: 17px;
 }

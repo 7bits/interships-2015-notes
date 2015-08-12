@@ -119,16 +119,10 @@ public class UsersController {
         return new ModelAndView("home/checkMail", "email", form.getEmail());
     }
 
-    @RequestMapping(value = "/checkmail", method = RequestMethod.GET)
-    public String test() {
-        return "/home/checkMail";
-    }
+    @RequestMapping(value = "/resetpass", method = RequestMethod.GET)
+    public ModelAndView resetPass(@ModelAttribute UserCreateForm form) {
 
-    @RequestMapping(value = "/resetPass", method = RequestMethod.GET)
-    public String resetPass(final Model model) {
-        /*model.addAttribute("subscription", new UserCreateForm());
-        return "home/resetPass";*/
-        return "home/errors";
+        return new ModelAndView("home/resetPass", "email", form.getEmail());
     }
 
     @RequestMapping(value = "/resetPass", method = RequestMethod.POST)

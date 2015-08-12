@@ -6,7 +6,7 @@ html
     meta(name="_csrf", content="#{_csrf.token}")
     meta(name="_csrf_header", content="#{_csrf.headerName}")
     link(rel='stylesheet', type='text/css', href='css/myCSS/welcome.css')
-    link(rel='stylesheet', type='text/css', href='css/myCSS/resetPass.css')
+    link(rel='stylesheet', type='text/css', href='css/myCSS/checkMail.css')
   body
     .mainDiv
       .perfomanceDiv
@@ -29,14 +29,16 @@ html
             br
             | Ведите дела вместе.
       .logRegDiv
-        .overlayLogin
-        .loginDiv
-          form.signinForm(role='form', action='/resetpass', method='POST', name='resetForm')
-            span.formHead Восстановление пароля
-            input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
-            .inputData
-              input#js-logText(type='textbox', name='username', placeholder='e-mail', value='#{username}')
-              if emailError
-                .errorDiv.emailError
-                  span#js-regEmailMess Неправильный адрес
-            button.loginSubmit(type='submit') Продолжить
+        .overlayCheckMail
+        .checkYourMail
+          span.formHead.resPassHead Восстановление пароля
+          br
+          br
+          span.infoCheckMail Письмо с инструкцией подтверждения регистрации выслано на ваш адресс:
+          br
+          span.mailForCheck #{email}
+          br
+          br
+          span.infoCheckMail Проверьте свой почтовый ящик
+          a(href='/')
+            .backToMainвернуться на главную
