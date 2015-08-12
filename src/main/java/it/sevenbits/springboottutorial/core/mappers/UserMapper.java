@@ -75,5 +75,8 @@ public interface UserMapper {
     void confirm(String email);
 
     @Select("SELECT token FROM users WHERE email=#{email}")
-    String getTokenById(String email);
+    String getTokenByEmail(String email);
+
+    @Update("UPDATE users SET token=#{token}, token_at=DEFAULT WHERE email=#{email}")
+    void setTokenByEmail(@Param("email") String email, @Param("token") String token);
 }

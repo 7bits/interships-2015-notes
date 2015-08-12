@@ -1,6 +1,7 @@
 package it.sevenbits.springboottutorial.web.controllers;
 
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
+import it.sevenbits.springboottutorial.web.domain.RestorePasswordForm;
 import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
 import it.sevenbits.springboottutorial.web.service.EmailService;
 import it.sevenbits.springboottutorial.web.service.ServiceException;
@@ -30,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -112,35 +114,71 @@ public class UsersController {
             errors.add("Не удалось зарегестрировать пользователя.");
             session.setAttribute("userForm", form);
             return new ModelAndView("home/welcome", "errorMessages", errors);
-        } /*catch (ServletException e) {
-            LOG.info(e.getMessage());
-        }*/
+        }
 
-        return new ModelAndView("home/checkMail", "email", form.getEmail());
+        ModelAndView model = new ModelAndView("home/checkMail");
+        model.addObject("message", "На ваш почтовый адрес отправлено письмо с подтверждением регистрации. Пожалуйста, проверьте почту и следуйте инструкции.");
+        model.addObject("title", "Регистрация");
+
+        return model;
     }
 
     @RequestMapping(value = "/resetpass", method = RequestMethod.GET)
-    public ModelAndView resetPass(@ModelAttribute UserCreateForm form) {
+    public ModelAndView resetPass(String token, String email) {
+        if (token.isEmpty() || email.isEmpty()) {
+            ModelAndView model = new ModelAndView("home/resetPass");
+            model.addObject("form", new UserCreateForm());
 
-        return new ModelAndView("home/resetPass", "email", form.getEmail());
-    }
-
-    @RequestMapping(value = "/resetPass", method = RequestMethod.POST)
-    public String resetPassInDB(@ModelAttribute UserCreateForm form, final Model model) {
-
-        /*final String password = "456";
-
-        try {
-            userService.updatePassword(form, password);
-        } catch (Exception e) {
-
+            return model;
         }
 
-        model.addAttribute("subscription", form);
-        return "home/signin";*/
-        return "home/errors";
+        try {
+            if (token.equals(userService.getToken(email))) {
+                ModelAndView model = new ModelAndView("home/changePass", "token", token);
+                model.addObject("form", new RestorePasswordForm());
+                model.addObject("email", email);
+
+                return model;
+            } else {
+                return new ModelAndView("home/errors", "error", "Неверный или устаревший токен.");
+            }
+        } catch (ServiceException e) {
+            return new ModelAndView("home/errors", "error", e.getMessage());
+        }
     }
 
+    @RequestMapping(value = "/resetpass", method = RequestMethod.POST)
+    public ModelAndView resetPassInDB(@ModelAttribute UserCreateForm form) {
+        try {
+            Optional<UserDetailsImpl> user = userService.getUserByEmail(form.getEmail());
+            if (user.isPresent()) {
+                String token = userService.setNewToken(user.get().getEmail());
+                String link = "http://tele-notes.7bits.it/resetPass?token=" + token + "&email=" + form.getEmail();
+
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("link", link);
+                map.put("username", user.get().getUsername());
+
+                emailService.sendHtml(user.get().getEmail(), "Tele-notes. Восстановление пароля.", "home/changePassMail", map);
+            } else {
+                return new ModelAndView("home/errors", "error", "Пользователь с почтовым адресом " + form.getEmail() + " не найден.");
+            }
+        } catch (ServiceException e) {
+            return new ModelAndView("home/errors", "error", e.getMessage());
+        }
+
+        ModelAndView model = new ModelAndView("home/checkMail");
+        model.addObject("message", "На ваш почтовый адрес отправлено письмо с с инструкцией по восстановлению пароля." +
+                "Пожалуйста, проверьте почту и следуйте инструкции.");
+        model.addObject("title", "Восстановление пароля");
+
+        return model;
+    }
+
+    @RequestMapping(value = "/updatePass", method = RequestMethod.POST)
+    public ModelAndView updatePass(@ModelAttribute UserCreateForm form) {
+        return new ModelAndView("home/errors");
+    }
     /*@RequestMapping(value = "/send", method = RequestMethod.GET)
     public String sendEmail(String email) {
         try {
@@ -178,4 +216,6 @@ public class UsersController {
 
         return "redirect:/";
     }
+
+
 }

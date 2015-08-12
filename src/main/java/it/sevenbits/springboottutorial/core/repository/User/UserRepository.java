@@ -78,7 +78,12 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
+    public void setTokenByEmail(String email, String token) throws RepositoryException {
+        mapper.setTokenByEmail(email, token);
+    }
+
+    @Override
     public String getTokenByEmail(String email) throws RepositoryException {
-        return mapper.getTokenById(email);
+        return mapper.getTokenByEmail(email);
     }
 }

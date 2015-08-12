@@ -3,7 +3,6 @@ html
   head
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    link(rel='stylesheet', type='text/css', href='css/bootstrap.css')
     title Reset password
   body(style='margin: 0px; font-size: 14px; font-family: "PTS"')
     div(style='width: 100%; display: inline-block; text-align: center;')
@@ -13,11 +12,12 @@ html
             div(style='background-image: url("../img/logo.png"); background-repeat: no-repeat; background-size: cover; width: 45px; height: 53px; display: inline-block; float: left;')
             div(style='background-image: url("../img/dark-label.png"); background-size: cover; float: left; margin-top: 19px; margin-left: 10px; width: 119px; height: 16px;')
           div(style='text-align: center; width: 90%; margin: auto;')
-            div Здравствуйте, username! Сменить пароль?
+            div Здравствуйте, #{username}! Сменить пароль?
             br
             div(style='text-align: left;') Кто-то (надеемся, что вы) попросил нас переустановить пароль для вашей учётной записи TeleNote. Если вы не запрашивали переустановку пароля - проигнорируйте это письмо.
           hr(style='border-top: 1px solid #c0c0c0; width: 100%;')
-          button.btn-default(type='submit', style='font-family: "Room";	margin-top: 10px; border: 0px; color: white; background-color: #383838; width: 200px; height: 40px;') Переустановить пароль
+          a(href="#{link}")
+            button.btn-default(type='submit', style='font-family: "Room";	margin-top: 10px; border: 0px; color: white; background-color: #383838; width: 200px; height: 40px;') Переустановить пароль
           br
         div(style='margin-top: 40px; color: #8e8e8e;')
           span (C) 2015 TeleNote. All Rights Reserved.

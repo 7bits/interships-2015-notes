@@ -26,5 +26,7 @@ public interface IUserRepository {
 
     public void confirm(String email) throws RepositoryException;
 
+    public void setTokenByEmail(String email, String token) throws RepositoryException;
+
     public String getTokenByEmail(String email) throws RepositoryException;
 }

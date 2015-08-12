@@ -31,14 +31,14 @@ html
       .logRegDiv
         .overlayCheckMail
         .checkYourMail
-          span.formHead Регистрация
+          span.formHead= title
           br
           br
-          span.infoCheckMail Письмо с инструкцией подтверждения регистрации выслано на ваш адресс:
+          span.infoCheckMail= message
           br
           span.mailForCheck #{email}
           br
           br
           span.infoCheckMail Проверьте свой почтовый ящик
           a(href='/')
-            .backToMainвернуться на главную
+            .backToMain вернуться на главную

@@ -2,6 +2,7 @@ package it.sevenbits.springboottutorial.web.service;
 
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.domain.Role;
+import it.sevenbits.springboottutorial.core.repository.RepositoryException;
 import it.sevenbits.springboottutorial.core.repository.User.IUserRepository;
 
 import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
@@ -17,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
+import java.security.SecureRandom;
 import java.util.Optional;
 
 @Service
@@ -114,5 +118,17 @@ public class UserService implements UserDetailsService {
         } catch (Exception e) {
             throw new ServiceException(e.getMessage());
         }
+    }
+
+    public String setNewToken(String email) throws ServiceException {
+        String token = RandomStringUtils.random(32, 0, 0, true, true, null, new SecureRandom());
+
+        try {
+            repository.setTokenByEmail(email, token);
+        } catch (RepositoryException ex) {
+            throw new ServiceException(ex.getMessage());
+        }
+
+        return token;
     }
 }

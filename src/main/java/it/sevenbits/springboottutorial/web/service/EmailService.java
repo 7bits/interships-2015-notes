@@ -61,6 +61,17 @@ public class EmailService {
         }
     }
 
+    public void sendHtml(String to, String subject, String templateName, HashMap<String, Object> model) throws ServiceException  {
+        try {
+            JadeTemplate template = jade.getTemplate(templateName);
+            String html = jade.renderTemplate(template, model);
+
+            sendMail(to, subject, html);
+        } catch (Exception e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
     public void sendConfirm(UserCreateForm to, String subject, String link) throws ServiceException  {
         try {
             JadeTemplate template = jade.getTemplate("home/confirmRegMail");

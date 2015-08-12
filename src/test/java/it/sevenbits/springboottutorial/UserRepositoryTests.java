@@ -128,4 +128,17 @@ public class UserRepositoryTests {
         assertTrue(tUser.isPresent());
         checkUserFields(tUser.get());
     }
+
+    @Test
+    public void setTokenTest() throws Exception {
+        String oldToken = repository.getTokenByEmail(user.getEmail());
+        String newToken =  "newtokentocomparewith";
+
+        repository.setTokenByEmail(user.getEmail(), newToken);
+        newToken = repository.getTokenByEmail(user.getEmail());
+
+        assertNotEquals(oldToken, newToken);
+
+        repository.setTokenByEmail(user.getEmail(), oldToken);
+    }
 }
