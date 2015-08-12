@@ -3,21 +3,40 @@ html
   head
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    link(rel='stylesheet', type='text/css', href='css/bootstrap.css')
-    link(rel='stylesheet', type='text/css', href='css/mycss.css')
-    title Reset password
+    meta(name="_csrf", content="#{_csrf.token}")
+    meta(name="_csrf_header", content="#{_csrf.headerName}")
+    link(rel='stylesheet', type='text/css', href='css/myCSS/welcome.css')
+    link(rel='stylesheet', type='text/css', href='css/myCSS/resetPass.css')
   body
-    .middlePlace
-      #top.resetB
-        #difTop.formBorder Смена пароля
-      .mainDiv.resetT
-        form.formStyle(role='form', action='/resetPass', method='POST')
-          p#hintFormat
-            | Telenote отправит инструкцию по смене пароля на указаный вами e-mail.
-          .form-group.regDiv
-            label.labelProperty E-mail
-            input.textboxRegProperty(type='textbox', name='email')
-          #endForm.nextBlock.submitDiv
-            button.btn-default.submitBtn(type='submit') Отправить
-      #bottom
-        .formBorder
+    .mainDiv
+      .perfomanceDiv
+        .imgDiv
+          .logoImg
+          .slogon
+        .perfomanceMessage
+          h1
+            | Организуйте дела, идеи, мысли.
+            br
+            | Делитесь с друзьями.
+          h2
+            | Зарегистрируйтесь на TeleNote.
+            br
+            | Cоздавайте и редактируйте текстовые заметки.
+            br
+            | Записывайте мысли, идеи, дела, рецепты.
+            br
+            | Делитесь заметками с семьёй и друзьями.
+            br
+            | Ведите дела вместе.
+      .logRegDiv
+        .overlayLogin
+        .loginDiv
+          form.signinForm(role='form', action='/resetpass', method='POST', name='resetForm')
+            span.formHead Восстановление пароля
+            input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
+            .inputData
+              input#js-logText(type='textbox', name='username', placeholder='e-mail', value='#{username}')
+              if emailError
+                .errorDiv.emailError
+                  span#js-regEmailMess Неправильный адрес
+            button.loginSubmit(type='submit') Продолжить

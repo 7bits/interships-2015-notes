@@ -116,14 +116,13 @@ public class UsersController {
             LOG.info(e.getMessage());
         }*/
 
-        return new ModelAndView("home/checkMail");
+        return new ModelAndView("home/checkMail", "email", form.getEmail());
     }
 
-    @RequestMapping(value = "/resetPass", method = RequestMethod.GET)
-    public String resetPass(final Model model) {
-        /*model.addAttribute("subscription", new UserCreateForm());
-        return "home/resetPass";*/
-        return "home/errors";
+    @RequestMapping(value = "/resetpass", method = RequestMethod.GET)
+    public ModelAndView resetPass(@ModelAttribute UserCreateForm form) {
+
+        return new ModelAndView("home/resetPass", "email", form.getEmail());
     }
 
     @RequestMapping(value = "/resetPass", method = RequestMethod.POST)

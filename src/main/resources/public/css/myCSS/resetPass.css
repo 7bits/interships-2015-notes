@@ -1,0 +1,14 @@
+.overlayLogin {
+	height: 130px;
+  	margin-bottom: -132px;
+}
+
+.logRegDiv {
+	top: 30%;
+}
+
+@media screen and (max-width: 1200px) {
+	.formHead {
+		font-size: 17px;
+	}
+}
