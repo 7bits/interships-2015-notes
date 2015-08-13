@@ -11,6 +11,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
+import org.openqa.selenium.interactions.Actions;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,6 +24,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.awt.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.flywaydb.test.annotation.FlywayTest;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -101,8 +103,10 @@ public class SeleniumNoteTest {
 
         assertFalse(driver.findElements(By.className("cell")).isEmpty());
 
+	Actions action = new Actions(driver);
         WebElement el = driver.findElement(By.className("cell"));
-        driver.moveToElement(el);
+        action.moveToElement(el);
+	action.perform();
 
         WebDriverWait wait = new WebDriverWait(driver, 30);
         ExpectedCondition e = new ExpectedCondition<Boolean>() {
@@ -115,8 +119,18 @@ public class SeleniumNoteTest {
         wait.until(e);
 
         WebElement button = el.findElement(By.className("delBtn"));
-        driver.moveToElement(button);
+	action = new Actions(driver);
+        action.moveToElement(button);
+	action.perform();
         button.click();
+
+	wait = new WebDriverWait(driver, 30);
+        ExpectedCondition elNotFound = new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return driver.findElements(By.className("cell")).isEmpty();
+            }
+        };
+        wait.until(elNotFound);
 
         /*  driver.findElement(By.cssSelector("div.noteDiv.ui-sortable")).click();
         driver.findElement(By.cssSelector("img")).click();
