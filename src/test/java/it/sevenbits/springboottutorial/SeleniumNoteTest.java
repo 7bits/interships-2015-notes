@@ -28,6 +28,7 @@ import static org.junit.Assert.fail;
 
 /*@RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
-@WebIntegrationTest*/
+@WebIntegrationTest
+@FlywayTest*/
 public class SeleniumNoteTest {
 }

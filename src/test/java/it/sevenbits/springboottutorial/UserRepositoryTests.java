@@ -2,6 +2,7 @@ package it.sevenbits.springboottutorial;
 
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.repository.User.IUserRepository;
+import org.flywaydb.test.annotation.FlywayTest;
 import org.junit.*;
 import org.junit.runner.RunWith;
 
@@ -19,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
+@FlywayTest
 public class UserRepositoryTests {
 
     @Autowired

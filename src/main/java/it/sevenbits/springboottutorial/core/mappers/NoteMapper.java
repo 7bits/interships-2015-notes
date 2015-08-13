@@ -221,7 +221,12 @@ public interface NoteMapper {
             "WHERE id=#{userId}")
     String getUserStyle(Long userId);
 
-    @Select("SELECT parent_note_id, id FROM notes WHERE uuid=(SELECT uuid FROM notes WHERE id=#{id})")
+    @Select("SELECT parent_note_id, id\n" +
+            "FROM notes\n" +
+            "WHERE uuid=\n" +
+            "   (SELECT uuid\n" +
+            "   FROM notes\n" +
+            "   WHERE id=#{id})")
     List<Note> getNotesWithSameUuidById(Long id);
 
     @Update({"<script>UPDATE notes SET uuid=#{uuid} WHERE id IN ",
