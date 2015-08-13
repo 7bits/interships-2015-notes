@@ -121,8 +121,9 @@ public class UsersController {
         }
 
         ModelAndView model = new ModelAndView("home/checkMail");
-        model.addObject("message", "На ваш почтовый адрес отправлено письмо с подтверждением регистрации. Пожалуйста, проверьте почту и следуйте инструкции.");
+        model.addObject("message", "Письмо с инструкцией подтверждения регистрации выслано на ваш адрес");
         model.addObject("title", "Регистрация");
+        model.addObject("email", form.getEmail());
 
         return model;
     }
