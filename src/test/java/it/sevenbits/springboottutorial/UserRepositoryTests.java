@@ -27,7 +27,7 @@ public class UserRepositoryTests {
 
     private UserDetailsImpl user = new UserDetailsImpl();
 
-   /* @Before
+    @Before
     public void create() throws Exception {
         user.setEmail("ok@ok.oke");
         user.setPassword("qwerty");
@@ -140,5 +140,5 @@ public class UserRepositoryTests {
         assertNotEquals(oldToken, newToken);
 
         repository.setTokenByEmail(user.getEmail(), oldToken);
-    }*/
+    }
 }
