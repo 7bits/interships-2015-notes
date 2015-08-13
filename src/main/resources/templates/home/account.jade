@@ -5,12 +5,10 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1')
     meta(name="_csrf", content="#{_csrf.token}")
     meta(name="_csrf_header", content="#{_csrf.headerName}")
-    link(rel='stylesheet', type='text/css', href='css/libCSS/bootstrap.css')
     link(rel='stylesheet', type='text/css', href='css/myCSS/telenote.css')
     link(rel='stylesheet', type='text/css', href='css/myCSS/account.css')
     link#dinamic(rel='stylesheet', type='text/css', href='css/myCSS/'+user.style+'.css')
     script(src='js/jsLibs/jquery-1.11.3.js')
-    script(src='js/myJS/app.js')
     script(src='js/myJS/preventSelection.js')
     script(src='js/myJS/account.js')
   body
@@ -22,26 +20,32 @@ html
             .slogon
         .in-outMenu
           .logMenu
-            a#username(href='#')
+            a#username(href='/account')
               .user#{user.username}
             a#logout(href='/logout') Выход
           .userImg
-      .workDiv
-        .changeName
-          input#changeNameTextbox(type='textbox', value='#{user.username}', maxlength='20')
-          button#changeNameBtn Сменить имя
+      form.workDiv(role='form', action='/account', method='POST', name='changesForm')
         input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
-        .changePass
-          form(role='form', action='/account/changepass', method='POST', name='changePassForm')
-            input#changePassTextboxOld(type='password', name='oldPass', placeholder='старый пароль', maxlength='20', value='#{signupForm.oldPass}')
-            input#changePassTextboxNew(type='password', name='newPass', placeholder='новый пароль', maxlength='20', value='#{signupForm.newPass}')
-          button#changePassBtn Сменить пароль
-          label#changePassMessage.changePassMessage
-        .userStyle
-          .dropdownStyles
-            select#select(value='#{user.style}')
-              option Сменить тему
-              option(value='darkDen') darkDen
-              option(value='lightDen') lightDen
-        a#onMain(href='/telenote')
-          button(href='/telenote') На главную
+        .profileDiv
+          .profileHeader Профиль
+          .nameDiv
+            label.labelName Имя
+            input.username(type='textbox', name='username', value='#{user.username}')
+          .emailDiv
+            label.labelEmail Адрес
+            label.email#{user.email}
+        .passwordDiv
+          .passwordHeader Пароль
+          .currentPassDiv
+            label.labelCurrentPass Текущий пароль
+            input.currentPass(type='password', name='currentPass', value='#{changesForm.currentPass}')
+          .newPassDiv
+            label.labelNewPass Новый пароль
+            input.newPass(type='password', name='newPass', value='#{changesForm.newPass}')
+        .themeDiv
+          .themeHeader Дизайн
+          .themes
+            input#hidden(type='hidden', value=user.style, name='theme')
+            #lightDen.theme.theme1
+            #darkDen.theme.theme2
+        button.submit(type='submit') Сохранить изменения

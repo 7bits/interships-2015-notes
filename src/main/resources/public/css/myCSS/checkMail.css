@@ -51,14 +51,17 @@
  	padding-left: 26px;
 	float: left;
   	margin-top: 20px;
- 	color: gray;
+ 	color: #000000;
   	text-decoration: underline;
+  	font-family: "Roboto-Thin";
+  	font-size: 14px;
 }
 
 .mailForCheck {
 	font-family: "Roboto-Regular";
 	font-size: 12px;
 	float: left;
+	color: #f67d58;
 }
 
 .resPassHead {

@@ -18,7 +18,7 @@ public class AccountService {
     @Qualifier(value = "accountRepository")
     private IAccountRepository accountRepository;
 
-    public void chacgeTheme(UserDetailsImpl user) throws ServiceException {
+    public void changeTheme(UserDetailsImpl user) throws ServiceException {
         try {
             accountRepository.changeTheme(user);
         } catch (RepositoryException e) {
@@ -26,29 +26,33 @@ public class AccountService {
         }
     }
 
-    public ResponseEntity<ResponseMessage> changeUsername(UserDetailsImpl user) throws ServiceException {
+    public void changeUsername(UserDetailsImpl user) throws ServiceException {
         try {
-            accountRepository.changeUsername(user);
+            if (user.getUsername().matches("\\s")) {
+                throw new ServiceException("username");
+            } else {
+                accountRepository.changeUsername(user);
+            }
 
-            return new ResponseEntity(new ResponseMessage(true, "Имя изменено"), HttpStatus.OK);
         } catch (RepositoryException e) {
             throw new ServiceException("Не удалось изменить имя в базе: " + e.getMessage());
         }
     }
 
-    public ResponseEntity<ResponseMessage> changePass(String oldPass, String newPass, UserDetailsImpl user) throws ServiceException {
+    public void changePass(String oldPass, String newPass, UserDetailsImpl user) throws ServiceException {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        newPass = encoder.encode(newPass);
+        if (oldPass.equals(newPass)) throw new ServiceException("password");
 
         try {
-            if(encoder.matches(oldPass, user.getPassword())) {
-                user.setPassword(newPass);
+
+            if(newPass.matches("(([a-z]+[A-Z]+[0-9]+)|([a-z]+[0-9]+[A-Z]+)|([A-Z]+[a-z]+[0-9]+)|([A-Z]+[0-9]+[a-z]+)|([0-9]+[A-Z]+[a-z]+)|([0-9]+[a-z]+[A-Z]+)|([0-9]+[a-z]+)|([a-z]+[0-9]+))")
+                    && encoder.matches(oldPass, user.getPassword())) {
+                user.setPassword(encoder.encode(newPass));
                 accountRepository.changePass(user);
-                return new ResponseEntity<>(new ResponseMessage(true, "Пароль сменён"), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(new ResponseMessage(false, "Старый пароль не верен!"), HttpStatus.CONFLICT);
+                throw new ServiceException("oldPass");
             }
         } catch (RepositoryException e) {
             throw new ServiceException("Не удалось сменить пароль в базе: " + e.getMessage());

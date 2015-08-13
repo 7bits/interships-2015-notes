@@ -1,79 +1,157 @@
+@font-face {
+	font-family: "Room-Thin";
+	src: url("/css/fonts/Room/Room-Thin.otf");
+}
+
+@font-face {
+	font-family: "Lato-Thin";
+	src: url("/css/fonts/Lato/Lato-Thin.ttf");
+}
+
 .workDiv {
-	width: 400px;
+	width: 600px;
 	margin: auto;
 	margin-top: 118px;
+	text-align: center;
 }
 
-.userStyle {
+.profileDiv, .passwordDiv, .themeDiv {
 	width: 100%;
-	height: 37px;
+	background-color: rgb(245, 247, 250);
+	box-shadow: 0px 5px 7.6px 0.4px rgba(0, 0, 0, 0.05);
 	margin-bottom: 25px;
+	text-align: left;
 }
 
-.dropdownStyles {
-	float: right;
+.profileHeader, .passwordHeader, .themeHeader {
+	background-repeat: no-repeat;
+	background-position-x: 20px;
+  	background-position-y: 10px;
+	background-color: #f67d58;
+	width: 540px;
+	height: 29px;
+	padding-top: 11px;
+	padding-left: 60px; 
+	color: white;
+	text-align: left;
+	font-family: "Room";
+	font-size: 18px;
+	margin-bottom: 15px;
 }
 
-#changeNameTextbox, #changePassTextboxOld, #changePassTextboxNew {
-	float: left;
-	color: #010101;
-	margin-bottom: 7px;
+.profileHeader {
+	background-image: url("/img/profileBlock.png");
 }
 
-.changeName, .changePass {
-	height: 36px;
-	margin-bottom: 25px;
+.passwordHeader {
+	background-image: url("/img/passwordBlock.png");
 }
 
-.changePass {
-	height: 80px;
+.themeHeader {
+	background-image: url("/img/themeBlock.png");
+	margin-bottom: 0px;
 }
 
-#changeNameBtn, #changePassBtn {
-	float: right;
-	width: 155px;
+.nameDiv {
+	margin-bottom: 20px;
 }
 
-#changePassBtn {
-	margin-top: 20px;
-}
-
-form {
-	float: left;
-  	width: 213px;
+.labelName, .labelEmail, .labelCurrentPass, .labelNewPass {
+	margin-left: 45px;
+  	font-family: "Roboto-Light";
   	color: black;
 }
 
-input {
-	padding: 6px;
-	margin-bottom: 4px;
+.labelName {
+	margin-right: 35px;
 }
 
-#select {
+.labelEmail {
+	margin-right: 22px;
+}
+
+.labelCurrentPass {
+	margin-right: 45px;
+}
+
+.labelNewPass {
+	margin-right: 61px;
+}
+
+.username, .currentPass, .newPass {
+	box-shadow: 0px 5px 7.6px 0.4px rgba(0, 0, 0, 0.05);
+	border-radius: 2px;
 	padding: 7px;
-	width: 155px;
-	border: 0;
+	border: 1px solid white;
+  	font-family: "Roboto-Light";
 }
 
-#select:focus {
+.username {
+	width: 200px;
+}
+
+.currentPass, .newPass {
+	width: 185px;
+}
+
+.username:active, input:active {
+	border: 1px solid white;
 	outline: none;
 }
 
-button {
-	padding: 7px;
+.emailDiv {
+	padding-bottom: 20px;
+	font-family: "Lato-Thin";
+	color: black;
 }
 
-#changePassMessage {
+.logoDiv {
+	width: 244px;
+}
+
+.currentPassDiv {
+	margin-bottom: 20px;
+}
+
+.newPassDiv {
+	padding-bottom: 20px;
+}
+
+.themes {
+	width: 570px;
+	height: 110px;
+  	padding: 10px 15px 10px 15px;
+}
+
+.theme {
 	float: left;
-	font-size: 14px;
-	margin-left: 33px;
+  	margin: 15px;
+  	background-size: cover;
+	background-position: center;
+	width: 80px;
+	height: 80px;
+	border: 2px solid rgb(245, 247, 250);
 }
 
-.changePassMessage {
-	display: none;
+.chosen {
+	border: 2px solid #f67d58;
 }
 
-#onMain {
-	text-decoration: none;
-	color: #f5f5f5;
+.theme1 {
+	background-image: url("/img/lightDenIcon.png");
 }
+
+.theme2 {
+	background-image: url("/img/darkDenIcon.png");
+}
+
+.submit {
+	border-radius: 2px;
+	background-color: rgb(32, 64, 108);
+	font-family: "Room-Thin";
+	color: white;
+	font-size: 17px;
+	padding: 10px 30px 10px 30px;
+	margin-bottom: 20px;
+}
+
