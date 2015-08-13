@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,10 +83,13 @@ public class UsersController {
             List<String> matcher = new ArrayList<String>();
 
             for (ObjectError objectError : bindingResult.getAllErrors()) {
-
-                if(!matcher.contains(((FieldError) objectError).getField())) {
-                    matcher.add(((FieldError) objectError).getField());
-                    model.addObject(((FieldError) objectError).getField() + "Error", ((FieldError) objectError).getField());
+                try {
+                    if(!matcher.contains(((FieldError) objectError).getField().toString())) {
+                        matcher.add(((FieldError) objectError).getField().toString());
+                        model.addObject(((FieldError) objectError).getField().toString() + "Error", ((FieldError) objectError).getField().toString());
+                    }
+                } catch (Exception e) {
+                    model.addObject("emailExists", objectError);
                 }
             }
 

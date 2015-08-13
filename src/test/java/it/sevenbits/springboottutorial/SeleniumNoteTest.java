@@ -32,6 +32,7 @@ import static org.junit.Assert.fail;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
+@FlywayTest
 public class SeleniumNoteTest {
 
     private static WebDriver driver;

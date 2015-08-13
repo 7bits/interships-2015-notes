@@ -53,6 +53,9 @@ html
               if emailError
                 .errorDiv.emailError
                   span#js-regEmailMess Неправильный адрес
+              if emailExists
+                .errorDiv.emailExists
+                  span#js-regEmailMess email уже используется
               input#js-regUsername(type='textbox', name='username', placeholder='имя', value='#{signupForm.username}')
               if usernameError
                 .errorDiv.nameError

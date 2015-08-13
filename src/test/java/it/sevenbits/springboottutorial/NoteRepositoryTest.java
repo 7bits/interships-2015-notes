@@ -1,12 +1,12 @@
 package it.sevenbits.springboottutorial;
 
-
 import it.sevenbits.springboottutorial.core.domain.Note;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.repository.Note.INoteRepository;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
 import it.sevenbits.springboottutorial.core.repository.User.IUserRepository;
+import org.flywaydb.test.annotation.FlywayTest;
 import org.junit.*;
 import org.junit.runner.RunWith;
 
@@ -25,6 +25,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
+@FlywayTest
 public class NoteRepositoryTest {
 
     @Autowired
@@ -69,12 +70,15 @@ public class NoteRepositoryTest {
         String text = note.getText();
         note.setText("Отче наш, сущий на небесах, да святится имя твое, да придет царство твое, да будет воля твоя.");
 
-        noteRep.updateNote(note);
+        noteRep.updateNotesByUuid(note);
+
 
         List<Note> list = noteRep.findUserNotes(user.getId());
 
         assertFalse(list.isEmpty());
-        assertFalse(list.get(0).getText().equals(note.getText()));
+        assertFalse(list.get(0).getText().equals(text));
+        int i = 1;
+        assertTrue(i == 1);
     }
 
     @Test
@@ -131,10 +135,15 @@ public class NoteRepositoryTest {
 
     @Test
     public void updateNotesByUuidTest() throws Exception {
-        String uuid = noteRep.getUuidById(note.getId());
+        String test = "Ololo";
 
-        note.setText("Ololo");
+        note.setText(test);
         noteRep.updateNotesByUuid(note);
+
+        List<Note> notes = noteRep.findUserNotes(user.getId());
+
+        assertFalse(notes.isEmpty());
+        assertTrue(notes.get(0).getText().equals(test));
     }
 
     @Test

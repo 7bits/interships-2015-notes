@@ -11,6 +11,7 @@ import it.sevenbits.springboottutorial.web.domain.ResponseMessage;
 import it.sevenbits.springboottutorial.web.domain.ShareForm;
 import it.sevenbits.springboottutorial.web.service.NoteService;
 
+import org.flywaydb.test.annotation.FlywayTest;
 import org.junit.*;
 import org.junit.runner.RunWith;
 
@@ -32,6 +33,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
+@FlywayTest
 public class NoteServiceTest {
 
     @Autowired
