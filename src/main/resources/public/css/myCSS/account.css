@@ -155,3 +155,39 @@
 	margin-bottom: 20px;
 }
 
+.errorPassDiv, .errorUsernameDiv {
+	background-image: url("/img/errorIcon.png");
+	background-repeat: no-repeat;
+	background-position-y: 5px;
+  	background-position-x: 10px;
+	float: left;
+  	background-color: white;
+  	padding-top: 7px;;
+  	padding-right: 6px;
+  	height: 21px;
+  	text-align: right;
+  	font-size: 12px;
+  	font-family: "Roboto-Light";
+  	color: black;
+}
+
+.errorUsernameDiv {
+	margin-top: -29px;
+	margin-left: 327px;
+	width: 205px;
+}
+
+.errorPassDiv {
+	margin-top: -30px;
+ 	margin-left: 412px;
+  	width: 124px;
+  	
+}
+
+.oldErrorPass {
+	width: 130px;
+}
+
+.newErrorPass {
+	width: 154px;
+}

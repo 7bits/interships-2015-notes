@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 @Service
 public class AccountService {
 
@@ -28,10 +31,12 @@ public class AccountService {
 
     public void changeUsername(UserDetailsImpl user) throws ServiceException {
         try {
-            if (user.getUsername().matches("\\s")) {
-                throw new ServiceException("username");
-            } else {
+            Pattern pattern = Pattern.compile(".+\\s.+");
+            Matcher matcher = pattern.matcher(user.getUsername());
+            if (!matcher.find(0)) {
                 accountRepository.changeUsername(user);
+            } else {
+                throw new ServiceException("username");
             }
 
         } catch (RepositoryException e) {
@@ -47,12 +52,19 @@ public class AccountService {
 
         try {
 
-            if(newPass.matches("(([a-z]+[A-Z]+[0-9]+)|([a-z]+[0-9]+[A-Z]+)|([A-Z]+[a-z]+[0-9]+)|([A-Z]+[0-9]+[a-z]+)|([0-9]+[A-Z]+[a-z]+)|([0-9]+[a-z]+[A-Z]+)|([0-9]+[a-z]+)|([a-z]+[0-9]+))")
-                    && encoder.matches(oldPass, user.getPassword())) {
-                user.setPassword(encoder.encode(newPass));
-                accountRepository.changePass(user);
+            Pattern pattern = Pattern.compile("(([a-z]+[A-Z]+[0-9]+)|([a-z]+[0-9]+[A-Z]+)|([A-Z]+[a-z]+[0-9]+)|([A-Z]+[0-9]+[a-z]+)|([0-9]+[A-Z]+[a-z]+)|([0-9]+[a-z]+[A-Z]+)|([0-9]+[a-z]+)|([a-z]+[0-9]+))");
+            Matcher matcher = pattern.matcher(newPass);
+
+            if(matcher.matches()) {
+                if (encoder.matches(oldPass, user.getPassword())) {
+                    user.setPassword(encoder.encode(newPass));
+                    accountRepository.changePass(user);
+                } else {
+                    throw new ServiceException("oldPass");
+                }
+
             } else {
-                throw new ServiceException("oldPass");
+                throw new ServiceException("newPass");
             }
         } catch (RepositoryException e) {
             throw new ServiceException("Не удалось сменить пароль в базе: " + e.getMessage());

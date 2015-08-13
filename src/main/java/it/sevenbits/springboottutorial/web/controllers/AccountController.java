@@ -41,8 +41,8 @@ public class AccountController {
     public @ResponseBody
     ModelAndView changePass(@Valid @ModelAttribute("form") ChangesForm form, Authentication auth) throws ServiceException {
         UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
+        String username = user.getUsername();
         ModelAndView model = new ModelAndView("home/account");
-        model.addObject("user", user);
 
         try {
             if (!form.getUsername().equals(user.getUsername())) {
@@ -61,16 +61,20 @@ public class AccountController {
                 form.setNewPass("");
             }
         } catch (ServiceException e) {
-            if (e.getMessage().equals("password") || e.getMessage().equals("oldPass") || e.getMessage().equals("username")) {
-                if (e.getMessage().equals("password")) model.addObject("password", 1);
-                if (e.getMessage().equals("oldPass")) model.addObject("oldPass", 1);
+            if (e.getMessage().equals("password") || e.getMessage().equals("oldPass")
+                    || e.getMessage().equals("username") || e.getMessage().equals("newPass")) {
 
+                model.addObject(e.getMessage().toString(), 1);
                 model.addObject("changesForm", form);
+
+                user.setUsername(username);
+                model.addObject("user", user);
 
                 return model;
             } else throw new ServiceException(e.getMessage());
         }
 
+        model.addObject("user", user);
         model.addObject("changesForm", form);
         return model;
     }
