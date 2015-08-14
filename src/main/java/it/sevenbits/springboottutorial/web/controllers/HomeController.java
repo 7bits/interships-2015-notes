@@ -141,12 +141,6 @@ public class HomeController {
         return users;
     }
 
-    @RequestMapping(value = "/telenote/{noteId:\\d+}={userId:\\d+}", method = RequestMethod.GET)
-    public void breakSync(@PathVariable("noteId") Long noteId, @PathVariable("userId") Long userId) throws ServiceException {
-        UserNote userNote = new UserNote();
-        userNote.setNote_id(noteId);
-        userNote.setUser_id(userId);
-    }
 
     @RequestMapping(value = "/telenote/{id:\\d+}", method = RequestMethod.DELETE)
     public @ResponseBody void deleteNote(@PathVariable("id") Long id, Authentication auth) throws ServiceException {
