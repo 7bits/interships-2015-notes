@@ -30,9 +30,13 @@ public class AccountController {
 
     @RequestMapping(value = "/account", method = RequestMethod.GET)
     public ModelAndView getAccount(Authentication auth) throws ServiceException {
+        UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
+
         ModelAndView model = new ModelAndView("home/account");
-        model.addObject("user", (UserDetailsImpl) auth.getPrincipal());
+        model.addObject("user", user);
         model.addObject("changesForm", new ChangesForm("", ""));
+        model.addObject("avatar", "http://www.gravatar.com/avatar/" + accountService.getAvatarHash(user.getEmail()) +
+                "?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png");
 
         return model;
     }
@@ -43,6 +47,8 @@ public class AccountController {
         UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
         ModelAndView model = new ModelAndView("home/account");
         model.addObject("user", user);
+        model.addObject("avatar", "http://www.gravatar.com/avatar/" + accountService.getAvatarHash(user.getEmail()) +
+                "?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png");
 
         try {
             if (!form.getUsername().equals(user.getUsername())) {
