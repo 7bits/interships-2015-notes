@@ -96,6 +96,16 @@ public class SeleniumNoteTest {
 
         assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/telenote"));
     }
+
+    @After
+	public void after() throws Exception {
+
+        try {
+            repository.remove(user);
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
+}
     @Test
     public void createDeleteNoteTest() {
 
