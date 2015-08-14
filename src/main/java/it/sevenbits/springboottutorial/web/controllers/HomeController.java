@@ -6,7 +6,9 @@ import it.sevenbits.springboottutorial.core.domain.OrderData;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
+import it.sevenbits.springboottutorial.exceptions.ResourceNotFoundException;
 import it.sevenbits.springboottutorial.web.domain.*;
+import it.sevenbits.springboottutorial.web.service.AccountService;
 import it.sevenbits.springboottutorial.web.service.NoteService;
 import it.sevenbits.springboottutorial.web.service.ServiceException;
 import org.apache.log4j.Logger;
@@ -37,6 +39,9 @@ public class HomeController {
 
     @Autowired
     private NoteService noteService;
+
+    @Autowired
+    private AccountService accService;
 
     private static Logger LOG = Logger.getLogger(HomeController.class);
 
@@ -96,6 +101,9 @@ public class HomeController {
         //Map<String, List<NoteModel>> treeMap = new TreeMap<String, List<NoteModel>>(map);
         model.addAttribute("user", currentUser);
         model.addAttribute("noteSections", map);
+        model.addAttribute("avatar", "http://www.gravatar.com/avatar/" + accService.getAvatarHash(currentUser.getEmail()) +
+                "?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png");
+
         return "home/telenote";
     }
 

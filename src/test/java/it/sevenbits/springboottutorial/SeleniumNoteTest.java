@@ -106,22 +106,20 @@ public class SeleniumNoteTest {
 	Actions action = new Actions(driver);
         WebElement el = driver.findElement(By.className("cell"));
         action.moveToElement(el);
-	action.perform();
+	    action.perform();
 
         WebDriverWait wait = new WebDriverWait(driver, 30);
-        ExpectedCondition e = new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                WebElement el = driver.findElement(By.className("cell"));
-                WebElement controlPanel = el.findElement(By.className("control"));
-                return !controlPanel.getCssValue("visibility").equals("hidden");
-            }
+        ExpectedCondition e = d -> {
+            WebElement el1 = driver.findElement(By.className("cell"));
+            WebElement controlPanel = el1.findElement(By.className("control"));
+            return !controlPanel.getCssValue("visibility").equals("hidden");
         };
         wait.until(e);
 
         WebElement button = el.findElement(By.className("delBtn"));
-	action = new Actions(driver);
+	    action = new Actions(driver);
         action.moveToElement(button);
-	action.perform();
+	    action.perform();
         button.click();
 
 	wait = new WebDriverWait(driver, 30);
