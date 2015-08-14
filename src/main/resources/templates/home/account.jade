@@ -23,7 +23,7 @@ html
             a#username(href='/account')
               .user#{user.username}
             a#logout(href='/logout') Выход
-          img.userImg(src="#{avatar}")
+          a(href='https://ru.gravatar.com/')img.userImg(src="#{avatar}")
       form.workDiv(role='form', action='/account', method='POST', name='changesForm')
         input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
         .profileDiv

@@ -29,7 +29,7 @@ html
             a#username(href='/account')
               .user#{user.username}
             a#logout(href='/logout') Выход
-          img.userImg(src="#{avatar}")
+          a(href='https://ru.gravatar.com/')img.userImg(src="#{avatar}")
         .addNoteDiv
           .addNote
             img(src="img/addBtn.png")
