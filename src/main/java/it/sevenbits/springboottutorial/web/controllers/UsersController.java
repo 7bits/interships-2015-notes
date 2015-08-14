@@ -1,6 +1,7 @@
 package it.sevenbits.springboottutorial.web.controllers;
 
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
+import it.sevenbits.springboottutorial.exceptions.ResourceNotFoundException;
 import it.sevenbits.springboottutorial.web.domain.RestorePasswordForm;
 import it.sevenbits.springboottutorial.web.domain.UserCreateForm;
 import it.sevenbits.springboottutorial.web.service.EmailService;
@@ -11,6 +12,7 @@ import it.sevenbits.springboottutorial.web.service.UserService;
 import org.apache.log4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.FieldError;
@@ -167,7 +169,7 @@ public class UsersController {
 
                 emailService.sendHtml(user.get().getEmail(), "Tele-notes. Восстановление пароля.", "home/changePassMail", map);
             } else {
-                return new ModelAndView("home/errors", "error", "Пользователь с почтовым адресом " + form.getEmail() + " не найден.");
+                return new ModelAndView("home/resetPass", "error", form.getEmail());
             }
         } catch (ServiceException e) {
             return new ModelAndView("home/errors", "error", e.getMessage());
