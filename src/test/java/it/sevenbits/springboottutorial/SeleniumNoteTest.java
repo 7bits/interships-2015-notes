@@ -130,10 +130,6 @@ public class SeleniumNoteTest {
         };
         wait.until(elNotFound);
 
-        /*  driver.findElement(By.cssSelector("div.noteDiv.ui-sortable")).click();
-        driver.findElement(By.cssSelector("img")).click();
-        driver.findElement(By.cssSelector("button.delBtn")).click();*/
-
 
         /*Actions builder = new Actions(driver);
         builder.moveToElement(driver.findElement(By.className("cell ui-sortable-handle"))).perform();
@@ -144,11 +140,22 @@ public class SeleniumNoteTest {
 
 
     }
-    /*@Test
-    public void deleteNoteTest() {
-        driver.findElement(By.className("addNote")).click();
+    @Test
+    public void userNameTest() {
+        driver.findElement(By.className("user")).click();
 
-        assertFalse(driver.findElements(By.className("cell")).isEmpty());
+        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
 
-    }*/
+        WebElement toClear = driver.findElement(By.className("username"));
+        toClear.sendKeys(Keys.CONTROL + "a");
+        toClear.sendKeys(Keys.DELETE);
+  	toClear.sendKeys("J");
+
+       WebElement button = driver.findElement(By.className("submit"));
+        Actions action = new Actions(driver);
+        action.moveToElement(button);
+        action.perform();
+        button.click();
+    }
+    
 }
