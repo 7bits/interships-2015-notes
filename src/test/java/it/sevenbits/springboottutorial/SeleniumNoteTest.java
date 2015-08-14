@@ -99,13 +99,13 @@ public class SeleniumNoteTest {
 
     @After
 	public void after() throws Exception {
-
         try {
             repository.remove(user);
         } catch (Exception ex) {
             fail(ex.getMessage());
         }
-}
+    }
+
     @Test
     public void createDeleteNoteTest() {
 
@@ -146,9 +146,6 @@ public class SeleniumNoteTest {
         By locator = By.className("delBtn");
         driver.findElement(locator).click();
         assertTrue(driver.findElements(By.className("cell")).isEmpty());*/
-
-
-
     }
     @Test
     public void userNameTest() {
@@ -159,7 +156,7 @@ public class SeleniumNoteTest {
         WebElement toClear = driver.findElement(By.className("username"));
         toClear.sendKeys(Keys.CONTROL + "a");
         toClear.sendKeys(Keys.DELETE);
-  	toClear.sendKeys("J");
+  	    toClear.sendKeys("J");
 
        WebElement button = driver.findElement(By.className("submit"));
         Actions action = new Actions(driver);
