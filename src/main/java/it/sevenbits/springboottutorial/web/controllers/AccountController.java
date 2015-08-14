@@ -1,6 +1,7 @@
 package it.sevenbits.springboottutorial.web.controllers;
 
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
+import it.sevenbits.springboottutorial.exceptions.ResourceNotFoundException;
 import it.sevenbits.springboottutorial.web.domain.ChangesForm;
 import it.sevenbits.springboottutorial.web.domain.ResponseMessage;
 import it.sevenbits.springboottutorial.web.service.AccountService;
@@ -8,6 +9,7 @@ import it.sevenbits.springboottutorial.web.service.NoteService;
 import it.sevenbits.springboottutorial.web.service.ServiceException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller

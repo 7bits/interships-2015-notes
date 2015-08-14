@@ -207,6 +207,10 @@ input[type='textbox'], input[type='password']:active {
 	
 }
 
+.resetPass {
+	width: 115px;
+}
+
 @media screen and (max-width: 1200px) {
 
 	input[type='textbox'], input[type='password'] {

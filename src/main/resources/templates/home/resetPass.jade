@@ -7,6 +7,8 @@ html
     meta(name="_csrf_header", content="#{_csrf.headerName}")
     link(rel='stylesheet', type='text/css', href='css/myCSS/welcome.css')
     link(rel='stylesheet', type='text/css', href='css/myCSS/resetPass.css')
+    script(src='js/jsLibs/jquery-1.11.3.js')
+    script(src='js/myJS/welcome.js')
   body
     .mainDiv
       .perfomanceDiv
@@ -35,8 +37,8 @@ html
             span.formHead Восстановление пароля
             input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
             .inputData
-              input#js-logText(type='textbox', name='email', placeholder='e-mail', value='#{email}')
-              if emailError
-                .errorDiv.emailError
-                  span#js-regEmailMess Неправильный адрес
+              input#js-logText(type='textbox', name='email', placeholder='e-mail', value='#{error}')
+              if error
+                .errorDiv.loginError.resetPass
+                  span#js-loginError Адрес не найден
             button.loginSubmit(type='submit') Продолжить
