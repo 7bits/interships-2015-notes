@@ -44,11 +44,11 @@
 }
 
 .backToMain {
-	background-image: url("/img/backIcon.png");
+	background-image: url("/img/backIconGray.png");
 	background-repeat: no-repeat;
-	background-position-y: 4px;
-	margin-left: -26px;
- 	padding-left: 26px;
+	background-position-y: 5px;
+  	margin-left: -22px;
+  	padding-left: 22px;
 	float: left;
   	margin-top: 20px;
  	color: #000000;
