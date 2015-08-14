@@ -1,5 +1,7 @@
-(function($){
-	$(document).ready(function () {
+(function($) {
+	$(document).ready(function() {
+		
+		//подсветка неверных полей
 		$(function() {
 			if ($('#js-loginError')[0] != null) {
 				$('#js-logText').css('border', '1px solid #f74e19');
@@ -30,6 +32,8 @@
 			};
 		})
 
+
+		//функция анимации ошибок
 		function ErrorsAnimate(element) {
 			element.attr('style', 'margin-left: 0px;');
 			var width = document.documentElement.clientWidth;
