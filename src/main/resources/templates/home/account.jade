@@ -31,6 +31,9 @@ html
           .nameDiv
             label.labelName Имя
             input.username(type='textbox', name='username', value='#{user.username}')
+            if username
+              #js-nameDiv.errorUsernameDiv
+                span#js-name Имя не должно быть с пробелом
           .emailDiv
             label.labelEmail Адрес
             label.email#{user.email}
@@ -39,13 +42,22 @@ html
           .currentPassDiv
             label.labelCurrentPass Текущий пароль
             input.currentPass(type='password', name='currentPass', value='#{changesForm.currentPass}')
+            if password
+              .errorPassDiv.oldErrorPass
+                span#js-oldPass Пароли совпадают
+            if oldPass
+              #js-errorDiv.errorPassDiv.oldErrorPass
+                span#js-oldPass Неверный пароль
           .newPassDiv
             label.labelNewPass Новый пароль
             input.newPass(type='password', name='newPass', value='#{changesForm.newPass}')
+            if newPass
+              #js-errorDiv.errorPassDiv.newErrorPass
+                span#js-newPass Пароль слишком прост
         .themeDiv
           .themeHeader Дизайн
           .themes
             input#hidden(type='hidden', value=user.style, name='theme')
-            #lightDen.theme.theme1
-            #darkDen.theme.theme2
+            #lightDen.theme.theme1.js-theme
+            #darkDen.theme.theme2.js-theme
         button.submit(type='submit') Сохранить изменения
