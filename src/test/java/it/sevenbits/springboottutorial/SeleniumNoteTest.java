@@ -167,5 +167,39 @@ public class SeleniumNoteTest {
         action.perform();
         button.click();
     }
+
+    @Test
+    public void userPasswordTest() {
+        driver.findElement(By.className("user")).click();
+
+        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
+
+        WebElement toClear = driver.findElement(By.className("currentPass"));
+	toClear.sendKeys(Keys.CONTROL + "a");
+        toClear.sendKeys(Keys.DELETE);
+  	toClear.sendKeys("Ololo73");
+	driver.findElement(By.className("newPass")).sendKeys("Capitan1234");
+  	
+       WebElement button = driver.findElement(By.className("submit"));
+        Actions action = new Actions(driver);
+        action.moveToElement(button);
+        action.perform();
+        button.click();
+    }
+
+    @Test
+    public void userDesignTest() {
+        driver.findElement(By.className("user")).click();
+
+        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
+
+  	WebElement button = driver.findElement(By.id("lightDen"));
+        Actions action = new Actions(driver);
+        action.moveToElement(button);
+        action.perform();
+        button.click();
+
+	driver.findElement(By.className("submit")).click();
+    }
     
 }
