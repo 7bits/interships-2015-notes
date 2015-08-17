@@ -16,22 +16,29 @@
 			"</div>"
 
 
-			if($("div[id='ns_']").length > 0) {
+if($("div[id='ns_']").length > 0) {
 				$("div[id='ns_']").prepend(cell);
 			} else {
+				var textNoteSection = document.createElement("div");
+				textNoteSection.setAttribute("class", "textNoteSection");
+
 				var textSection = document.createElement("p");
 				textSection.textContent= "Мои Заметки";
 				textSection.setAttribute("class", "textSection");
 				textSection.setAttribute("id", "pMyNotes");
-				//textSection.setAttribute("text","Мои Заметки");
 
 				var myNotesSection = document.createElement("div");
 				myNotesSection.setAttribute("class", "noteSection");
 				myNotesSection.setAttribute("id", "ns_");
 
-				$(".noteDiv").prepend(myNotesSection);
-				$(".noteDiv").prepend(textSection);
+				textNoteSection.appendChild(textSection);
+				textNoteSection.appendChild(myNotesSection);
+
+
+				$(".noteDiv").append(textNoteSection);
+
 				$("div[id='ns_']").prepend(cell);
+
 				$( ".noteSection" ).sortable();
                 $( ".noteSection" ).disableSelection();
 			}

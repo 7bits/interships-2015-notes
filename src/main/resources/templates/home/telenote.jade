@@ -39,7 +39,7 @@ html
             .minStatus
       .workDiv
         .noteDiv
-          if !noteSections
+          if(noteSections.size() == 0)
             span#emptyList У вас нет заметок
           else
             for noteSection in noteSections.entrySet()
