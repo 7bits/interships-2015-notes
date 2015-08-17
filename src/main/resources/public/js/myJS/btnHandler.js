@@ -21,6 +21,7 @@
 		$('.noteDiv').on('click', '.delBtn', function(self) {
 			//функция удаления заметки из базы и с рабочего поля
 			var id = $(this).closest('.cell').attr("id");
+			var thisTextNoteSection = $(this).closest(".textNoteSection");
 			
 			$.ajax({
 				type: "DELETE",
@@ -44,13 +45,8 @@
 					}, 150, 'swing', function() {
 						cell.remove();
 
-						var myNotesNoteSection = $("[id='ns_'");
-
-						if(myNotesNoteSection.length > 0) {
-							if(myNotesNoteSection.children().length == 0) {
-								myNotesNoteSection.remove();
-								$("[id='pMyNotes']").remove();
-							}
+						if(thisTextNoteSection.find(".cell").length == 0) {
+								thisTextNoteSection.remove();
 						}
 
 						if ($('.cell').length == 0) {
@@ -389,7 +385,7 @@
 
 
 		//поведение плюсика в шаринге
-		$('.addShareEmail').keydown(function() {
+		$('.addShareEmail').keyup(function() {
 			if ($(this).val() == "") {
 				$('.addShare').css('display', 'none');
 			} else {
