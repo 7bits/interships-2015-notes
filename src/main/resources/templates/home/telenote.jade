@@ -48,11 +48,11 @@ html
                   p(class="textSection", id="pMyNotes") Мои Заметки
                 else
                   p(class="textSection") #{noteSection.getKey()}
-
                 .noteSection(id="ns_#{noteSection.getKey()}")
                   for note in noteSection.value
                     .cell(id=note.id)
-                      .content #{note.text}
+                      .content
+                        #{note.text}
                       .control
                         button.shaBtn
                         button.delBtn
