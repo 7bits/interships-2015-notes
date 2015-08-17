@@ -10,9 +10,7 @@
 				data: data
 			}).done(function(data) {
 				callback(data);
-			}).fail(function(data) {
-			    debugger;
-			});
+			})
 		};
 
 
@@ -95,22 +93,6 @@
 		});
 
 
-		$('li').click(function() {
-			//активация таба
-		    $(this).find('a').tab("show");
-		});
-
-
-		$(document).ready(function() {
-			//обработка ошибок при авторизации
-
-			if ($('.js-login-form').data('error') == true) {
-				$('.js-enter').trigger('click');
-			} else if (document.location.href.match(/.+\/signup/g)) {
-				$('.js-reg').trigger('click');
-			};	
-		});
-
 
 		var oldVal ="";
 		$('.noteDiv').on('keydown', 'textarea', function() {
@@ -131,11 +113,15 @@
 			
 		})
 
+
 		//автосейвер
 		$('.noteDiv').on('keyup', 'textarea', function() {
+			var text = $(this).val();
+			text = nl2br(text);
+
 			var data = {
 				id: $(this).closest('.cell').attr('id'),
-				text: $(this).val()
+				text: text 
 			}
 
 			$(function() {
@@ -276,11 +262,14 @@
 				textarea.setAttribute('maxlength', '20000');
 				textarea.classList.add('js-textarea', 'textarea');
 
-				self.children('.content').css('display', 'none');
+				var content = self.children('.content').css('display', 'none');
 				self.prepend(textarea);
 
-				$('.js-textarea').text(self.children('.content').text());
-				self.children('.content').text('');
+				var text = content.html();
+				text = br2nl(text);
+
+				$('.js-textarea').text(text);
+				content.text('');
 
 				$('.js-textarea').trigger('focus');
 			} else {
@@ -293,11 +282,33 @@
 			var self = $(this).closest('.cell');
 			
 			var textarea = $('.js-textarea');
-			self.children('.content').text(textarea.val());
 
+			var text = textarea.val();
+			text = nl2br(text);
+			self.children('.content').html(text);
 			textarea.remove();
 			self.children('.content').css('display', 'block');	
 		})
+
+
+		$(function() {
+			$.each($('.content'), function(i, item) {
+				var text = $(item).text();
+				$(item).text('');
+				$(item).html(text);
+			})
+		})
+
+
+		function nl2br (str) {   
+		    var breakTag = "<br>";    
+		    return (str + '').replace(/(\r\n|\n\r|\r|\n)/g, breakTag);
+		}    
+
+		function br2nl (str) {
+			var nl = "\r\n";
+			return (str + '').replace(/(<br>)|(<br \/>)/g, nl);
+		}
 
 
 		//Обработчик кнопки share и генерация модального окна
