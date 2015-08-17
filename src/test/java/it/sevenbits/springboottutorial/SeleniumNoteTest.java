@@ -113,7 +113,7 @@ public class SeleniumNoteTest {
 
         assertFalse(driver.findElements(By.className("cell")).isEmpty());
 
-	Actions action = new Actions(driver);
+	    Actions action = new Actions(driver);
         WebElement el = driver.findElement(By.className("cell"));
         action.moveToElement(el);
 	    action.perform();

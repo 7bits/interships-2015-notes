@@ -224,7 +224,7 @@ public class UsersController {
 
     @RequestMapping(value = "/confirm", method = RequestMethod.GET)
     public String confirmEmail(String token, String email) {
-        if (token.isEmpty() || email.isEmpty()) {
+        if (token == null || email == null || token.isEmpty() || email.isEmpty()) {
             return "home/errors";
         }
 
