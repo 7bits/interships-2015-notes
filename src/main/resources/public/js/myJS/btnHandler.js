@@ -171,6 +171,7 @@
 						$('.addShareEmail').val('');
 					}
 				}).fail(function(data) {
+					$('.addShareEmail').trigger('focus');
 					infoLabel.text(data.responseJSON.message);
 					curClass = 'messageFail';
                     infoLabel.addClass(curClass);
@@ -183,9 +184,9 @@
                 infoLabel.addClass(curClass);
     		}
 
-    		setTimeout(function() {
-    			infoLabel.removeClass(curClass);
-    		}, 5000)
+//    		setTimeout(function() {
+//    			infoLabel.removeClass(curClass);
+//    		}, 5000)
     	});
 
 
@@ -324,9 +325,9 @@
 						opacity: 1,
 						top: '45%'},
 						200);
-			});
 
-			$('.addShareEmail').trigger('focus');
+					$('.addShareEmail').trigger('focus');
+			});
 		})
 
 		//Выход из модального окна
@@ -394,13 +395,21 @@
 			$('.shareMessage').css('display', 'none');
 		})
 
+		$(".addShareEmail").on('input', function() {
+			$('.shareMessage').removeClass('messageFail');
+        });
 
 		//поведение плюсика в шаринге
-		$('.addShareEmail').keyup(function() {
+		$('.addShareEmail').keyup(function(e){
 			if ($(this).val() == "") {
 				$('.addShare').css('display', 'none');
 			} else {
 				$('.addShare').css('display', 'block');
+
+				var code = e.which; // recommended to use e.which, it's normalized across browsers
+                if(code == 13) { // 13 - enterKey
+                	$('.addShare').click();
+                }
 			};
 		})
 
@@ -428,5 +437,15 @@
                 }
             });
         })
+
+
+		$(document).keydown(function (e) {
+			var code = e.which;
+
+            if (e.which == 27)  // 27 - escapeKey
+            	if($('.modalWindow').css('display') == 'block')
+					$('#modalClose').click();
+        })
+
 	});
 })(jQuery);
