@@ -91,7 +91,7 @@
 
 
 		var oldVal ="";
-		$('.noteDiv').on('keydown', 'textarea', function() {
+		$('.noteDiv').on('input', 'textarea', function() {
 			var currentVal = $(this).val();
 
             if(currentVal == oldVal) {
