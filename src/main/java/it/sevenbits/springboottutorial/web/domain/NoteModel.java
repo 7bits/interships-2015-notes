@@ -20,6 +20,25 @@ public class NoteModel {
     private String emailOfShareUser;
     private String usernameOfShareUser;
 
+    //private List<String> category;
+    //private List<String> category;
+    //private Note.Priority priority;
+
+    //private boolean state;
+    //private enum state {TODO, IN_PROGRESS, DONE};
+    //private List<String> subnotes;
+
+
+
+    /*public Note.Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Note.Priority priority) {
+        this.priority = priority;
+    }*/
+
+    public NoteModel() {}
 
     public NoteModel(Long id, String text, Timestamp note_date, Timestamp created_at, Timestamp updated_at, Long parent_note_id, Long parent_user_id, String uuid, float note_order, String emailOfShareUser, String usernameOfShareUser) {
         this.id = id;
@@ -78,44 +97,6 @@ public class NoteModel {
 
     public void setNote_order(float note_order) {
         this.note_order = note_order;
-    }
-
-    //private List<String> category;
-    //private List<String> category;
-    //private Note.Priority priority;
-
-    //private boolean state;
-    //private enum state {TODO, IN_PROGRESS, DONE};
-    //private List<String> subnotes;
-
-
-
-    /*public Note.Priority getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Note.Priority priority) {
-        this.priority = priority;
-    }*/
-
-
-    public NoteModel(Long id, String text, Timestamp note_date, Timestamp created_at, Timestamp updated_at,
-                     String emailOfShareUser, String usernameOfShareUser) {
-        this.id = id;
-        this.text = text;
-        this.note_date = note_date;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this.emailOfShareUser = emailOfShareUser;
-        this.usernameOfShareUser = usernameOfShareUser;
-    }
-
-    public NoteModel(Long id, String text, Timestamp note_date, Timestamp created_at, Timestamp updated_at) {
-        this.id = id;
-        this.text = text;
-        this.note_date = note_date;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
     }
 
     public Long getId() {

@@ -39,22 +39,23 @@ html
             .minStatus
       .workDiv
         .noteDiv
-          if !noteSections
+          if(noteSections.size() == 0)
             span#emptyList У вас нет заметок
           else
             for noteSection in noteSections.entrySet()
-              if(noteSection.getKey()==null)
-                p(class="pNoteSection", id="pMyNotes") Мои Заметки
-              else
-                p(class="pNoteSection") #{noteSection.getKey()}
-
-              .noteSection(id="ns_#{noteSection.getKey()}")
-                for note in noteSection.value
-                  .cell(id=note.id)
-                    .content #{note.text}
-                    .control
-                      button.shaBtn
-                      button.delBtn
+              .textNoteSection
+                if(noteSection.getKey()==null)
+                  p(class="textSection", id="pMyNotes") Мои Заметки
+                else
+                  p(class="textSection") #{noteSection.getKey()}
+                .noteSection(id="ns_#{noteSection.getKey()}")
+                  for note in noteSection.value
+                    .cell(id=note.id)
+                      .content
+                        #{note.text}
+                      .control
+                        button.shaBtn
+                        button.delBtn
   .modalWindow
     .shareMainDiv
       .shareWrapper Поделиться с друзьями

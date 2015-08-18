@@ -108,31 +108,31 @@ public class SeleniumNoteTest {
 
     @Test
     public void createDeleteNoteTest() {
-
         driver.findElement(By.className("addNote")).click();
 
         assertFalse(driver.findElements(By.className("cell")).isEmpty());
 
-	    Actions action = new Actions(driver);
+        Actions action = new Actions(driver);
         WebElement el = driver.findElement(By.className("cell"));
         action.moveToElement(el);
-	    action.perform();
+        action.perform();
 
         WebDriverWait wait = new WebDriverWait(driver, 30);
         ExpectedCondition e = d -> {
             WebElement el1 = driver.findElement(By.className("cell"));
             WebElement controlPanel = el1.findElement(By.className("control"));
+            
             return !controlPanel.getCssValue("visibility").equals("hidden");
         };
         wait.until(e);
 
         WebElement button = el.findElement(By.className("delBtn"));
-	    action = new Actions(driver);
+        action = new Actions(driver);
         action.moveToElement(button);
-	    action.perform();
+        action.perform();
         button.click();
 
-	wait = new WebDriverWait(driver, 30);
+        wait = new WebDriverWait(driver, 30);
         ExpectedCondition elNotFound = new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
                 return driver.findElements(By.className("cell")).isEmpty();
@@ -140,13 +140,13 @@ public class SeleniumNoteTest {
         };
         wait.until(elNotFound);
 
-
         /*Actions builder = new Actions(driver);
         builder.moveToElement(driver.findElement(By.className("cell ui-sortable-handle"))).perform();
         By locator = By.className("delBtn");
         driver.findElement(locator).click();
         assertTrue(driver.findElements(By.className("cell")).isEmpty());*/
     }
+
     @Test
     public void userNameTest() {
         driver.findElement(By.className("user")).click();
@@ -172,17 +172,61 @@ public class SeleniumNoteTest {
         assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
 
         WebElement toClear = driver.findElement(By.className("currentPass"));
-	toClear.sendKeys(Keys.CONTROL + "a");
+	    toClear.sendKeys(Keys.CONTROL + "a");
         toClear.sendKeys(Keys.DELETE);
-  	toClear.sendKeys("Ololo73");
-	driver.findElement(By.className("newPass")).sendKeys("Capitan1234");
+  	    toClear.sendKeys("Ololo73");
+	    driver.findElement(By.className("newPass")).sendKeys("Capitan1234");
   	
-
-       WebElement button = driver.findElement(By.className("submit"));
+        WebElement button = driver.findElement(By.className("submit"));
         Actions action = new Actions(driver);
         action.moveToElement(button);
         action.perform();
         button.click();
     }
-    
+
+    @Test
+    public void userDesignTest() {
+        driver.findElement(By.className("user")).click();
+
+        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
+
+  	    WebElement button = driver.findElement(By.id("lightDen"));
+        Actions action = new Actions(driver);
+        action.moveToElement(button);
+        action.perform();
+        button.click();
+
+	    driver.findElement(By.className("submit")).click();
+    }
+
+    @Test
+    public void createShareNoteTest() {
+
+        driver.findElement(By.className("addNote")).click();
+
+        assertFalse(driver.findElements(By.className("cell")).isEmpty());
+
+	    Actions action = new Actions(driver);
+        WebElement el = driver.findElement(By.className("cell"));
+        action.moveToElement(el);
+	    action.perform();
+
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        ExpectedCondition e = d -> {
+            WebElement el1 = driver.findElement(By.className("cell"));
+            WebElement controlPanel = el1.findElement(By.className("control"));
+            return !controlPanel.getCssValue("visibility").equals("hidden");
+        };
+        wait.until(e);
+
+        WebElement button = el.findElement(By.className("shaBtn"));
+	    action = new Actions(driver);
+        action.moveToElement(button);
+	    action.perform();
+        button.click();
+
+	    el = driver.findElement(By.className("addShareEmail"));
+	    el.sendKeys("warumweil@gmail.com");
+	    driver.findElement(By.className("shareAplay")).click();
+    }
 }

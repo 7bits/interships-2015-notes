@@ -342,8 +342,12 @@ noteSection {
 
 }
 
-p.pNoteSection {
+p.textSection {
   color: #F74E19;
+}
+
+textNoteSection {
+
 }
 
 /*ЭТО ДОЛЖНО БЫТЬ В САМОМ КОНЦЕ!!!*/
