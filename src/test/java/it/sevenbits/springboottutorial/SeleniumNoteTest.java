@@ -121,7 +121,7 @@ public class SeleniumNoteTest {
         ExpectedCondition e = d -> {
             WebElement el1 = driver.findElement(By.className("cell"));
             WebElement controlPanel = el1.findElement(By.className("control"));
-            
+
             return !controlPanel.getCssValue("visibility").equals("hidden");
         };
         wait.until(e);

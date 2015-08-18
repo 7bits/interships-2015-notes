@@ -1,6 +1,8 @@
 (function($){
 	$(document).ready(function () {
 
+        connect();
+
 		App.Note.save = function(data, callback) {
 			$.ajax({
 				type: "POST",
@@ -119,6 +121,9 @@
 				id: $(this).closest('.cell').attr('id'),
 				text: text 
 			}
+
+            //отправить на сервак
+            sendNote(data);
 
 			$(function() {
 				clearTimeout(timeoutId);

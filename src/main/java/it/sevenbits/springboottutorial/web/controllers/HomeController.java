@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -210,5 +212,11 @@ public class HomeController {
         model.addAttribute("notes", sharedNotesByUsers);
         model.addAttribute("shareUsers", noteService.findShareUsers(currentUser.getId()));
         return "home/telenote";
+    }
+
+    @MessageMapping("/updatenote")
+    public void updateNote(NoteForm note, Authentication auth) throws Exception {
+        LOG.info("user = " +((UserDetailsImpl) auth.getPrincipal()).getEmail());
+        LOG.info("recieved note id = " + note.getId().toString());
     }
 }
