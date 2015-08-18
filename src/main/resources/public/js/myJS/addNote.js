@@ -16,7 +16,7 @@
 			"</div>"
 
 
-if($("div[id='ns_']").length > 0) {
+			if($("div[id='ns_']").length > 0) {
 				$("div[id='ns_']").prepend(cell);
 			} else {
 				var textNoteSection = document.createElement("div");
