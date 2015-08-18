@@ -140,15 +140,6 @@ public class SeleniumNoteTest {
         };
         wait.until(elNotFound);
 
-
-        /*Actions builder = new Actions(driver);
-        builder.moveToElement(driver.findElement(By.className("cell ui-sortable-handle"))).perform();
-        By locator = By.className("delBtn");
-        driver.findElement(locator).click();
-        assertTrue(driver.findElements(By.className("cell")).isEmpty());*/
-
-
-
     }
     @Test
     public void userNameTest() {
@@ -201,5 +192,35 @@ public class SeleniumNoteTest {
 
 	driver.findElement(By.className("submit")).click();
     }
-    
+
+         @Test
+    public void createShareNoteTest() {
+
+        driver.findElement(By.className("addNote")).click();
+
+        assertFalse(driver.findElements(By.className("cell")).isEmpty());
+
+	Actions action = new Actions(driver);
+        WebElement el = driver.findElement(By.className("cell"));
+        action.moveToElement(el);
+	    action.perform();
+
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        ExpectedCondition e = d -> {
+            WebElement el1 = driver.findElement(By.className("cell"));
+            WebElement controlPanel = el1.findElement(By.className("control"));
+            return !controlPanel.getCssValue("visibility").equals("hidden");
+        };
+        wait.until(e);
+
+        WebElement button = el.findElement(By.className("shaBtn"));
+	    action = new Actions(driver);
+        action.moveToElement(button);
+	    action.perform();
+        button.click();
+
+	el = driver.findElement(By.className("addShareEmail"));
+	el.sendKeys("warumweil@gmail.com");
+	driver.findElement(By.className("shareAplay")).click();
+    }
 }
