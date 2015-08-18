@@ -35,7 +35,7 @@
 				textNoteSection.appendChild(myNotesSection);
 
 
-				$(".noteDiv").append(textNoteSection);
+				$(".noteDiv").prepend(textNoteSection);
 
 				$("div[id='ns_']").prepend(cell);
 
