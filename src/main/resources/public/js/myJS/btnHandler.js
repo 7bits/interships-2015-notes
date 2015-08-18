@@ -297,7 +297,7 @@
 		})
 
 
-		function nl2br (str) {   
+		function nl2br (str) {
 		    var breakTag = "<br>";    
 		    return (str + '').replace(/(\r\n|\n\r|\r|\n)/g, breakTag);
 		}    
