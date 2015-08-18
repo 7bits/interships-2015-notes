@@ -300,4 +300,31 @@ public class NoteService {
             }
         }
     }
+
+    public List<NoteModel> getMyNotSharedNoteModelsByUserId(Long userId) throws ServiceException {
+        try {
+            return repository.getMyNotSharedNoteModelsByUserId(userId);
+        } catch (RepositoryException e) {
+            throw new ServiceException("Не удалось получить свои заметки, которые никому не расшарены" + e.getMessage());
+        }
+
+    }
+
+    public List<NoteModel> getMySharedNoteModelsByUserId(Long userId) throws ServiceException {
+        try {
+            return repository.getMySharedNoteModelsByUserId(userId);
+        } catch (RepositoryException e) {
+            throw new ServiceException("Не удалось получить свои заметки, которые кому-то расшарены" + e.getMessage());
+        }
+
+    }
+
+    public List<NoteModel> getForeignSharedNoteModelsByUserId(Long userId) throws ServiceException {
+        try {
+            return repository.getForeignSharedNoteModelsByUserId(userId);
+        } catch (RepositoryException e) {
+            throw new ServiceException("Не удалось получить чужие расшаренные заметки" + e.getMessage());
+        }
+    }
+
 }

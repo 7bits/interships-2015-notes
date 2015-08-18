@@ -77,19 +77,18 @@ public class HomeController {
     @RequestMapping(value = "/telenote", method = RequestMethod.GET)
     public String getTelenote(final Model model, Authentication auth) throws ServiceException {
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
-        List<NoteModel> noteModels = noteService.findUserNotes(currentUser.getId());
 
-        for(NoteModel n : noteModels) {
-            if(n.getParent_note_id() != null) {
-                UserDetailsImpl userDetails = noteService.getUserWhoSharedNote(n.getId());
+        List<NoteModel> mySharedNotes = noteService.getMySharedNoteModelsByUserId(currentUser.getId());
+        List<NoteModel> myNotSharedNotes = noteService.getMyNotSharedNoteModelsByUserId(currentUser.getId());
+        List<NoteModel> foreignNotes = noteService.getForeignSharedNoteModelsByUserId(currentUser.getId());
 
-                n.setEmailOfShareUser(userDetails.getEmail());
-                n.setUsernameOfShareUser(userDetails.getUsername());
-            }
-        }
+        List<NoteModel> allNotes = new ArrayList<>();
+        allNotes.addAll(myNotSharedNotes);
+        allNotes.addAll(mySharedNotes);
+        allNotes.addAll(foreignNotes);
 
         Map<String, List<NoteModel>> map = new HashMap<String, List<NoteModel>>();
-        for (NoteModel item : noteModels) {
+        for (NoteModel item : allNotes) {
             List<NoteModel> list = map.get(item.getEmailOfShareUser());
             if (list == null) {
                 list = new ArrayList<NoteModel>();

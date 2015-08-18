@@ -7,6 +7,7 @@ import it.sevenbits.springboottutorial.core.domain.OrderData;
 import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.mappers.NoteMapper;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
+import it.sevenbits.springboottutorial.web.domain.NoteModel;
 import org.apache.catalina.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,4 +149,22 @@ public class NoteRepository implements INoteRepository {
     public Long getUserNoteByParentId(Long userId, Long parentId) throws RepositoryException {
         return mapper.getUserNoteByParentId(userId, parentId);
     }
+
+    @Override
+    public List<NoteModel> getMyNotSharedNoteModelsByUserId(Long userId) throws RepositoryException {
+        return mapper.getMyNotSharedNoteModelsByUserId(userId);
+
+    }
+
+    @Override
+    public List<NoteModel> getMySharedNoteModelsByUserId(Long userId) throws RepositoryException {
+        return mapper.getMySharedNoteModelsByUserId(userId);
+    }
+
+    @Override
+    public List<NoteModel> getForeignSharedNoteModelsByUserId(Long userId) throws RepositoryException {
+        return mapper.getForeignSharedNoteModelsByUserId(userId);
+
+    }
+
 }

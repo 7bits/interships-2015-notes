@@ -4,12 +4,13 @@ import it.sevenbits.springboottutorial.core.domain.Note;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.domain.OrderData;
 import it.sevenbits.springboottutorial.core.domain.UserNote;
+import it.sevenbits.springboottutorial.web.domain.NoteModel;
 import org.apache.ibatis.annotations.*;
 import javax.validation.groups.ConvertGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/***
  * Created by Admin on 09.07.2015.
  */
 public interface NoteMapper {
@@ -243,4 +244,59 @@ public interface NoteMapper {
             "WHERE parent_note_id=#{parentId}\n" +
             "AND user_id=#{userId}")
     Long getUserNoteByParentId(@Param("userId") Long userId, @Param("parentId") Long parentId);
+
+    @Select("SELECT *\n" +
+            "from notes \n" +
+            "where parent_user_id=#{userId} and parent_note_id is NULL \n" +
+            "and notes.id NOT IN (SELECT parent_note_id from notes where parent_note_id IS NOT NULL)\n")
+    List<NoteModel> getMyNotSharedNoteModelsByUserId(@Param("userId") Long userId);
+
+    @Select("SELECT N1.*, users.email, users.username\n" +
+            "from notes N1\n" +
+            "inner join notes N2 on N2.parent_note_id = N1.id\n" +
+            "inner join usernotes on N2.id = usernotes.note_id\n" +
+            "inner join users on users.id = usernotes.user_id\n" +
+            "where N1.parent_user_id = #{userId}\n")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "text", property = "text"),
+            @Result(column = "note_date", property = "note_date"),
+            @Result(column = "created_at", property = "created_at"),
+            @Result(column = "updated_at", property = "updated_at"),
+            @Result(column = "parent_note_id", property = "parent_note_id"),
+            @Result(column = "parent_user_id", property = "parent_user_id"),
+            @Result(column = "uuid", property = "uuid"),
+            @Result(column = "note_order", property = "note_order"),
+            @Result(column = "email", property = "emailOfShareUser"),
+            @Result(column = "username", property = "usernameOfShareUser")
+    })
+    List<NoteModel> getMySharedNoteModelsByUserId(@Param("userId") Long userId);
+
+    @Select("SELECT notes.*, users.email, users.username\n" +
+            "from notes \n" +
+            "inner join usernotes on notes.id = usernotes.note_id\n" +
+            "inner join users on users.id = notes.parent_user_id\n" +
+            "where parent_note_id is NOT NULL\n" +
+            "AND usernotes.user_id = #{userId};\n")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "text", property = "text"),
+            @Result(column = "note_date", property = "note_date"),
+            @Result(column = "created_at", property = "created_at"),
+            @Result(column = "updated_at", property = "updated_at"),
+            @Result(column = "parent_note_id", property = "parent_note_id"),
+            @Result(column = "parent_user_id", property = "parent_user_id"),
+            @Result(column = "uuid", property = "uuid"),
+            @Result(column = "note_order", property = "note_order"),
+            @Result(column = "email", property = "emailOfShareUser"),
+            @Result(column = "username", property = "usernameOfShareUser")
+    })
+    List<NoteModel> getForeignSharedNoteModelsByUserId(@Param("userId") Long userId);
+
+//    @Select("SELECT notes.id, text, note_date, notes.created_at, notes.updated_at, parent_note_id, parent_user_id, uuid, note_order, email, username\n"+
+//        "FROM notes\n" +
+//        "INNER JOIN users\n" +
+//        "ON notes.parent_user_id = users.id" +
+//        "WHERE users.id = #{userId}")
+//    List<NoteModel> getNoteModelsByUserId(@Param("userId") Long userId);
 }
