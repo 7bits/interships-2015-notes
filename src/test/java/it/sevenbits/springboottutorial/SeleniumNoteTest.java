@@ -170,7 +170,7 @@ public class SeleniumNoteTest {
         toClear.sendKeys(Keys.DELETE);
   	toClear.sendKeys("Ololo73");
 	driver.findElement(By.className("newPass")).sendKeys("Capitan1234");
-  	
+
        WebElement button = driver.findElement(By.className("submit"));
         Actions action = new Actions(driver);
         action.moveToElement(button);
@@ -221,6 +221,54 @@ public class SeleniumNoteTest {
 
 	el = driver.findElement(By.className("addShareEmail"));
 	el.sendKeys("warumweil@gmail.com");
+	driver.findElement(By.className("addShare")).click();
 	driver.findElement(By.className("shareAplay")).click();
     }
+
+	/*@Test
+    	public void deleteSharingNoteTest() {
+
+        driver.findElement(By.className("addNote")).click();
+
+        assertFalse(driver.findElements(By.className("cell")).isEmpty());
+
+	Actions action = new Actions(driver);
+        WebElement el = driver.findElement(By.className("cell"));
+        action.moveToElement(el);
+	    action.perform();
+
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        ExpectedCondition e = d -> {
+            WebElement el1 = driver.findElement(By.className("cell"));
+            WebElement controlPanel = el1.findElement(By.className("control"));
+            return !controlPanel.getCssValue("visibility").equals("hidden");
+        };
+        wait.until(e);
+
+        WebElement button = el.findElement(By.className("shaBtn"));
+	    action = new Actions(driver);
+        action.moveToElement(button);
+	    action.perform();
+        button.click();
+
+	el = driver.findElement(By.className("addShareEmail"));
+	el.sendKeys("warumweil@gmail.com");
+	driver.findElement(By.className("addShare")).click();
+	driver.findElement(By.className("shareAplay")).click();
+
+    }*/
+ @Test
+    public void createTypeNoteTest() {
+
+        driver.findElement(By.className("addNote")).click();
+
+        assertFalse(driver.findElements(By.className("cell")).isEmpty());
+
+       WebElement content = driver.findElement(By.className("content"));
+       content.click();
+       WebElement text = driver.findElement(By.className("textarea"));
+       text.sendKeys("some text");
+
+    }
+
 }
