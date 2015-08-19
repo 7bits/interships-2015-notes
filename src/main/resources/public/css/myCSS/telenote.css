@@ -85,8 +85,8 @@ body{
 	float: right;
 	text-align: justify;
 	margin-right: 25px;
-	margin-top: 20px;
 	display: inline-flex;
+	margin-top: 15px;
 }
 
 .rgihtMenu {
@@ -127,7 +127,11 @@ body{
 
 .addNote {	
 	float: right;
-	border-radius: 50px;	
+	border-radius: 50px;
+	margin-top: -21px;
+	width: 50px;
+	height: 50px;
+	text-align: center;	
 }
 
 .addNote img {
@@ -140,9 +144,7 @@ body{
 .addNote img:hover {
 	width: 45px;
 	margin-top: -3px;
-	margin-left: -3px;
 	box-shadow: 0px 5px 16.02px 1.98px;
-	width: 
 }
 
 .addNote img:active {
@@ -151,11 +153,30 @@ body{
 }
 
 .addNoteDiv {
-	margin-top: 67px;
-  	margin-bottom: -29px;
+	position: fixed;
   	float: right;
-  	position: fixed;
- 	margin-left: 55%;
+  	top: 88px;
+  	right: 230px;
+  	z-index: 4;
+}
+
+.infoDiv {
+	position: fixed;
+	right: 0;
+	top: 88px;
+	background-color: white;
+	height: 35px;
+	width: 500px;
+	-webkit-clip-path: polygon(0 -50px, 100% 0, 100% 100%, 9% 100%);
+ 	clip-path: polygon(0 -50px, 100% 0, 100% 100%, 9% 100%);
+ 	z-index: 3;
+}
+
+.sortMenu {
+	float: right;
+	margin-top: 12px;
+  	height: 33px;
+  	margin-right: 20px;
 }
 
 .status {
@@ -165,11 +186,11 @@ body{
 }
 
 .statusDiv {
-	float: right;
-	margin-right: 12px;
-	width: 200px;
+	margin-left: 60px;
+	width: 122px;
 	text-align: right;
-	margin-top: -4px;
+	margin-top: 8px;
+	float: left;
 }
 
 .minStatus {
@@ -189,11 +210,42 @@ a:hover {
 	margin-top: 0px;
 }
 
+.sortLabel {
+	float: right;
+	font-size: 12px;
+}
+
+.sortByDate, .sortByUser {
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	width: 16px;
+	height: 16px;
+	float: right;
+	margin-top: -1px;
+}
+
+.sortLabel, .sortByDate {
+	margin-right: 20px;
+}
+
+.sortByUser {
+	margin-right: 30px;
+}
+
+.sortByUser {
+	background-image: url("/img/sortedByUser.png");
+}
+
+.sortByDate {
+	background-image: url("/img/sortedByDate.png");
+	
+}
+
 .workDiv{
 	width: 100%;
   	display: inherit;
-  	margin-top: 118px;
-  	text-align: center;
+  	margin-top: 143px;
 }
 
 .noteDiv {
@@ -265,11 +317,10 @@ a:hover {
 	font-family: "Roboto-Light";
 	font-size: 15px;
 	display: block;
-	white-space:pre;
 	word-wrap: break-word;
 	word-break: normal;
 	overflow-y: auto;
-	color: #010101;
+	color: #010101; 
 }
 
 .textarea {
@@ -280,11 +331,7 @@ a:hover {
 	height: 143px;
 	padding: 8px 14px 8px 14px;
 	display: block;
-	white-space:pre;
-    word-wrap: break-word;
-    word-break: normal;
 }
-
 
 .textarea:active,
 .textarea:focus, 
@@ -343,7 +390,7 @@ input[type="checkbox"]:checked + label {
   background:url(/img/c_checked.png) left top no-repeat;
 }*/
 
-noteSection {
+.noteSection {
 
 }
 
@@ -351,9 +398,26 @@ p.textSection {
   color: #F74E19;
 }
 
-textNoteSection {
-
+.textNoteSection {
+	position: relative;
+	width: 100%;
+	height: 35px;
+	margin-bottom: 20px;
+	padding-left: 25px;
+  	padding-top: 8px;
+	box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.05);
+	background-color: rgba(176, 184, 193, 0.8);
+	-moz-box-sizing: border-box; /* Для Firefox */
+    -webkit-box-sizing: border-box; /* Для Safari и Chrome */
+    box-sizing: border-box;
 }
+
+.actualSection {
+	position: fixed;
+	top: 88px;
+	left: 0px;
+}
+
 
 /*ЭТО ДОЛЖНО БЫТЬ В САМОМ КОНЦЕ!!!*/
 @media screen and (max-width: 800px) {

@@ -16,6 +16,7 @@ html
     script(src='js/myJS/btnHandler.js')
     script(src='js/myJS/addNote.js')
     script(src="js/myJS/drag'n'drop.js")
+    script(src="js/myJS/telenote.js")
     title Telenote
   body
     .container
@@ -31,12 +32,18 @@ html
             a#logout(href='/logout') Выход
           a(href='/account')
             img.userImg(src="#{avatar}")
-        .addNoteDiv
-          .addNote
-            img(src="img/addBtn.png")
-          .statusDiv
-            span.status Все заметки сохранены
-            .minStatus
+      .addNoteDiv
+        .addNote
+          img(src="img/addBtn.png")
+      .infoDiv
+        .statusDiv
+          span.status Все заметки сохранены
+          .minStatus
+        .sortMenu
+          .sortByUser
+          .sortByDate
+          .sortLabel
+      #js-actualSection.js-allSection.textNoteSection.actualSection(value="Actual") Actual
       .workDiv
         .noteDiv
           if(noteSections.size() == 0)
