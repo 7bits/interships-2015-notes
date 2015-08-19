@@ -19,10 +19,15 @@ public class NoteModel {
     private Float note_order;
     private String emailOfShareUser;
     private String usernameOfShareUser;
+    private String userAvatar;
 
-    //private List<String> category;
-    //private List<String> category;
-    //private Note.Priority priority;
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
+    }
 
     //private boolean state;
     //private enum state {TODO, IN_PROGRESS, DONE};

@@ -86,11 +86,17 @@ public class HomeController {
 
         Collections.sort(allNotes, new NoteModel.NoteOrderComparator());
 
+        String avatar;
+        mySharedNotes.get(0).setEmailOfShareUser(currentUser.getEmail());
+
         Map<String, List<NoteModel>> map = new HashMap<String, List<NoteModel>>();
         for (NoteModel item : allNotes) {
             List<NoteModel> list = map.get(item.getEmailOfShareUser());
             if (list == null) {
                 list = new ArrayList<NoteModel>();
+                avatar = "http://www.gravatar.com/avatar/" + accService.getAvatarHash(item.getEmailOfShareUser()) +
+                        "?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png";
+                item.setUserAvatar(avatar);
                 map.put(item.getEmailOfShareUser(), list);
             }
             list.add(item);
