@@ -32,12 +32,13 @@ public class AccountService {
 
     public void changeUsername(UserDetailsImpl user) throws ServiceException {
         try {
+            //Pattern pattern = Pattern.compile("\\b[\\wа-яА-Я-]{2,15}\\b");
             Pattern pattern = Pattern.compile(".+\\s.+");
             Matcher matcher = pattern.matcher(user.getUsername());
-            if (!matcher.find(0)) {
+            if (!matcher.matches()) {
                 accountRepository.changeUsername(user);
             } else {
-                throw new ServiceException("username");
+                throw new ServiceException("incorrectUsername");
             }
 
         } catch (RepositoryException e) {
@@ -45,11 +46,9 @@ public class AccountService {
         }
     }
 
-    public void changePass(String oldPass, String newPass, UserDetailsImpl user) throws ServiceException {
+    public void changePass(String currentPass, String newPass, UserDetailsImpl user) throws ServiceException {
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-        if (oldPass.equals(newPass)) throw new ServiceException("password");
 
         try {
 
@@ -57,15 +56,19 @@ public class AccountService {
             Matcher matcher = pattern.matcher(newPass);
 
             if(matcher.matches()) {
-                if (encoder.matches(oldPass, user.getPassword())) {
-                    user.setPassword(encoder.encode(newPass));
-                    accountRepository.changePass(user);
+                if (encoder.matches(currentPass, user.getPassword())) {
+                    if (!currentPass.equals(newPass)){
+                        user.setPassword(encoder.encode(newPass));
+                        accountRepository.changePass(user);
+                    } else {
+                        throw new ServiceException("curPassEqualsNewPass");
+                    }
                 } else {
-                    throw new ServiceException("oldPass");
+                    throw new ServiceException("incorrectPass");
                 }
 
             } else {
-                throw new ServiceException("newPass");
+                throw new ServiceException("patternFail");
             }
         } catch (RepositoryException e) {
             throw new ServiceException("Не удалось сменить пароль в базе: " + e.getMessage());
