@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,6 +46,9 @@ public class HomeController {
 
     @Autowired
     private AccountService accService;
+
+    @Autowired
+    private SimpMessageSendingOperations messagingTemplate;
 
     private static Logger LOG = Logger.getLogger(HomeController.class);
 
@@ -175,9 +180,9 @@ public class HomeController {
     @RequestMapping(value = "/telenote/order", method = RequestMethod.POST)
     public void updateOrder(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws RepositoryException, ServiceException {
         final OrderData orderData = new OrderData(
-                Long.parseLong(request.getParameter("id_prev")),
-                Long.parseLong(request.getParameter("id_cur")),
-                Long.parseLong(request.getParameter("id_next")));
+        Long.parseLong(request.getParameter("id_prev")),
+        Long.parseLong(request.getParameter("id_cur")),
+        Long.parseLong(request.getParameter("id_next")));
 
         noteService.updateOrder(orderData);
     }
@@ -216,7 +221,16 @@ public class HomeController {
 
     @MessageMapping("/updatenote")
     public void updateNote(NoteForm note, Authentication auth) throws Exception {
-        LOG.info("user = " +((UserDetailsImpl) auth.getPrincipal()).getEmail());
-        LOG.info("recieved note id = " + note.getId().toString());
+        UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
+
+        List<NoteModel> models = noteService.getAllSharedNoteModels(note.getId());
+        if (!models.isEmpty()) {
+            for (NoteModel model : models) {
+                note.setId(model.getId());
+
+                messagingTemplate.convertAndSendToUser(model.getUsernameOfShareUser(), "/queue/notes", note);
+                //messagingTemplate.convertAndSendToUser(model.getEmailOfShareUser(), "/queue/notes", note);
+            }
+        }
     }
 }

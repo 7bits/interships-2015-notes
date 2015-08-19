@@ -221,46 +221,6 @@ public class NoteService {
     }
 
     public void deleteShareLink(Long root, Long userId) throws ServiceException {
-        /*try {
-            HashMap<Long, ArrayList<Long>> map = new HashMap<>();
-            List<Note> notes = repository.getNotesWithSameUuidById(root.getId());
-            List<Long> result = new ArrayList<>();
-            Stack<Long> stack = new Stack<>();
-
-            for (Note note : notes) {
-                if (map.containsKey(note.getParent_note_id())) {
-                    map.get(note.getParent_note_id()).add(note.getId());
-                } else {
-                    ArrayList<Long> list = new ArrayList<>();
-                    list.add(note.getId());
-
-                    map.put(note.getParent_note_id(), list);
-                }
-            }
-
-            stack.push(root.getId());
-            while (!stack.isEmpty()) {
-                Long key = stack.pop();
-                List<Long> list = map.get(key);
-                result.add(key);
-                if (list != null && !list.isEmpty()) {
-                    for (Long item : list) {
-                        stack.push(item);
-                    }
-                }
-            }
-
-            Note updNote = new Note();
-            updNote.setId(root.getId());
-            updNote.setText(root.getText());
-            updNote.setParent_note_id(null);
-
-            repository.updateNote(updNote);
-            repository.updateUuidById(result, Note.generateUUID());
-        } catch (RepositoryException e) {
-            throw new ServiceException(e.getMessage());
-        }*/
-
         try {
             HashMap<Long, ArrayList<Long>> map = new HashMap<>();
             List<Note> notes = repository.getNotesWithSameUuidById(root);
@@ -327,4 +287,11 @@ public class NoteService {
         }
     }
 
+    public List<NoteModel> getAllSharedNoteModels(Long userId) throws ServiceException {
+        try {
+            return repository.getAllSharedNoteModels(userId);
+        } catch (RepositoryException e) {
+            throw new ServiceException("Не удалось получить чужие расшаренные заметки" + e.getMessage());
+        }
+    }
 }

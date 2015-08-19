@@ -5,17 +5,19 @@ function connect() {
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function(frame) {
         //setConnected(true);
-        console.log('Connected: ' + frame);
-        /*stompClient.subscribe('/topic/greetings', function(greeting){
-            showGreeting(JSON.parse(greeting.body).content);
-        });*/
+        //var email = $("meta[name=current_user]").attr("content");
+        stompClient.subscribe('/user/queue/notes', subscribeEvent);
     });
+}
+
+function subscribeEvent(noteForm) {
+    var quote = JSON.parse(noteForm.body);
+    $("#" + quote.id + " .content").text(quote.text);
 }
 
 function disconnect() {
     stompClient.disconnect();
     //setConnected(false);
-    console.log("Disconnected");
 }
 
 function sendNote(data) {

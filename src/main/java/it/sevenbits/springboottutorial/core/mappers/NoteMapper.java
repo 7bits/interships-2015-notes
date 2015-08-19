@@ -293,6 +293,19 @@ public interface NoteMapper {
     })
     List<NoteModel> getForeignSharedNoteModelsByUserId(@Param("userId") Long userId);
 
+    @Select("SELECT notes.id, users.email, users.username\n" +
+            "from notes \n" +
+            "inner join usernotes on notes.id = usernotes.note_id\n" +
+            "inner join users on users.id = usernotes.user_id\n" +
+            "where uuid=(select uuid from notes where id=#{noteId})\n" +
+            "and notes.id != #{noteId}")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "email", property = "emailOfShareUser"),
+            @Result(column = "username", property = "usernameOfShareUser")
+    })
+    List<NoteModel> getAllSharedNoteModels(@Param("noteId") Long noteId);
+
 //    @Select("SELECT notes.id, text, note_date, notes.created_at, notes.updated_at, parent_note_id, parent_user_id, uuid, note_order, email, username\n"+
 //        "FROM notes\n" +
 //        "INNER JOIN users\n" +

@@ -164,7 +164,10 @@ public class NoteRepository implements INoteRepository {
     @Override
     public List<NoteModel> getForeignSharedNoteModelsByUserId(Long userId) throws RepositoryException {
         return mapper.getForeignSharedNoteModelsByUserId(userId);
-
     }
 
+    @Override
+    public List<NoteModel> getAllSharedNoteModels(Long userId) throws RepositoryException {
+        return mapper.getAllSharedNoteModels(userId);
+    }
 }

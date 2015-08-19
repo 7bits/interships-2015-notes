@@ -64,4 +64,5 @@ public interface INoteRepository {
 
     List<NoteModel> getForeignSharedNoteModelsByUserId(Long userId) throws RepositoryException;
 
+    List<NoteModel> getAllSharedNoteModels(Long userId) throws RepositoryException;
 }
