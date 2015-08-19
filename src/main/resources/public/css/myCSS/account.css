@@ -161,11 +161,14 @@
 	background-position-y: 5px;
   	background-position-x: 10px;
 	float: left;
+	word-wrap: normal;
   	background-color: white;
-  	padding-top: 7px;;
-  	padding-right: 6px;
-  	height: 21px;
-  	text-align: right;
+  	padding-top: 7px;
+  	padding-left: 20px;
+  	//padding-right: 7px;
+  	display: inline-block;
+  	//height: 20px;
+  	/* text-align: right; */
   	font-size: 12px;
   	font-family: "Roboto-Light";
   	color: black;
@@ -174,20 +177,19 @@
 .errorUsernameDiv {
 	margin-top: -29px;
 	margin-left: 327px;
-	width: 205px;
+	//width: 135px;
 }
 
 .errorPassDiv {
 	margin-top: -30px;
  	margin-left: 412px;
-  	width: 124px;
   	
 }
 
 .oldErrorPass {
-	width: 130px;
+	//width: 188px;
 }
 
 .newErrorPass {
-	width: 154px;
+	//width: 154px;
 }

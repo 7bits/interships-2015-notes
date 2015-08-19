@@ -195,7 +195,18 @@ public class SeleniumNoteTest {
 
          @Test
     public void createShareNoteTest() {
+      UserDetailsImpl user = new UserDetailsImpl();
+      user.setEmail("warumweil@gmail.com");
+      user.setUsername("J");
+      try {
+           user.setPassword((new BCryptPasswordEncoder()).encode("54321Qwerty"));
 
+           repository.create(user);
+
+           user.setPassword("54321Qwerty");
+       } catch (Exception ex) {
+           fail(ex.getMessage());
+       }
         driver.findElement(By.className("addNote")).click();
 
         assertFalse(driver.findElements(By.className("cell")).isEmpty());
@@ -223,6 +234,23 @@ public class SeleniumNoteTest {
 	el.sendKeys("warumweil@gmail.com");
 	driver.findElement(By.className("addShare")).click();
 	driver.findElement(By.className("shareAplay")).click();
+  driver.findElement(By.id("logout")).click();
+
+  WebElement email = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] input[name=username]"));
+  WebElement password = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] input[name=password]"));
+  WebElement submit = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] .loginSubmit"));
+
+  email.sendKeys("warumweil@gmail.com");
+  password.sendKeys("54321Qwerty");
+  submit.submit();
+
+  assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/telenote"));
+
+  try {
+      repository.remove(user);
+  } catch (Exception ex) {
+      fail(ex.getMessage());
+  }
     }
 
 	/*@Test

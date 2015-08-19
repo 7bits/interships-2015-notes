@@ -55,7 +55,7 @@ public class AccountController {
                 "?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png");
 
         try {
-            if (!form.getUsername().equals(user.getUsername())) {
+            if (!form.getUsername().isEmpty() && !form.getUsername().equals(user.getUsername())) {
                 user.setUsername(form.getUsername());
                 accountService.changeUsername(user);
             }
@@ -71,8 +71,8 @@ public class AccountController {
                 form.setNewPass("");
             }
         } catch (ServiceException e) {
-            if (e.getMessage().equals("password") || e.getMessage().equals("oldPass")
-                    || e.getMessage().equals("username") || e.getMessage().equals("newPass")) {
+            if (e.getMessage().equals("incorrectPass") || e.getMessage().equals("patternFail") ||
+                    e.getMessage().equals("curPassEqualsNewPass") || e.getMessage().equals("incorrectUsername")) {
 
                 model.addObject(e.getMessage().toString(), 1);
                 model.addObject("changesForm", form);
