@@ -265,10 +265,11 @@ a:hover {
 	font-family: "Roboto-Light";
 	font-size: 15px;
 	display: block;
+	white-space:pre;
 	word-wrap: break-word;
 	word-break: normal;
 	overflow-y: auto;
-	color: #010101; 
+	color: #010101;
 }
 
 .textarea {
@@ -279,7 +280,11 @@ a:hover {
 	height: 143px;
 	padding: 8px 14px 8px 14px;
 	display: block;
+	white-space:pre;
+    word-wrap: break-word;
+    word-break: normal;
 }
+
 
 .textarea:active,
 .textarea:focus, 
