@@ -98,14 +98,15 @@ body{
 	width: 50px;
 	height: 50px;
 	margin-left: 16px;
-	/*background-image: url('/img/user.png');*/
 	background-size: cover;
+	border: 1px solid white;
+  	border-radius: 50px;
 }
 
 .logMenu{
 	text-align: right;
 	margin-left: 10px;
-	margin-top: 2px;
+	margin-top: 9px;
 }
 
 .user {
@@ -187,9 +188,9 @@ body{
 
 .statusDiv {
 	margin-left: 60px;
-	width: 122px;
+	width: 134px;
 	text-align: right;
-	margin-top: 8px;
+	margin-top: 7px;
 	float: left;
 }
 
@@ -213,6 +214,7 @@ a:hover {
 .sortLabel {
 	float: right;
 	font-size: 12px;
+	font-family: "Roboto-Regular";
 }
 
 .sortByDate, .sortByUser {
@@ -223,6 +225,7 @@ a:hover {
 	height: 16px;
 	float: right;
 	margin-top: -1px;
+	cursor: pointer;
 }
 
 .sortLabel, .sortByDate {
@@ -394,8 +397,19 @@ input[type="checkbox"]:checked + label {
 
 }
 
-p.textSection {
-  color: #F74E19;
+.sectionPic {
+   	height: 32px;
+  	margin-top: -7px;
+  	border-radius: 50px;
+  	float: left;
+}
+
+.sectionOwner {
+	float: left;
+	margin-top: 2px;
+  	margin-left: 10px;
+  	font-family: "Roboto-Regular";
+  	font-size: 12px;
 }
 
 .textNoteSection {

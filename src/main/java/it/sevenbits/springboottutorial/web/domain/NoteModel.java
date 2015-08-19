@@ -19,7 +19,28 @@ public class NoteModel {
     private float note_order;
     private String emailOfShareUser;
     private String usernameOfShareUser;
+    private String userAvatar;
 
+    public String getUserAvatar() {
+        return userAvatar;
+    }
+
+    public void setUserAvatar(String userAvatar) {
+        this.userAvatar = userAvatar;
+    }
+    //private boolean state;
+    //private enum state {TODO, IN_PROGRESS, DONE};
+    //private List<String> subnotes;
+
+
+
+    /*public Note.Priority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Note.Priority priority) {
+        this.priority = priority;
+    }*/
 
     public NoteModel(Long id, String text, Timestamp note_date, Timestamp created_at, Timestamp updated_at, Long parent_note_id, Long parent_user_id, String uuid, float note_order, String emailOfShareUser, String usernameOfShareUser) {
         this.id = id;
