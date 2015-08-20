@@ -89,16 +89,17 @@ public class HomeController {
         }
 
         String avatar;
-        mySharedNotes.get(0).setEmailOfShareUser(currentUser.getEmail());
+        avatar = "http://www.gravatar.com/avatar/" + accService.getAvatarHash(currentUser.getEmail()) +
+                "?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png";
+
+        if (myNotSharedNotes.size() != 0) myNotSharedNotes.get(0).setUserAvatar(avatar);
 
         Map<String, List<NoteModel>> map = new HashMap<String, List<NoteModel>>();
         for (NoteModel item : noteModels) {
             List<NoteModel> list = map.get(item.getEmailOfShareUser());
             if (list == null) {
                 list = new ArrayList<NoteModel>();
-                avatar = "http://www.gravatar.com/avatar/" + accService.getAvatarHash(item.getEmailOfShareUser()) +
-                        "?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png";
-                item.setUserAvatar(avatar);
+
                 map.put(item.getEmailOfShareUser(), list);
             }
             list.add(item);

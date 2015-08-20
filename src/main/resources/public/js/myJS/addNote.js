@@ -3,40 +3,34 @@
 		//функция обработки нажатия "+" и добавления заметки на рабочее поле
 		$('.addNote').click(function() {
 
-			if ($('#emptyList') != null) {
-				$('#emptyList').remove();
-			};
-
 			var cell = "<div id='new' class='cell' style='width: 0px; margin-top: 123px; height: 2px;'>"+
 				"<div class='content'></div>"+
 				"<div class='control'>"+
-					"<button class='delBtn' style='visibility: hidden;'></button>"+
+					"<button class='shaBtn' style='visibility: hidden;'></button>"+
 					"<button class='shaBtn' style='visibility: hidden;'></button>"+
 				"</div>"+
 			"</div>"
 
+			if ($('#js-actualSection').attr("value") == "Мои заметки") {
+				$(".js-noteSection").eq(0).prepend(cell);
+				$("body").animate({scrollTop: '0'}, 200);
+			} else if (($('#js-actualSection').attr("value") != "Мои заметки") && ($(".noteDiv").children().length != 0)) {
 
-			if($("div[id='ns_']").length > 0) {
-				$("div[id='ns_']").prepend(cell);
-			} else {
-				var textSection = document.createElement("p");
-				textSection.textContent= "Мои Заметки";
-				textSection.setAttribute("class", "textSection");
-				textSection.setAttribute("id", "pMyNotes");
-				//textSection.setAttribute("text","Мои Заметки");
+				var section = "<div class='js-section js-allSections textNoteSection'>" + 
+					"<img class='js-sectionPic sectionPic' src=" + $(".js-sectionPic").eq(0).attr("value") + ">" + 
+                	"<div class='js-sectionOwner sectionOwner'>" + $("#js-actualSection").eq(0).attr("value") + 
+                		"<span>" + $(".js-span").eq(0).attr("value") + "</span>" + 
+                	"</div>" +
+				"</div>";
 
-				var myNotesSection = document.createElement("div");
-				myNotesSection.setAttribute("class", "noteSection");
-				myNotesSection.setAttribute("id", "ns_");
+				$(".noteDiv").prepend(section);
+				addingElements (cell)
 
-				$(".noteDiv").prepend(myNotesSection);
-				$(".noteDiv").prepend(textSection);
-				$("div[id='ns_']").prepend(cell);
-				$( ".noteSection" ).sortable();
-                $( ".noteSection" ).disableSelection();
-			}
+			} else if (($('#js-actualSection').attr("value") != "Мои заметки") && ($(".noteDiv").children().length == 0)) {
 
-			//$(".noteDiv").prepend(cell);
+				addingElements (cell)
+				
+			} 
 
 			cell = $('#new');
 
@@ -62,5 +56,24 @@
             	});
             })
 		})
+
+
+		function addingElements (cell) {
+
+			var noteSection = "<div class='js-noteSection noteSection js-nextSection'></div>";
+			$("#js-actualSection").attr("value", "Мои заметки");
+
+			$(".js-sectionPic").eq(0).attr("value", $(".js-userImg").attr("src"));
+			$(".noteDiv").prepend(noteSection);
+
+			$(".js-noteSection").eq(0).prepend(cell);
+			$("body").animate({scrollTop: '0'}, 200);
+
+			$(".js-sectionPic").eq(0).attr("src", $(".js-sectionPic").eq(0).attr("value"));
+			$(".js-sectionOwner").eq(0).text($("#js-actualSection").eq(0).attr("value"));
+
+			$( ".js-noteSection" ).sortable();
+            $( ".js-noteSection" ).disableSelection();
+		}
 	})
 })(jQuery);
