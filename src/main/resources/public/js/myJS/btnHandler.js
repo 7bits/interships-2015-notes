@@ -21,7 +21,7 @@
 		$('.noteDiv').on('click', '.delBtn', function(self) {
 			//функция удаления заметки из базы и с рабочего поля
 			var id = $(this).closest('.cell').attr("id");
-			var thisTextNoteSection = $(this).closest(".textNoteSection");
+			var noteSectionsOfCellsWithSameIds = $(".cell[id=" + id + "]").parents('.textNoteSection')
 			
 			$.ajax({
 				type: "DELETE",
@@ -43,16 +43,20 @@
 				cell.animate({
 						width: '0px',
 					}, 150, 'swing', function() {
-						cell.remove();
+					
+						noteSectionsOfCellsWithSameIds.each(function () {
+                            if ($(this).find('.cell').length == 1) {
+                                $(this).remove();
+                            } else {
+                            	cell.remove();
+                            }
+                        });
 
-						if(thisTextNoteSection.find(".cell").length == 0) {
-								thisTextNoteSection.remove();
-						}
-
-						if ($('.cell').length == 0) {
-							$('.noteDiv')[0].innerHTML += '<span id="emptyList">У вас нет заметок</span>';
-						};
+						if ($('.cell').length == 0 && $("#emptyList").length == 0) {
+                        	$('.noteDiv')[0].innerHTML += '<span id="emptyList">У вас нет заметок</span>';
+                        };
 				});
+
 
 				if (document.documentElement.clientWidth > 840) {
 					$('.status').text("Все заметки сохранены");
