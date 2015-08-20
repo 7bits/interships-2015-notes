@@ -8,7 +8,6 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
@@ -55,7 +54,7 @@ public class SeleniumNoteTest {
 
         user = new UserDetailsImpl();
         user.setEmail("ololo@ololo.com");
-        user.setUsername("Capitan");
+        user.setName("Capitan");
         //driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
     }
 
@@ -203,7 +202,7 @@ public class SeleniumNoteTest {
     public void createShareNoteTest() {
       UserDetailsImpl user = new UserDetailsImpl();
       user.setEmail("warumweil@gmail.com");
-      user.setUsername("J");
+      user.setName("J");
       try {
            user.setPassword((new BCryptPasswordEncoder()).encode("54321Qwerty"));
 
@@ -281,16 +280,14 @@ public class SeleniumNoteTest {
 
     @Test
     public void createTypeNoteTest() {
-
         driver.findElement(By.className("addNote")).click();
 
         assertFalse(driver.findElements(By.className("cell")).isEmpty());
 
        WebElement content = driver.findElement(By.className("content"));
        content.click();
-       WebElement text = driver.findElement(By.className("textarea"));
+       WebElement text = driver.findElement(By.ByCssSelector.cssSelector(".textarea"));
        text.sendKeys("some text");
-
     }
 
     private void clickShareButton(WebDriver driver) {

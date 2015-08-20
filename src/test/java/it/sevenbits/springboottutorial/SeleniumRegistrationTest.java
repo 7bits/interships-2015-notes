@@ -60,7 +60,7 @@ public class SeleniumRegistrationTest {
 
         //register user
         email.sendKeys(user.getEmail());
-        username.sendKeys(user.getUsername());
+        username.sendKeys(user.getName());
         password.sendKeys(user.getPassword());
         //passwordRepeat.sendKeys(user.getPassword());
 
@@ -96,7 +96,7 @@ public class SeleniumRegistrationTest {
         //WebElement email = driver.findElement(By.name("email"));
         email.sendKeys("ololo");
         username.click();
-        username.sendKeys(user.getUsername());
+        username.sendKeys(user.getName());
         password.sendKeys(user.getPassword());
         //passwordRepeat.sendKeys(user.getPassword());
     }
@@ -134,7 +134,7 @@ public class SeleniumRegistrationTest {
 
         user = new UserDetailsImpl();
         user.setEmail("ololo@ololo.com");
-        user.setUsername("Capitan");
+        user.setName("Capitan");
         user.setPassword("Ololo73");
         //driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
     }

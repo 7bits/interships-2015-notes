@@ -171,7 +171,7 @@ public class NoteService {
         }
 
         Optional<UserDetailsImpl> user = userRepository.getUserByEmail(form.getUserEmail());
-        String username = user.get().getUsername();
+        String username = user.get().getName();
 
         return new ResponseEntity<>(new ResponseMessage(true, "Успешно расшарено!", username), HttpStatus.OK);
     }

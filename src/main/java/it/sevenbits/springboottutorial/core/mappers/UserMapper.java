@@ -13,7 +13,7 @@ public interface UserMapper {
     @Insert("INSERT INTO users " +
             "(email, username, password, role, enabled) " +
             "VALUES " +
-            "(#{email}, #{username}, #{password}, 'USER', TRUE)")
+            "(#{email}, #{name}, #{password}, 'USER', TRUE)")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void insert(final UserDetailsImpl userDetails);
 
@@ -42,7 +42,7 @@ public interface UserMapper {
     @Results({
             @Result(column = "id", property = "id"),
             @Result(column = "email", property = "email"),
-            @Result(column = "username", property = "username"),
+            @Result(column = "username", property = "name"),
             @Result(column = "password", property = "password"),
             @Result(column = "created_at", property = "createdAt"),
             @Result(column = "updated_at", property = "updatedAt"),
@@ -56,7 +56,7 @@ public interface UserMapper {
     @Results({
             @Result(column = "id", property = "id"),
             @Result(column = "email", property = "email"),
-            @Result(column = "username", property = "username"),
+            @Result(column = "username", property = "name"),
             @Result(column = "password", property = "password"),
             @Result(column = "created_at", property = "createdAt"),
             @Result(column = "updated_at", property = "updatedAt"),

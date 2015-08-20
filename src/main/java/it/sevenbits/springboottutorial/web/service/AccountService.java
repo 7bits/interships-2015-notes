@@ -34,7 +34,7 @@ public class AccountService {
         try {
             //Pattern pattern = Pattern.compile("\\b[\\wа-яА-Я-]{2,15}\\b");
             Pattern pattern = Pattern.compile(".+\\s.+");
-            Matcher matcher = pattern.matcher(user.getUsername());
+            Matcher matcher = pattern.matcher(user.getName());
             if (!matcher.matches()) {
                 accountRepository.changeUsername(user);
             } else {

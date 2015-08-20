@@ -67,7 +67,7 @@ public interface NoteMapper {
             "where notes.parent_note_id=#{noteId}")
     @Results({
             @Result(column = "id", property = "id"),
-            @Result(column = "username", property = "username"),
+            @Result(column = "username", property = "name"),
             @Result(column = "email", property = "email"),
             @Result(column = "enabled", property = "enabled"),
     })
@@ -117,7 +117,7 @@ public interface NoteMapper {
     @Results({
             @Result(column = "id", property = "id"),
             @Result(column = "email", property = "email"),
-            @Result(column = "username", property = "username"),
+            @Result(column = "username", property = "name"),
             @Result(column = "enabled", property = "enabled"),
     })
     UserDetailsImpl getUserWhoSharedNote(final Long noteId);
@@ -131,7 +131,7 @@ public interface NoteMapper {
     @Results({
             @Result(column = "id", property = "id"),
             @Result(column = "email", property = "email"),
-            @Result(column = "username", property = "username"),
+            @Result(column = "username", property = "name"),
             @Result(column = "enabled", property = "enabled"),
     })
     UserDetailsImpl getUserWhoOwnNote(final Long noteId);

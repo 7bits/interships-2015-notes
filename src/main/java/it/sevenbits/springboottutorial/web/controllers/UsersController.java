@@ -165,7 +165,7 @@ public class UsersController {
 
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("link", link);
-                map.put("username", user.get().getUsername());
+                map.put("username", user.get().getName());
 
                 emailService.sendHtml(user.get().getEmail(), "Tele-notes. Восстановление пароля.", "home/changePassMail", map);
             } else {

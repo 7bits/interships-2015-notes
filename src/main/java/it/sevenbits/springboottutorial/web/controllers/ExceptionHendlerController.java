@@ -2,7 +2,7 @@ package it.sevenbits.springboottutorial.web.controllers;
 
 import it.sevenbits.springboottutorial.exceptions.ResourceNotFoundException;
 import org.apache.log4j.Logger;
-import org.apache.xpath.operations.Mod;
+//import org.apache.xpath.operations.Mod;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

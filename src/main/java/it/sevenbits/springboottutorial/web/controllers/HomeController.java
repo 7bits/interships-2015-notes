@@ -212,7 +212,7 @@ public class HomeController {
 
         List<Note> sharedNotesByUsers = noteService.getNotesByUserIdList(shareUserIds, currentUser.getId(), showMyNotes);
 
-        model.addAttribute("username", currentUser.getUsername());
+        model.addAttribute("username", currentUser.getName());
         model.addAttribute("notes", sharedNotesByUsers);
         model.addAttribute("shareUsers", noteService.findShareUsers(currentUser.getId()));
         return "home/telenote";
@@ -227,8 +227,8 @@ public class HomeController {
             for (NoteModel model : models) {
                 note.setId(model.getId());
 
-                messagingTemplate.convertAndSendToUser(model.getUsernameOfShareUser(), "/queue/notes", note);
-                //messagingTemplate.convertAndSendToUser(model.getEmailOfShareUser(), "/queue/notes", note);
+                //messagingTemplate.convertAndSendToUser(model.getUsernameOfShareUser(), "/queue/notes", note);
+                messagingTemplate.convertAndSendToUser(model.getEmailOfShareUser(), "/queue/notes", note);
             }
         }
     }

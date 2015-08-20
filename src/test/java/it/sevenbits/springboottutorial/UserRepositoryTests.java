@@ -33,7 +33,7 @@ public class UserRepositoryTests {
     public void create() throws Exception {
         user.setEmail("ok@ok.oke");
         user.setPassword("qwerty");
-        user.setUsername("Leo");
+        user.setName("Leo");
 
         repository.create(user);
 
@@ -81,7 +81,7 @@ public class UserRepositoryTests {
     public void checkUserFields(UserDetailsImpl tUser) {
         assertEquals(tUser.getId(), user.getId());
         assertEquals(tUser.getEmail(), user.getEmail());
-        assertEquals(tUser.getUsername(), user.getUsername());
+        assertEquals(tUser.getName(), user.getName());
         assertEquals(tUser.getPassword(), user.getPassword());
 
         assertNotNull(tUser.getRole());
