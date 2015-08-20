@@ -16,7 +16,7 @@ public class NoteModel {
     private Long parent_note_id;
     private Long parent_user_id;
     private String uuid;
-    private float note_order;
+    private Float note_order;
     private String emailOfShareUser;
     private String usernameOfShareUser;
     private String userAvatar;
@@ -28,6 +28,7 @@ public class NoteModel {
     public void setUserAvatar(String userAvatar) {
         this.userAvatar = userAvatar;
     }
+
     //private boolean state;
     //private enum state {TODO, IN_PROGRESS, DONE};
     //private List<String> subnotes;
@@ -42,7 +43,16 @@ public class NoteModel {
         this.priority = priority;
     }*/
 
-    public NoteModel(Long id, String text, Timestamp note_date, Timestamp created_at, Timestamp updated_at, Long parent_note_id, Long parent_user_id, String uuid, float note_order, String emailOfShareUser, String usernameOfShareUser) {
+    public static class NoteOrderComparator implements Comparator<NoteModel> {
+        @Override
+        public int compare(NoteModel o1, NoteModel o2) {
+            return o2.getNote_order().compareTo(o1.getNote_order()); // desc
+        }
+    }
+
+    public NoteModel() {}
+
+    public NoteModel(Long id, String text, Timestamp note_date, Timestamp created_at, Timestamp updated_at, Long parent_note_id, Long parent_user_id, String uuid, Float note_order, String emailOfShareUser, String usernameOfShareUser) {
         this.id = id;
         this.text = text;
         this.note_date = note_date;
@@ -56,7 +66,7 @@ public class NoteModel {
         this.usernameOfShareUser = usernameOfShareUser;
     }
 
-    public NoteModel(Long id, String text, Timestamp note_date, Timestamp created_at, Timestamp updated_at, Long parent_note_id, Long parent_user_id, String uuid, float note_order) {
+    public NoteModel(Long id, String text, Timestamp note_date, Timestamp created_at, Timestamp updated_at, Long parent_note_id, Long parent_user_id, String uuid, Float note_order) {
         this.id = id;
         this.text = text;
         this.note_date = note_date;
@@ -93,50 +103,12 @@ public class NoteModel {
         this.uuid = uuid;
     }
 
-    public float getNote_order() {
+    public Float getNote_order() {
         return note_order;
     }
 
-    public void setNote_order(float note_order) {
+    public void setNote_order(Float note_order) {
         this.note_order = note_order;
-    }
-
-    //private List<String> category;
-    //private List<String> category;
-    //private Note.Priority priority;
-
-    //private boolean state;
-    //private enum state {TODO, IN_PROGRESS, DONE};
-    //private List<String> subnotes;
-
-
-
-    /*public Note.Priority getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Note.Priority priority) {
-        this.priority = priority;
-    }*/
-
-
-    public NoteModel(Long id, String text, Timestamp note_date, Timestamp created_at, Timestamp updated_at,
-                     String emailOfShareUser, String usernameOfShareUser) {
-        this.id = id;
-        this.text = text;
-        this.note_date = note_date;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this.emailOfShareUser = emailOfShareUser;
-        this.usernameOfShareUser = usernameOfShareUser;
-    }
-
-    public NoteModel(Long id, String text, Timestamp note_date, Timestamp created_at, Timestamp updated_at) {
-        this.id = id;
-        this.text = text;
-        this.note_date = note_date;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
     }
 
     public Long getId() {

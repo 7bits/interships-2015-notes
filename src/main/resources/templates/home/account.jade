@@ -31,10 +31,15 @@ html
           .profileHeader Профиль
           .nameDiv
             label.labelName Имя
-            input.username(type='textbox', name='username', value='#{user.username}')
-            if username
+            if(changesForm.username==null)
+              input.username(type='textbox', name='username', value='#{user.username}', maxlength='20')
+            else if(changesForm.username!=user.username)
+              input.username(type='textbox', name='username', value='#{changesForm.username}', maxlength='20')
+            else
+              input.username(type='textbox', name='username', value='#{user.username}', maxlength='20')
+            if incorrectUsername
               #js-nameDiv.errorUsernameDiv
-                span#js-name Имя не должно быть с пробелом
+                span#js-name Некорректное имя
           .emailDiv
             label.labelEmail Адрес
             label.email#{user.email}
@@ -43,16 +48,16 @@ html
           .currentPassDiv
             label.labelCurrentPass Текущий пароль
             input.currentPass(type='password', name='currentPass', value='#{changesForm.currentPass}')
-            if password
-              .errorPassDiv.oldErrorPass
-                span#js-oldPass Пароли совпадают
-            if oldPass
+            if incorrectPass
               #js-errorDiv.errorPassDiv.oldErrorPass
                 span#js-oldPass Неверный пароль
+            if curPassEqualsNewPass
+              .errorPassDiv.oldErrorPass
+                span#js-oldPass Пароли не должны совпадать
           .newPassDiv
             label.labelNewPass Новый пароль
             input.newPass(type='password', name='newPass', value='#{changesForm.newPass}')
-            if newPass
+            if patternFail
               #js-errorDiv.errorPassDiv.newErrorPass
                 span#js-newPass Пароль слишком прост
         .themeDiv

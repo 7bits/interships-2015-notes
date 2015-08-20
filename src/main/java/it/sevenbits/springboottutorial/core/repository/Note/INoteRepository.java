@@ -5,6 +5,7 @@ import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.domain.OrderData;
 import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
+import it.sevenbits.springboottutorial.web.domain.NoteModel;
 
 import java.util.List;
 
@@ -56,4 +57,11 @@ public interface INoteRepository {
     void updateUuidById(final List<Long> notes, String uuid) throws RepositoryException;
 
     Long getUserNoteByParentId(Long userId, Long parentId) throws RepositoryException;
+
+    List<NoteModel> getMyNotSharedNoteModelsByUserId(Long userId) throws RepositoryException;
+
+    List<NoteModel> getMySharedNoteModelsByUserId(Long userId) throws RepositoryException;
+
+    List<NoteModel> getForeignSharedNoteModelsByUserId(Long userId) throws RepositoryException;
+
 }

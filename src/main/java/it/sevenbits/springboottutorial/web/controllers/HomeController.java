@@ -23,10 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 //import org.springframework.security.core.userdetails.UserDetails;
@@ -77,16 +74,17 @@ public class HomeController {
     @RequestMapping(value = "/telenote", method = RequestMethod.GET)
     public String getTelenote(final Model model, Authentication auth) throws ServiceException {
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
-        List<NoteModel> noteModels = noteService.findUserNotes(currentUser.getId());
 
-        for(NoteModel n : noteModels) {
-            if(n.getParent_note_id() != null) {
-                UserDetailsImpl userDetails = noteService.getUserWhoSharedNote(n.getId());
+        List<NoteModel> mySharedNotes = noteService.getMySharedNoteModelsByUserId(currentUser.getId());
+        List<NoteModel> myNotSharedNotes = noteService.getMyNotSharedNoteModelsByUserId(currentUser.getId());
+        List<NoteModel> foreignNotes = noteService.getForeignSharedNoteModelsByUserId(currentUser.getId());
 
-                n.setEmailOfShareUser(userDetails.getEmail());
-                n.setUsernameOfShareUser(userDetails.getUsername());
-            }
-        }
+        List<NoteModel> allNotes = new ArrayList<>();
+        allNotes.addAll(myNotSharedNotes);
+        allNotes.addAll(mySharedNotes);
+        allNotes.addAll(foreignNotes);
+
+        Collections.sort(allNotes, new NoteModel.NoteOrderComparator());
 
         String avatar;
         avatar = "http://www.gravatar.com/avatar/" + accService.getAvatarHash(currentUser.getEmail()) +
@@ -95,10 +93,14 @@ public class HomeController {
         if (myNotSharedNotes.size() != 0) myNotSharedNotes.get(0).setUserAvatar(avatar);
 
         Map<String, List<NoteModel>> map = new HashMap<String, List<NoteModel>>();
-        for (NoteModel item : noteModels) {
+        for (NoteModel item : allNotes) {
             List<NoteModel> list = map.get(item.getEmailOfShareUser());
             if (list == null) {
                 list = new ArrayList<NoteModel>();
+
+                avatar = "http://www.gravatar.com/avatar/" + accService.getAvatarHash(item.getEmailOfShareUser()) +
+                        "?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png";
+                item.setUserAvatar(avatar);
 
                 map.put(item.getEmailOfShareUser(), list);
             }
