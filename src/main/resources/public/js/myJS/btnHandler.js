@@ -1,4 +1,4 @@
-(function($){
+(function($) {
 	$(document).ready(function () {
 
         connect();
@@ -109,7 +109,7 @@
             	$('.minStatus').text('...');
             };
 			
-		})
+		});
 
 
 		//автосейвер
@@ -124,10 +124,7 @@
             }
 
 			timeoutId = setTimeout(function() {
-				data.text = htmlspecialchars(data.text);
-				data.text = nl2br(data.text);
-
-				timeoutId = setTimeout(function() {
+				    data.text = htmlspecialchars(data.text);
 				    //отправить другим пользователям
 				    var cmd = {
                         id: data.id,
@@ -136,6 +133,8 @@
                     };
 
                     sendCommand(cmd);
+
+                    data.text = nl2br(data.text);
 
 					App.Note.save(data, function() {
 						if (document.documentElement.clientWidth > 800) {
@@ -146,7 +145,6 @@
 						};
 					});
 				}, 750);
-
 		})
 
 
@@ -343,8 +341,9 @@
 		function htmlspecialchars(str) {
          if (typeof(str) == "string") {
           str = str.replace(/&/g, "&amp;"); /* must do &amp; first */
-          str = str.replace(/"/g, "&quot;");
-          str = str.replace(/'/g, "&#039;");
+          var quot = "&quot";
+          str = str.replace(/'"'/g, quot);
+          str = str.replace(/"'"/g, "&#039;");
           str = str.replace(/</g, "&lt;");
           str = str.replace(/>/g, "&gt;");
           }
