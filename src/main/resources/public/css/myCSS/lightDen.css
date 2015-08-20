@@ -67,3 +67,7 @@ button:focus {
 	color: #32c87a;
 	display: block;
 }
+
+.grayBack {
+    background-color : gray;
+}

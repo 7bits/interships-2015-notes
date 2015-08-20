@@ -122,13 +122,19 @@
 				text: text 
 			}
 
-            //отправить на сервак
-            sendNote(data);
-
 			$(function() {
 				clearTimeout(timeoutId);
 
 				timeoutId = setTimeout(function() {
+				    //отправить другим пользователям
+				    var cmd = {
+                        id: data.id,
+                        text: data.text,
+                        command: "block,text"
+                    };
+
+                    sendCommand(cmd);
+
 					App.Note.save(data, function() {
 						if (document.documentElement.clientWidth > 800) {
 							$('.status').text("Все заметки сохранены");
@@ -252,9 +258,16 @@
 
 
 		//подмена активного элемента
-		$('.workDiv').on('click', '.content', function() {
+		$('.workDiv').on('click', '.clickable', function() {
 
 			if ($('textarea')[0] == null) {
+
+                //блокируем заметку
+                var cmd = {
+                    id: $(this).parent('.cell').attr("id"),
+                    command : "block"
+                }
+                sendCommand(cmd);
 
 				var self = $(this).parent('.cell');
 
@@ -279,6 +292,11 @@
 			};
 
 		}).on('blur', 'textarea', function() {
+           var cmd = {
+               id: $(this).parent('.cell').attr("id"),
+               command : "unblock"
+           }
+           sendCommand(cmd);
 
 			var self = $(this).closest('.cell');
 			

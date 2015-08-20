@@ -220,8 +220,8 @@ public class HomeController {
     }
 
     @MessageMapping("/updatenote")
-    public void updateNote(NoteForm note, Authentication auth) throws Exception {
-        UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
+    public void updateNote(NoteSocketCommand note) throws Exception {
+        //UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
 
         List<NoteModel> models = noteService.getAllSharedNoteModels(note.getId());
         if (!models.isEmpty()) {
