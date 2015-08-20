@@ -123,6 +123,8 @@
             	text: text
             }
 
+            $(".cell[id=" + data.id + "] .content").text(text);
+
 			timeoutId = setTimeout(function() {
 				    data.text = htmlspecialchars(data.text);
 				    //отправить другим пользователям

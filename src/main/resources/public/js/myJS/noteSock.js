@@ -19,7 +19,7 @@ function subscribeEvent(noteForm) {
         for (var i = 0; i < commands.length; ++i) {
             switch (commands[i]) {
                 case 'block':
-                    var note = $("#" + quote.id + " .content");
+                    var note = $(".cell[id=" + quote.id + "] .content");
                     if (note.hasClass('clickable')) {
                         note.removeClass('clickable');
                         note.trigger('blur');
@@ -28,10 +28,11 @@ function subscribeEvent(noteForm) {
                     }
                     break;
                 case 'text':
-                    $("#" + quote.id + " .content").text(quote.text);
+                    $(".cell[id=" + quote.id + "] .content").text(quote.text);
+                    //$("#" + quote.id + " .content").text(quote.text);
                     break;
                 case 'unblock':
-                    var note = $("#" + quote.id + " .content");
+                    var note = $(".cell[id=" + quote.id + "] .content");
                     if (!note.hasClass('clickable')) {
                         note.addClass('clickable');
 
