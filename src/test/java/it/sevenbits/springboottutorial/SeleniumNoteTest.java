@@ -217,31 +217,31 @@ public class SeleniumNoteTest {
 
         assertFalse(driver.findElements(By.className("cell")).isEmpty());
 
-	clickShareButton(driver);
+	    clickShareButton(driver);
 
-	shareNote(driver);
+	    shareNote(driver);
 
-    driver.findElement(By.id("logout")).click();
+        driver.findElement(By.id("logout")).click();
 
-  WebElement email = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] input[name=username]"));
-  WebElement password = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] input[name=password]"));
-  WebElement submit = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] .loginSubmit"));
+      WebElement email = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] input[name=username]"));
+      WebElement password = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] input[name=password]"));
+      WebElement submit = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] .loginSubmit"));
 
-  email.sendKeys("warumweil@gmail.com");
-  password.sendKeys("54321Qwerty");
-  submit.submit();
+      email.sendKeys("warumweil@gmail.com");
+      password.sendKeys("54321Qwerty");
+      submit.submit();
 
-  assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/telenote"));
+      assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/telenote"));
 
-  try {
-      repository.remove(user);
-  } catch (Exception ex) {
-      fail(ex.getMessage());
-  }
+      try {
+          repository.remove(user);
+      } catch (Exception ex) {
+          fail(ex.getMessage());
+      }
     }
 
-	@Test
-    	public void deleteSharingNoteTest() {
+	/*@Test
+    public void deleteSharingNoteTest() {
         UserDetailsImpl user = new UserDetailsImpl();
         user.setEmail("warumweil@gmail.com");
         user.setUsername("J");
@@ -267,22 +267,19 @@ public class SeleniumNoteTest {
         clickShareButton(driver);
 	    shareNote(driver);
         clickShareButton(driver);
-        driver.manage().timeouts().implicitlyWait(1000, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
         WebElement deleteShare = driver.findElement(By.className("deleteShare"));
         deleteShare.click();
-        /*driver.findElement(By.className("deleteShare")).click();*/
+        //driver.findElement(By.className("deleteShare")).click();
 
+        try {
+            repository.remove(user);
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
+    }*/
 
-
-/*  try {
-      repository.remove(user);
-  } catch (Exception ex) {
-      fail(ex.getMessage());
-  }
-*/
-    }
-
- @Test
+    @Test
     public void createTypeNoteTest() {
 
         driver.findElement(By.className("addNote")).click();
