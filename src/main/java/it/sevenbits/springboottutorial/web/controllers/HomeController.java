@@ -4,9 +4,7 @@ package it.sevenbits.springboottutorial.web.controllers;
 import it.sevenbits.springboottutorial.core.domain.Note;
 import it.sevenbits.springboottutorial.core.domain.OrderData;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
-import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
-import it.sevenbits.springboottutorial.exceptions.ResourceNotFoundException;
 import it.sevenbits.springboottutorial.web.domain.*;
 import it.sevenbits.springboottutorial.web.service.AccountService;
 import it.sevenbits.springboottutorial.web.service.NoteService;
@@ -29,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 //import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.web.servlet.ModelAndView;
@@ -82,25 +81,50 @@ public class HomeController {
     public String getTelenote(final Model model, Authentication auth) throws ServiceException {
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
 
-        List<NoteModel> mySharedNotes = noteService.getMySharedNoteModelsByUserId(currentUser.getId());
-        List<NoteModel> myNotSharedNotes = noteService.getMyNotSharedNoteModelsByUserId(currentUser.getId());
-        List<NoteModel> foreignNotes = noteService.getForeignSharedNoteModelsByUserId(currentUser.getId());
+        List<NoteModel> listNotes = noteService.getNotesWithSameNoteUuidByUserId(currentUser.getId());
+        List<NoteModel> myNotes = new ArrayList<>();
 
-        List<NoteModel> allNotes = new ArrayList<>();
-        allNotes.addAll(myNotSharedNotes);
-        allNotes.addAll(mySharedNotes);
-        allNotes.addAll(foreignNotes);
+        Map<String, Long> uuidIdMap= new HashMap<String, Long>();
 
-        Collections.sort(allNotes, new NoteModel.NoteOrderComparator());
+        Iterator<NoteModel> it  = listNotes.iterator();
+        while (it.hasNext()) {
+            NoteModel noteModel = it.next();
+
+            if(noteModel.getEmailOfShareUser().equals(currentUser.getEmail())) {
+                uuidIdMap.put(noteModel.getUuid(), noteModel.getId());
+                noteModel.setEmailOfShareUser(null); // зануляем свой имейл, чтобы поместить в "Мои заметки"
+
+                myNotes.add(noteModel); // добавляемм заметку в наш myNotes, удаляем ее из общего листа
+                it.remove();
+            }
+        }
+
+        for (Map.Entry<String, Long> entry : uuidIdMap.entrySet()) {
+
+            boolean isExists = listNotes.stream().filter(o -> o.getUuid().equals(entry.getKey())).findFirst().isPresent();
+
+            if(isExists) {
+                myNotes.removeIf(o -> o.getUuid().equals(entry.getKey()));
+            }
+
+        }
+
+        listNotes.addAll(myNotes);
+
+        Collections.sort(listNotes, new NoteModel.NoteOrderDescComparator());
+        //Collections.sort(myNotes, new NoteModel.UpdatedAtDescComparator());
+
 
         Map<String, List<NoteModel>> map = new HashMap<String, List<NoteModel>>();
-        for (NoteModel item : allNotes) {
-            List<NoteModel> list = map.get(item.getEmailOfShareUser());
+        for (NoteModel noteModel : listNotes) {
+            noteModel.setId(uuidIdMap.get(noteModel.getUuid())); // меняем id любой заметки на свой
+
+            List<NoteModel> list = map.get(noteModel.getEmailOfShareUser());
             if (list == null) {
                 list = new ArrayList<NoteModel>();
-                map.put(item.getEmailOfShareUser(), list);
+                map.put(noteModel.getEmailOfShareUser(), list);
             }
-            list.add(item);
+            list.add(noteModel);
         }
 
         //Map<String, List<NoteModel>> treeMap = new TreeMap<String, List<NoteModel>>(map);
@@ -133,11 +157,11 @@ public class HomeController {
     @RequestMapping(value = "/telenote/checknote", method = RequestMethod.POST)
     public @ResponseBody List<UserDetailsImpl> checkSharedNote(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
 
-        Long id = Long.parseLong(request.getParameter("id"));
-        List<UserDetailsImpl> shareUsers = noteService.findShareUsers(id);
+        Long noteId = Long.parseLong(request.getParameter("id"));
+        List<UserDetailsImpl> shareUsers = noteService.getUsersWithSameNoteUuidById(noteId);
 
         List<UserDetailsImpl> users = new ArrayList<UserDetailsImpl>();
-        users.add(noteService.getUserWhoSharedNote(id));
+        users.add(noteService.getUserWhoSharedNote(noteId));
 
         for (UserDetailsImpl u : shareUsers) {
             if (!users.get(0).getEmail().equals(u.getEmail())) users.add(u);
@@ -148,11 +172,11 @@ public class HomeController {
 
 
     @RequestMapping(value = "/telenote/{id:\\d+}", method = RequestMethod.DELETE)
-    public @ResponseBody void deleteNote(@PathVariable("id") Long id, Authentication auth) throws ServiceException {
+    public @ResponseBody void deleteNote(@PathVariable("id") Long noteId, Authentication auth) throws ServiceException {
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
 
         Note note = new Note();
-        note.setId(id);
+        note.setId(noteId);
 
         noteService.deleteNote(note, currentUser.getId());
     }

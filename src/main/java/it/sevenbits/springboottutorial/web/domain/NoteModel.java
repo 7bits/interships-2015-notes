@@ -38,10 +38,17 @@ public class NoteModel {
         this.priority = priority;
     }*/
 
-    public static class NoteOrderComparator implements Comparator<NoteModel> {
+    public static class NoteOrderDescComparator implements Comparator<NoteModel> {
         @Override
         public int compare(NoteModel o1, NoteModel o2) {
-            return o2.getNote_order().compareTo(o1.getNote_order()); // desc
+            return o2.getNote_order().compareTo(o1.getNote_order());
+        }
+    }
+
+    public static class UpdatedAtDescComparator implements Comparator<NoteModel> {
+        @Override
+        public int compare(NoteModel o1, NoteModel o2) {
+            return o2.getUpdated_at().compareTo(o1.getUpdated_at());
         }
     }
 

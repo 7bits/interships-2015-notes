@@ -8,7 +8,6 @@ import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.mappers.NoteMapper;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
 import it.sevenbits.springboottutorial.web.domain.NoteModel;
-import org.apache.catalina.User;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -59,6 +58,16 @@ public class NoteRepository implements INoteRepository {
     @Override
     public String getUuidById(Long noteId) throws RepositoryException {
         return mapper.getUuidById(noteId);
+    }
+
+    @Override
+    public List<UserDetailsImpl> getUsersWithSameNoteUuid(String noteUuid) {
+        return mapper.getUsersWithSameNoteUuid(noteUuid);
+    }
+
+    @Override
+    public void resetAllParentNoteUserId(Long parentNoteId) throws RepositoryException {
+        mapper.resetAllParentNoteUserId(parentNoteId);
     }
 
     @Override
@@ -140,34 +149,54 @@ public class NoteRepository implements INoteRepository {
     }
 
     @Override
-    public List<Note> getNotesWithSameUuidById(Long id) { return mapper.getNotesWithSameUuidById(id); }
+    public List<Note> getNotesWithSameUuidById(Long id) {
+        return mapper.getNotesWithSameUuidById(id);
+    }
 
     @Override
-    public void updateUuidById(final List<Long> notes, String uuid) { mapper.updateUuidById(notes, uuid); }
+    public void updateUuidById(final List<Long> notes, String uuid) {
+        mapper.updateUuidById(notes, uuid);
+    }
 
     @Override
     public Long getUserNoteByParentId(Long userId, Long parentId) throws RepositoryException {
         return mapper.getUserNoteByParentId(userId, parentId);
     }
 
-    @Override
-    public List<NoteModel> getMyNotSharedNoteModelsByUserId(Long userId) throws RepositoryException {
-        return mapper.getMyNotSharedNoteModelsByUserId(userId);
 
-    }
-
-    @Override
-    public List<NoteModel> getMySharedNoteModelsByUserId(Long userId) throws RepositoryException {
-        return mapper.getMySharedNoteModelsByUserId(userId);
-    }
-
-    @Override
-    public List<NoteModel> getForeignSharedNoteModelsByUserId(Long userId) throws RepositoryException {
-        return mapper.getForeignSharedNoteModelsByUserId(userId);
-    }
+//    @Override
+//    public List<NoteModel> getForeignSharedNoteModelsByUserId(Long userId) throws RepositoryException {
+//        return mapper.getForeignSharedNoteModelsByUserId(userId);
+//    }
 
     @Override
     public List<NoteModel> getAllSharedNoteModels(Long userId) throws RepositoryException {
         return mapper.getAllSharedNoteModels(userId);
+    }
+//    @Override
+//    public List<NoteModel> getMyNotSharedNoteModelsByUserId(Long userId) throws RepositoryException {
+//        return mapper.getMyNotSharedNoteModelsByUserId(userId);
+//
+//    }
+//
+//    @Override
+//    public List<NoteModel> getMySharedNoteModelsByUserId(Long userId) throws RepositoryException {
+//        return mapper.getMySharedNoteModelsByUserId(userId);
+//    }
+//
+//    @Override
+//    public List<NoteModel> getForeignSharedNoteModelsByUserId(Long userId) throws RepositoryException {
+//        return mapper.getForeignSharedNoteModelsByUserId(userId);
+//
+//    }
+//
+//    @Override
+//    public List<NoteModel> getNotesWithUniqueNoteUuidByUserId(Long userId) throws RepositoryException {
+//        return mapper.getNotesWithUniqueNoteUuidByUserId(userId);
+//    }
+
+    @Override
+    public List<NoteModel> getNotesWithSameNoteUuidByUserId(Long userId) throws RepositoryException {
+        return mapper.getNotesWithSameNoteUuidByUserId(userId);
     }
 }

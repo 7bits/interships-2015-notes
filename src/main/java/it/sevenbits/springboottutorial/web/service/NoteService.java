@@ -11,7 +11,6 @@ import it.sevenbits.springboottutorial.web.domain.NoteForm;
 import it.sevenbits.springboottutorial.web.domain.NoteModel;
 import it.sevenbits.springboottutorial.web.domain.ShareForm;
 import it.sevenbits.springboottutorial.web.domain.ResponseMessage;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -57,7 +56,7 @@ public class NoteService {
 
         UserNote userNote = new UserNote(user_id, note.getId());
         try {
-            if(repository.isNoteBelongToUser(note.getId(), user_id)) {
+            if (repository.isNoteBelongToUser(note.getId(), user_id)) {
                 note.setUuid(repository.getUuidById(note.getId()));
                 repository.updateNotesByUuid(note);
                 //repository.updateNote(note);
@@ -73,16 +72,18 @@ public class NoteService {
         try {
             UserNote userNote = new UserNote(userId, note.getId());
 
-            if(repository.isNoteBelongToUser(note.getId(), userId))
+            if (repository.isNoteBelongToUser(note.getId(), userId)) {
                 repository.deleteNote(note);
-            else
+                repository.resetAllParentNoteUserId(note.getId());
+            } else {
                 throw new ServiceException("Current note is not belong to user!");
+            }
         } catch (Exception e) {
             throw new ServiceException("An error occurred while saving note: " + e.getMessage(), e);
         }
     }
 
-    public List<NoteModel> findUserNotes(final Long userId) throws ServiceException{
+    public List<NoteModel> findUserNotes(final Long userId) throws ServiceException {
 
         try {
             List<Note> notes = repository.findUserNotes(userId);
@@ -125,6 +126,7 @@ public class NoteService {
             throw new ServiceException("An error occurred while adding note: " + e.getMessage());
         }
     }
+
     public ResponseEntity<ResponseMessage> shareNote(final ShareForm form, Long parentUserId) throws RepositoryException, ServiceException {
         Long parentNoteId = form.getNoteId();
         final UserDetailsImpl userDetails = new UserDetailsImpl();
@@ -143,15 +145,15 @@ public class NoteService {
                 whoShare.setUser_id(parentUserId);
                 toWhomShare.setUser_id(userRepository.getIdByEmail(userDetails));
 
-                if(whoShare.getUser_id() == toWhomShare.getUser_id())
+                if (whoShare.getUser_id() == toWhomShare.getUser_id())
                     return new ResponseEntity<>(new ResponseMessage(false, "Это ваша заметка"), HttpStatus.NOT_ACCEPTABLE);
 
-                if(repository.isNoteBelongToUser(parentNoteId, parentUserId)) {
+                if (repository.isNoteBelongToUser(parentNoteId, parentUserId)) {
                     final UserNote curNoteIdNextUser = new UserNote();
                     curNoteIdNextUser.setNote_id(whoShare.getNote_id());
                     curNoteIdNextUser.setUser_id(toWhomShare.getUser_id());
 
-                    if(repository.isNoteAlreadyShared(curNoteIdNextUser)) {
+                    if (repository.isNoteAlreadyShared(curNoteIdNextUser)) {
                         return new ResponseEntity<>(new ResponseMessage(false, "Пользователь уже добавен"), HttpStatus.NOT_ACCEPTABLE);
                     }
 
@@ -201,7 +203,7 @@ public class NoteService {
 
     public UserDetailsImpl getUserWhoSharedNote(Long noteId) throws ServiceException {
         try {
-            if (repository.isParentNoteIdExists(noteId) != null){
+            if (repository.isParentNoteIdExists(noteId) != null) {
                 return repository.getUserWhoSharedNote(noteId);
             } else {
                 return repository.getUserWhoOwnNote(noteId);
@@ -228,13 +230,13 @@ public class NoteService {
             List<Long> result = new ArrayList<Long>();
 
             for (Note note : notes) {
-                    if (map.containsKey(note.getParent_note_id())) {
-                        map.get(note.getParent_note_id()).add(note.getId());
-                    } else {
-                        ArrayList<Long> list = new ArrayList<>();
-                        list.add(note.getId());
-                        map.put(note.getParent_note_id(), list);
-                    }
+                if (map.containsKey(note.getParent_note_id())) {
+                    map.get(note.getParent_note_id()).add(note.getId());
+                } else {
+                    ArrayList<Long> list = new ArrayList<>();
+                    list.add(note.getId());
+                    map.put(note.getParent_note_id(), list);
+                }
             }
 
             map.get(root).remove(unsyncNote);
@@ -255,37 +257,70 @@ public class NoteService {
     private static void update(HashMap<Long, ArrayList<Long>> map, List<Long> result, Long root) {
         result.add(root);
         if (map.containsKey(root)) {
-            for (Long id: map.get(root)) {
+            for (Long id : map.get(root)) {
                 update(map, result, id);
             }
         }
     }
 
-    public List<NoteModel> getMyNotSharedNoteModelsByUserId(Long userId) throws ServiceException {
-        try {
-            return repository.getMyNotSharedNoteModelsByUserId(userId);
-        } catch (RepositoryException e) {
-            throw new ServiceException("Не удалось получить свои заметки, которые никому не расшарены" + e.getMessage());
-        }
+//    public List<NoteModel> getMyNotSharedNoteModelsByUserId(Long userId) throws ServiceException {
+//        try {
+//            return repository.getMyNotSharedNoteModelsByUserId(userId);
+//        } catch (RepositoryException e) {
+//            throw new ServiceException("Не удалось получить свои заметки, которые никому не расшарены" + e.getMessage());
+//        }
+//
+//    }
+//
+//    public List<NoteModel> getMySharedNoteModelsByUserId(Long userId) throws ServiceException {
+//        try {
+//            return repository.getMySharedNoteModelsByUserId(userId);
+//        } catch (RepositoryException e) {
+//            throw new ServiceException("Не удалось получить свои заметки, которые кому-то расшарены" + e.getMessage());
+//        }
+//
+//    }
+//
+//    public List<NoteModel> getForeignSharedNoteModelsByUserId(Long userId) throws ServiceException {
+//        try {
+//            return repository.getForeignSharedNoteModelsByUserId(userId);
+//        } catch (RepositoryException e) {
+//            throw new ServiceException("Не удалось получить чужие расшаренные заметки" + e.getMessage());
+//        }
+//    }
+//
+//    public List<NoteModel> getNotesWithUniqueNoteUuidByUserId(Long userId) throws ServiceException {
+//        try {
+//            return repository.getNotesWithUniqueNoteUuidByUserId(userId);
+//        } catch (RepositoryException e) {
+//            throw new ServiceException("Не удалось получить заметки пользователя с уникальным uuid" + e.getMessage());
+//        }
+//    }
 
+    public List<UserDetailsImpl> getUsersWithSameNoteUuidById(Long noteId) throws ServiceException {
+        try {
+            return repository.getUsersWithSameNoteUuid(repository.getUuidById(noteId));
+        } catch (RepositoryException e) {
+            throw new ServiceException("Не удалось получить пользователей по uuid заметки" + e.getMessage());
+        }
     }
 
-    public List<NoteModel> getMySharedNoteModelsByUserId(Long userId) throws ServiceException {
+    public List<NoteModel> getNotesWithSameNoteUuidByUserId(Long userId) throws ServiceException {
         try {
-            return repository.getMySharedNoteModelsByUserId(userId);
+            return repository.getNotesWithSameNoteUuidByUserId(userId);
         } catch (RepositoryException e) {
-            throw new ServiceException("Не удалось получить свои заметки, которые кому-то расшарены" + e.getMessage());
-        }
-
-    }
-
-    public List<NoteModel> getForeignSharedNoteModelsByUserId(Long userId) throws ServiceException {
-        try {
-            return repository.getForeignSharedNoteModelsByUserId(userId);
-        } catch (RepositoryException e) {
-            throw new ServiceException("Не удалось получить чужие расшаренные заметки" + e.getMessage());
+            throw new ServiceException("Не удалось получить заметки пользователей с неуникальным uuid" + e.getMessage());
         }
     }
+
+
+//    public List<NoteModel> getForeignSharedNoteModelsByUserId(Long userId) throws ServiceException {
+//        try {
+//            return repository.getForeignSharedNoteModelsByUserId(userId);
+//        } catch (RepositoryException e) {
+//            throw new ServiceException("Не удалось получить чужие расшаренные заметки" + e.getMessage());
+//        }
+//    }
 
     public List<NoteModel> getAllSharedNoteModels(Long userId) throws ServiceException {
         try {
