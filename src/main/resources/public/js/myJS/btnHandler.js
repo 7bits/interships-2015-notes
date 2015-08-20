@@ -93,7 +93,7 @@
 
 
 		var oldVal ="";
-		$('.noteDiv').on('keydown', 'textarea', function() {
+		$('.noteDiv').on('input', 'textarea', function() {
 			var currentVal = $(this).val();
 
             if(currentVal == oldVal) {
@@ -114,16 +114,18 @@
 
 		//автосейвер
 		$('.noteDiv').on('keyup', 'textarea', function() {
+			clearTimeout(timeoutId);
+
 			var text = $(this).val();
-			text = nl2br(text);
 
 			var data = {
-				id: $(this).closest('.cell').attr('id'),
-				text: text 
-			}
+            	id: $(this).closest('.cell').attr('id'),
+            	text: text
+            }
 
-			$(function() {
-				clearTimeout(timeoutId);
+			timeoutId = setTimeout(function() {
+				data.text = htmlspecialchars(data.text);
+				data.text = nl2br(data.text);
 
 				timeoutId = setTimeout(function() {
 				    //отправить другим пользователям
@@ -144,7 +146,7 @@
 						};
 					});
 				}, 750);
-			})
+
 		})
 
 
@@ -182,6 +184,7 @@
 						$('.addShareEmail').val('');
 					}
 				}).fail(function(data) {
+					$('.addShareEmail').trigger('focus');
 					infoLabel.text(data.responseJSON.message);
 					curClass = 'messageFail';
                     infoLabel.addClass(curClass);
@@ -194,9 +197,9 @@
                 infoLabel.addClass(curClass);
     		}
 
-    		setTimeout(function() {
-    			infoLabel.removeClass(curClass);
-    		}, 5000)
+//    		setTimeout(function() {
+//    			infoLabel.removeClass(curClass);
+//    		}, 5000)
     	});
 
 
@@ -280,12 +283,16 @@
 				self.prepend(textarea);
 
 				var text = content.html();
+
 				text = br2nl(text);
+				text = rhtmlspecialchars(text);
 
 				$('.js-textarea').text(text);
 				content.text('');
 
 				$('.js-textarea').trigger('focus');
+				$('.js-textarea').scrollTop(0);
+
 			} else {
 				$('.js-textarea').trigger('blur');
 				$(this).trigger('click');
@@ -303,7 +310,9 @@
 			var textarea = $('.js-textarea');
 
 			var text = textarea.val();
+			text = htmlspecialchars(text);
 			text = nl2br(text);
+
 			self.children('.content').html(text);
 			textarea.remove();
 			self.children('.content').css('display', 'block');	
@@ -319,16 +328,39 @@
 		})
 
 
-		function nl2br (str) {   
+		function nl2br (str) {
 		    var breakTag = "<br>";    
-		    return (str + '').replace(/(\r\n|\n\r|\r|\n)/g, breakTag);
+		    return (str + '').replace(/(\r\n|\n\r|\r|\n)/g, breakTag)	;//.replace(/&/g, "&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 		}    
 
 		function br2nl (str) {
-			var nl = "\r\n";
-			return (str + '').replace(/(<br>)|(<br \/>)/g, nl);
+			var nl = "\n";
+			return (str + '').replace(/<br>/g, nl);//.replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&amp;/g, "&");
+			//			return (str + '').replace(/(<br>)|(<br \/>)/g, nl).replace(/&lt;/g,"<").replace(/&gt;/g,">");//.replace(/&amp;/g, "&");
+
 		}
 
+		function htmlspecialchars(str) {
+         if (typeof(str) == "string") {
+          str = str.replace(/&/g, "&amp;"); /* must do &amp; first */
+          str = str.replace(/"/g, "&quot;");
+          str = str.replace(/'/g, "&#039;");
+          str = str.replace(/</g, "&lt;");
+          str = str.replace(/>/g, "&gt;");
+          }
+         return str;
+         }
+
+         function rhtmlspecialchars(str) {
+          if (typeof(str) == "string") {
+           str = str.replace(/&gt;/ig, ">");
+           str = str.replace(/&lt;/ig, "<");
+           str = str.replace(/&#039;/g, "'");
+           str = str.replace(/&quot;/ig, '"');
+           str = str.replace(/&amp;/ig, '&'); /* must do &amp; last */
+           }
+          return str;
+          }
 
 		//Обработчик кнопки share и генерация модального окна
 		$('.workDiv').on('click', '.shaBtn', function() {
@@ -347,9 +379,9 @@
 						opacity: 1,
 						top: '45%'},
 						200);
-			});
 
-			$('.addShareEmail').trigger('focus');
+					$('.addShareEmail').trigger('focus');
+			});
 		})
 
 		//Выход из модального окна
@@ -417,13 +449,21 @@
 			$('.shareMessage').css('display', 'none');
 		})
 
+		$(".addShareEmail").on('input', function() {
+			$('.shareMessage').removeClass('messageFail');
+        });
 
 		//поведение плюсика в шаринге
-		$('.addShareEmail').keyup(function() {
+		$('.addShareEmail').keyup(function(e){
 			if ($(this).val() == "") {
 				$('.addShare').css('display', 'none');
 			} else {
 				$('.addShare').css('display', 'block');
+
+				var code = e.which; // recommended to use e.which, it's normalized across browsers
+                if(code == 13) { // 13 - enterKey
+                	$('.addShare').click();
+                }
 			};
 		})
 
@@ -451,5 +491,15 @@
                 }
             });
         })
+
+
+		$(document).keydown(function (e) {
+			var code = e.which;
+
+            if (e.which == 27)  // 27 - escapeKey
+            	if($('.modalWindow').css('display') == 'block')
+					$('#modalClose').click();
+        })
+
 	});
 })(jQuery);

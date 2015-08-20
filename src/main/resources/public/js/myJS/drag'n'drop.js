@@ -14,16 +14,17 @@
     	};
 
     	$('.noteDiv').on('mousedown', '.cell, .content, .control', function() {
-    		var self = $(this).closest('.cell');
-    		self.css('cursor', 'move');
-    		self.children('.control').css('cursor', 'move');
+    		var thisNoteSection = $(this).closest('.noteSection');
+    		var thisCell = $(this).closest('.cell');
+    		thisCell.css('cursor', 'move');
+    		thisCell.children('.control').css('cursor', 'move');
 
-			var prev_index = self.index() - 1;
-			var next_index = self.index() + 1;
+			var prev_index = thisCell.index() - 1;
+			var next_index = thisCell.index() + 1;
 
-			var id_cur = self.attr('id');
-			var id_prev = (prev_index == -1) 				   ? 0 : $('.cell:eq(' + prev_index + ')').attr('id');
-			var id_next = (next_index == $('.content').length) ? 0 : $('.cell:eq(' + next_index + ')').attr('id');
+			var id_cur = thisCell.attr('id');
+			var id_prev = (prev_index == -1) 				                                ? 0 : thisNoteSection.find('.cell:eq(' + prev_index + ')').attr('id');
+			var id_next = (next_index >= thisNoteSection.children().length) ? 0 : thisNoteSection.find('.cell:eq(' + next_index + ')').attr('id');
 
 			checkPosition = {
 				id_cur: id_cur,
@@ -34,17 +35,18 @@
 
 
     	$('.noteDiv').on('mouseup', '.cell, .content, .control', function() {
-    		var self = $(this).closest('.cell');
-    		self.css('cursor', '-webkit-grab');
-    		self.children('.control').css('cursor', '-webkit-grab');
+    		var thisNoteSection = $(this).closest('.noteSection');
+    		var thisCell = $(this).closest('.cell');
+    		thisCell.css('cursor', '-webkit-grab');
+    		thisCell.children('.control').css('cursor', '-webkit-grab');
 
 			setTimeout(function() {
-				var prev_index = self.index() - 1;
-				var next_index = self.index() + 1;
+				var prev_index = thisCell.index() - 1;
+				var next_index = thisCell.index() + 1;
 
-				var id_cur = self.attr('id');
-				var id_prev = (prev_index == -1) 				   ? 0 : $('.cell:eq(' + prev_index + ')').attr('id');
-				var id_next = (next_index == $('.content').length) ? 0 : $('.cell:eq(' + next_index + ')').attr('id');
+				var id_cur = thisCell.attr('id');
+				var id_prev = (prev_index == -1) 				   ? 0 : thisNoteSection.find('.cell:eq(' + prev_index + ')').attr('id');
+				var id_next = (next_index >= thisNoteSection.children().length) ? 0 : thisNoteSection.find('.cell:eq(' + next_index + ')').attr('id');
 
 				var sendData = {
 					id_cur: id_cur,

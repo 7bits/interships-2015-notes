@@ -26,11 +26,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.Map.Entry;
 
 //import org.springframework.security.core.userdetails.UserDetails;
@@ -93,6 +90,8 @@ public class HomeController {
         allNotes.addAll(myNotSharedNotes);
         allNotes.addAll(mySharedNotes);
         allNotes.addAll(foreignNotes);
+
+        Collections.sort(allNotes, new NoteModel.NoteOrderComparator());
 
         Map<String, List<NoteModel>> map = new HashMap<String, List<NoteModel>>();
         for (NoteModel item : allNotes) {
