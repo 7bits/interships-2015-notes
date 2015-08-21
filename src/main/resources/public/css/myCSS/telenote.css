@@ -64,7 +64,7 @@ body{
 	float: left;
 	background-image: url("/img/logo.png");
 	width: 53px;
-	height: 64px;
+	height: 65px;
 	display: inline-block;
 	margin-left: 15px;
 	background-size: cover;
@@ -85,8 +85,8 @@ body{
 	float: right;
 	text-align: justify;
 	margin-right: 25px;
+	margin-top: 20px;
 	display: inline-flex;
-	margin-top: 15px;
 }
 
 .rgihtMenu {
@@ -98,15 +98,14 @@ body{
 	width: 50px;
 	height: 50px;
 	margin-left: 16px;
+	/*background-image: url('/img/user.png');*/
 	background-size: cover;
-	border: 1px solid white;
-  	border-radius: 50px;
 }
 
 .logMenu{
 	text-align: right;
 	margin-left: 10px;
-	margin-top: 9px;
+	margin-top: 2px;
 }
 
 .user {
@@ -128,11 +127,7 @@ body{
 
 .addNote {	
 	float: right;
-	border-radius: 50px;
-	margin-top: -21px;
-	width: 50px;
-	height: 50px;
-	text-align: center;	
+	border-radius: 50px;	
 }
 
 .addNote img {
@@ -145,6 +140,7 @@ body{
 .addNote img:hover {
 	width: 45px;
 	margin-top: -3px;
+	margin-left: -3px;
 	box-shadow: 0px 5px 16.02px 1.98px;
 }
 
@@ -154,30 +150,11 @@ body{
 }
 
 .addNoteDiv {
-	position: fixed;
+	margin-top: 67px;
+  	margin-bottom: -29px;
   	float: right;
-  	top: 88px;
-  	right: 230px;
-  	z-index: 4;
-}
-
-.infoDiv {
-	position: fixed;
-	right: 0;
-	top: 88px;
-	background-color: white;
-	height: 35px;
-	width: 500px;
-	-webkit-clip-path: polygon(0 -50px, 100% 0, 100% 100%, 9% 100%);
- 	clip-path: polygon(0 -50px, 100% 0, 100% 100%, 9% 100%);
- 	z-index: 3;
-}
-
-.sortMenu {
-	float: right;
-	margin-top: 12px;
-  	height: 33px;
-  	margin-right: 20px;
+  	position: fixed;
+ 	margin-left: 55%;
 }
 
 .status {
@@ -187,11 +164,11 @@ body{
 }
 
 .statusDiv {
-	margin-left: 60px;
-	width: 134px;
+	float: right;
+	margin-right: 12px;
+	width: 200px;
 	text-align: right;
-	margin-top: 7px;
-	float: left;
+	margin-top: -4px;
 }
 
 .minStatus {
@@ -211,44 +188,11 @@ a:hover {
 	margin-top: 0px;
 }
 
-.sortLabel {
-	float: right;
-	font-size: 12px;
-	font-family: "Roboto-Regular";
-}
-
-.sortByDate, .sortByUser {
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: cover;
-	width: 16px;
-	height: 16px;
-	float: right;
-	margin-top: -1px;
-	cursor: pointer;
-}
-
-.sortLabel, .sortByDate {
-	margin-right: 20px;
-}
-
-.sortByUser {
-	margin-right: 30px;
-}
-
-.sortByUser {
-	background-image: url("/img/sortedByUser.png");
-}
-
-.sortByDate {
-	background-image: url("/img/sortedByDate.png");
-	
-}
-
 .workDiv{
 	width: 100%;
   	display: inherit;
-  	margin-top: 143px;
+  	margin-top: 118px;
+  	text-align: center;
 }
 
 .noteDiv {
@@ -278,7 +222,7 @@ a:hover {
 }
 
 .delBtn, .shaBtn {
-	float: right;
+	float: left;
 	width: 80px;
   	height: 0px;
 	border: 0px;
@@ -293,6 +237,7 @@ a:hover {
 
 .delBtn {
 	background-image: url("/img/delBtn.png");
+	float: right;
 }
 
 .delBtn:active {
@@ -319,10 +264,12 @@ a:hover {
 	font-family: "Roboto-Light";
 	font-size: 15px;
 	display: block;
+	white-space:pre;
 	word-wrap: break-word;
 	word-break: normal;
 	overflow-y: auto;
-	color: #010101; 
+	overflow-x:none;
+	color: #010101;
 }
 
 .textarea {
@@ -333,7 +280,12 @@ a:hover {
 	height: 143px;
 	padding: 8px 14px 8px 14px;
 	display: block;
+	white-space:pre;
+    word-wrap: break-word;
+    word-break: normal;
+    overflow-x:none;
 }
+
 
 .textarea:active,
 .textarea:focus, 
@@ -392,49 +344,17 @@ input[type="checkbox"]:checked + label {
   background:url(/img/c_checked.png) left top no-repeat;
 }*/
 
-.noteSection {
+noteSection {
 
 }
 
-.sectionPic {
-   	height: 32px;
-  	margin-top: -7px;
-  	border-radius: 50px;
-  	float: left;
+p.textSection {
+  color: #F74E19;
 }
 
-.sectionOwner {
-	float: left;
-	margin-top: 2px;
-  	margin-left: 10px;
-  	font-family: "Roboto-Regular";
-  	font-size: 12px;
-}
+textNoteSection {
 
-.sectionOwner span {
-	font-family: "Roboto-Light";
 }
-
-.textNoteSection {
-	position: relative;
-	width: 100%;
-	height: 35px;
-	margin-bottom: 20px;
-	padding-left: 25px;
-  	padding-top: 8px;
-	box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.05);
-	background-color: rgba(176, 184, 193, 0.8);
-	-moz-box-sizing: border-box; /* Для Firefox */
-    -webkit-box-sizing: border-box; /* Для Safari и Chrome */
-    box-sizing: border-box;
-}
-
-.actualSection {
-	position: fixed;
-	top: 88px;
-	left: 0px;
-}
-
 
 /*ЭТО ДОЛЖНО БЫТЬ В САМОМ КОНЦЕ!!!*/
 @media screen and (max-width: 800px) {

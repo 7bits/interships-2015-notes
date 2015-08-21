@@ -44,20 +44,24 @@
 				cell.animate({
 						width: '0px',
 					}, 150, 'swing', function() {
-/*<<<<<<< HEAD
-					
-						noteSectionsOfCellsWithSameIds.each(function () {
-                            if ($(this).find('.cell').length == 1) {
-                                $(this).remove();
-                            } else {
-                            	cell.remove();
-                            }
-                        });
-
-						if ($('.cell').length == 0 && $("#emptyList").length == 0) {
-                        	$('.noteDiv')[0].innerHTML += '<span id="emptyList">У вас нет заметок</span>';
-                        };
-=======*/
+//<<<<<<< HEAD
+///*<<<<<<< HEAD
+//
+//=======
+//
+//>>>>>>> fixedFirefox
+//						noteSectionsOfCellsWithSameIds.each(function () {
+//                            if ($(this).find('.cell').length == 1) {
+//                                $(this).remove();
+//                            } else {
+//                            	cell.remove();
+//                            }
+//                        });
+//
+//						if ($('.cell').length == 0 && $("#emptyList").length == 0) {
+//                        	$('.noteDiv')[0].innerHTML += '<span id="emptyList">У вас нет заметок</span>';
+//                        };
+//=======*/
 						cell.remove();
 
 						var actual = $("#js-actualSection");
