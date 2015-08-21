@@ -142,7 +142,6 @@ body{
 	margin-top: -3px;
 	margin-left: -3px;
 	box-shadow: 0px 5px 16.02px 1.98px;
-	width: 
 }
 
 .addNote img:active {
@@ -269,6 +268,7 @@ a:hover {
 	word-wrap: break-word;
 	word-break: normal;
 	overflow-y: auto;
+	overflow-x:none;
 	color: #010101;
 }
 
@@ -283,6 +283,7 @@ a:hover {
 	white-space:pre;
     word-wrap: break-word;
     word-break: normal;
+    overflow-x:none;
 }
 
 

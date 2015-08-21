@@ -43,7 +43,7 @@
 				cell.animate({
 						width: '0px',
 					}, 150, 'swing', function() {
-					
+
 						noteSectionsOfCellsWithSameIds.each(function () {
                             if ($(this).find('.cell').length == 1) {
                                 $(this).remove();

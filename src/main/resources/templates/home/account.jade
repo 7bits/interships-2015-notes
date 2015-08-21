@@ -21,7 +21,7 @@ html
         .in-outMenu
           .logMenu
             a#username(href='/account')
-              .user#{user.username}
+              .user#{user.name}
             a#logout(href='/logout') Выход
           a(href='https://ru.gravatar.com/')
             img.userImg(src="#{avatar}")
@@ -31,12 +31,12 @@ html
           .profileHeader Профиль
           .nameDiv
             label.labelName Имя
-            if(changesForm.username==null)
-              input.username(type='textbox', name='username', value='#{user.username}', maxlength='20')
+            if(changesForm.name==null)
+              input.username(type='textbox', name='username', value='#{user.name}', maxlength='20')
             else if(changesForm.username!=user.username)
-              input.username(type='textbox', name='username', value='#{changesForm.username}', maxlength='20')
+              input.username(type='textbox', name='username', value='#{changesForm.name}', maxlength='20')
             else
-              input.username(type='textbox', name='username', value='#{user.username}', maxlength='20')
+              input.username(type='textbox', name='username', value='#{user.name}', maxlength='20')
             if incorrectUsername
               #js-nameDiv.errorUsernameDiv
                 span#js-name Некорректное имя
