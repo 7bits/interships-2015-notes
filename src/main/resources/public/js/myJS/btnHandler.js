@@ -552,7 +552,7 @@
 					$('.syncUsers').prepend("<div id='owner' class='shareUser'>" +
 					 		"<div class='shareUserImg unsetImg'></div>" +
 					 		"<div class='shareUserInfo'>" + 
-					 			"<div class='shareUserName'>" + data[0].username + "<span> (автор)</span></div>" + 
+					 			"<div class='shareUserName'>" + data[0].name + "<span> (автор)</span></div>" +
 					 			"<div class='shareUserEmail'>" + data[0].email + "</div>" + 
 					 		"</div>" +
 					 	"</div>");
@@ -561,7 +561,7 @@
 					 	$('#owner').after("<div id='" +  data[i].id + "' class='shareUser'>" +
 					 		"<div class='shareUserImg unsetImg'></div>" +
 					 		"<div class='shareUserInfo'>" + 
-					 			"<div class='shareUserName'>" + data[i].username + "</div>" + 
+					 			"<div class='shareUserName'>" + data[i].name + "</div>" +
 					 			"<div class='shareUserEmail'>" + data[i].email + "</div>" + 
 					 		"</div>" +
 					 		"<div class='shareActionDiv'>"+

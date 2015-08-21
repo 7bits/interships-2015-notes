@@ -245,7 +245,7 @@ public interface NoteMapper {
             "where notes.uuid=#{noteUuid}")
     @Results({
             @Result(column = "id", property = "id"),
-            @Result(column = "username", property = "username"),
+            @Result(column = "username", property = "name"),
             @Result(column = "email", property = "email"),
             @Result(column = "enabled", property = "enabled"),
     })
