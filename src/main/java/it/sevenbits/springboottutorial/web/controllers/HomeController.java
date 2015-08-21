@@ -110,9 +110,6 @@ public class HomeController {
         }
 
         String avatar;
-        avatar = "http://www.gravatar.com/avatar/" + accService.getAvatarHash(currentUser.getEmail()) +
-                "?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png";
-        myNotes.get(0).setUserAvatar(avatar);
         listNotes.addAll(myNotes);
 
         Collections.sort(listNotes, new NoteModel.NoteOrderDescComparator());
@@ -125,6 +122,7 @@ public class HomeController {
             List<NoteModel> list = map.get(noteModel.getEmailOfShareUser());
             if (list == null) {
                 list = new ArrayList<NoteModel>();
+
                 avatar = "http://www.gravatar.com/avatar/" + accService.getAvatarHash(noteModel.getEmailOfShareUser()) +
                         "?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png";
                 noteModel.setUserAvatar(avatar);

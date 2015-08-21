@@ -3,10 +3,6 @@
 		//функция обработки нажатия "+" и добавления заметки на рабочее поле
 		$('.addNote').click(function() {
 
-			if ($('#emptyList') != null) {
-				$('#emptyList').remove();
-			};
-
 			var cell = "<div id='new' class='cell' style='width: 0px; margin-top: 123px; height: 2px;'>"+
 				"<div class='content'></div>"+
 				"<div class='control'>"+
@@ -15,35 +11,24 @@
 				"</div>"+
 			"</div>"
 
+			if ($('#js-actualSection').attr("value") == 'Мои заметки<span class="js-span"></span>') {
+				$(".js-noteSection").eq(0).prepend(cell);
+				$("body").animate({scrollTop: '0'}, 200);
+			} else if (($('#js-actualSection').attr("value") != 'Мои заметки<span class="js-span"></span>') && ($(".noteDiv").children().length != 0)) {
 
-			if($("div[id='ns_']").length > 0) {
-				$("div[id='ns_']").prepend(cell);
-			} else {
-				var textNoteSection = document.createElement("div");
-				textNoteSection.setAttribute("class", "textNoteSection");
+				var section = "<div class='js-section js-allSections textNoteSection js-nextSection'>" + 
+					"<img class='js-sectionPic sectionPic' src=" + $(".js-sectionPic").eq(0).attr("value") + ">" + 
+                	"<div class='js-sectionOwner sectionOwner'>" + $("#js-actualSection").eq(0).attr("value") + "</div>" +
+				"</div>";
 
-				var textSection = document.createElement("p");
-				textSection.textContent= "Мои Заметки";
-				textSection.setAttribute("class", "textSection");
-				textSection.setAttribute("id", "pMyNotes");
+				$(".noteDiv").prepend(section);
+				addingElements (cell)
 
-				var myNotesSection = document.createElement("div");
-				myNotesSection.setAttribute("class", "noteSection");
-				myNotesSection.setAttribute("id", "ns_");
+			} else if (($('#js-actualSection').attr("value") != 'Мои заметки<span class="js-span"></span>') && ($(".noteDiv").children().length == 0)) {
 
-				textNoteSection.appendChild(textSection);
-				textNoteSection.appendChild(myNotesSection);
-
-
-				$(".noteDiv").prepend(textNoteSection);
-
-				$("div[id='ns_']").prepend(cell);
-
-				$( ".noteSection" ).sortable();
-                $( ".noteSection" ).disableSelection();
-			}
-
-			//$(".noteDiv").prepend(cell);
+				addingElements (cell)
+				
+			} 
 
 			cell = $('#new');
 
@@ -69,5 +54,24 @@
             	});
             })
 		})
+
+
+		function addingElements (cell) {
+
+			var noteSection = "<div class='js-noteSection noteSection'></div>";
+			$("#js-actualSection").attr("value", 'Мои заметки<span class="js-span"></span>');
+
+			$(".js-sectionPic").eq(0).attr("value", $(".js-userImg").attr("src"));
+			$(".noteDiv").prepend(noteSection);
+
+			$(".js-noteSection").eq(0).prepend(cell);
+			$("body").animate({scrollTop: '0'}, 200);
+
+			$(".js-sectionPic").eq(0).attr("src", $(".js-sectionPic").eq(0).attr("value"));
+			$(".js-sectionOwner").eq(0).html($("#js-actualSection").eq(0).attr("value"));
+
+			$( ".js-noteSection" ).sortable();
+            $( ".js-noteSection" ).disableSelection();
+		}
 	})
 })(jQuery);

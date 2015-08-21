@@ -64,7 +64,7 @@ body{
 	float: left;
 	background-image: url("/img/logo.png");
 	width: 53px;
-	height: 65px;
+	height: 64px;
 	display: inline-block;
 	margin-left: 15px;
 	background-size: cover;
@@ -278,7 +278,7 @@ a:hover {
 }
 
 .delBtn, .shaBtn {
-	float: left;
+	float: right;
 	width: 80px;
   	height: 0px;
 	border: 0px;
@@ -293,7 +293,6 @@ a:hover {
 
 .delBtn {
 	background-image: url("/img/delBtn.png");
-	float: right;
 }
 
 .delBtn:active {
@@ -410,6 +409,10 @@ input[type="checkbox"]:checked + label {
   	margin-left: 10px;
   	font-family: "Roboto-Regular";
   	font-size: 12px;
+}
+
+.sectionOwner span {
+	font-family: "Roboto-Light";
 }
 
 .textNoteSection {

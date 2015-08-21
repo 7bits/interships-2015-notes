@@ -21,7 +21,8 @@
 		$('.noteDiv').on('click', '.delBtn', function(self) {
 			//функция удаления заметки из базы и с рабочего поля
 			var id = $(this).closest('.cell').attr("id");
-			var noteSectionsOfCellsWithSameIds = $(".cell[id=" + id + "]").parents('.textNoteSection')
+			var thisNoteSection = $(this).closest(".js-noteSection");
+
 			
 			$.ajax({
 				type: "DELETE",
@@ -43,6 +44,7 @@
 				cell.animate({
 						width: '0px',
 					}, 150, 'swing', function() {
+/*<<<<<<< HEAD
 					
 						noteSectionsOfCellsWithSameIds.each(function () {
                             if ($(this).find('.cell').length == 1) {
@@ -55,6 +57,77 @@
 						if ($('.cell').length == 0 && $("#emptyList").length == 0) {
                         	$('.noteDiv')[0].innerHTML += '<span id="emptyList">У вас нет заметок</span>';
                         };
+=======*/
+						cell.remove();
+
+						var actual = $("#js-actualSection");
+						var actualOwner = actual.find(".js-sectionOwner");
+						var actualPic = actual.find(".js-sectionPic");
+
+						var allSections = $('.js-noteSection');
+
+						allSections.each(function() {
+							
+							thisNoteSection = $(this);
+
+							if (thisNoteSection.find(".cell").length == 0) {
+								if (thisNoteSection.index() == 0) {
+									
+									var nextSection = $('.js-section').eq(0);
+									var nextOwner = nextSection.find(".js-sectionOwner");
+									var nextPic = nextSection.find(".js-sectionPic");
+
+									$(".js-noteSection").eq(0).remove();
+									
+
+									actual.attr("value", nextSection.text());
+									actualOwner.text(nextOwner.text());
+									actualPic.attr("value", nextPic.attr("src"));
+									actualPic.attr("src", nextPic.attr("src"));
+									nextSection.remove();
+									
+									nextSection = $('js-section').eq(0);
+
+									if (nextSection[0] != null) { nextSection.addClass("js-nextSection"); };
+								
+								} else {
+
+									var deletedSection = $(".js-allSections").eq(thisNoteSection.index() - 1);
+
+									if (actualOwner.text() == deletedSection.find(".js-sectionOwner").text()) {
+										
+										var nextSection = $(".js-nextSection");
+										var nextOwner = nextSection.find(".js-sectionOwner");
+										var nextPic = nextSection.find(".js-sectionPic");
+
+										actualOwner.text(nextOwner.text());
+										actualPic.attr("src", nextPic.attr("src"));
+										actualPic.attr("value", nextPic.attr("src"));
+
+										deletedSection.remove();
+										thisNoteSection.remove();
+
+										$(".js-prevSection").removeClass("js-prevSection");
+
+										nextSection.removeClass("js-nextSection").addClass("js-prevSection");
+
+										$("js-allSections").eq(nextSection.index() + 1).addClass("js-nextSection");
+
+									} else {
+										
+										var next = $("js-allSections").eq(deletedSection.index() + 2)
+
+										if (next[0] != null) { next.addClass("js-nextSection"); };
+
+										deletedSection.remove();
+										thisNoteSection.remove();
+									
+									};
+
+								};
+							
+							}
+						})
 				});
 
 
@@ -66,13 +139,6 @@
 				};
 			});
 		});
-
-
-		window.onresize = function() {
-			//определение размера рабочей области сайта
-			var bodyHeight = document.documentElement.clientHeight;
-			$("body").outerHeight(bodyHeight);
-		};
 
 
 		$('.js-enter').click(function() {
