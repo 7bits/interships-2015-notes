@@ -21,8 +21,6 @@
 		$('.noteDiv').on('click', '.delBtn', function(self) {
 			//функция удаления заметки из базы и с рабочего поля
 			var id = $(this).closest('.cell').attr("id");
-			var thisNoteSection = $(this).closest(".js-noteSection");
-
 			
 			$.ajax({
 				type: "DELETE",
@@ -44,24 +42,7 @@
 				cell.animate({
 						width: '0px',
 					}, 150, 'swing', function() {
-//<<<<<<< HEAD
-///*<<<<<<< HEAD
-//
-//=======
-//
-//>>>>>>> fixedFirefox
-//						noteSectionsOfCellsWithSameIds.each(function () {
-//                            if ($(this).find('.cell').length == 1) {
-//                                $(this).remove();
-//                            } else {
-//                            	cell.remove();
-//                            }
-//                        });
-//
-//						if ($('.cell').length == 0 && $("#emptyList").length == 0) {
-//                        	$('.noteDiv')[0].innerHTML += '<span id="emptyList">У вас нет заметок</span>';
-//                        };
-//=======*/
+
 						cell.remove();
 
 						var actual = $("#js-actualSection");
@@ -72,7 +53,7 @@
 
 						allSections.each(function() {
 							
-							thisNoteSection = $(this);
+							var thisNoteSection = $(this);
 
 							if (thisNoteSection.find(".cell").length == 0) {
 								if (thisNoteSection.index() == 0) {
@@ -229,7 +210,7 @@
 		  return emailRegex.test(email);
 		}
 
-
+		var addedShareEmails = [];
 		//расшаривание
 		$('.addShare').click(function() {
 
@@ -254,6 +235,8 @@
 					success: function(data){
 
 						addingShareUser(data)
+
+						addedShareEmails.splice(0, 0, $('.addShareEmail').val());
 
 						$('.addShareEmail').val('');
 					}
@@ -437,6 +420,7 @@
           return str;
           }
 
+		var clickedNoteSection;
 		//Обработчик кнопки share и генерация модального окна
 		$('.workDiv').on('click', '.shaBtn', function() {
 
@@ -457,6 +441,7 @@
 
 					$('.addShareEmail').trigger('focus');
 			});
+			clickedNoteSection = $(this).closest(".noteSection");
 		})
 
 		//Выход из модального окна
@@ -472,8 +457,72 @@
 					$('.shareMessage').css('display', 'none');
 			});
 
-			
-		})
+			var curCell = clickedNoteSection.find(".cell[id='" + $('.modalWindow').attr("id") + "']");
+
+//			var shareUserEmails = [];
+//			$(".shareUserEmail").each(function() {
+//				shareUserEmails.splice(0, 0, $(this).text());
+//			});
+//
+//			shareUserEmails.splice(shareUserEmails.length - 1, 1); // удаляем последний элемент - нашу почту.
+
+			if(addedShareEmails.length != 0) { // если заметка кому-то расшарена, то удаляем ее, переносим другим
+
+				var noteDiv = $('.noteDiv');
+				addedShareEmails.forEach(function(item, i, arr) {
+					var otherShareUserEmail = item;
+					var otherNoteSection = $(".noteSection[id='ns_" + otherShareUserEmail + "']");
+
+					if(otherNoteSection.length > 0) {
+						var copyCurCell = curCell.clone();
+						otherNoteSection.prepend(copyCurCell);
+					} else {
+						otherNoteSection = "<div class='js-noteSection noteSection ui-sortable' id='ns_" + otherShareUserEmail + "'></div>";
+
+						var section = "<div class='js-section js-allSections textNoteSection js-nextSection'>" +
+                        					"<img class='js-sectionPic sectionPic' src=" + $(".js-sectionPic").eq(0).attr("value") + ">" +
+                                        	"<div class='js-sectionOwner sectionOwner'>" + otherShareUserEmail + "</div>" +
+                        				"</div>";
+
+						noteDiv.prepend(otherNoteSection);
+                        $(".noteSection[id='ns_" + otherShareUserEmail + "']").prepend(curCell);
+
+						noteDiv.prepend(section);
+
+
+					}
+
+					//otherNoteSections.splice(0, 0, );
+				})
+
+				if(clickedNoteSection.length == 1 && clickedNoteSection.attr('id') == "ns_"){
+					//clickedNoteSection.remove();
+
+					var nextSection = $('.js-section').eq(0);
+									var nextOwner = nextSection.find(".js-sectionOwner");
+									var nextPic = nextSection.find(".js-sectionPic");
+
+									clickedNoteSection.remove();
+					var actual = $("#js-actualSection");
+					var actualOwner = actual.find(".js-sectionOwner");
+					var actualPic = actual.find(".js-sectionPic");
+
+									actual.attr("value", nextSection.text());
+									actualOwner.text(nextOwner.text());
+									actualPic.attr("value", nextPic.attr("src"));
+									actualPic.attr("src", nextPic.attr("src"));
+									nextSection.remove();
+
+									nextSection = $('js-section').eq(0);
+
+									if (nextSection[0] != null) { nextSection.addClass("js-nextSection"); };
+				} else if(clickedNoteSection.attr('id') == "ns_") {
+					curCell.remove();
+				}
+			}
+			addedShareEmails = []; // обнуляем добавленные имейлы
+			clickedNoteSection = null;
+		});
 
 
 		//функция запроса синхронизированных пользователей

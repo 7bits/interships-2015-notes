@@ -4,7 +4,7 @@
 		$('.addNote').click(function() {
 
 			var cell = "<div id='new' class='cell' style='width: 0px; margin-top: 123px; height: 2px;'>"+
-				"<div class='content'></div>"+
+				"<div class='content clickable'></div>"+
 				"<div class='control'>"+
 					"<button class='delBtn' style='visibility: hidden;'></button>"+
 					"<button class='shaBtn' style='visibility: hidden;'></button>"+
@@ -58,7 +58,7 @@
 
 		function addingElements (cell) {
 
-			var noteSection = "<div class='js-noteSection noteSection'></div>";
+			var noteSection = "<div class='js-noteSection noteSection' id='ns_'></div>";
 			$("#js-actualSection").attr("value", 'Мои заметки<span class="js-span"></span>');
 
 			$(".js-sectionPic").eq(0).attr("value", $(".js-userImg").attr("src"));
