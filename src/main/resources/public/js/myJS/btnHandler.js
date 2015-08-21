@@ -211,6 +211,7 @@
 		}
 
 		var addedShareEmails = [];
+		var addedShareName = [];
 		//расшаривание
 		$('.addShare').click(function() {
 
@@ -471,23 +472,31 @@
 				var noteDiv = $('.noteDiv');
 				addedShareEmails.forEach(function(item, i, arr) {
 					var otherShareUserEmail = item;
+					var shareUserNames = $(".shareUserEmail");
+					var userName;
+
+					shareUserNames.each(function() {
+						if($(this).text() == item) userName = $(this).siblings(".shareUserName").text();
+					})
+
 					var otherNoteSection = $(".noteSection[id='ns_" + otherShareUserEmail + "']");
+					var copyCurCell = curCell.clone();
 
 					if(otherNoteSection.length > 0) {
-						var copyCurCell = curCell.clone();
 						otherNoteSection.prepend(copyCurCell);
 					} else {
 						otherNoteSection = "<div class='js-noteSection noteSection ui-sortable' id='ns_" + otherShareUserEmail + "'></div>";
 
 						var section = "<div class='js-section js-allSections textNoteSection js-nextSection'>" +
                         					"<img class='js-sectionPic sectionPic' src=" + $(".js-sectionPic").eq(0).attr("value") + ">" +
-                                        	"<div class='js-sectionOwner sectionOwner'>" + otherShareUserEmail + "</div>" +
+                                        	"<div class='js-sectionOwner sectionOwner'>" + "Общие с " + userName + "<span class='js-span'> (" +otherShareUserEmail + ")</span>" + "</div>" +
                         				"</div>";
 
-						noteDiv.prepend(otherNoteSection);
-                        $(".noteSection[id='ns_" + otherShareUserEmail + "']").prepend(curCell);
+						noteDiv.append(section);
+						noteDiv.append(otherNoteSection);
+                        $(".noteSection[id='ns_" + otherShareUserEmail + "']").append(copyCurCell);
 
-						noteDiv.prepend(section);
+
 
 
 					}

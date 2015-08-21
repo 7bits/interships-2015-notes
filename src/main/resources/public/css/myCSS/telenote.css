@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 @font-face {
 	font-family: "Room";
 	src: url("/css/fonts/Room/Room.otf");
@@ -41,7 +41,7 @@ body{
 }
 
 .container{
-	min-width: 460px;
+	min-width: 415px;
   	width: 100%;
   	padding: 0px;
 }
@@ -54,6 +54,7 @@ body{
 	z-index: 1;
 	box-shadow: 0px 3px 15px 0px rgba(0, 0, 0, 0.15);
 	top: 0;
+	min-width: 415px;
 }
 
 .logoDiv{
@@ -158,7 +159,7 @@ body{
 	position: fixed;
   	float: right;
   	top: 88px;
-  	right: 230px;
+  	right: 160px;
   	z-index: 4;
 }
 
@@ -168,7 +169,7 @@ body{
 	top: 88px;
 	background-color: white;
 	height: 35px;
-	width: 500px;
+	width: 440px;
 	-webkit-clip-path: polygon(0 -50px, 100% 0, 100% 100%, 9% 100%);
  	clip-path: polygon(0 -50px, 100% 0, 100% 100%, 9% 100%);
  	z-index: 3;
@@ -176,9 +177,9 @@ body{
 
 .sortMenu {
 	float: right;
-	margin-top: 12px;
+	margin-top: 10px;
   	height: 33px;
-  	margin-right: 20px;
+  	margin-right: 2px;
 }
 
 .status {
@@ -233,17 +234,16 @@ a:hover {
 	margin-right: 20px;
 }
 
-.sortByUser {
-	margin-right: 30px;
-}
-
-.sortByUser {
-	background-image: url("/img/sortedByUser.png");
-}
-
 .sortByDate {
 	background-image: url("/img/sortedByDate.png");
-
+	background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    width: 16px;
+    height: 18px;
+    float: right;
+    margin-top: -3px;
+    cursor: pointer;
 }
 
 .workDiv{
@@ -403,10 +403,15 @@ input[type="checkbox"]:checked + label {
 }
 
 .sectionPic {
-   	height: 32px;
-  	margin-top: -7px;
+   	height: 28px;
+  	margin-top: -4px;
   	border-radius: 50px;
   	float: left;
+}
+
+.cellPic {
+	margin-top: 6px;
+    margin-left: 6px;
 }
 
 .sectionOwner {
@@ -444,22 +449,33 @@ input[type="checkbox"]:checked + label {
 
 
 /*ЭТО ДОЛЖНО БЫТЬ В САМОМ КОНЦЕ!!!*/
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 780px) {
 
 	.headWrapper {
 	  	height: 60px;
 	}
 
 	.logoImg {
-		display: none;
+		margin-top: -4px;
+		width: 32px;
+    	height: 38px;
 	}
 
 	.slogon {
-		margin-top: 4px;
+		margin-top: 6px;
+		width: 130px;
+    	height: 17px;
+	}
+
+	.in-outMenu {
+		margin-top: 21px;
+		margin-right: 14px;
 	}
 
 	.userImg{
-		display: none;
+		margin-top: -8px;
+		width: 32px;
+		height: 32px;
 	}
 
 	.logMenu{
@@ -480,9 +496,12 @@ input[type="checkbox"]:checked + label {
 		font-size: 11px;
 	}
 
-	.addNoteDiv {
-		margin-top: 38px;
-	  	margin-left: 65%;
+	.addNoteDiv, .actualSection, .infoDiv{
+		top: 60px;
+	}
+
+	.infoDiv {
+		width: 280px;
 	}
 
 	.minStatus {
@@ -509,6 +528,12 @@ input[type="checkbox"]:checked + label {
 
 	.statusDiv {
 		width: 30px;
+		margin-left: 29px;
+		margin-top: 4px;
+	}
+
+	.noteDiv {
+		text-align: center;
 	}
 
 	.welcome {
