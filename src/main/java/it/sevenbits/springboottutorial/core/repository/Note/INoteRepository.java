@@ -58,10 +58,19 @@ public interface INoteRepository {
 
     Long getUserNoteByParentId(Long userId, Long parentId) throws RepositoryException;
 
-    List<NoteModel> getMyNotSharedNoteModelsByUserId(Long userId) throws RepositoryException;
+    List<NoteModel> getNotesWithSameNoteUuidByUserId(Long userId) throws RepositoryException;
 
-    List<NoteModel> getMySharedNoteModelsByUserId(Long userId) throws RepositoryException;
+    List<UserDetailsImpl> getUsersWithSameNoteUuid(final String noteUuid) throws RepositoryException;
 
-    List<NoteModel> getForeignSharedNoteModelsByUserId(Long userId) throws RepositoryException;
+//    List<NoteModel> getMyNotSharedNoteModelsByUserId(Long userId) throws RepositoryException;
+//
+//    List<NoteModel> getMySharedNoteModelsByUserId(Long userId) throws RepositoryException;
+//
+//    List<NoteModel> getForeignSharedNoteModelsByUserId(Long userId) throws RepositoryException;
+//
+//    List<NoteModel> getNotesWithUniqueNoteUuidByUserId(Long userId) throws RepositoryException;
 
+    List<NoteModel> getAllSharedNoteModels(Long userId) throws RepositoryException;
+
+    void resetAllParentNoteUserId(final Long parentNoteId) throws RepositoryException;
 }

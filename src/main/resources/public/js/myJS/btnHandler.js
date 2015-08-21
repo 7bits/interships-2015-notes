@@ -1,5 +1,7 @@
-(function($){
+(function($) {
 	$(document).ready(function () {
+
+        connect();
 
 		App.Note.save = function(data, callback) {
 			$.ajax({
@@ -19,7 +21,7 @@
 		$('.noteDiv').on('click', '.delBtn', function(self) {
 			//функция удаления заметки из базы и с рабочего поля
 			var id = $(this).closest('.cell').attr("id");
-			var thisTextNoteSection = $(this).closest(".textNoteSection");
+			var noteSectionsOfCellsWithSameIds = $(".cell[id=" + id + "]").parents('.textNoteSection')
 			
 			$.ajax({
 				type: "DELETE",
@@ -41,16 +43,20 @@
 				cell.animate({
 						width: '0px',
 					}, 150, 'swing', function() {
-						cell.remove();
+					
+						noteSectionsOfCellsWithSameIds.each(function () {
+                            if ($(this).find('.cell').length == 1) {
+                                $(this).remove();
+                            } else {
+                            	cell.remove();
+                            }
+                        });
 
-						if(thisTextNoteSection.find(".cell").length == 0) {
-								thisTextNoteSection.remove();
-						}
-
-						if ($('.cell').length == 0) {
-							$('.noteDiv')[0].innerHTML += '<span id="emptyList">У вас нет заметок</span>';
-						};
+						if ($('.cell').length == 0 && $("#emptyList").length == 0) {
+                        	$('.noteDiv')[0].innerHTML += '<span id="emptyList">У вас нет заметок</span>';
+                        };
 				});
+
 
 				if (document.documentElement.clientWidth > 840) {
 					$('.status').text("Все заметки сохранены");
@@ -107,7 +113,7 @@
             	$('.minStatus').text('...');
             };
 			
-		})
+		});
 
 
 		//автосейвер
@@ -121,9 +127,20 @@
             	text: text
             }
 
+            $(".cell[id=" + data.id + "] .content").text(text);
+
 			timeoutId = setTimeout(function() {
-				data.text = htmlspecialchars(data.text);
-				data.text = nl2br(data.text);
+				    data.text = htmlspecialchars(data.text);
+				    //отправить другим пользователям
+				    var cmd = {
+                        id: data.id,
+                        text: data.text,
+                        command: "block,text"
+                    };
+
+                    sendCommand(cmd);
+
+                    data.text = nl2br(data.text);
 
 					App.Note.save(data, function() {
 						if (document.documentElement.clientWidth > 800) {
@@ -134,7 +151,6 @@
 						};
 					});
 				}, 750);
-
 		})
 
 
@@ -249,9 +265,16 @@
 
 
 		//подмена активного элемента
-		$('.workDiv').on('click', '.content', function() {
+		$('.workDiv').on('click', '.clickable', function() {
 
 			if ($('textarea')[0] == null) {
+
+                //блокируем заметку
+                var cmd = {
+                    id: $(this).parent('.cell').attr("id"),
+                    command : "block"
+                }
+                sendCommand(cmd);
 
 				var self = $(this).parent('.cell');
 
@@ -280,6 +303,11 @@
 			};
 
 		}).on('blur', 'textarea', function() {
+           var cmd = {
+               id: $(this).parent('.cell').attr("id"),
+               command : "unblock"
+           }
+           sendCommand(cmd);
 
 			var self = $(this).closest('.cell');
 			
@@ -319,8 +347,9 @@
 		function htmlspecialchars(str) {
          if (typeof(str) == "string") {
           str = str.replace(/&/g, "&amp;"); /* must do &amp; first */
-          str = str.replace(/"/g, "&quot;");
-          str = str.replace(/'/g, "&#039;");
+          var quot = "&quot";
+          str = str.replace(/'"'/g, quot);
+          str = str.replace(/"'"/g, "&#039;");
           str = str.replace(/</g, "&lt;");
           str = str.replace(/>/g, "&gt;");
           }

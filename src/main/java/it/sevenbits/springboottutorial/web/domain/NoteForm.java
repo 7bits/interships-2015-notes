@@ -14,6 +14,9 @@ public class NoteForm {
     private Timestamp created_at;
     private Timestamp updated_at;
 
+    public NoteForm() {
+    }
+
     public NoteForm(Long id, String text) {
         this.id = id;
         this.text = text;

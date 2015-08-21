@@ -48,15 +48,15 @@ public class AccountController {
     public @ResponseBody
     ModelAndView changePass(@Valid @ModelAttribute("form") ChangesForm form, Authentication auth) throws ServiceException {
         UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
-        String username = user.getUsername();
+        String username = user.getName();
         ModelAndView model = new ModelAndView("home/account");
         model.addObject("user", user);
         model.addObject("avatar", "http://www.gravatar.com/avatar/" + accountService.getAvatarHash(user.getEmail()) +
                 "?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png");
 
         try {
-            if (!form.getUsername().isEmpty() && !form.getUsername().equals(user.getUsername())) {
-                user.setUsername(form.getUsername());
+            if (!form.getUsername().isEmpty() && !form.getUsername().equals(user.getName())) {
+                user.setName(form.getUsername());
                 accountService.changeUsername(user);
             }
 
@@ -77,7 +77,7 @@ public class AccountController {
                 model.addObject(e.getMessage().toString(), 1);
                 model.addObject("changesForm", form);
 
-                user.setUsername(username);
+                user.setName(username);
                 model.addObject("user", user);
 
                 return model;

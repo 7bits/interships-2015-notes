@@ -165,7 +165,7 @@ public class UsersController {
 
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("link", link);
-                map.put("username", user.get().getUsername());
+                map.put("username", user.get().getName());
 
                 emailService.sendHtml(user.get().getEmail(), "Tele-notes. Восстановление пароля.", "home/changePassMail", map);
             } else {
@@ -224,7 +224,7 @@ public class UsersController {
 
     @RequestMapping(value = "/confirm", method = RequestMethod.GET)
     public String confirmEmail(String token, String email) {
-        if (token.isEmpty() || email.isEmpty()) {
+        if (token == null || email == null || token.isEmpty() || email.isEmpty()) {
             return "home/errors";
         }
 

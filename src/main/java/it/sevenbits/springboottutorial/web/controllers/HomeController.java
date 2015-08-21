@@ -4,9 +4,7 @@ package it.sevenbits.springboottutorial.web.controllers;
 import it.sevenbits.springboottutorial.core.domain.Note;
 import it.sevenbits.springboottutorial.core.domain.OrderData;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
-import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
-import it.sevenbits.springboottutorial.exceptions.ResourceNotFoundException;
 import it.sevenbits.springboottutorial.web.domain.*;
 import it.sevenbits.springboottutorial.web.service.AccountService;
 import it.sevenbits.springboottutorial.web.service.NoteService;
@@ -15,6 +13,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +24,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 //import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.web.servlet.ModelAndView;
@@ -39,6 +42,9 @@ public class HomeController {
 
     @Autowired
     private AccountService accService;
+
+    @Autowired
+    private SimpMessageSendingOperations messagingTemplate;
 
     private static Logger LOG = Logger.getLogger(HomeController.class);
 
@@ -75,31 +81,56 @@ public class HomeController {
     public String getTelenote(final Model model, Authentication auth) throws ServiceException {
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
 
-        List<NoteModel> mySharedNotes = noteService.getMySharedNoteModelsByUserId(currentUser.getId());
-        List<NoteModel> myNotSharedNotes = noteService.getMyNotSharedNoteModelsByUserId(currentUser.getId());
-        List<NoteModel> foreignNotes = noteService.getForeignSharedNoteModelsByUserId(currentUser.getId());
+        List<NoteModel> listNotes = noteService.getNotesWithSameNoteUuidByUserId(currentUser.getId());
+        List<NoteModel> myNotes = new ArrayList<>();
 
-        List<NoteModel> allNotes = new ArrayList<>();
-        allNotes.addAll(myNotSharedNotes);
-        allNotes.addAll(mySharedNotes);
-        allNotes.addAll(foreignNotes);
+        Map<String, Long> uuidIdMap= new HashMap<String, Long>();
 
-        Collections.sort(allNotes, new NoteModel.NoteOrderComparator());
+        Iterator<NoteModel> it  = listNotes.iterator();
+        while (it.hasNext()) {
+            NoteModel noteModel = it.next();
+
+            if(noteModel.getEmailOfShareUser().equals(currentUser.getEmail())) {
+                uuidIdMap.put(noteModel.getUuid(), noteModel.getId());
+                noteModel.setEmailOfShareUser(null); // зануляем свой имейл, чтобы поместить в "Мои заметки"
+
+                myNotes.add(noteModel); // добавляемм заметку в наш myNotes, удаляем ее из общего листа
+                it.remove();
+            }
+        }
+
+        for (Map.Entry<String, Long> entry : uuidIdMap.entrySet()) {
+
+            boolean isExists = listNotes.stream().filter(o -> o.getUuid().equals(entry.getKey())).findFirst().isPresent();
+
+            if(isExists) {
+                myNotes.removeIf(o -> o.getUuid().equals(entry.getKey()));
+            }
+
+        }
 
         String avatar;
-        mySharedNotes.get(0).setEmailOfShareUser(currentUser.getEmail());
+        avatar = "http://www.gravatar.com/avatar/" + accService.getAvatarHash(currentUser.getEmail()) +
+                "?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png";
+        myNotes.get(0).setUserAvatar(avatar);
+        listNotes.addAll(myNotes);
+
+        Collections.sort(listNotes, new NoteModel.NoteOrderDescComparator());
+        //Collections.sort(myNotes, new NoteModel.UpdatedAtDescComparator());
 
         Map<String, List<NoteModel>> map = new HashMap<String, List<NoteModel>>();
-        for (NoteModel item : allNotes) {
-            List<NoteModel> list = map.get(item.getEmailOfShareUser());
+        for (NoteModel noteModel : listNotes) {
+            noteModel.setId(uuidIdMap.get(noteModel.getUuid())); // меняем id любой заметки на свой
+
+            List<NoteModel> list = map.get(noteModel.getEmailOfShareUser());
             if (list == null) {
                 list = new ArrayList<NoteModel>();
-                avatar = "http://www.gravatar.com/avatar/" + accService.getAvatarHash(item.getEmailOfShareUser()) +
+                avatar = "http://www.gravatar.com/avatar/" + accService.getAvatarHash(noteModel.getEmailOfShareUser()) +
                         "?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png";
-                item.setUserAvatar(avatar);
-                map.put(item.getEmailOfShareUser(), list);
+                noteModel.setUserAvatar(avatar);
+                map.put(noteModel.getEmailOfShareUser(), list);
             }
-            list.add(item);
+            list.add(noteModel);
         }
 
         //Map<String, List<NoteModel>> treeMap = new TreeMap<String, List<NoteModel>>(map);
@@ -132,11 +163,11 @@ public class HomeController {
     @RequestMapping(value = "/telenote/checknote", method = RequestMethod.POST)
     public @ResponseBody List<UserDetailsImpl> checkSharedNote(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
 
-        Long id = Long.parseLong(request.getParameter("id"));
-        List<UserDetailsImpl> shareUsers = noteService.findShareUsers(id);
+        Long noteId = Long.parseLong(request.getParameter("id"));
+        List<UserDetailsImpl> shareUsers = noteService.getUsersWithSameNoteUuidById(noteId);
 
         List<UserDetailsImpl> users = new ArrayList<UserDetailsImpl>();
-        users.add(noteService.getUserWhoSharedNote(id));
+        users.add(noteService.getUserWhoSharedNote(noteId));
 
         for (UserDetailsImpl u : shareUsers) {
             if (!users.get(0).getEmail().equals(u.getEmail())) users.add(u);
@@ -147,11 +178,11 @@ public class HomeController {
 
 
     @RequestMapping(value = "/telenote/{id:\\d+}", method = RequestMethod.DELETE)
-    public @ResponseBody void deleteNote(@PathVariable("id") Long id, Authentication auth) throws ServiceException {
+    public @ResponseBody void deleteNote(@PathVariable("id") Long noteId, Authentication auth) throws ServiceException {
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
 
         Note note = new Note();
-        note.setId(id);
+        note.setId(noteId);
 
         noteService.deleteNote(note, currentUser.getId());
     }
@@ -178,9 +209,9 @@ public class HomeController {
     @RequestMapping(value = "/telenote/order", method = RequestMethod.POST)
     public void updateOrder(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws RepositoryException, ServiceException {
         final OrderData orderData = new OrderData(
-                Long.parseLong(request.getParameter("id_prev")),
-                Long.parseLong(request.getParameter("id_cur")),
-                Long.parseLong(request.getParameter("id_next")));
+        Long.parseLong(request.getParameter("id_prev")),
+        Long.parseLong(request.getParameter("id_cur")),
+        Long.parseLong(request.getParameter("id_next")));
 
         noteService.updateOrder(orderData);
     }
@@ -211,9 +242,24 @@ public class HomeController {
 
         List<Note> sharedNotesByUsers = noteService.getNotesByUserIdList(shareUserIds, currentUser.getId(), showMyNotes);
 
-        model.addAttribute("username", currentUser.getUsername());
+        model.addAttribute("username", currentUser.getName());
         model.addAttribute("notes", sharedNotesByUsers);
         model.addAttribute("shareUsers", noteService.findShareUsers(currentUser.getId()));
         return "home/telenote";
+    }
+
+    @MessageMapping("/updatenote")
+    public void updateNote(NoteSocketCommand note) throws Exception {
+        //UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
+
+        List<NoteModel> models = noteService.getAllSharedNoteModels(note.getId());
+        if (!models.isEmpty()) {
+            for (NoteModel model : models) {
+                note.setId(model.getId());
+
+                //messagingTemplate.convertAndSendToUser(model.getUsernameOfShareUser(), "/queue/notes", note);
+                messagingTemplate.convertAndSendToUser(model.getEmailOfShareUser(), "/queue/notes", note);
+            }
+        }
     }
 }

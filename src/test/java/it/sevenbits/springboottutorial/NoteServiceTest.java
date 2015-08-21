@@ -57,7 +57,7 @@ public class NoteServiceTest {
     public void create() throws Exception {
         user.setEmail("ok@ok.oke");
         user.setPassword("qwerty");
-        user.setUsername("Leo");
+        user.setName("Leo");
 
         userRepository.create(user);
 
@@ -73,7 +73,7 @@ public class NoteServiceTest {
             UserDetailsImpl user = new UserDetailsImpl();
             user.setEmail(RandomStringUtils.randomAlphabetic(4) + "@ok.oke");
             user.setPassword("qwerty");
-            user.setUsername("Leo");
+            user.setName("Leo");
 
             userRepository.create(user);
             users.add(user);

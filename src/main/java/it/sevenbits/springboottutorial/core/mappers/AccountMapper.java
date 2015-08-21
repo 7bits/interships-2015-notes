@@ -13,7 +13,7 @@ public interface AccountMapper {
     void changeTheme(UserDetailsImpl user);
 
     @Update("UPDATE users\n" +
-            "SET username = #{username}\n" +
+            "SET username = #{name}\n" +
             "WHERE id = #{id}")
     void changeUsername(UserDetailsImpl user);
 

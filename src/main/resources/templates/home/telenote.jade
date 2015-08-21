@@ -11,7 +11,10 @@ html
     link(rel='stylesheet', type='text/css', href='css/myCSS/'+user.style+'.css')
     script(src='js/jsLibs/jquery-1.11.3.js')
     script(src='js/jsLibs/jquery-ui.js')
+    script(src='js/jsLibs/sockjs.min.js')
+    script(src='js/jsLibs/stomp.min.js')
     script(src='js/myJS/app.js')
+    script(src='js/myJS/noteSock.js')
     script(src='js/myJS/preventSelection.js')
     script(src='js/myJS/btnHandler.js')
     script(src='js/myJS/addNote.js')
@@ -28,7 +31,7 @@ html
         .in-outMenu
           .logMenu
             a#username(href='/account')
-              .user#{user.username}
+              .user#{user.name}
             a#logout(href='/logout') Выход
           a(href='/account')
             img.userImg(src="#{avatar}")
@@ -44,7 +47,7 @@ html
           .sortByDate
           .sortLabel Сортировать
       #js-actualSection.js-allSections.textNoteSection.actualSection(value="Actual")
-        img.js-sectionPic.sectionPic(src="/img/shareNotRegUser.png")
+        img.js-sectionPic.sectionPic(src="#")
         .js-sectionOwner.sectionOwner
       .workDiv
         .noteDiv

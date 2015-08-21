@@ -50,7 +50,7 @@ public class NoteRepositoryTest {
 
         user.setEmail("ok@ok.oke");
         user.setPassword("qwerty");
-        user.setUsername("Leo");
+        user.setName("Leo");
 
         userRep.create(user);
         assertNotNull(note.getId());
@@ -202,7 +202,7 @@ public class NoteRepositoryTest {
         UserDetailsImpl tuser = new UserDetailsImpl();
         tuser.setEmail("123olo@ok.oke");
         tuser.setPassword("qwerty");
-        tuser.setUsername("Leo");
+        tuser.setName("Leo");
 
         userRep.create(tuser);
 

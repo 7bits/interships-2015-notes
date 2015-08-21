@@ -19,6 +19,12 @@ public interface NoteMapper {
             "WHERE id=#{id}")
     void deleteNote(final Note note);
 
+    @Update("UPDATE notes N\n" +
+            "SET\n" +
+            "parent_note_id=null, parent_user_id=(SELECT user_id from usernotes where note_id=N.id)\n" +
+            "WHERE parent_note_id=#{parentNoteId}")
+    void resetAllParentNoteUserId(final Long parentNoteId);
+
     @Update("UPDATE notes\n" +
             "SET " +
             "updated_at = DEFAULT, parent_note_id = #{parent_note_id}\n" +
@@ -67,7 +73,7 @@ public interface NoteMapper {
             "where notes.parent_note_id=#{noteId}")
     @Results({
             @Result(column = "id", property = "id"),
-            @Result(column = "username", property = "username"),
+            @Result(column = "username", property = "name"),
             @Result(column = "email", property = "email"),
             @Result(column = "enabled", property = "enabled"),
     })
@@ -117,7 +123,7 @@ public interface NoteMapper {
     @Results({
             @Result(column = "id", property = "id"),
             @Result(column = "email", property = "email"),
-            @Result(column = "username", property = "username"),
+            @Result(column = "username", property = "name"),
             @Result(column = "enabled", property = "enabled"),
     })
     UserDetailsImpl getUserWhoSharedNote(final Long noteId);
@@ -131,7 +137,7 @@ public interface NoteMapper {
     @Results({
             @Result(column = "id", property = "id"),
             @Result(column = "email", property = "email"),
-            @Result(column = "username", property = "username"),
+            @Result(column = "username", property = "name"),
             @Result(column = "enabled", property = "enabled"),
     })
     UserDetailsImpl getUserWhoOwnNote(final Long noteId);
@@ -230,6 +236,47 @@ public interface NoteMapper {
             "   WHERE id=#{id})")
     List<Note> getNotesWithSameUuidById(Long id);
 
+    @Select("select users.id, email, username, enabled\n" +
+            "from users\n" +
+            "inner join usernotes\n" +
+            "on users.id=usernotes.user_id\n" +
+            "inner join notes\n" +
+            "on usernotes.note_id=notes.id\n" +
+            "where notes.uuid=#{noteUuid}")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "username", property = "username"),
+            @Result(column = "email", property = "email"),
+            @Result(column = "enabled", property = "enabled"),
+    })
+    List<UserDetailsImpl> getUsersWithSameNoteUuid(final String noteUuid);
+
+    // т.к. ищем свои заметки, то в email будет наш email. Кладем туда null, чтобы не делать доп. проверку.
+//    @Select("select notes.*, null as email, users.username\n" +
+//            "from notes\n" +
+//            "inner join usernotes on usernotes.note_id=notes.id\n" +
+//            "inner join users on users.id=usernotes.user_id\n" +
+//            "where users.id=#{userId}\n" +
+//            "and uuid NOT IN \n" +
+//                "(select uuid from notes\n" +
+//                " inner join usernotes on usernotes.note_id=notes.id\n" +
+//                " inner join users on users.id=usernotes.user_id\n" +
+//                " where users.id<>#{userId});")
+//    @Results({
+//            @Result(column = "id", property = "id"),
+//            @Result(column = "text", property = "text"),
+//            @Result(column = "note_date", property = "note_date"),
+//            @Result(column = "created_at", property = "created_at"),
+//            @Result(column = "updated_at", property = "updated_at"),
+//            @Result(column = "parent_note_id", property = "parent_note_id"),
+//            @Result(column = "parent_user_id", property = "parent_user_id"),
+//            @Result(column = "uuid", property = "uuid"),
+//            @Result(column = "note_order", property = "note_order"),
+//            @Result(column = "email", property = "emailOfShareUser"),
+//            @Result(column = "username", property = "usernameOfShareUser")
+//    })
+//    List<NoteModel> getNotesWithUniqueNoteUuidByUserId(Long userId);
+
     @Update({"<script>UPDATE notes SET uuid=#{uuid} WHERE id IN ",
             "<foreach item='item' index='index' collection='list'",
                 "open='(' separator=',' close=')'>",
@@ -245,18 +292,17 @@ public interface NoteMapper {
             "AND user_id=#{userId}")
     Long getUserNoteByParentId(@Param("userId") Long userId, @Param("parentId") Long parentId);
 
-    @Select("SELECT *\n" +
-            "from notes \n" +
-            "where parent_user_id=#{userId} and parent_note_id is NULL \n" +
-            "and notes.id NOT IN (SELECT parent_note_id from notes where parent_note_id IS NOT NULL)\n")
-    List<NoteModel> getMyNotSharedNoteModelsByUserId(@Param("userId") Long userId);
-
-    @Select("SELECT N1.*, users.email, users.username\n" +
-            "from notes N1\n" +
-            "inner join notes N2 on N2.parent_note_id = N1.id\n" +
-            "inner join usernotes on N2.id = usernotes.note_id\n" +
-            "inner join users on users.id = usernotes.user_id\n" +
-            "where N1.parent_user_id = #{userId}\n")
+    @Select("select notes.*, users.email, users.username\n" +
+            "from notes\n" +
+            "inner join usernotes on usernotes.note_id=notes.id\n" +
+            "inner join users on users.id=usernotes.user_id\n" +
+            //"where users.id<>#{userId}\n" + // раскомментировать, если надо исключить свою заметку
+            //"and uuid IN \n" +
+            "where uuid IN \n" +
+            "(select uuid from notes\n" +
+            " inner join usernotes on usernotes.note_id=notes.id\n" +
+            " inner join users on users.id=usernotes.user_id\n" +
+            " where users.id=#{userId});")
     @Results({
             @Result(column = "id", property = "id"),
             @Result(column = "text", property = "text"),
@@ -270,28 +316,71 @@ public interface NoteMapper {
             @Result(column = "email", property = "emailOfShareUser"),
             @Result(column = "username", property = "usernameOfShareUser")
     })
-    List<NoteModel> getMySharedNoteModelsByUserId(@Param("userId") Long userId);
+    List<NoteModel> getNotesWithSameNoteUuidByUserId(Long userId);
 
-    @Select("SELECT notes.*, users.email, users.username\n" +
+//    @Select("SELECT notes.* \n" +
+//            "from notes \n" +
+//            "inner join usernotes on usernotes.note_id = notes.id\n" +
+//            "inner join users on users.id = usernotes.user_id\n" +
+//            "where users.id = #{userId}\n" +
+//            "and parent_note_id is NULL \n" +
+//            "and notes.id NOT IN (SELECT parent_note_id from notes where parent_note_id IS NOT NULL);")
+//    List<NoteModel> getMyNotSharedNoteModelsByUserId(@Param("userId") Long userId);
+//
+//    @Select("SELECT N1.*, users.email, users.username\n" +
+//            "from notes N1\n" +
+//            "inner join notes N2 on N2.uuid = N1.uuid\n" +
+//            "inner join usernotes on N2.id = usernotes.note_id\n" +
+//            "inner join users on users.id = usernotes.user_id\n" +
+//            "where N1.parent_user_id = #{userId}\n")
+//    @Results({
+//            @Result(column = "id", property = "id"),
+//            @Result(column = "text", property = "text"),
+//            @Result(column = "note_date", property = "note_date"),
+//            @Result(column = "created_at", property = "created_at"),
+//            @Result(column = "updated_at", property = "updated_at"),
+//            @Result(column = "parent_note_id", property = "parent_note_id"),
+//            @Result(column = "parent_user_id", property = "parent_user_id"),
+//            @Result(column = "uuid", property = "uuid"),
+//            @Result(column = "note_order", property = "note_order"),
+//            @Result(column = "email", property = "emailOfShareUser"),
+//            @Result(column = "username", property = "usernameOfShareUser")
+//    })
+//    List<NoteModel> getMySharedNoteModelsByUserId(@Param("userId") Long userId);
+//
+//    @Select("SELECT notes.*, users.email, users.username\n" +
+//            "from notes \n" +
+//            "inner join usernotes on notes.id = usernotes.note_id\n" +
+//            "inner join users on users.id = notes.parent_user_id\n" +
+//            "where parent_note_id is NOT NULL\n" +
+//            "AND usernotes.user_id = #{userId};\n")
+//    @Results({
+//            @Result(column = "id", property = "id"),
+//            @Result(column = "text", property = "text"),
+//            @Result(column = "note_date", property = "note_date"),
+//            @Result(column = "created_at", property = "created_at"),
+//            @Result(column = "updated_at", property = "updated_at"),
+//            @Result(column = "parent_note_id", property = "parent_note_id"),
+//            @Result(column = "parent_user_id", property = "parent_user_id"),
+//            @Result(column = "uuid", property = "uuid"),
+//            @Result(column = "note_order", property = "note_order"),
+//            @Result(column = "email", property = "emailOfShareUser"),
+//            @Result(column = "username", property = "usernameOfShareUser")
+//    })
+//    List<NoteModel> getForeignSharedNoteModelsByUserId(@Param("userId") Long userId);
+
+    @Select("SELECT notes.id, users.email, users.username\n" +
             "from notes \n" +
             "inner join usernotes on notes.id = usernotes.note_id\n" +
-            "inner join users on users.id = notes.parent_user_id\n" +
-            "where parent_note_id is NOT NULL\n" +
-            "AND usernotes.user_id = #{userId};\n")
+            "inner join users on users.id = usernotes.user_id\n" +
+            "where uuid=(select uuid from notes where id=#{noteId})\n" +
+            "and notes.id != #{noteId}")
     @Results({
             @Result(column = "id", property = "id"),
-            @Result(column = "text", property = "text"),
-            @Result(column = "note_date", property = "note_date"),
-            @Result(column = "created_at", property = "created_at"),
-            @Result(column = "updated_at", property = "updated_at"),
-            @Result(column = "parent_note_id", property = "parent_note_id"),
-            @Result(column = "parent_user_id", property = "parent_user_id"),
-            @Result(column = "uuid", property = "uuid"),
-            @Result(column = "note_order", property = "note_order"),
             @Result(column = "email", property = "emailOfShareUser"),
             @Result(column = "username", property = "usernameOfShareUser")
     })
-    List<NoteModel> getForeignSharedNoteModelsByUserId(@Param("userId") Long userId);
+    List<NoteModel> getAllSharedNoteModels(@Param("noteId") Long noteId);
 
 //    @Select("SELECT notes.id, text, note_date, notes.created_at, notes.updated_at, parent_note_id, parent_user_id, uuid, note_order, email, username\n"+
 //        "FROM notes\n" +

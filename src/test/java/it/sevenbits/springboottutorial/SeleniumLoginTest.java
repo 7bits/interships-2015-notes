@@ -52,7 +52,7 @@ public class SeleniumLoginTest {
 
         user = new UserDetailsImpl();
         user.setEmail("ololo@ololo.com");
-        user.setUsername("Capitan");
+        user.setName("Capitan");
         //driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
     }
 

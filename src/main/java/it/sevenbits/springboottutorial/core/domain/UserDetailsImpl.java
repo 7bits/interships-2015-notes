@@ -16,7 +16,7 @@ public class UserDetailsImpl implements UserDetails {
 
     private String email;
 
-    private String username;
+    private String name;
 
     private String password;
 
@@ -91,11 +91,11 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public String getUsername() {
-        return username;
+        return email;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.email = username;
     }
 
     public String getPassword() {
@@ -144,5 +144,13 @@ public class UserDetailsImpl implements UserDetails {
 
     public void setStyle(String style) {
         this.style = style;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

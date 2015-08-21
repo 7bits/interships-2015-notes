@@ -34,7 +34,7 @@ public class UserService implements UserDetailsService {
     public void create(final UserCreateForm form) throws ServiceException {
         final UserDetailsImpl userDetails = new UserDetailsImpl();
         userDetails.setEmail(form.getEmail());
-        userDetails.setUsername(form.getUsername());
+        userDetails.setName(form.getUsername());
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         userDetails.setPassword(encoder.encode(form.getPassword()));
