@@ -4,31 +4,31 @@
 		//подсветка неверных полей
 		$(function() {
 			if ($('#js-loginError')[0] != null) {
-				$('#js-logText').css('border', '1px solid #f74e19');
-				ErrorsAnimate($('.loginError'));
+				$('#js-logText').addClass('badFieldBorder');
+				ErrorsAnimate($('.js-loginError'));
 			} else {
-				$('#js-logText').css('border', '1px solid #ffffff');
+				$('#js-logText').removeClass('badFieldBorder');
 			};
 
 			if ($('#js-regEmailMess')[0] != null) {
-				$('#js-regEmail').css('border', '1px solid #f74e19');
-				ErrorsAnimate($('.emailError'));
+				$('#js-regEmail').addClass('badFieldBorder');
+				ErrorsAnimate($('.js-emailError'));
 			} else {
-				$('#js-regEmail').css('border', '1px solid #ffffff');
+				$('#js-regEmail').removeClass('badFieldBorder');
 			};
 
 			if ($('#js-regUsernameMess')[0] != null) {
-				$('#js-regUsername').css('border', '1px solid #f74e19');
-				ErrorsAnimate($('.nameError'));
+				$('#js-regUsername').addClass('badFieldBorder');
+				ErrorsAnimate($('.js-nameError'));
 			} else {
-				$('#js-regUsername').css('border', '1px solid #ffffff');
+				$('#js-regUsername').removeClass('badFieldBorder');
 			};
 
 			if ($('#js-regPassMess')[0] != null) {
-				$('#js-regPass').css('border', '1px solid #f74e19');
-				ErrorsAnimate($('.passError'));
+				$('#js-regPass').addClass('badFieldBorder');
+				ErrorsAnimate($('.js-passError'));
 			} else {
-				$('#js-regPass').css('border', '1px solid #ffffff');
+				$('#js-regPass').removeClass('badFieldBorder');
 			};
 		})
 

@@ -163,6 +163,8 @@
   	background-color: white;
   	padding-top: 7px;
   	padding-left: 20px;
+  	padding-bottom: 5px;
+    padding-right: 5px;
   	//padding-right: 7px;
   	display: inline-block;
   	//height: 20px;
@@ -190,4 +192,8 @@
 
 .newErrorPass {
 	//width: 154px;
+}
+
+.badFieldBorder {
+	border: 1px solid #f74e19;
 }

@@ -9,6 +9,7 @@ html
     link(rel='stylesheet', type='text/css', href='css/myCSS/telenote.css')
     link(rel='stylesheet', type='text/css', href='css/myCSS/modal.css')
     link(rel='stylesheet', type='text/css', href='css/myCSS/'+user.style+'.css')
+    link(rel="shortcut icon", type="image/x-icon", href="img/logo.png")
     script(src='js/jsLibs/jquery-1.11.3.js')
     script(src='js/jsLibs/jquery-ui.js')
     script(src='js/jsLibs/sockjs.min.js')
@@ -36,12 +37,12 @@ html
           a(href='/account')
             img.js-userImg.userImg(src="#{avatar}")
       .addNoteDiv
-        .addNote
+        #js-addNote.addNote
           img(src="img/addBtn.png")
       .infoDiv
         .statusDiv
-          span.status Все заметки сохранены
-          .minStatus
+          span#js-status.status Все заметки сохранены
+          #js-minStatus.minStatus
         .sortMenu
           .sortByUser
           .sortByDate
@@ -51,7 +52,7 @@ html
         .js-sectionOwner.sectionOwner
           span
       .workDiv
-        .noteDiv
+        #js-noteDiv.noteDiv
           for noteSection in noteSections.entrySet()
             if(noteSection.getKey()==null)
               .js-section.js-allSections.textNoteSection
@@ -65,24 +66,24 @@ html
                   span.js-span  (#{noteSection.getKey()})
             .js-noteSection.noteSection(id="ns_#{noteSection.getKey()}")
               for note in noteSection.value
-                .cell(id=note.id)
-                  .content.clickable
+                .js-note.note(id=note.id)
+                  .js-content.content.clickable
                     #{note.text}
-                  .control
-                    button.delBtn
-                    button.shaBtn
-  .modalWindow
+                  .js-control.control
+                    button.delBtn.js-delBtn
+                    button.shaBtn.js-shaBtn
+  .js-modalWindow.modalWindow
     .shareMainDiv
       .shareWrapper Поделиться с друзьями
       .shareMiddle
-        .syncUsers
-        .shareUser
+        #js-syncUsers.syncUsers
+        .js-shareUser.shareUser
           .shareUserImg.addShareUserImg
           .focusDiv
-            input.addShareEmail(type='textbox', placeholder='Введите адрес')
+            input#js-addShareEmail.addShareEmail(type='textbox', placeholder='Введите адрес')
             .shareActionDiv
-              button.addShare
-            label.shareMessage
+              button#js-addShare.addShare
+            label#js-shareMessage
     .shareFooter
-      button#modalClose.shareAplay
-  #overlay
+      button#js-modalClose.shareApply
+  #js-overlay.overlay

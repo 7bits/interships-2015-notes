@@ -211,6 +211,10 @@ input[type='textbox'], input[type='password']:active {
 	width: 115px;
 }
 
+.badFieldBorder {
+	border: 1px solid #f74e19;
+}
+
 @media screen and (max-width: 1200px) {
 
 	input[type='textbox'], input[type='password'] {

@@ -74,50 +74,5 @@
 
 			};
 		})
-	
-		/*var checker = 1;
-
-		//анимация панели секции
-		$(document).on("scroll", function() {
-
-			var actual = $("#js-actualSection");
-			var next = $(".js-nextSection");	
-			var prev = $(".js-prevSection");
-
-			//следующая секция существует?
-			if ((next[0] != null) && (checker == 1)) {
-
-				var position = $(next).position().top - $(document).scrollTop();
-				var scrolling = $(document).scrollTop() + sectionSize;
-				
-				if ((position <= positionTop + sectionSize) && (position > positionTop)) { 
-
-					checker = 0;
-					
-					actual.animate({
-						top: positionTop - sectionSize
-					}, 300, 'swing', function() {
-						next.css('visibility', 'hidden');
-						actual.css('top', positionTop);
-						checker = 1;
-					})
-
-					$("body").animate({ scrollTop: scrolling }, 300, 'swing'); 
-				} 
-
-			}
-
-			//предыдущая секция существует?
-			if ((prev[0] != null) && (checker == 1)) {
-
-				var position = $(prev).position().top - $(document).scrollTop();
-				
-				if ((position < positionTop) && (position > positionTop - sectionSize)) { actual.css('top', position + sectionSize); } 
-				
-				if (position == positionTop) { actual.css('top', '88px'); };
-
-			};
-
-		})*/
 	})
 })(jQuery)

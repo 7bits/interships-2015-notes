@@ -19,20 +19,27 @@ function subscribeEvent(noteForm) {
         for (var i = 0; i < commands.length; ++i) {
             switch (commands[i]) {
                 case 'block':
-                    var note = $(".cell[id=" + quote.id + "] .content");
+                    
+                    var note = $(".js-note[id=" + quote.id + "] .js-content");
                     if (note.hasClass('clickable')) {
                         note.removeClass('clickable');
-                        note.trigger('blur');
+                        note.blur();
 
                         note.addClass('grayBack');
                     }
+
                     break;
+
                 case 'text':
-                    $(".cell[id=" + quote.id + "] .content").text(quote.text);
+                    
+                    $(".js-note[id=" + quote.id + "] .js-content").text(quote.text);
                     //$("#" + quote.id + " .content").text(quote.text);
+                    
                     break;
+
                 case 'unblock':
-                    var note = $(".cell[id=" + quote.id + "] .content");
+                    
+                    var note = $(".js-note[id=" + quote.id + "] .js-content");
                     if (!note.hasClass('clickable')) {
                         note.addClass('clickable');
 

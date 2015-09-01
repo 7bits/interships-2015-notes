@@ -6,6 +6,7 @@ html
     meta(name="_csrf", content="#{_csrf.token}")
     meta(name="_csrf_header", content="#{_csrf.headerName}")
     link(rel='stylesheet', type='text/css', href='css/myCSS/welcome.css')
+    link(rel="shortcut icon", type="image/x-icon", href="img/logo.png")
     script(src='js/jsLibs/jquery-1.11.3.js')
     script(src='js/myJS/welcome.js')
   body
@@ -38,7 +39,7 @@ html
             .inputData
               input#js-logText(type='textbox', name='username', placeholder='e-mail', value='#{username}')
               if error
-                .errorDiv.loginError
+                .errorDiv.loginError.js-loginError
                   span#js-loginError Адрес и пароль не совпадают
               input(type='password', name='password', autocomplete='off', placeholder='пароль')
             button.loginSubmit(type='submit') Войти
@@ -51,17 +52,17 @@ html
             .inputData
               input#js-regEmail(type='textbox', name='email', placeholder='e-mail', value='#{signupForm.email}')
               if emailError
-                .errorDiv.emailError
+                .errorDiv.emailError.js-emailError
                   span#js-regEmailMess Неправильный адрес
               if emailExists
                 .errorDiv.emailExists
                   span#js-regEmailMess email уже используется
               input#js-regUsername(type='textbox', name='username', placeholder='имя', value='#{signupForm.username}')
               if usernameError
-                .errorDiv.nameError
+                .errorDiv.nameError.js-nameError
                   span#js-regUsernameMess Неподходящее имя
               input#js-regPass(type='password', name='password', autocomplete='off', placeholder='пароль', value='#{signupForm.password}')
               if passwordError
-                .errorDiv.passError
+                .errorDiv.passError.js-passError
                   span#js-regPassMess Пароль слишком прост
             button.loginSubmit(type='submit') Зарегистрироваться

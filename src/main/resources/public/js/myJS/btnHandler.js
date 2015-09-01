@@ -18,9 +18,9 @@
 
 		var timeoutId;
 
-		$('.noteDiv').on('click', '.delBtn', function(self) {
+		$('body').on('click', '.js-delBtn', function(self) {
 			//функция удаления заметки из базы и с рабочего поля
-			var id = $(this).closest('.cell').attr("id");
+			var id = $(this).closest('.js-note').attr("id");
 			
 			$.ajax({
 				type: "DELETE",
@@ -28,22 +28,22 @@
 				url: "/telenote/" + id
 			}).done( function() {
 				clearTimeout(timeoutId);
-				var cell = $(".cell[id=" + id + "]");
-				cell.css('min-width', '0px');
-				cell.children('.delBtn').css('visibility', 'hidden');
-				cell.children('.shaBtn').css('visibility', 'hidden');
+				var note = $(".js-note[id=" + id + "]");
+				note.css('min-width', '0px');
+				note.children('.delBtn').css('visibility', 'hidden');
+				note.children('.shaBtn').css('visibility', 'hidden');
 					
-				cell.animate({
+				note.animate({
 						height: '2px',
 						border: '0px',
 						marginTop: '123px'
 					}, 150, 'swing');
 
-				cell.animate({
+				note.animate({
 						width: '0px',
 					}, 150, 'swing', function() {
 
-						cell.remove();
+						note.remove();
 
 						var actual = $("#js-actualSection");
 						var actualOwner = actual.find(".js-sectionOwner");
@@ -55,7 +55,7 @@
 							
 							var thisNoteSection = $(this);
 
-							if (thisNoteSection.find(".cell").length == 0) {
+							if (thisNoteSection.find(".js-note").length == 0) {
 								if (thisNoteSection.index() == 0) {
 									
 									var nextSection = $('.js-section').eq(0);
@@ -117,38 +117,18 @@
 
 
 				if (document.documentElement.clientWidth > 840) {
-					$('.status').text("Все заметки сохранены");
+					$('#js-status').text("Все заметки сохранены");
 				} else {
-					$('.minStatus').text('');
-					$('.minStatus').css('background-image', "url('/img/ok.png')");
+					$('#js-minStatus').text('');
+					$('#js-minStatus').css('background-image', "url('/img/ok.png')");
 				};
 			});
 		});
 
 
-		$('.js-enter').click(function() {
-			//вызов соответствующего таба по нажатии на ссылку
-			document.getElementById('signup').classList.remove('active', 'in');
-			document.getElementById('signin').classList.add('active', 'in');
-			
-			document.getElementById('signinHref').classList.add('active');
-			document.getElementById('signupHref').classList.remove('active');
-		});
-
-
-		$('.js-reg').click(function() {
-			//вызов соответствующего таба по нажатии на ссылку
-			document.getElementById('signin').classList.remove('active', 'in');
-			document.getElementById('signup').classList.add('active', 'in');
-		
-			document.getElementById('signupHref').classList.add('active');
-			document.getElementById('signinHref').classList.remove('active');
-		});
-
-
 
 		var oldVal ="";
-		$('.noteDiv').on('input', 'textarea', function() {
+		$('body').on('input', '#js-textarea', function() {
 			var currentVal = $(this).val();
 
             if(currentVal == oldVal) {
@@ -158,27 +138,28 @@
             oldVal = currentVal;
 
             if (document.documentElement.clientWidth > 800) {
-            	$('.status').text("Сохранение...");
+            	$('#js-status').text("Сохранение...");
             } else {
-            	$('.minStatus').addClass('minStatusTyping');
-            	$('.minStatus').text('...');
+            	$('#js-minStatus').addClass('minStatusTyping');
+            	$('#js-minStatus').text('...');
             };
 			
 		});
 
 
 		//автосейвер
-		$('.noteDiv').on('keyup', 'textarea', function() {
+		$('body').on('keyup', '#js-textarea', function() {
+			
 			clearTimeout(timeoutId);
 
 			var text = $(this).val();
 
 			var data = {
-            	id: $(this).closest('.cell').attr('id'),
+            	id: $(this).closest('.js-note').attr('id'),
             	text: text
             }
 
-            $(".cell[id=" + data.id + "] .content").text(text);
+            $(".js-note[id=" + data.id + "] .js-content").text(text);
 
 			timeoutId = setTimeout(function() {
 				    data.text = htmlspecialchars(data.text);
@@ -194,11 +175,16 @@
                     data.text = nl2br(data.text);
 
 					App.Note.save(data, function() {
+
 						if (document.documentElement.clientWidth > 800) {
-							$('.status').text("Все заметки сохранены");
+							
+							$('#js-status').text("Все заметки сохранены");
+						
 						} else {
-							$('.minStatus').text('');
-							$('.minStatus').removeClass('minStatusTyping');
+							
+							$('#js-minStatus').text('');
+							$('#js-minStatus').removeClass('minStatusTyping');
+						
 						};
 					});
 				}, 750);
@@ -210,14 +196,15 @@
 		  return emailRegex.test(email);
 		}
 
+
 		var addedShareEmails = [];
 		var addedShareName = [];
 		//расшаривание
-		$('.addShare').click(function() {
+		$('#js-addShare').click(function() {
 
-    		var id = $('.modalWindow').attr('id');
-    		var email = $('.addShareEmail').val().toLowerCase();
-    		var infoLabel = $('.shareMessage');
+    		var id = $('.js-modalWindow').attr('id');
+    		var email = $('#js-addShareEmail').val().toLowerCase();
+    		var infoLabel = $('#js-shareMessage');
     		var curClass;
    			
     		if(IsEmail(email)) {
@@ -237,43 +224,44 @@
 
 						addingShareUser(data)
 
-						addedShareEmails.splice(0, 0, $('.addShareEmail').val());
+						addedShareEmails.splice(0, 0, $('#js-addShareEmail').val());
 
-						$('.addShareEmail').val('');
+						$('#js-addShareEmail').val('');
+					
 					}
 				}).fail(function(data) {
-					$('.addShareEmail').trigger('focus');
+					
+					$('#js-addShareEmail').focus();
 					infoLabel.text(data.responseJSON.message);
 					curClass = 'messageFail';
                     infoLabel.addClass(curClass);
+                
                 });
 			}
     		else {
-    			$('.addShareEmail').trigger('focus');
+    			
+    			$('#js-addShareEmail').focus();
     			infoLabel.text("Неверный адрес!");
     			curClass = 'messageFail';
                 infoLabel.addClass(curClass);
+    		
     		}
-
-//    		setTimeout(function() {
-//    			infoLabel.removeClass(curClass);
-//    		}, 5000)
     	});
 
 
 		function addingShareUser(data) {
 			
-			var shareUser = "<div id='js-newShare' class='shareUser' style='height: 0px;'></div>";
+			var shareUser = "<div id='js-newShare' class='shareUser js-shareUser' style='height: 0px;'></div>";
 			var innerShareUser = "<div class='shareUserImg unsetImg'></div>"+
 			"<div class='shareUserInfo'>"+
 				"<div class='shareUserName'>"+data.username+"</div>"+
 				"<div class='shareUserEmail'>"+$('.addShareEmail').val()+"</div>"+
 			"</div>"+
 			"<div class='shareActionDiv'>"+
-					"<button class='deleteShare'></button>"+
+					"<button class='js-deleteShare deleteShare'></button>"+
 			"</div>";
 
-			$('.syncUsers').append(shareUser);
+			$('#js-syncUsers').append(shareUser);
 
 			shareUser = $('#js-newShare').animate({
 				height: '62px'
@@ -285,10 +273,14 @@
 		
 
 		//Анимация панели с кнопками
-		$('.noteDiv').on('mouseenter', '.cell', function() {
-			var control = $(this).find('.control');
-			var delBtn = $(this).find('.delBtn');
-			var shareBtn = $(this).find('.shaBtn');
+		$('body').on('mouseenter', '.js-note', function() {
+			var control = $(this).find('.js-control');
+			var delBtn = $(this).find('.js-delBtn');
+			var shareBtn = $(this).find('.js-shaBtn');
+
+			delBtn.removeClass('btnHeightZero');
+			shareBtn.removeClass('btnHeightZero');
+			
 
 			control.css('visibility', 'inherit');
 
@@ -301,10 +293,10 @@
 				delBtn.css('height', '40px');
 				shareBtn.css('height', '40px');
 			});
-		}).on('mouseleave', '.cell', function() {
-			var control = $(this).find('.control');
-			var delBtn = $(this).find('.delBtn');
-			var shareBtn = $(this).find('.shaBtn');
+		}).on('mouseleave', '.js-note', function() {
+			var control = $(this).find('.js-control');
+			var delBtn = $(this).find('.js-delBtn');
+			var shareBtn = $(this).find('.js-shaBtn');
 
 			delBtn.addClass('btnHeightZero');
 			shareBtn.addClass('btnHeightZero');
@@ -319,25 +311,22 @@
 
 
 		//подмена активного элемента
-		$('.workDiv').on('click', '.clickable', function() {
+		$('body').on('click', '.js-content', function() {
 
-			if ($('textarea')[0] == null) {
+			if ($('#js-textarea')[0] == null) {
 
                 //блокируем заметку
                 var cmd = {
-                    id: $(this).parent('.cell').attr("id"),
+                    id: $(this).parent('.js-note').attr("id"),
                     command : "block"
                 }
                 sendCommand(cmd);
 
-				var self = $(this).parent('.cell');
+				var self = $(this).parent('.js-note');
 
-				var textarea = document.createElement('textarea');
-				textarea.setAttribute('name', 'text');
-				textarea.setAttribute('maxlength', '20000');
-				textarea.classList.add('js-textarea', 'textarea');
+				var textarea = "<textarea id='js-textarea' class='textarea' name='text' maxlength='20000'>"
 
-				var content = self.children('.content').css('display', 'none');
+				var content = self.children('.js-content').removeClass('displayBlock').addClass('displayNone');
 				self.prepend(textarea);
 
 				var text = content.html();
@@ -348,7 +337,7 @@
 				$('.js-textarea').text(text);
 				content.text('');
 
-				$('.js-textarea').trigger('focus');
+				$('.js-textarea').focus();
 				$('.js-textarea').scrollTop(0);
 
 			} else {
@@ -356,14 +345,16 @@
 				$(this).trigger('click');
 			};
 
-		}).on('blur', 'textarea', function() {
+		}).on('blur', '#js-textarea', function() {
+           
            var cmd = {
-               id: $(this).parent('.cell').attr("id"),
+               id: $(this).parent('.js-note').attr("id"),
                command : "unblock"
            }
+           
            sendCommand(cmd);
 
-			var self = $(this).closest('.cell');
+			var self = $(this).closest('.js-note');
 			
 			var textarea = $('.js-textarea');
 
@@ -371,18 +362,21 @@
 			text = htmlspecialchars(text);
 			text = nl2br(text);
 
-			self.children('.content').html(text);
+			self.children('.js-content').html(text);
 			textarea.remove();
-			self.children('.content').css('display', 'block');	
+			self.children('.js-content').removeClass('displayNone').addClass('displayBlock');	
+		
 		})
 
 
 		$(function() {
-			$.each($('.content'), function(i, item) {
+			
+			$.each($('.js-content'), function(i, item) {
 				var text = $(item).text();
 				$(item).text('');
 				$(item).html(text);
 			})
+	
 		})
 
 
@@ -399,91 +393,92 @@
 		}
 
 		function htmlspecialchars(str) {
-         if (typeof(str) == "string") {
-          str = str.replace(/&/g, "&amp;"); /* must do &amp; first */
-          var quot = "&quot";
-          str = str.replace(/'"'/g, quot);
-          str = str.replace(/"'"/g, "&#039;");
-          str = str.replace(/</g, "&lt;");
-          str = str.replace(/>/g, "&gt;");
-          }
-         return str;
-         }
+         	
+         	if (typeof(str) == "string") {
+		        
+		        str = str.replace(/&/g, "&amp;"); /* must do &amp; first */
+		        var quot = "&quot";
+		        str = str.replace(/'"'/g, quot);
+		        str = str.replace(/"'"/g, "&#039;");
+		        str = str.replace(/</g, "&lt;");
+		        str = str.replace(/>/g, "&gt;");
+          	
+          	}
+         
+        	return str;
+        }
 
-         function rhtmlspecialchars(str) {
-          if (typeof(str) == "string") {
-           str = str.replace(/&gt;/ig, ">");
-           str = str.replace(/&lt;/ig, "<");
-           str = str.replace(/&#039;/g, "'");
-           str = str.replace(/&quot;/ig, '"');
-           str = str.replace(/&amp;/ig, '&'); /* must do &amp; last */
-           }
-          return str;
-          }
+        function rhtmlspecialchars(str) {
+          	
+          	if (typeof(str) == "string") {
+           	
+           		str = str.replace(/&gt;/ig, ">");
+           		str = str.replace(/&lt;/ig, "<");
+           		str = str.replace(/&#039;/g, "'");
+           		str = str.replace(/&quot;/ig, '"');
+           		str = str.replace(/&amp;/ig, '&'); /* must do &amp; last */
+           	
+           	}
+          
+          	return str;
+        }
 
 		var clickedNoteSection;
 		//Обработчик кнопки share и генерация модального окна
-		$('.workDiv').on('click', '.shaBtn', function() {
+		$('body').on('click', '.js-shaBtn', function() {
 
-			$('textarea').trigger('blur');
+			$('.js-textarea').trigger('blur');
 
-			var self = $(this).closest('.cell');
+			var self = $(this).closest('.js-note');
 			var id = self.attr('id');
-			$('.modalWindow').attr('id', id);
+			$('.js-modalWindow').attr('id', id);
 
 			checkSharedNote(id);
 
-			$('#overlay').fadeIn(200, 
+			$('#js-overlay').fadeIn(200, 
 				function() {
-					$('.modalWindow').css('display', 'block').animate({
+					$('.js-modalWindow').addClass('displayBlock').animate({
 						opacity: 1,
 						top: '45%'},
 						200);
 
-					$('.addShareEmail').trigger('focus');
+					$('#js-addShareEmail').focus();
 			});
-			clickedNoteSection = $(this).closest(".noteSection");
+			clickedNoteSection = $(this).closest(".js-noteSection");
 		})
 
 		//Выход из модального окна
-		$('body').on('click', '#modalClose', function() {
+		$('body').on('click', '#js-modalClose', function() {
 
-			$('.modalWindow').animate({
+			$('.js-modalWindow').animate({
 				opacity: 0,
 				top: '45%'},
 				200, function() {
-					$(this).css('display', 'none');
-					$('#overlay').fadeOut(200);
-					$('.syncUsers').empty();
-					$('.shareMessage').css('display', 'none');
+					$(this).addClass('displayNone');
+					$('#js-overlay').fadeOut(200);
+					$('#js-syncUsers').empty();
+					$('#js-shareMessage').addClass('displayNone');
 			});
 
-			var curCell = clickedNoteSection.find(".cell[id='" + $('.modalWindow').attr("id") + "']");
-
-//			var shareUserEmails = [];
-//			$(".shareUserEmail").each(function() {
-//				shareUserEmails.splice(0, 0, $(this).text());
-//			});
-//
-//			shareUserEmails.splice(shareUserEmails.length - 1, 1); // удаляем последний элемент - нашу почту.
+			var curnote = clickedNoteSection.find(".js-note[id='" + $('.js-modalWindow').attr("id") + "']");
 
 			if(addedShareEmails.length != 0) { // если заметка кому-то расшарена, то удаляем ее, переносим другим
 
 				var noteDiv = $('.noteDiv');
 				addedShareEmails.forEach(function(item, i, arr) {
 					var otherShareUserEmail = item;
-					var shareUserNames = $(".shareUserEmail");
+					var shareUserNames = $(".js-shareUserEmail");
 					var userName;
 
 					shareUserNames.each(function() {
-						if($(this).text() == item) userName = $(this).siblings(".shareUserName").text();
+						if($(this).text() == item) userName = $(this).siblings(".js-shareUserName").text();
 					})
 
-					var otherNoteSection = $(".noteSection[id='ns_" + otherShareUserEmail + "']");
-					var copyCurCell = curCell.clone();
+					var otherNoteSection = $(".js-noteSection[id='ns_" + otherShareUserEmail + "']");
+					var copyCurnote = curnote.clone();
 
 					if(otherNoteSection.length > 0) {
-						otherNoteSection.prepend(copyCurCell);
+						otherNoteSection.prepend(copyCurnote);
 					} else {
 						otherNoteSection = "<div class='js-noteSection noteSection ui-sortable' id='ns_" + otherShareUserEmail + "'></div>";
 
@@ -494,7 +489,7 @@
 
 						noteDiv.append(section);
 						noteDiv.append(otherNoteSection);
-                        $(".noteSection[id='ns_" + otherShareUserEmail + "']").append(copyCurCell);
+                        $(".js-noteSection[id='ns_" + otherShareUserEmail + "']").append(copyCurnote);
 
 
 
@@ -526,7 +521,7 @@
 
 									if (nextSection[0] != null) { nextSection.addClass("js-nextSection"); };
 				} else if(clickedNoteSection.attr('id') == "ns_") {
-					curCell.remove();
+					curnote.remove();
 				}
 			}
 			addedShareEmails = []; // обнуляем добавленные имейлы
@@ -549,23 +544,23 @@
 				headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
 				success: function(data) {
 
-					$('.syncUsers').prepend("<div id='owner' class='shareUser'>" +
+					$('.syncUsers').prepend("<div id='js-owner' class='shareUser'>" +
 					 		"<div class='shareUserImg unsetImg'></div>" +
 					 		"<div class='shareUserInfo'>" + 
-					 			"<div class='shareUserName'>" + data[0].name + "<span> (автор)</span></div>" +
-					 			"<div class='shareUserEmail'>" + data[0].email + "</div>" + 
+					 			"<div class='js-shareUserName shareUserName'>" + data[0].name + "<span> (автор)</span></div>" +
+					 			"<div class='js-shareUserEmail shareUserEmail'>" + data[0].email + "</div>" + 
 					 		"</div>" +
 					 	"</div>");
 
 					for (var i = data.length-1; i > 0; i--) {
-					 	$('#owner').after("<div id='" +  data[i].id + "' class='shareUser'>" +
+					 	$('#js-owner').after("<div id='" +  data[i].id + "' class='js-shareUser shareUser'>" +
 					 		"<div class='shareUserImg unsetImg'></div>" +
 					 		"<div class='shareUserInfo'>" + 
-					 			"<div class='shareUserName'>" + data[i].name + "</div>" +
-					 			"<div class='shareUserEmail'>" + data[i].email + "</div>" + 
+					 			"<div class='js-shareUserName shareUserName'>" + data[i].name + "</div>" +
+					 			"<div class='js-shareUserEmail shareUserEmail'>" + data[i].email + "</div>" + 
 					 		"</div>" +
 					 		"<div class='shareActionDiv'>"+
-					 			"<button class='deleteShare'></button>"+
+					 			"<button class='js-deleteShare deleteShare'></button>"+
 					 		"</div>"+
 					 	"</div>");
 					};
@@ -575,38 +570,42 @@
 
 
 
-		$('.addShareEmail').focus(function() {
-			$('.addShareEmail').css('border-bottom', '1px solid #383838');
-		}).blur(function() {
-			$('.addShareEmail').css('border-bottom', '0');
-			$('.shareMessage').css('display', 'none');
+		$('#js-addShareEmail').blur(function() {
+			$('#js-shareMessage').addClass('displayNone');
 		})
 
-		$(".addShareEmail").on('input', function() {
-			$('.shareMessage').removeClass('messageFail');
+		$("#js-addShareEmail").on('input', function() {
+			$('#js-shareMessage').removeClass('messageFail');
         });
 
 		//поведение плюсика в шаринге
-		$('.addShareEmail').keyup(function(e){
+		$('#js-addShareEmail').keyup(function(e){
+
 			if ($(this).val() == "") {
-				$('.addShare').css('display', 'none');
+			
+				$('#js-addShare').addClass('displayNone');
+			
 			} else {
-				$('.addShare').css('display', 'block');
+			
+				$('#js-addShare').addClass('displayBlock');
 
 				var code = e.which; // recommended to use e.which, it's normalized across browsers
+            
                 if(code == 13) { // 13 - enterKey
-                	$('.addShare').click();
+            
+                	$('#js-addShare').click();
+            
                 }
 			};
 		})
 
 
 		//удаление синхронизации
-        $('.modalWindow').on('click', '.deleteShare', function() {
+        $('.js-modalWindow').on('click', '.js-deleteShare', function() {
 
             var sendInfo = {
-              userId: $(this).closest('.shareUser').attr('id'),
-              noteId: $(this).closest('.modalWindow').attr('id')
+              userId: $(this).closest('.js-shareUser').attr('id'),
+              noteId: $(this).closest('.js-modalWindow').attr('id')
             };
 
             $.ajax({
@@ -626,12 +625,10 @@
         })
 
 
-		$(document).keydown(function (e) {
-			var code = e.which;
+		$(document).keydown(function (key) {
 
-            if (e.which == 27)  // 27 - escapeKey
-            	if($('.modalWindow').css('display') == 'block')
-					$('#modalClose').click();
+            if ((key.which == 27) && ($('.js-modalWindow').css('display') == 'block')) { $('#js-modalClose').click(); }
+    
         })
 
 	});

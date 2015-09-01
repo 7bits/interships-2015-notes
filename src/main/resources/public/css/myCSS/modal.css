@@ -32,11 +32,7 @@
   	z-index: 11;
 }
 
-#modalClose {
-
-}
-
-#overlay {
+.overlay {
 	z-index: 2;
 	position: fixed;
 	left: 0;
@@ -181,7 +177,7 @@
 	background-color: #fefefe;
 }
 
-.shareAplay {
+.shareApply {
 	background-image: url("/img/ok.png");
 	background-color: #fefefe;
 	background-position: center;
@@ -192,15 +188,15 @@
 	border: 0px;
 }
 
-.shareAplay:hover {
+.shareApply:hover {
 	background-color: #e2e2e2;
 }
 
-.shareAplay:focus {
+.shareApply:focus {
 	outline: none;
 }
 
-.shareAplay:active {
+.shareApply:active {
 	background-image: url('/img/okActive.png');
 }
 
@@ -233,4 +229,16 @@
 
 .deleteShare:active {
 	background-image: url("/img/deleteShareActive.png");
+}
+
+.addShareEmail:focus {
+	border-bottom: 1px solid #383838;
+}
+
+.displayNone {
+	display: none;
+}
+
+.displayBlock {
+	display: block;
 }

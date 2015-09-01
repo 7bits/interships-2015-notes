@@ -4,57 +4,57 @@
         //        	cancel: "p, span, br"
         //        });
 
-		$( ".noteSection" ).sortable();
-		$( ".noteSection" ).disableSelection();
+		$( ".js-noteSection" ).sortable();
+		$( ".js-noteSection" ).disableSelection();
 
     	var checkPosition = {
-    		id_cur: -1,
-    		id_prev: -1,
-    		id_next: -1
+    		idCur: -1,
+    		idPrev: -1,
+    		idNext: -1
     	};
 
-    	$('.noteDiv').on('mousedown', '.cell, .content, .control', function() {
-    		var thisNoteSection = $(this).closest('.noteSection');
-    		var thisCell = $(this).closest('.cell');
-    		thisCell.css('cursor', 'move');
-    		thisCell.children('.control').css('cursor', 'move');
+    	$('body').on('mousedown', '.js-note, .js-content, .js-control', function() {
+    		var thisNoteSection = $(this).closest('.js-noteSection');
+    		var thisNote = $(this).closest('.js-note');
+    		thisNote.css('cursor', 'move');
+    		thisNote.children('.js-control').css('cursor', 'move');
 
-			var prev_index = thisCell.index() - 1;
-			var next_index = thisCell.index() + 1;
+			var prevIndex = thisNote.index() - 1;
+			var nextIndex = thisNote.index() + 1;
 
-			var id_cur = thisCell.attr('id');
-			var id_prev = (prev_index == -1) 				                                ? 0 : thisNoteSection.find('.cell:eq(' + prev_index + ')').attr('id');
-			var id_next = (next_index >= thisNoteSection.children().length) ? 0 : thisNoteSection.find('.cell:eq(' + next_index + ')').attr('id');
+			var idCur = thisNote.attr('id');
+			var idPrev = (prevIndex == -1) ? 0 : thisNoteSection.find('.js-note:eq(' + prevIndex + ')').attr('id');
+			var idNext = (nextIndex >= thisNoteSection.children().length) ? 0 : thisNoteSection.find('.js-note:eq(' + nextIndex + ')').attr('id');
 
 			checkPosition = {
-				id_cur: id_cur,
-				id_prev: id_prev,
-				id_next: id_next
+				idCur: idCur,
+				idPrev: idPrev,
+				idNext: idNext
 			}
   		})
 
 
-    	$('.noteDiv').on('mouseup', '.cell, .content, .control', function() {
-    		var thisNoteSection = $(this).closest('.noteSection');
-    		var thisCell = $(this).closest('.cell');
-    		thisCell.css('cursor', '-webkit-grab');
-    		thisCell.children('.control').css('cursor', '-webkit-grab');
+    	$('body').on('mouseup', '.js-note, .js-content, .js-control', function() {
+    		var thisNoteSection = $(this).closest('.js-noteSection');
+    		var thisNote = $(this).closest('.js-note');
+    		thisNote.css('cursor', '-webkit-grab');
+    		thisNote.children('.js-control').css('cursor', '-webkit-grab');
 
 			setTimeout(function() {
-				var prev_index = thisCell.index() - 1;
-				var next_index = thisCell.index() + 1;
+				var prevIndex = thisNote.index() - 1;
+				var nextIndex = thisNote.index() + 1;
 
-				var id_cur = thisCell.attr('id');
-				var id_prev = (prev_index == -1) 				   ? 0 : thisNoteSection.find('.cell:eq(' + prev_index + ')').attr('id');
-				var id_next = (next_index >= thisNoteSection.children().length) ? 0 : thisNoteSection.find('.cell:eq(' + next_index + ')').attr('id');
+				var idCur = thisNote.attr('id');
+				var idPrev = (prevIndex == -1) ? 0 : thisNoteSection.find('.cell:eq(' + prevIndex + ')').attr('id');
+				var idNext = (nextIndex >= thisNoteSection.children().length) ? 0 : thisNoteSection.find('.cell:eq(' + nextIndex + ')').attr('id');
 
 				var sendData = {
-					id_cur: id_cur,
-					id_prev: id_prev,
-					id_next: id_next
+					idCur: idCur,
+					idPrev: idPrev,
+					idNext: idNext
 				}
 
-				if (checkPosition.id_prev != sendData.id_prev || checkPosition.id_next != sendData.id_next) {
+				if (checkPosition.idPrev != sendData.idPrev || checkPosition.idNext != sendData.idNext) {
 					$.ajax({
 				    	type: "POST",
 						url: "/telenote/order",
