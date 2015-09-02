@@ -32,12 +32,12 @@ html
         .in-outMenu
           .logMenu
             a#username(href='/account')
-              .user#{user.name}
+              .user.test-user#{user.name}
             a#logout(href='/logout') Выход
           a(href='/account')
             img.js-userImg.userImg(src="#{avatar}")
       .addNoteDiv
-        #js-addNote.addNote
+        #js-addNote.addNote.test-addNote
           img(src="img/addBtn.png")
       .infoDiv
         .statusDiv
@@ -66,12 +66,12 @@ html
                   span.js-span  (#{noteSection.getKey()})
             .js-noteSection.noteSection(id="ns_#{noteSection.getKey()}")
               for note in noteSection.value
-                .js-note.note(id=note.id)
-                  .js-content.content.clickable
+                .js-note.note.test-note(id=note.id)
+                  .js-content.content.clickable.test-content
                     #{note.text}
-                  .js-control.control
-                    button.delBtn.js-delBtn
-                    button.shaBtn.js-shaBtn
+                  .js-control.control.test-control
+                    button.delBtn.js-delBtn.test-delBtn
+                    button.shaBtn.js-shaBtn.test-shaBtn
   .js-modalWindow.modalWindow
     .shareMainDiv
       .shareWrapper Поделиться с друзьями
@@ -80,10 +80,10 @@ html
         .js-shareUser.shareUser
           .shareUserImg.addShareUserImg
           .focusDiv
-            input#js-addShareEmail.addShareEmail(type='textbox', placeholder='Введите адрес')
+            input#js-addShareEmail.addShareEmail.test-addShareEmail(type='textbox', placeholder='Введите адрес')
             .shareActionDiv
-              button#js-addShare.addShare
+              button#js-addShare.addShare.test-addShare
             label#js-shareMessage
     .shareFooter
-      button#js-modalClose.shareApply
+      button#js-modalClose.shareApply.test-shareApply
   #js-overlay.overlay
