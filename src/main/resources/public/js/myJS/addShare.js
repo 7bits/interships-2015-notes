@@ -35,6 +35,7 @@ function addShare(addedShareEmails) {
             $infoLabel.addClass(curClass);
                 
         });
+
 	} else {
     			
     	$('#js-addShareEmail').focus();
@@ -53,8 +54,8 @@ function addingShareUser(data) {
     var shareUser = "<div id='js-newShare' class='shareUser js-shareUser' style='height: 0px;'></div>";
     var innerShareUser = "<div class='shareUserImg unsetImg'></div>"+
         "<div class='shareUserInfo'>"+
-            "<div class='shareUserName'>"+data.username+"</div>"+
-            "<div class='shareUserEmail'>"+$('.addShareEmail').val()+"</div>"+
+            "<div class='js-shareUserName shareUserName'>"+data.username+"</div>"+
+            "<div class='js-shareUserEmail shareUserEmail'>"+$('.addShareEmail').val()+"</div>"+
         "</div>"+
         "<div class='shareActionDiv'>"+
             "<button class='js-deleteShare deleteShare'></button>"+
