@@ -1,8 +1,5 @@
 (function($) {
 	$(document).ready(function() {
-		//		$( ".noteSection" ).sortable({
-        //        	cancel: "p, span, br"
-        //        });
 
 		$( ".js-noteSection" ).sortable();
 		$( ".js-noteSection" ).disableSelection();
@@ -14,17 +11,17 @@
     	};
 
     	$('body').on('mousedown', '.js-note, .js-content, .js-control', function() {
-    		var thisNoteSection = $(this).closest('.js-noteSection');
-    		var thisNote = $(this).closest('.js-note');
-    		thisNote.css('cursor', 'move');
-    		thisNote.children('.js-control').css('cursor', 'move');
+    		var $thisNoteSection = $(this).closest('.js-noteSection');
+    		var $thisNote = $(this).closest('.js-note');
+    		$thisNote.css('cursor', 'move');
+    		$thisNote.children('.js-control').css('cursor', 'move');
 
-			var prevIndex = thisNote.index() - 1;
-			var nextIndex = thisNote.index() + 1;
+			var prevIndex = $thisNote.index() - 1;
+			var nextIndex = $thisNote.index() + 1;
 
-			var idCur = thisNote.attr('id');
-			var idPrev = (prevIndex == -1) ? 0 : thisNoteSection.find('.js-note:eq(' + prevIndex + ')').attr('id');
-			var idNext = (nextIndex >= thisNoteSection.children().length) ? 0 : thisNoteSection.find('.js-note:eq(' + nextIndex + ')').attr('id');
+			var idCur = $thisNote.attr('id');
+			var idPrev = (prevIndex == -1) ? 0 : $thisNoteSection.find('.js-note:eq(' + prevIndex + ')').attr('id');
+			var idNext = (nextIndex >= $thisNoteSection.children().length) ? 0 : $thisNoteSection.find('.js-note:eq(' + nextIndex + ')').attr('id');
 
 			checkPosition = {
 				idCur: idCur,
@@ -35,18 +32,18 @@
 
 
     	$('body').on('mouseup', '.js-note, .js-content, .js-control', function() {
-    		var thisNoteSection = $(this).closest('.js-noteSection');
-    		var thisNote = $(this).closest('.js-note');
-    		thisNote.css('cursor', '-webkit-grab');
-    		thisNote.children('.js-control').css('cursor', '-webkit-grab');
+    		var $thisNoteSection = $(this).closest('.js-noteSection');
+    		var $thisNote = $(this).closest('.js-note');
+    		$thisNote.css('cursor', '-webkit-grab');
+    		$thisNote.children('.js-control').css('cursor', '-webkit-grab');
 
 			setTimeout(function() {
-				var prevIndex = thisNote.index() - 1;
-				var nextIndex = thisNote.index() + 1;
+				var prevIndex = $thisNote.index() - 1;
+				var nextIndex = $thisNote.index() + 1;
 
-				var idCur = thisNote.attr('id');
-				var idPrev = (prevIndex == -1) ? 0 : thisNoteSection.find('.cell:eq(' + prevIndex + ')').attr('id');
-				var idNext = (nextIndex >= thisNoteSection.children().length) ? 0 : thisNoteSection.find('.cell:eq(' + nextIndex + ')').attr('id');
+				var idCur = $thisNote.attr('id');
+				var idPrev = (prevIndex == -1) ? 0 : $thisNoteSection.find('.js-note:eq(' + prevIndex + ')').attr('id');
+				var idNext = (nextIndex >= $thisNoteSection.children().length) ? 0 : $thisNoteSection.find('.js-note:eq(' + nextIndex + ')').attr('id');
 
 				var sendData = {
 					idCur: idCur,
