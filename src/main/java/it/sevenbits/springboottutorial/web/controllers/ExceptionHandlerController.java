@@ -3,17 +3,14 @@ package it.sevenbits.springboottutorial.web.controllers;
 import it.sevenbits.springboottutorial.exceptions.ResourceNotFoundException;
 import org.apache.log4j.Logger;
 //import org.apache.xpath.operations.Mod;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Controller
-public class ExceptionHendlerController {
+public class ExceptionHandlerController {
 
-    private static Logger LOG = Logger.getLogger(ExceptionHendlerController.class);
+    private static Logger LOG = Logger.getLogger(ExceptionHandlerController.class);
 
     @RequestMapping(value = "/{path:.+}", method = RequestMethod.GET)
     public ModelAndView checkError(@PathVariable("path") String path) throws Exception {

@@ -214,38 +214,6 @@ public class HomeController {
         noteService.updateOrder(orderData);
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
-    //public ModelAndView handleRegistrationPost(@Valid @ModelAttribute("form") UserCreateForm form) throws ServiceException {
-    public String getSharedNotesByUserIdList(final Model model, HttpServletRequest request,
-                                             HttpServletResponse response, Authentication auth) throws ServiceException {
-        UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
-        boolean showMyNotes = false;
-        List<Long> shareUserIds = new ArrayList<>();
-
-        // read all checked params
-        for (Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
-            if(entry.getValue()[0].equals("on"))
-                shareUserIds.add(Long.parseLong(entry.getKey()));
-        }
-
-        // if nothing is checked - redirect
-        if(shareUserIds.size() == 0)
-            return "redirect:/telenote";
-
-        // check first param(showMyNotes) and delete it from list
-        if(shareUserIds.get(0) == 0) {
-            showMyNotes = true;
-            shareUserIds.remove(0);
-        }
-
-        List<Note> sharedNotesByUsers = noteService.getNotesByUserIdList(shareUserIds, currentUser.getId(), showMyNotes);
-
-        model.addAttribute("username", currentUser.getName());
-        model.addAttribute("notes", sharedNotesByUsers);
-        model.addAttribute("shareUsers", noteService.findShareUsers(currentUser.getId()));
-        return "home/telenote";
-    }
-
     @MessageMapping("/updatenote")
     public void updateNote(NoteSocketCommand note) throws Exception {
         //UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
