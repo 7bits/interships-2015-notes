@@ -24,10 +24,6 @@ body {
 	height: 100%;
 }
 
-.background {
-
-}
-
 .messageDiv {
 	position: absolute;
   	top: 22%;
@@ -69,7 +65,7 @@ a {
 
 .footer {
 	position: absolute;
-	top: 85%;
+	bottom: 8px;
 	left: 2%;
 }
 

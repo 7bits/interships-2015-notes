@@ -22,7 +22,7 @@ function modalClose(data) {
 
 	var $curnote = data.$clickedNoteSection.find(".js-note[id='" + $('.js-modalWindow').attr("id") + "']");
 
-	if(data.addedShareEmails.length != 0) { // если заметка кому-то расшарена, то удаляем ее, переносим другим
+	if(data.addedShareEmails != null) { // если заметка кому-то расшарена, то удаляем ее, переносим другим
 
 		var $noteDiv = $('#js-noteDiv');
 
@@ -30,6 +30,8 @@ function modalClose(data) {
 			var otherShareUserEmail = item;
 			var $shareUserNames = $(".js-shareUserEmail");
 			var userName;
+			var userPicLink = "http://www.gravatar.com/avatar/" + $.md5(otherShareUserEmail) + 
+			"?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png";
 
 			$shareUserNames.each(function() {
 				if($(this).text() == item) { userName = $(this).siblings(".js-shareUserName").text(); }
@@ -46,14 +48,16 @@ function modalClose(data) {
 				
 				$otherNoteSection = "<div class='js-noteSection noteSection ui-sortable' id='ns_" + otherShareUserEmail + "'></div>";
 
-				var section = "<div class='js-section js-allSections textNoteSection js-nextSection'>" +
-                        "<img class='js-sectionPic sectionPic' src=" + $(".js-sectionPic").eq(0).attr("value") + ">" +
+				var section = "<div class='js-section js-allSections textNoteSection'>" +
+                        "<img class='js-sectionPic sectionPic' src=" + userPicLink + ">" +
                         "<div class='js-sectionOwner sectionOwner'>" + "Общие с " + userName + "<span class='js-span'> (" + otherShareUserEmail + ")</span></div>" +
                     "</div>";
 
 				$noteDiv.append(section);
 				$noteDiv.append($otherNoteSection);
                 $(".js-noteSection[id='ns_" + otherShareUserEmail + "']").append($copyCurnote);
+
+                if ($(".js-allSection").length < 2) { $(".js-section").eq($(".js-section").length - 1).addClass("js-nextSection"); }
 
 			}
 
@@ -71,7 +75,7 @@ function modalClose(data) {
 			var $actualOwner = $actual.find(".js-sectionOwner");
 			var $actualPic = $actual.find(".js-sectionPic");
 
-			$actual.attr("value", $nextSection.text());
+			$actual.attr("value", $nextOwner.html());
 			$actualOwner.html($nextOwner.html());
 			$actualPic.attr("value", $nextPic.attr("src"));
 			$actualPic.attr("src", $nextPic.attr("src"));
@@ -123,7 +127,9 @@ function checkSharedNote(noteId) {
 		success: function(data) {
 
 			$('.syncUsers').prepend("<div id='js-owner' class='shareUser'>" +
-					"<div class='shareUserImg unsetImg'></div>" +
+					"<div class='shareUserImg'>" +
+						"<img src='" + data[0].avatar + "'>" +
+					"</div>" +
 					"<div class='shareUserInfo'>" + 
 						"<div class='js-shareUserName shareUserName'>" + data[0].name + "<span> (автор)</span></div>" +
 						"<div class='js-shareUserEmail shareUserEmail'>" + data[0].email + "</div>" + 
@@ -132,7 +138,9 @@ function checkSharedNote(noteId) {
 
 			for (var i = data.length-1; i > 0; i--) {
 				$('#js-owner').after("<div id='" +  data[i].id + "' class='js-shareUser shareUser'>" +
-			 			"<div class='shareUserImg unsetImg'></div>" +
+			 			"<div class='shareUserImg'>" +
+			 				"<img src='" + data[i].avatar + "'>" +
+			 			"</div>" +
 					 	"<div class='shareUserInfo'>" + 
 					 		"<div class='js-shareUserName shareUserName'>" + data[i].name + "</div>" +
 					 		"<div class='js-shareUserEmail shareUserEmail'>" + data[i].email + "</div>" + 
@@ -166,7 +174,7 @@ function addShareBtn($emailInput, key) {
 }
 
 
-function deleteShare($deleteShare) {
+function deleteShare($deleteShare, addedShareEmails) {
 	
 	var sendInfo = {
       	userId: $deleteShare.closest('.js-shareUser').attr('id'),
@@ -186,9 +194,18 @@ function deleteShare($deleteShare) {
              	height: '0px'
             
             }, 300, 'swing', function() {
-            
+            	
              	$('#'+sendInfo.userId).remove();
-            
+            	
+            	var result = [];
+
+            	$(".shareUserEmail").each(function() {
+
+            		result.push($(this).text());
+
+            	});
+
+            	return result;
             })
         }
     });

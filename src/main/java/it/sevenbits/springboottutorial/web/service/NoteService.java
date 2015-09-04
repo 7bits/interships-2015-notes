@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -32,6 +33,8 @@ public class NoteService {
     @Qualifier(value = "theUserPersistRepository")
     private IUserRepository userRepository;
 
+    @Autowired
+    private AccountService accountService;
 
 
   /*  public void saveNote(final NoteForm form) throws ServiceException {
@@ -173,9 +176,11 @@ public class NoteService {
         }
 
         Optional<UserDetailsImpl> user = userRepository.getUserByEmail(form.getUserEmail());
-        String username = user.get().getName();
 
-        return new ResponseEntity<>(new ResponseMessage(true, "Успешно расшарено!", username), HttpStatus.OK);
+        String avatar = accountService.getAvatarHash(user.get().getEmail());
+        user.get().setAvatar(avatar);
+
+        return new ResponseEntity<>(new ResponseMessage(true, "Успешно расшарено!", user.get()), HttpStatus.OK);
     }
 
     public void updateOrder(final OrderData orderData) throws ServiceException {

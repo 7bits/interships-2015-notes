@@ -1,12 +1,14 @@
 package it.sevenbits.springboottutorial.web.domain;
 
 
+import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
+
 import java.io.Serializable;
 
 public class ResponseMessage implements Serializable {
     private Boolean success;
     private String message;
-    private String username;
+    private UserDetailsImpl user;
 
     public Boolean getSuccess() {
         return success;
@@ -24,12 +26,12 @@ public class ResponseMessage implements Serializable {
         this.message = message;
     }
 
-    public String getUsername() {
-        return username;
+    public UserDetailsImpl getUser() {
+        return user;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(UserDetailsImpl user) {
+        this.user = user;
     }
 
     public ResponseMessage(Boolean success, String message) {
@@ -38,10 +40,10 @@ public class ResponseMessage implements Serializable {
         this.message = message;
     }
 
-    public ResponseMessage(Boolean success, String message, String username) {
+    public ResponseMessage(Boolean success, String message, UserDetailsImpl user) {
 
         this.success = success;
         this.message = message;
-        this.username = username;
+        this.user = user;
     }
 }

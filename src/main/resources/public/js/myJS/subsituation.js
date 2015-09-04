@@ -29,22 +29,44 @@ function divToTextarea($content) {
 }
 
 
-function textareaToDiv($textarea) {
+function textareaToDiv($textarea, timeoutId) {
+
+	clearTimeout(timeoutId);
 
 	var cmd = {
-        id: $(this).parent('.js-note').attr("id"),
+        id: $textarea.parent('.js-note').attr("id"),
         command : "unblock"
     }
            
     sendCommand(cmd);
 
-	var text = $textarea.val();
-	text = htmlspecialchars(text);
-	text = nl2br(text);
+	var data = {
+        id: cmd.id,
+        text: $textarea.val()
+    } 
 
-	var $content = $textarea.siblings('.js-content').html(text);
+	data.text = htmlspecialchars(data.text);
+	data.text = nl2br(data.text);
+
+	var $content = $textarea.siblings('.js-content').html(data.text);
 
 	$textarea.remove();
 	$content.removeClass('displayNone').addClass('displayBlock');
 
+	App.Note.save(data, function() {
+
+		if ($(window).width() > 800) {
+							
+			$('#js-status').text("Все заметки сохранены");
+						
+		} else {
+							
+			$('#js-minStatus').text('');
+			$('#js-minStatus').removeClass('minStatusTyping');
+						
+		};
+
+		return timeoutId;
+	
+	})
 }

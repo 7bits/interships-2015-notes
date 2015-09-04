@@ -38,8 +38,7 @@ public class AccountController {
         ModelAndView model = new ModelAndView("home/account");
         model.addObject("user", user);
         model.addObject("changesForm", new ChangesForm("", ""));
-        model.addObject("avatar", "http://www.gravatar.com/avatar/" + accountService.getAvatarHash(user.getEmail()) +
-                "?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png");
+        model.addObject("avatar", accountService.getAvatarHash(user.getEmail()));
 
         return model;
     }
@@ -51,8 +50,7 @@ public class AccountController {
         String username = user.getName();
         ModelAndView model = new ModelAndView("home/account");
         model.addObject("user", user);
-        model.addObject("avatar", "http://www.gravatar.com/avatar/" + accountService.getAvatarHash(user.getEmail()) +
-                "?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png");
+        model.addObject(accountService.getAvatarHash(user.getEmail()));
 
         try {
             if (!form.getUsername().isEmpty() && !form.getUsername().equals(user.getName())) {

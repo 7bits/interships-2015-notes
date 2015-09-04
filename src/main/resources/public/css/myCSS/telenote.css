@@ -521,6 +521,7 @@ input[type="checkbox"]:checked + label {
 
 	.minStatusTyping {
 		background-image: none;
+		color: black;
 	}
 
 	.status {

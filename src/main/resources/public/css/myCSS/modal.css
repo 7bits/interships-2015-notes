@@ -19,7 +19,7 @@
 }
 
 .modalWindow {
-	width: 500px;
+	width: 400px;
 	background: #fefefe;
 	position: fixed;
 	top: 40%;
@@ -46,7 +46,6 @@
 
 .shareMainDiv {
 	margin: auto;
-	width: 476px;
 	height: 100%;
 	padding: 12px;
 	background-color: #fefefe;
@@ -87,9 +86,13 @@
   	border-radius: 50px;
 }
 
+.shareUserImg img {
+	border-radius: 50px;
+    width: 100%;
+}
+
 .shareUserInfo {
 	float: left;
-	width: 344px;
 }
 
 .shareUserName {
@@ -118,18 +121,15 @@
 	background-image: url('/img/user.png');
 }
 
-.unsetImg {
-	background-image: url('/img/shareNotRegUser.png');
-}
-
 .shareActionDiv {
-	float: left;
+	float: right;
+	margin-right: 20px;
 }
 
 .addShareEmail {
 	margin-top: 17px;
 	border: 0px;
-	width: 326px;
+	width: 240px;
 	margin-right: 16px;
 	font-size: 14px;
 	font-family: "Roboto-Light";
@@ -219,6 +219,7 @@
   	border: 0px;
   	background-color: #fefefe;
   	margin-top: 20px;
+  	margin-right: 1px;
 }
 
 .deleteShare:focus {

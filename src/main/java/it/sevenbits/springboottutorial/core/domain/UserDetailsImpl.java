@@ -34,6 +34,8 @@ public class UserDetailsImpl implements UserDetails {
 
     private String style;
 
+    private String avatar;
+
 
     @Override
     public boolean isAccountNonExpired() {
@@ -152,5 +154,13 @@ public class UserDetailsImpl implements UserDetails {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }
