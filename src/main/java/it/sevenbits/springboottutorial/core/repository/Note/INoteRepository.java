@@ -42,8 +42,6 @@ public interface INoteRepository {
 
     void updateFirstElementOrder(final OrderData orderData) throws RepositoryException;
 
-    List<Note> getNotesByUserIdList(final List<Long> shareUserIds, final Long parentUserId, final boolean showMyNotes) throws RepositoryException;
-
     List<UserDetailsImpl> findShareUsers(final Long noteId) throws  RepositoryException;
 
     Long isParentNoteIdExists(Long noteId) throws RepositoryException;
@@ -61,14 +59,6 @@ public interface INoteRepository {
     List<NoteModel> getNotesWithSameNoteUuidByUserId(Long userId) throws RepositoryException;
 
     List<UserDetailsImpl> getUsersWithSameNoteUuid(final String noteUuid) throws RepositoryException;
-
-//    List<NoteModel> getMyNotSharedNoteModelsByUserId(Long userId) throws RepositoryException;
-//
-//    List<NoteModel> getMySharedNoteModelsByUserId(Long userId) throws RepositoryException;
-//
-//    List<NoteModel> getForeignSharedNoteModelsByUserId(Long userId) throws RepositoryException;
-//
-//    List<NoteModel> getNotesWithUniqueNoteUuidByUserId(Long userId) throws RepositoryException;
 
     List<NoteModel> getAllSharedNoteModels(Long userId) throws RepositoryException;
 

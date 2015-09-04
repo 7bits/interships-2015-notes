@@ -109,11 +109,6 @@ public class NoteRepository implements INoteRepository {
     }
 
     @Override
-    public List<Note> getNotesByUserIdList(final List<Long> shareUserIds, final Long parentUserId, final boolean showMyNotes) throws RepositoryException {
-        return mapper.getNotesByUserIdList(shareUserIds, parentUserId, showMyNotes);
-    }
-
-    @Override
     public UserDetailsImpl getUserWhoSharedNote(final Long noteId) throws RepositoryException {
         return mapper.getUserWhoSharedNote(noteId);
     }
@@ -163,37 +158,10 @@ public class NoteRepository implements INoteRepository {
         return mapper.getUserNoteByParentId(userId, parentId);
     }
 
-
-//    @Override
-//    public List<NoteModel> getForeignSharedNoteModelsByUserId(Long userId) throws RepositoryException {
-//        return mapper.getForeignSharedNoteModelsByUserId(userId);
-//    }
-
     @Override
     public List<NoteModel> getAllSharedNoteModels(Long userId) throws RepositoryException {
         return mapper.getAllSharedNoteModels(userId);
     }
-//    @Override
-//    public List<NoteModel> getMyNotSharedNoteModelsByUserId(Long userId) throws RepositoryException {
-//        return mapper.getMyNotSharedNoteModelsByUserId(userId);
-//
-//    }
-//
-//    @Override
-//    public List<NoteModel> getMySharedNoteModelsByUserId(Long userId) throws RepositoryException {
-//        return mapper.getMySharedNoteModelsByUserId(userId);
-//    }
-//
-//    @Override
-//    public List<NoteModel> getForeignSharedNoteModelsByUserId(Long userId) throws RepositoryException {
-//        return mapper.getForeignSharedNoteModelsByUserId(userId);
-//
-//    }
-//
-//    @Override
-//    public List<NoteModel> getNotesWithUniqueNoteUuidByUserId(Long userId) throws RepositoryException {
-//        return mapper.getNotesWithUniqueNoteUuidByUserId(userId);
-//    }
 
     @Override
     public List<NoteModel> getNotesWithSameNoteUuidByUserId(Long userId) throws RepositoryException {
