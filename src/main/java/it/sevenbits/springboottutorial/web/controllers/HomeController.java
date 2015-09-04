@@ -207,9 +207,9 @@ public class HomeController {
     @RequestMapping(value = "/telenote/order", method = RequestMethod.POST)
     public void updateOrder(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws RepositoryException, ServiceException {
         final OrderData orderData = new OrderData(
-        Long.parseLong(request.getParameter("id_prev")),
-        Long.parseLong(request.getParameter("id_cur")),
-        Long.parseLong(request.getParameter("id_next")));
+        Long.parseLong(request.getParameter("idPrev")),
+        Long.parseLong(request.getParameter("idCur")),
+        Long.parseLong(request.getParameter("idNext")));
 
         noteService.updateOrder(orderData);
     }
