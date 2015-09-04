@@ -22,9 +22,6 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public void create(final UserDetailsImpl userDetails) throws RepositoryException {
-        if (userDetails == null) {
-            throw new RepositoryException("User object is null.");
-        }
         try {
             mapper.insert(userDetails);
         } catch (Exception e) {
@@ -34,56 +31,92 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public boolean isEmailExists(final UserDetailsImpl userDetails) throws RepositoryException {
-
-        return mapper.isEmailExists(userDetails) == 0 ? false : true;
+        try {
+            return mapper.isEmailExists(userDetails) == 0 ? false : true;
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while checking email existence: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public Long getIdByEmail(final UserDetailsImpl userDetails) throws RepositoryException {
-
-        return mapper.getIdByEmail(userDetails) == null ? -1 : (Long) mapper.getIdByEmail(userDetails);
+        try {
+            return mapper.getIdByEmail(userDetails) == null ? -1 : (Long) mapper.getIdByEmail(userDetails);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while getting user_id by email: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public String getPasswordById(final UserDetailsImpl userDetails) throws RepositoryException {
-
-        return mapper.getPasswordById(userDetails);
+        try {
+            return mapper.getPasswordById(userDetails);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while getting password by user_id: " + e.getMessage(), e);
+        }
     }
 
     @Override
-    public void updatePassword(final UserDetailsImpl userDetails) {
-
-        mapper.updatePassword(userDetails);
+    public void updatePassword(final UserDetailsImpl userDetails) throws RepositoryException {
+        try {
+            mapper.updatePassword(userDetails);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while updating password: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public Optional<UserDetailsImpl> getUserById(Long id) throws RepositoryException {
-        return Optional.ofNullable(mapper.getUserById(id));
+        try {
+            return Optional.ofNullable(mapper.getUserById(id));
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while getting user by id: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public Optional<UserDetailsImpl> getUserByEmail(String email) throws RepositoryException {
-        return Optional.ofNullable(mapper.getUserByEmail(email));
+        try {
+            return Optional.ofNullable(mapper.getUserByEmail(email));
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while getting user by email: " + e.getMessage(), e);
+        }
     }
 
     @Override
     @Description("You can remove users by email or by id.")
     public void remove(final UserDetailsImpl user) throws RepositoryException {
-        mapper.remove(user);
+        try {
+            mapper.remove(user);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while removing user: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public void confirm(String email) throws RepositoryException {
-        mapper.confirm(email);
+        try {
+            mapper.confirm(email);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while confirming email: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public void setTokenByEmail(String email, String token) throws RepositoryException {
-        mapper.setTokenByEmail(email, token);
+        try {
+            mapper.setTokenByEmail(email, token);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while setting token to user by email: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public String getTokenByEmail(String email) throws RepositoryException {
-        return mapper.getTokenByEmail(email);
+        try {
+            return mapper.getTokenByEmail(email);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while getting token by email: " + e.getMessage(), e);
+        }
     }
 }

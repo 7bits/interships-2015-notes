@@ -29,25 +29,9 @@ public class NoteService {
     private INoteRepository repository;
 
     @Autowired
-    @Qualifier(value = "theUserPersistRepository")
+    @Qualifier(value = "userRepository")
     private IUserRepository userRepository;
 
-
-
-  /*  public void saveNote(final NoteForm form) throws ServiceException {
-        final Note note = new Note();
-        //note.getUserId(); // где будем хранить ID пользовотеля,который создал заметку?
-        /*note.setCategory(form.getCategory());
-        note.setPriority(form.getPriority());
-        note.setNote_date(form.getNote_date());
-        /*note.setState(form.getState());
-        note.setSubnote(form.getSubnote());
-        try {
-            repository.saveNote(note);
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while saving note: " + e.getMessage(), e);
-        }
-    }*/
 
     public void updateNote(final NoteForm form, Long user_id) throws ServiceException {
         final Note note = new Note();
@@ -197,7 +181,7 @@ public class NoteService {
             if (repository.isParentNoteIdExists(noteId) != null) {
                 return repository.getUserWhoSharedNote(noteId);
             } else {
-                return repository.getUserWhoOwnNote(noteId);
+                return repository.getUserWhoOwnsNote(noteId);
             }
 
         } catch (RepositoryException e) {
@@ -205,19 +189,11 @@ public class NoteService {
         }
     }
 
-    public String getUserStyle(Long userId) throws ServiceException {
-        try {
-            return repository.getUserStyle(userId);
-        } catch (RepositoryException e) {
-            throw new ServiceException("Ошибка чтения стиля" + e.getMessage());
-        }
-    }
-
     public void deleteShareLink(Long root, Long userId) throws ServiceException {
         try {
             HashMap<Long, ArrayList<Long>> map = new HashMap<>();
             List<Note> notes = repository.getNotesWithSameUuidById(root);
-            Long unsyncNote = repository.getUserNoteByParentId(userId, root);
+            Long unsyncNote = repository.getNoteIdByUserIdParentId(userId, root);
             List<Long> result = new ArrayList<Long>();
 
             for (Note note : notes) {
@@ -239,7 +215,7 @@ public class NoteService {
             updNote.setParent_note_id(null);
 
             repository.updateNote(updNote);
-            repository.updateUuidById(result, Note.generateUUID());
+            repository.updateUuidByIds(result, Note.generateUUID());
         } catch (RepositoryException e) {
             throw new ServiceException(e.getMessage());
         }

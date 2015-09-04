@@ -125,7 +125,7 @@ public interface NoteMapper {
             @Result(column = "username", property = "name"),
             @Result(column = "enabled", property = "enabled"),
     })
-    UserDetailsImpl getUserWhoOwnNote(final Long noteId);
+    UserDetailsImpl getUserWhoOwnsNote(final Long noteId);
 
     @Select("SELECT parent_note_id\n" +
             "FROM notes\n" +
@@ -166,18 +166,13 @@ public interface NoteMapper {
             "WHERE id = #{id_cur}")
     void updateFirstElementOrder(final OrderData orderData);
 
-    @Select("SELECT style\n" +
-            "FROM users\n" +
-            "WHERE id=#{userId}")
-    String getUserStyle(Long userId);
-
     @Select("SELECT parent_note_id, id\n" +
             "FROM notes\n" +
             "WHERE uuid=\n" +
             "   (SELECT uuid\n" +
             "   FROM notes\n" +
-            "   WHERE id=#{id})")
-    List<Note> getNotesWithSameUuidById(Long id);
+            "   WHERE id=#{noteId})")
+    List<Note> getNotesWithSameUuidById(Long noteId);
 
     @Select("select users.id, email, username, enabled\n" +
             "from users\n" +
@@ -199,7 +194,7 @@ public interface NoteMapper {
                 "open='(' separator=',' close=')'>",
             "#{item}",
             "</foreach></script>"})
-    void updateUuidById(@Param("list") List<Long> notesId, @Param("uuid") String uuid);
+    void updateUuidByIds(@Param("list") List<Long> notesId, @Param("uuid") String uuid);
 
     @Select("SELECT id\n" +
             "FROM notes\n" +
@@ -207,7 +202,7 @@ public interface NoteMapper {
             "ON id=note_id\n" +
             "WHERE parent_note_id=#{parentId}\n" +
             "AND user_id=#{userId}")
-    Long getUserNoteByParentId(@Param("userId") Long userId, @Param("parentId") Long parentId);
+    Long getNoteIdByUserIdParentId(@Param("userId") Long userId, @Param("parentId") Long parentId);
 
     @Select("select notes.*, users.email, users.username\n" +
             "from notes\n" +

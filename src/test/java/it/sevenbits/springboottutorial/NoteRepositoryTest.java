@@ -4,7 +4,6 @@ import it.sevenbits.springboottutorial.core.domain.Note;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.domain.UserNote;
 import it.sevenbits.springboottutorial.core.repository.Note.INoteRepository;
-import it.sevenbits.springboottutorial.core.repository.RepositoryException;
 import it.sevenbits.springboottutorial.core.repository.User.IUserRepository;
 import org.flywaydb.test.annotation.FlywayTest;
 import org.junit.*;
@@ -187,7 +186,7 @@ public class NoteRepositoryTest {
         notes.add(tnote.getId());
         notes.add(note.getId());
 
-        noteRep.updateUuidById(notes, Note.generateUUID());
+        noteRep.updateUuidByIds(notes, Note.generateUUID());
 
         List<Note> list = noteRep.getNotesWithSameUuidById(note.getId());
 
@@ -216,7 +215,7 @@ public class NoteRepositoryTest {
 
         noteRep.linkUserWithNote(tuser.getId(), note.getId());
 
-        Long id = noteRep.getUserNoteByParentId(tuser.getId(), tNote.getId());
+        Long id = noteRep.getNoteIdByUserIdParentId(tuser.getId(), tNote.getId());
         assertNotNull(id);
         assertTrue(id > 0);
 

@@ -26,14 +26,18 @@ public class NoteRepository implements INoteRepository {
 
     @Override
     public void updateNote(final Note note) throws RepositoryException {
-        mapper.updateNote(note);
+        if (note == null) {
+            throw new RepositoryException("Note is null");
+        }
+        try {
+            mapper.updateNote(note);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while updating note: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public void deleteNote(final Note note) throws RepositoryException {
-        if (note == null) {
-            throw new RepositoryException("Note is null");
-        }
         try {
             mapper.deleteNote(note);
         } catch (Exception e) {
@@ -46,28 +50,44 @@ public class NoteRepository implements INoteRepository {
         try {
              return mapper.findUserNotes(userId);
         } catch (Exception e) {
-            throw new RepositoryException("An error occurred while db accessing: " + e.getMessage(), e);
+            throw new RepositoryException("An error occurred while getting user notes: " + e.getMessage(), e);
         }
     }
 
     @Override
     public void updateNotesByUuid(Note note) throws RepositoryException {
-        mapper.updateNotesByUuid(note);
+        try {
+            mapper.updateNotesByUuid(note);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while updating notes by UUID: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public String getUuidById(Long noteId) throws RepositoryException {
-        return mapper.getUuidById(noteId);
+        try {
+            return mapper.getUuidById(noteId);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while getting note UUID by ID: " + e.getMessage(), e);
+        }
     }
 
     @Override
-    public List<UserDetailsImpl> getUsersWithSameNoteUuid(String noteUuid) {
-        return mapper.getUsersWithSameNoteUuid(noteUuid);
+    public List<UserDetailsImpl> getUsersWithSameNoteUuid(String noteUuid) throws RepositoryException{
+        try {
+            return mapper.getUsersWithSameNoteUuid(noteUuid);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while getting users with same note UUID: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public void resetAllParentNoteUserId(Long parentNoteId) throws RepositoryException {
-        mapper.resetAllParentNoteUserId(parentNoteId);
+        try {
+            mapper.resetAllParentNoteUserId(parentNoteId);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while resetting parent_note_id and parent_user_id: " + e.getMessage(), e);
+        }
     }
 
     @Override
@@ -84,87 +104,143 @@ public class NoteRepository implements INoteRepository {
         try {
             mapper.addFirstNote(note);
         } catch (Exception e) {
-            throw new RepositoryException("An error occurred while adding note: " + e.getMessage(), e);
+            throw new RepositoryException("An error occurred while adding first note: " + e.getMessage(), e);
         }
     }
 
     @Override
     public boolean isNoteAlreadyShared(UserNote userNote) throws RepositoryException {
-        return mapper.isNoteAlreadyShared(userNote) == 0 ? false : true;
+        try {
+            return mapper.isNoteAlreadyShared(userNote) == 0 ? false : true;
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while checking shared state of note: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public void linkUserWithNote(final Long userId, final Long noteId) throws RepositoryException {
-        mapper.linkUserWithNote(userId, noteId);
+        try {
+            mapper.linkUserWithNote(userId, noteId);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while linking user with note: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public void duplicateNote(final Note note) throws RepositoryException {
-        mapper.duplicateNote(note);
+        try {
+            mapper.duplicateNote(note);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while duplicating note: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public boolean isNoteBelongToUser(final Long noteId, final Long userId) throws RepositoryException {
-        return mapper.isNoteBelongToUser(noteId, userId) == 0 ? false : true;
+        try {
+            return mapper.isNoteBelongToUser(noteId, userId) == 0 ? false : true;
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while checking owner of note: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public UserDetailsImpl getUserWhoSharedNote(final Long noteId) throws RepositoryException {
-        return mapper.getUserWhoSharedNote(noteId);
+        try {
+            return mapper.getUserWhoSharedNote(noteId);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while getting user who shared note: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public void updateOrder(final OrderData orderData) throws RepositoryException {
-        mapper.updateOrder(orderData);
+        try {
+            mapper.updateOrder(orderData);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while updating order of note: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public List<UserDetailsImpl> findShareUsers(Long noteId) throws RepositoryException {
-        return mapper.findShareUsers(noteId);
+        try {
+            return mapper.findShareUsers(noteId);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while getting share users of note: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public void updateFirstElementOrder(final OrderData orderData) throws RepositoryException {
-        mapper.updateFirstElementOrder(orderData);
+        try {
+            mapper.updateFirstElementOrder(orderData);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while updating order of first element note: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public Long isParentNoteIdExists(Long noteId) throws RepositoryException {
-        return mapper.isParentNoteIdExists(noteId);
+        try {
+            return mapper.isParentNoteIdExists(noteId);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while checking field 'parent_note_id' of note: " + e.getMessage(), e);
+        }
     }
 
     @Override
-    public UserDetailsImpl getUserWhoOwnNote(Long noteId) throws RepositoryException {
-        return mapper.getUserWhoOwnNote(noteId);
+    public UserDetailsImpl getUserWhoOwnsNote(Long noteId) throws RepositoryException {
+        try {
+            return mapper.getUserWhoOwnsNote(noteId);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while getting user who owns note: " + e.getMessage(), e);
+        }
+    }
+
+
+    @Override
+    public List<Note> getNotesWithSameUuidById(Long noteId) throws RepositoryException{
+        try {
+            return mapper.getNotesWithSameUuidById(noteId);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while getting with same UUID: " + e.getMessage(), e);
+        }
     }
 
     @Override
-    public String getUserStyle(Long userId) throws RepositoryException {
-        return mapper.getUserStyle(userId);
+    public void updateUuidByIds(final List<Long> notes, String uuid) throws RepositoryException{
+        try {
+            mapper.updateUuidByIds(notes, uuid);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while updating notes UUID: " + e.getMessage(), e);
+        }
     }
 
     @Override
-    public List<Note> getNotesWithSameUuidById(Long id) {
-        return mapper.getNotesWithSameUuidById(id);
-    }
-
-    @Override
-    public void updateUuidById(final List<Long> notes, String uuid) {
-        mapper.updateUuidById(notes, uuid);
-    }
-
-    @Override
-    public Long getUserNoteByParentId(Long userId, Long parentId) throws RepositoryException {
-        return mapper.getUserNoteByParentId(userId, parentId);
+    public Long getNoteIdByUserIdParentId(Long userId, Long parentNoteId) throws RepositoryException {
+        try {
+            return mapper.getNoteIdByUserIdParentId(userId, parentNoteId);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while getting note_id by user_id and parent_note_id: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public List<NoteModel> getAllSharedNoteModels(Long userId) throws RepositoryException {
-        return mapper.getAllSharedNoteModels(userId);
+        try {
+            return mapper.getAllSharedNoteModels(userId);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while getting user's shared notes: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public List<NoteModel> getNotesWithSameNoteUuidByUserId(Long userId) throws RepositoryException {
-        return mapper.getNotesWithSameNoteUuidByUserId(userId);
+        try {
+            return mapper.getNotesWithSameNoteUuidByUserId(userId);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while getting user's notes with same uuids: " + e.getMessage(), e);
+        }
     }
 }
