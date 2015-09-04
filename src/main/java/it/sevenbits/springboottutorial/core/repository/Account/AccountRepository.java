@@ -3,7 +3,6 @@ package it.sevenbits.springboottutorial.core.repository.Account;
 import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
 import it.sevenbits.springboottutorial.core.mappers.AccountMapper;
 import it.sevenbits.springboottutorial.core.repository.RepositoryException;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -16,17 +15,38 @@ public class AccountRepository implements IAccountRepository {
     private AccountMapper accountMapper;
 
     @Override
-    public void changeTheme(UserDetailsImpl user) throws RepositoryException {
-        accountMapper.changeTheme(user);
+    public void changeStyle(UserDetailsImpl user) throws RepositoryException {
+        try {
+            accountMapper.changeStyle(user);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while changing user's theme style: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public void changeUsername(UserDetailsImpl user) throws RepositoryException {
-        accountMapper.changeUsername(user);
+        try {
+            accountMapper.changeUsername(user);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while changing username: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public void changePass(UserDetailsImpl user) throws RepositoryException {
-        accountMapper.changePass(user);
+        try {
+            accountMapper.changePass(user);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while changing password: " + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public String getUserStyle(Long userId) throws RepositoryException {
+        try {
+            return accountMapper.getUserStyle(userId);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while getting user's theme style: " + e.getMessage(), e);
+        }
     }
 }

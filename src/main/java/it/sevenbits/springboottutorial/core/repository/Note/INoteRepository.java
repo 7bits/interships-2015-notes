@@ -46,15 +46,13 @@ public interface INoteRepository {
 
     Long isParentNoteIdExists(Long noteId) throws RepositoryException;
 
-    UserDetailsImpl getUserWhoOwnNote(Long noteId) throws RepositoryException;
-
-    String getUserStyle(Long userId) throws RepositoryException;
+    UserDetailsImpl getUserWhoOwnsNote(Long noteId) throws RepositoryException;
 
     List<Note> getNotesWithSameUuidById(Long id) throws RepositoryException;
 
-    void updateUuidById(final List<Long> notes, String uuid) throws RepositoryException;
+    void updateUuidByIds(final List<Long> notes, String uuid) throws RepositoryException;
 
-    Long getUserNoteByParentId(Long userId, Long parentId) throws RepositoryException;
+    Long getNoteIdByUserIdParentId(Long userId, Long parentNoteId) throws RepositoryException;
 
     List<NoteModel> getNotesWithSameNoteUuidByUserId(Long userId) throws RepositoryException;
 

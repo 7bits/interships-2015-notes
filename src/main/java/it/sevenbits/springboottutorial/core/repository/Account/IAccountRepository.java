@@ -6,9 +6,11 @@ import it.sevenbits.springboottutorial.core.repository.RepositoryException;
 
 public interface IAccountRepository {
 
-    void changeTheme(UserDetailsImpl user) throws RepositoryException;
+    void changeStyle(UserDetailsImpl user) throws RepositoryException;
 
     void changeUsername(UserDetailsImpl user) throws RepositoryException;
 
     void changePass(UserDetailsImpl user) throws RepositoryException;
+
+    String getUserStyle(Long userId) throws RepositoryException;
 }
