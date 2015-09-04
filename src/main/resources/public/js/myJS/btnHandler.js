@@ -1,6 +1,13 @@
 (function($) {
 	$(document).ready(function () {
 
+		var shareData = {
+			addedShareEmails: [],
+			$clickedNoteSection: null
+		}
+		var timeoutId;
+		var oldVal ="";
+
         connect();
 
 		App.Note.save = function(data, callback) {
@@ -14,9 +21,7 @@
 				callback(data);
 			})
 		};
-
-
-		var timeoutId;
+		
 
 		//функция удаления заметки из базы и с рабочего поля
 		$('body').on('click', '.js-delBtn', function() {
@@ -27,9 +32,8 @@
 		});
 
 
-
-		var oldVal ="";
 		$('body').on('input', '#js-textarea', function() {
+
 			var currentVal = $(this).val();
 
             if(currentVal == oldVal) {
@@ -65,10 +69,6 @@
 		})
 
 
-		var shareData = {
-			addedShareEmails: [],
-			$clickedNoteSection: null
-		}
 		//расшаривание
 		$('#js-addShare').click(function() {
 
@@ -109,7 +109,7 @@
 		}).on('blur', '#js-textarea', function() {
            
            	var $textarea = $(this);
-           	textareaToDiv($textarea)	
+           	timeoutId = textareaToDiv($textarea, timeoutId);	
 		
 		})
 
@@ -170,7 +170,7 @@
         $('.js-modalWindow').on('click', '.js-deleteShare', function() {
 
         	var $deleteShare = $(this);
-            deleteShare($deleteShare);
+            shareData.addedShareEmails = deleteShare($deleteShare, shareData.addedShareEmails);
 
         })
 

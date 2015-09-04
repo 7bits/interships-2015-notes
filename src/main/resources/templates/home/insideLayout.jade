@@ -1,0 +1,29 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    meta(name="_csrf", content="#{_csrf.token}")
+    meta(name="_csrf_header", content="#{_csrf.headerName}")
+    link(rel='stylesheet', type='text/css', href='css/myCSS/telenote.css')
+    link(rel='stylesheet', type='text/css', href='css/myCSS/'+user.style+'.css')
+    link(rel="shortcut icon", type="image/x-icon", href="img/logo.png")
+    block links
+    block scripts
+    block title
+      title Telenote
+  body
+    .container
+      .headWrapper
+        .logoDiv
+          a(href='/telenote')
+            .logoImg
+            .slogon
+        .in-outMenu
+          .logMenu
+            a#username(href='/account')
+              .user.test-user#{user.name}
+            a#logout(href='/logout') Выход
+          block userImgLink
+      block content
+    block modal

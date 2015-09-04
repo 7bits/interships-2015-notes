@@ -52,9 +52,11 @@ function addShare(addedShareEmails) {
 function addingShareUser(data) {
             
     var shareUser = "<div id='js-newShare' class='shareUser js-shareUser' style='height: 0px;'></div>";
-    var innerShareUser = "<div class='shareUserImg unsetImg'></div>"+
+    var innerShareUser = "<div class='shareUserImg'>" + 
+            "<img src='" + data.user.avatar + "'>" + 
+        "</div>"+
         "<div class='shareUserInfo'>"+
-            "<div class='js-shareUserName shareUserName'>"+data.username+"</div>"+
+            "<div class='js-shareUserName shareUserName'>"+data.user.name+"</div>"+
             "<div class='js-shareUserEmail shareUserEmail'>"+$('.addShareEmail').val()+"</div>"+
         "</div>"+
         "<div class='shareActionDiv'>"+
@@ -67,7 +69,8 @@ function addingShareUser(data) {
         height: '62px'
     }, 300, 'swing', function() {
         shareUser.append(innerShareUser);
-        shareUser.removeAttr('id').removeAttr('style');
+        shareUser.removeAttr('id').removeAttr('style')
+        shareUser.attr('id', data.user.id);
     })
 }
 

@@ -120,8 +120,7 @@ public class HomeController {
             if (list == null) {
                 list = new ArrayList<NoteModel>();
 
-                avatar = "http://www.gravatar.com/avatar/" + accService.getAvatarHash(noteModel.getEmailOfShareUser()) +
-                        "?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png";
+                avatar = accService.getAvatarHash(noteModel.getEmailOfShareUser());
                 noteModel.setUserAvatar(avatar);
                 map.put(noteModel.getEmailOfShareUser(), list);
             }
@@ -131,8 +130,7 @@ public class HomeController {
         //Map<String, List<NoteModel>> treeMap = new TreeMap<String, List<NoteModel>>(map);
         model.addAttribute("user", currentUser);
         model.addAttribute("noteSections", map);
-        model.addAttribute("avatar", "http://www.gravatar.com/avatar/" + accService.getAvatarHash(currentUser.getEmail()) +
-                "?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png");
+        model.addAttribute("avatar", accService.getAvatarHash(currentUser.getEmail()));
 
         return "home/telenote";
     }
@@ -163,8 +161,10 @@ public class HomeController {
 
         List<UserDetailsImpl> users = new ArrayList<UserDetailsImpl>();
         users.add(noteService.getUserWhoSharedNote(noteId));
+        users.get(0).setAvatar(accService.getAvatarHash(users.get(0).getEmail()));
 
         for (UserDetailsImpl u : shareUsers) {
+            u.setAvatar(accService.getAvatarHash(u.getEmail()));
             if (!users.get(0).getEmail().equals(u.getEmail())) users.add(u);
         }
 

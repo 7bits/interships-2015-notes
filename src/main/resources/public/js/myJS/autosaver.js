@@ -24,7 +24,7 @@ function autosaver($textarea) {
 
 	App.Note.save(data, function() {
 
-		if (document.documentElement.clientWidth > 800) {
+		if ($(window).width() > 800) {
 							
 			$('#js-status').text("Все заметки сохранены");
 						

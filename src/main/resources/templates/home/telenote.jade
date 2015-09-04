@@ -1,83 +1,68 @@
-doctype html
-html
-  head
-    meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(name="_csrf", content="#{_csrf.token}")
-    meta(name="_csrf_header", content="#{_csrf.headerName}")
-    link(rel='stylesheet', type='text/css', href='css/libCSS/jquery-ui.css')
-    link(rel='stylesheet', type='text/css', href='css/myCSS/telenote.css')
-    link(rel='stylesheet', type='text/css', href='css/myCSS/modal.css')
-    link(rel='stylesheet', type='text/css', href='css/myCSS/'+user.style+'.css')
-    link(rel="shortcut icon", type="image/x-icon", href="img/logo.png")
-    script(src='js/jsLibs/jquery-1.11.3.js')
-    script(src='js/jsLibs/jquery-ui.js')
-    script(src='js/jsLibs/sockjs.min.js')
-    script(src='js/jsLibs/stomp.min.js')
-    script(src='js/myJS/app.js')
-    script(src='js/myJS/noteSock.js')
-    script(src='js/myJS/deleteNote.js')
-    script(src='js/myJS/textConverter.js')
-    script(src='js/myJS/autosaver.js')
-    script(src='js/myJS/addShare.js')
-    script(src='js/myJS/controlAnimate.js')
-    script(src='js/myJS/subsituation.js')
-    script(src='js/myJS/modalWindow.js')
-    script(src='js/myJS/btnHandler.js')
-    script(src='js/myJS/addNote.js')
-    script(src="js/myJS/drag'n'drop.js")
-    script(src="js/myJS/telenote.js")
-    title Telenote
-  body
-    .container
-      .headWrapper
-        .logoDiv
-          a(href='/telenote')
-            .logoImg
-            .slogon
-        .in-outMenu
-          .logMenu
-            a#username(href='/account')
-              .user.test-user#{user.name}
-            a#logout(href='/logout') Выход
-          a(href='/account')
-            img.js-userImg.userImg(src="#{avatar}")
-      .addNoteDiv
-        #js-addNote.addNote.test-addNote
-          img(src="img/addBtn.png")
-      .infoDiv
-        .statusDiv
-          span#js-status.status Все заметки сохранены
-          #js-minStatus.minStatus
-        .sortMenu
-          .sortByUser
-          .sortByDate
-          .sortLabel Сортировать
-      #js-actualSection.js-allSections.textNoteSection.actualSection(value="Actual")
-        img.js-sectionPic.sectionPic(src="/img/shareNotRegUser.png")
-        .js-sectionOwner.sectionOwner
-          span
-      .workDiv
-        #js-noteDiv.noteDiv
-          for noteSection in noteSections.entrySet()
-            if(noteSection.getKey()==null)
-              .js-section.js-allSections.textNoteSection
-                img.js-sectionPic.sectionPic(src="#{avatar}")
-                .js-sectionOwner.sectionOwner Мои заметки
-                  span.js-span
-            else
-              .js-section.js-allSections.textNoteSection
-                img.js-sectionPic.sectionPic(src="#{noteSection.value.get(0).userAvatar}")
-                .js-sectionOwner.sectionOwner Общие с #{noteSection.value.get(0).usernameOfShareUser}
-                  span.js-span  (#{noteSection.getKey()})
-            .js-noteSection.noteSection(id="ns_#{noteSection.getKey()}")
-              for note in noteSection.value
-                .js-note.note.test-note(id=note.id)
-                  .js-content.content.clickable.test-content
-                    #{note.text}
-                  .js-control.control.test-control
-                    button.delBtn.js-delBtn.test-delBtn
-                    button.shaBtn.js-shaBtn.test-shaBtn
+extend insideLayout.jade
+
+block links
+  link(rel='stylesheet', type='text/css', href='css/libCSS/jquery-ui.css')
+  link(rel='stylesheet', type='text/css', href='css/myCSS/modal.css')
+block scripts
+  script(src='js/jsLibs/jquery-1.11.3.js')
+  script(src='js/jsLibs/jquery-ui.js')
+  script(src='js/jsLibs/sockjs.min.js')
+  script(src='js/jsLibs/stomp.min.js')
+  script(src='js/jsLibs/jquery.md5.js')
+  script(src='js/myJS/app.js')
+  script(src='js/myJS/noteSock.js')
+  script(src='js/myJS/deleteNote.js')
+  script(src='js/myJS/textConverter.js')
+  script(src='js/myJS/autosaver.js')
+  script(src='js/myJS/addShare.js')
+  script(src='js/myJS/controlAnimate.js')
+  script(src='js/myJS/subsituation.js')
+  script(src='js/myJS/modalWindow.js')
+  script(src='js/myJS/btnHandler.js')
+  script(src='js/myJS/addNote.js')
+  script(src="js/myJS/drag'n'drop.js")
+  script(src="js/myJS/telenote.js")
+block userImgLink
+  a(href='/account')
+    img.js-userImg.userImg(src="#{avatar}")
+block content
+  .addNoteDiv
+    #js-addNote.addNote.test-addNote
+      img(src="img/addBtn.png")
+  .infoDiv
+    .statusDiv
+      span#js-status.status Все заметки сохранены
+      #js-minStatus.minStatus
+    .sortMenu
+      .sortByUser
+      .sortByDate
+      .sortLabel Сортировать
+  #js-actualSection.js-allSections.textNoteSection.actualSection(value="Actual")
+    img.js-sectionPic.sectionPic(src="/img/shareNotRegUser.png")
+    .js-sectionOwner.sectionOwner
+      span
+  .workDiv
+    #js-noteDiv.noteDiv
+      for noteSection in noteSections.entrySet()
+        if(noteSection.getKey()==null)
+          .js-section.js-allSections.textNoteSection
+            img.js-sectionPic.sectionPic(src="#{avatar}")
+            .js-sectionOwner.sectionOwner Мои заметки
+              span.js-span
+        else
+          .js-section.js-allSections.textNoteSection
+            img.js-sectionPic.sectionPic(src="#{noteSection.value.get(0).userAvatar}")
+            .js-sectionOwner.sectionOwner Общие с #{noteSection.value.get(0).usernameOfShareUser}
+              span.js-span  (#{noteSection.getKey()})
+        .js-noteSection.noteSection(id="ns_#{noteSection.getKey()}")
+          for note in noteSection.value
+            .js-note.note.test-note(id=note.id)
+              .js-content.content.clickable.test-content
+                #{note.text}
+              .js-control.control.test-control
+                button.delBtn.js-delBtn.test-delBtn
+                button.shaBtn.js-shaBtn.test-shaBtn
+block modal
   .js-modalWindow.modalWindow
     .shareMainDiv
       .shareWrapper Поделиться с друзьями

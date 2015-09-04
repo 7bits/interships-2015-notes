@@ -7,7 +7,15 @@
 		$(".js-section").eq(0).remove();
 		$(".js-section").eq(0).addClass("js-nextSection");
 		
-		var positionTop = 88;
+		var positionTop;
+		if ($(window).width() > 800) { positionTop = 88;
+		} else { positionTop = 60; }
+		
+		$(window).resize(function(){ 
+			if ($(window).width() > 800) { positionTop = 88;
+			} else { positionTop = 60; }
+		}) 
+
 		var sectionSize = 35;
 
 		//смена содержимого фиксированной секции

@@ -37,11 +37,11 @@ html
             span.formHead Вход
             input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
             .inputData
-              input#js-logText(type='textbox', name='username', placeholder='e-mail', value='#{username}')
+              input#js-logText(type='textbox', name='username', placeholder='e-mail', value='#{username}', maxlength='30')
               if error
                 .errorDiv.loginError.js-loginError
                   span#js-loginError Адрес и пароль не совпадают
-              input(type='password', name='password', autocomplete='off', placeholder='пароль')
+              input(type='password', name='password', autocomplete='off', placeholder='пароль', maxlength='30')
             button.loginSubmit(type='submit') Войти
             a.forgotPass(href='/resetpass') Забыли пароль?
         .overlayReg
@@ -50,18 +50,18 @@ html
             span.formHead Регистрация
             input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
             .inputData
-              input#js-regEmail(type='textbox', name='email', placeholder='e-mail', value='#{signupForm.email}')
+              input#js-regEmail(type='textbox', name='email', placeholder='e-mail', value='#{signupForm.email}', maxlength='30')
               if emailError
                 .errorDiv.emailError.js-emailError
                   span#js-regEmailMess Неправильный адрес
               if emailExists
                 .errorDiv.emailExists
                   span#js-regEmailMess email уже используется
-              input#js-regUsername(type='textbox', name='username', placeholder='имя', value='#{signupForm.username}')
+              input#js-regUsername(type='textbox', name='username', placeholder='имя', value='#{signupForm.username}', maxlength='30')
               if usernameError
                 .errorDiv.nameError.js-nameError
                   span#js-regUsernameMess Неподходящее имя
-              input#js-regPass(type='password', name='password', autocomplete='off', placeholder='пароль', value='#{signupForm.password}')
+              input#js-regPass(type='password', name='password', autocomplete='off', placeholder='пароль', value='#{signupForm.password}', maxlength='30')
               if passwordError
                 .errorDiv.passError.js-passError
                   span#js-regPassMess Пароль слишком прост
