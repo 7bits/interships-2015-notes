@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 //import static org.hamcrest.Matchers.*;
@@ -25,9 +26,9 @@ import static org.junit.Assert.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@Profile("test")
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
-@FlywayTest
 public class SeleniumRegistrationTest {
 
     private static WebDriver driver;
@@ -53,6 +54,7 @@ public class SeleniumRegistrationTest {
     }
 
     @Before
+    @FlywayTest
     public void before() throws Exception {
         driver.get("http://127.0.0.1:9000");
         findInputFields();

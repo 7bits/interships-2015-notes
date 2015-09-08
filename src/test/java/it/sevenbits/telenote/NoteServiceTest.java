@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -31,9 +32,9 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@Profile("test")
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
-@FlywayTest
 public class NoteServiceTest {
 
     @Autowired
@@ -54,6 +55,7 @@ public class NoteServiceTest {
     private Long newNoteId;
 
     @Before
+    @FlywayTest
     public void create() throws Exception {
         user.setEmail("ok@ok.oke");
         user.setPassword("qwerty");

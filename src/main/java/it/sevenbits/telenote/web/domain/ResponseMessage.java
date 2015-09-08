@@ -1,7 +1,6 @@
 package it.sevenbits.telenote.web.domain;
 
-
-import it.sevenbits.springboottutorial.core.domain.UserDetailsImpl;
+import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 
 import java.io.Serializable;
 
