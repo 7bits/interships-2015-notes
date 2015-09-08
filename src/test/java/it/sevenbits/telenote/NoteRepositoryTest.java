@@ -62,8 +62,7 @@ public class NoteRepositoryTest {
 
     @After
     public void remove() throws Exception {
-        noteRep.deleteNote(note);
-        userRep.remove(user);
+        userRep.emptyBD();
     }
 
     @Test

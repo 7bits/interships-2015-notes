@@ -44,7 +44,11 @@ public class UserRepositoryTests {
 
     @After
     public void remove() throws Exception {
-        repository.remove(user);
+        try {
+            repository.emptyBD();
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
     }
 
     @Test

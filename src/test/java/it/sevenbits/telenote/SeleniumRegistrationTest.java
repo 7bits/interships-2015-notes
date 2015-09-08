@@ -54,7 +54,6 @@ public class SeleniumRegistrationTest {
     }
 
     @Before
-    @FlywayTest
     public void before() throws Exception {
         driver.get("http://127.0.0.1:9000");
         findInputFields();
@@ -86,7 +85,7 @@ public class SeleniumRegistrationTest {
         assertFalse(error.isEmpty());
 
         try {
-            repository.remove(user);
+            repository.emptyBD();
         } catch (Exception ex) {
             fail(ex.getMessage());
         }

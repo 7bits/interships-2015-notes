@@ -46,7 +46,6 @@ public class SeleniumNoteTest {
 
 
     @BeforeClass
-    @FlywayTest
     public static void initDriver() {
         driver = new FirefoxDriver();
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
@@ -99,7 +98,7 @@ public class SeleniumNoteTest {
     @After
 	public void after() throws Exception {
         try {
-            repository.remove(user);
+            repository.emptyBD();
         } catch (Exception ex) {
             fail(ex.getMessage());
         }

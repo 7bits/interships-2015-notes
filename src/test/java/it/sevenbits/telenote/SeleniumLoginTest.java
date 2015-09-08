@@ -44,7 +44,6 @@ public class SeleniumLoginTest {
     private WebElement submit;
 
     @BeforeClass
-    @FlywayTest
     public static void initDriver() {
         //driver = new ChromeDriver();
         driver = new FirefoxDriver();
@@ -118,10 +117,6 @@ public class SeleniumLoginTest {
 
     @After
     public void after() throws Exception {
-        try {
-            repository.remove(user);
-        } catch (Exception ex) {
-            fail(ex.getMessage());
-        }
+       repository.emptyBD();
     }
 }

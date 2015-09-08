@@ -55,7 +55,6 @@ public class NoteServiceTest {
     private Long newNoteId;
 
     @Before
-    @FlywayTest
     public void create() throws Exception {
         user.setEmail("ok@ok.oke");
         user.setPassword("qwerty");
@@ -152,21 +151,6 @@ public class NoteServiceTest {
 
     @After
     public void destroy() throws Exception {
-        userRepository.remove(user);
-
-        Note note = new Note();
-        note.setId(newNoteId);
-        noteRep.deleteNote(note);
-
-        for (UserDetailsImpl user : users) {
-            List<Note> userNotes = noteRep.findUserNotes(user.getId());
-            if (!userNotes.isEmpty()) {
-                for (Note usernote : userNotes) {
-                    noteRep.deleteNote(usernote);
-                }
-            }
-
-            userRepository.remove(user);
-        }
+        userRepository.emptyBD();
     }
 }
