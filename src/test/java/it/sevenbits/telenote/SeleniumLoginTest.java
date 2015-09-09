@@ -1,8 +1,7 @@
-/*package it.sevenbits.telenote;
+package it.sevenbits.telenote;
 
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.repository.User.IUserRepository;
-import org.flywaydb.test.annotation.FlywayTest;
 import org.junit.*;
 import org.junit.runner.RunWith;
 
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -26,7 +24,6 @@ import static org.junit.Assert.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@Profile("test")
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
 public class SeleniumLoginTest {
@@ -119,4 +116,4 @@ public class SeleniumLoginTest {
     public void after() throws Exception {
        repository.emptyBD();
     }
-}*/
+}

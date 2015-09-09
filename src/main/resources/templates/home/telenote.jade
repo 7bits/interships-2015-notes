@@ -27,7 +27,7 @@ block userImgLink
     img.js-userImg.userImg(src="#{avatar}")
 block content
   .addNoteDiv
-    #js-addNote.addNote.test-addNote
+    #js-addNote.addNote
       img(src="img/addBtn.png")
   .infoDiv
     .statusDiv
@@ -56,12 +56,12 @@ block content
               span.js-span  (#{noteSection.getKey()})
         .js-noteSection.noteSection(id="ns_#{noteSection.getKey()}")
           for note in noteSection.value
-            .js-note.note.test-note(id=note.id)
-              .js-content.content.clickable.test-content
+            .js-note.note(id=note.id)
+              .js-content.content.clickable
                 #{note.text}
-              .js-control.control.test-control
-                button.delBtn.js-delBtn.test-delBtn
-                button.shaBtn.js-shaBtn.test-shaBtn
+              .js-control.control
+                button.delBtn.js-delBtn
+                button.shaBtn.js-shaBtn
 block modal
   .js-modalWindow.modalWindow
     .shareMainDiv
@@ -71,10 +71,10 @@ block modal
         .js-shareUser.shareUser
           .shareUserImg.addShareUserImg
           .focusDiv
-            input#js-addShareEmail.addShareEmail.test-addShareEmail(type='textbox', placeholder='Введите адрес')
+            input#js-addShareEmail.addShareEmail(type='textbox', placeholder='Введите адрес')
             .shareActionDiv
-              button#js-addShare.addShare.test-addShare
+              button#js-addShare.addShare
             label#js-shareMessage
     .shareFooter
-      button#js-modalClose.shareApply.test-shareApply
+      button#js-modalClose.shareApply
   #js-overlay.overlay

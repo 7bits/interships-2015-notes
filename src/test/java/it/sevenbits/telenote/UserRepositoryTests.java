@@ -1,8 +1,7 @@
-/*package it.sevenbits.telenote;
+package it.sevenbits.telenote;
 
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.repository.User.IUserRepository;
-import org.flywaydb.test.annotation.FlywayTest;
 import org.junit.*;
 import org.junit.runner.RunWith;
 
@@ -19,7 +18,6 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@Profile("test")
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
 public class UserRepositoryTests {
@@ -148,4 +146,4 @@ public class UserRepositoryTests {
 
         repository.setTokenByEmail(user.getEmail(), oldToken);
     }
-}*/
+}
