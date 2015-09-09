@@ -3,11 +3,11 @@
 		//функция обработки нажатия "+" и добавления заметки на рабочее поле
 		$('#js-addNote').click(function() {
 
-			var note = "<div id='js-new' class='js-note note test-note' style='width: 0px; margin-top: 123px; margin-bottom: 130px; height: 2px;'>"+
-				"<div class='js-content content clickable test-content'></div>"+
-				"<div class='js-control control test-control'>"+
-					"<button class='delBtn js-delBtn test-delBtn' style='visibility: hidden;'></button>"+
-					"<button class='shaBtn js-shaBtn test-shaBtn' style='visibility: hidden;'></button>"+
+			var note = "<div id='js-new' class='js-note note' style='width: 0px; margin-top: 123px; margin-bottom: 130px; height: 2px;'>"+
+				"<div class='js-content content clickable'></div>"+
+				"<div class='js-control control'>"+
+					"<button class='delBtn js-delBtn' style='visibility: hidden;'></button>"+
+					"<button class='shaBtn js-shaBtn' style='visibility: hidden;'></button>"+
 				"</div>"
 			"</div>"
 
