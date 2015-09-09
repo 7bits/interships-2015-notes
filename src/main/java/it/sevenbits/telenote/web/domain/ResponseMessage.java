@@ -1,6 +1,5 @@
 package it.sevenbits.telenote.web.domain;
 
-
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 
 import java.io.Serializable;

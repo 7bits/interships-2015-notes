@@ -65,8 +65,18 @@ public interface UserMapper {
     })
     UserDetailsImpl getUserByEmail(String email);
 
-    @Delete("DELETE FROM users WHERE email=#{email} OR id=#{id}")
+    @Delete("DELETE FROM users\n" +
+            "WHERE email=#{email} OR id=#{id}")
     void remove(final UserDetailsImpl user);
+
+    @Delete("DELETE FROM users")
+    void emptyUsers();
+
+    @Delete("DELETE FROM notes")
+    void emptyNotes();
+
+    @Delete("DELETE FROM usernotes")
+    void emptyUsernote();
 
     @Update("UPDATE users SET is_confirmed=TRUE " +
             "WHERE email=#{email};")

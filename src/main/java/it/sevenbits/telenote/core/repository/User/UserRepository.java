@@ -118,4 +118,12 @@ public class UserRepository implements IUserRepository {
             throw new RepositoryException("An error occurred while getting token by email: " + e.getMessage(), e);
         }
     }
+
+    @Override
+    @Description("Empty test database after tests")
+    public void emptyBD() throws RepositoryException {
+        mapper.emptyUsers();
+        mapper.emptyNotes();
+        mapper.emptyUsernote();
+    }
 }

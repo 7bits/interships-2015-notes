@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Optional;
@@ -18,9 +19,9 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@Profile("test")
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
-@FlywayTest
 public class UserRepositoryTests {
 
     @Autowired
@@ -43,7 +44,11 @@ public class UserRepositoryTests {
 
     @After
     public void remove() throws Exception {
-        repository.remove(user);
+        try {
+            repository.emptyBD();
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
     }
 
     @Test
