@@ -1,66 +1,12 @@
-spring:
-  profiles.active: develop
-
----
-
 server:
   port: 9000
 
 spring:
-  profiles: dev
+  profiles:
+    active:
   datasource:
     url: jdbc:postgresql://localhost:5432/notes
     username: 
-    password:
-
-mail:
-    username: tele.notes.7bits@gmail.com
-    password:
-    protocol: smtp
-    host: smtp.gmail.com
-    port: 587
-    smtp:
-        auth: true
-        starttls:
-            enable: true
-            required: true
-        debug: true
-
----
-
-server:
-  port: 9000
-
-spring:
-  profiles: prod
-  datasource:
-    url: jdbc:postgresql://localhost:5432/notes
-    username:
-    password:
-
-mail:
-    username: tele.notes.7bits@gmail.com
-    password:
-    protocol: smtp
-    host: smtp.gmail.com
-    port: 587
-    smtp:
-        auth: true
-        starttls:
-            enable: true
-            required: true
-        debug: true
-
----
-
-server:
-  port: 9000
-
-spring:
-  profiles: test
-  datasource:
-    url: jdbc:postgresql://localhost:5432/test
-    username:
     password:
 
 mail:

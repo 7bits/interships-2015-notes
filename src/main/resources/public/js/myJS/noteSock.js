@@ -3,7 +3,11 @@ var stompClient = null;
 function connect() {
     var socket = new SockJS('/updatenote');
     stompClient = Stomp.over(socket);
-    stompClient.connect({}, function(frame) {
+    var headerName = $("meta[name=_csrf_header]").attr("content");
+    var token = $("meta[name=_csrf]").attr("content");
+    var headers = {};
+    headers[headerName] = token;
+    stompClient.connect(headers, function(frame) {
         //setConnected(true);
         //var email = $("meta[name=current_user]").attr("content");
         stompClient.subscribe('/user/queue/notes', subscribeEvent);

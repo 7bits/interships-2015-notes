@@ -272,7 +272,7 @@ public class SeleniumNoteTest {
         }
     }*/
 
-    @Test
+    /*@Test
     public void createTypeNoteTest() {
         driver.findElement(By.className("test-addNote")).click();
 
@@ -282,7 +282,7 @@ public class SeleniumNoteTest {
        content.click();
        WebElement text = driver.findElement(By.ByCssSelector.cssSelector(".textarea"));
        text.sendKeys("some text");
-    }
+    }*/
 
     private void clickShareButton(WebDriver driver) {
         Actions action = new Actions(driver);

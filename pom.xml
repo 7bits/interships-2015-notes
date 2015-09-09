@@ -124,6 +124,12 @@
             <version>3.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <!-- Package as an executable jar -->
@@ -152,25 +158,56 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <systemPropertyVariables>
-                        <flyway.driver>org.h2.Driver</flyway.driver>
-                        <flyway.url>jdbc:h2:nio:${project.build.directory}/db/flywaytest.db</flyway.url>
-                        <flyway.user>h2_test</flyway.user>
-                        <flyway.password>h2_test</flyway.password>
-                        <flyway.locations>sampletest3</flyway.locations>
-                    </systemPropertyVariables>
-                    <threadCount>1</threadCount>
-                </configuration>
-                <goals>
-                    <goal>test</goal>
-                </goals>
-                <executions>
-                </executions>
-            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>develop</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <systemPropertyVariables>
+                                <profiles.active>test</profiles.active>
+                            </systemPropertyVariables>
+                            <systemProperties>
+                                <property>
+                                    <name>
+                                        profiles.active
+                                    </name>
+                                    <value>
+                                        test
+                                    </value>
+                                </property>
+                            </systemProperties>
+                            <argLine>-Dprofiles.active=test</argLine>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
