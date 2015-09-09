@@ -308,8 +308,7 @@ public class SeleniumNoteTest {
 	    driver.findElement(By.className("test-shareApply")).click();
     }
     private void shareNote(WebDriver driver) {
-        WebElement el = driver.findElement(By.className("test-addShareEmail"));
-    	el.sendKeys("warumweil@gmail.com");
+        driver.findElement(By.className("test-addShareEmail")).sendKeys("warumweil@gmail.com");
     	driver.findElement(By.className("test-addShare")).click();
     	driver.findElement(By.className("test-shareApply")).click();
     }

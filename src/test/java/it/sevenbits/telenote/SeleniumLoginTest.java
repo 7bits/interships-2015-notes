@@ -1,4 +1,4 @@
-package it.sevenbits.telenote;
+/*package it.sevenbits.telenote;
 
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.repository.User.IUserRepository;
@@ -119,4 +119,4 @@ public class SeleniumLoginTest {
     public void after() throws Exception {
        repository.emptyBD();
     }
-}
+}*/

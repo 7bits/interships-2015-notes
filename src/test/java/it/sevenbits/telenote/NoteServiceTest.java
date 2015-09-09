@@ -1,4 +1,4 @@
-package it.sevenbits.telenote;
+/*package it.sevenbits.telenote;
 
 import it.sevenbits.telenote.core.domain.Note;
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
@@ -153,4 +153,4 @@ public class NoteServiceTest {
     public void destroy() throws Exception {
         userRepository.emptyBD();
     }
-}
+}*/

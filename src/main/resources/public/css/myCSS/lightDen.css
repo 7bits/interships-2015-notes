@@ -14,7 +14,7 @@ body {
 	color: #000000;
 }
 
-.cell {
+.note {
 	background-color: #ffffff;
 }
 
@@ -22,7 +22,7 @@ body {
 	background-color: #ffffff;
 }
 
-.cell button:hover {
+.note button:hover {
 	background-color: #ebedf0;
 }
 

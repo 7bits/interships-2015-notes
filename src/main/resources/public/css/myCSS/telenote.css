@@ -340,6 +340,7 @@ a:hover {
 	word-wrap: break-word;
     word-break: normal;
     overflow-x:none;
+    background-color: white;
 }
 
 .textarea:active,

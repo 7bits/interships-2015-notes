@@ -1,4 +1,4 @@
-package it.sevenbits.telenote;
+/*package it.sevenbits.telenote;
 
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.repository.User.IUserRepository;
@@ -148,4 +148,4 @@ public class UserRepositoryTests {
 
         repository.setTokenByEmail(user.getEmail(), oldToken);
     }
-}
+}*/
