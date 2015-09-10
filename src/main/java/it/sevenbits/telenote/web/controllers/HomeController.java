@@ -50,24 +50,13 @@ public class HomeController {
         //model.addObject("signinForm", new UserLoginForm());
         model.addObject("signupForm", new UserCreateForm());
 
-        // TODO: need to move to utils
-        Object error = request.getSession().getAttribute("ERROR");
-        Object name = request.getSession().getAttribute("USER_NAME");
-        Boolean is_error = Boolean.FALSE;
-        String username = "";
-        if (error != null) {
-            is_error = (Boolean)error;
-            request.getSession().removeAttribute("ERROR");
-        }
-        if (name != null) {
-            username = (String)name;
-            request.getSession().removeAttribute("USER_NAME");
-        }
-        // TODO: end(need to move to utils)
+        List<String> attrNames = new ArrayList<String>();
+        attrNames.add("error");
+        attrNames.add("username");
 
-        if (is_error) {
-            model.addObject("error", is_error);
-            model.addObject("username", username);
+        Map<String, Object> attrMap = Helper.getAttributeMap(attrNames, request);
+        for (Map.Entry<String,Object> entry: attrMap.entrySet()) {
+            model.addObject(entry.getKey(), entry.getValue());
         }
 
         return model;
