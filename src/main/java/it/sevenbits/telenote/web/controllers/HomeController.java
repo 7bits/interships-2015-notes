@@ -63,14 +63,20 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/telenote", method = RequestMethod.GET)
-    public String getTelenote(final Model model, Authentication auth) throws ServiceException {
+    public ModelAndView getTelenote(Authentication auth) throws ServiceException {
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
+        ModelAndView model = new ModelAndView("home/telenote");
 
-        model.addAttribute("user", currentUser);
-        model.addAttribute("noteSections", noteService.getSortedMap(currentUser));
-        model.addAttribute("avatar", Helper.getAvatarUrl(currentUser.getEmail()));
+        try {
+            model.addObject("user", currentUser);
+            model.addObject("noteSections", noteService.getSortedMap(currentUser));
+            model.addObject("avatar", Helper.getAvatarUrl(currentUser.getEmail()));
 
-        return "home/telenote";
+        } catch (ServiceException se) {
+            // show somehow error page
+        }
+
+        return model;
     }
 
     @RequestMapping(value = "/telenote", method = RequestMethod.POST)
@@ -82,10 +88,14 @@ public class HomeController {
 
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
 
-        if (id < 0) {
-            return noteService.addNote(form, currentUser.getId());
-        } else {
-            noteService.updateNote(form, currentUser.getId());
+        try {
+            if (id < 0) {
+                return noteService.addNote(form, currentUser.getId());
+            } else {
+                noteService.updateNote(form, currentUser.getId());
+            }
+        } catch (ServiceException se) {
+            // show somehow error page
         }
 
         return form.getId();
@@ -95,29 +105,28 @@ public class HomeController {
     public @ResponseBody List<UserDetailsImpl> checkSharedNote(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
 
         Long noteId = Long.parseLong(request.getParameter("id"));
-        List<UserDetailsImpl> shareUsers = noteService.getUsersWithSameNoteUuidById(noteId);
 
-        List<UserDetailsImpl> users = new ArrayList<UserDetailsImpl>();
-        users.add(noteService.getUserWhoSharedNote(noteId));
-        users.get(0).setAvatar(Helper.getAvatarUrl(users.get(0).getEmail()));
-
-        for (UserDetailsImpl u : shareUsers) {
-            u.setAvatar(Helper.getAvatarUrl(u.getEmail()));
-            if (!users.get(0).getEmail().equals(u.getEmail())) users.add(u);
+        try {
+            return noteService.checkSharedNote(noteId);
+        } catch (ServiceException se) {
+            return null;
         }
-
-        return users;
     }
 
 
     @RequestMapping(value = "/telenote/{id:\\d+}", method = RequestMethod.DELETE)
-    public @ResponseBody void deleteNote(@PathVariable("id") Long noteId, Authentication auth) throws ServiceException {
+    public void deleteNote(@PathVariable("id") Long noteId, Authentication auth) throws ServiceException {
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
 
         Note note = new Note();
         note.setId(noteId);
 
-        noteService.deleteNote(note, currentUser.getId());
+        try {
+            noteService.deleteNote(note, currentUser.getId());
+        } catch (ServiceException se) {
+            // show somehow error page
+        }
+
     }
 
     @RequestMapping(value = "/telenote/share", method = RequestMethod.POST)
@@ -129,12 +138,25 @@ public class HomeController {
         String userEmail = request.getParameter("email");
         ShareForm form = new ShareForm(noteId, userEmail);
 
-        return noteService.shareNote(form, currentUser.getId());
+        try {
+            return noteService.shareNote(form, currentUser.getId());
+        } catch (ServiceException se) {
+            // show somehow error page
+            return  null;
+        }
+
     }
 
     @RequestMapping(value = "telenote/deletesync", method = RequestMethod.POST)
     public ResponseEntity<ResponseMessage> deleteSync(HttpServletRequest request,Authentication auth) throws ServiceException {
-        noteService.deleteShareLink(Long.parseLong(request.getParameter("noteId")), Long.parseLong(request.getParameter("userId")));
+
+        try {
+            Long noteId = Long.parseLong(request.getParameter("noteId"));
+            Long userId = Long.parseLong(request.getParameter("userId"));
+            noteService.deleteShareLink(noteId, userId);
+        } catch (ServiceException se) {
+            return new ResponseEntity<>(new ResponseMessage(true, "Разрыв не совершён"), HttpStatus.NOT_FOUND);
+        }
 
         return new ResponseEntity<>(new ResponseMessage(true, "Разрыв совершён"), HttpStatus.OK);
     }
@@ -146,21 +168,30 @@ public class HomeController {
         Long.parseLong(request.getParameter("idCur")),
         Long.parseLong(request.getParameter("idNext")));
 
-        noteService.updateOrder(orderData);
+        try {
+            noteService.updateOrder(orderData);
+        } catch (ServiceException se) {
+            // show somehow error page
+        }
+
     }
 
     @MessageMapping("/updatenote")
     public void updateNote(NoteSocketCommand note) throws Exception {
         //UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
 
-        List<NoteModel> models = noteService.getAllSharedNoteModels(note.getId());
-        if (!models.isEmpty()) {
-            for (NoteModel model : models) {
-                note.setId(model.getId());
+        try {
+            List<NoteModel> models = noteService.getAllSharedNoteModels(note.getId());
+            if (!models.isEmpty()) {
+                for (NoteModel model : models) {
+                    note.setId(model.getId());
 
-                //messagingTemplate.convertAndSendToUser(model.getUsernameOfShareUser(), "/queue/notes", note);
-                messagingTemplate.convertAndSendToUser(model.getEmailOfShareUser(), "/queue/notes", note);
+                    //messagingTemplate.convertAndSendToUser(model.getUsernameOfShareUser(), "/queue/notes", note);
+                    messagingTemplate.convertAndSendToUser(model.getEmailOfShareUser(), "/queue/notes", note);
+                }
             }
+        } catch (ServiceException se) {
+            // show somehow error page
         }
     }
 }

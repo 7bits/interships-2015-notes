@@ -307,4 +307,19 @@ public class NoteService {
         }
         return map;
     }
+
+    public List<UserDetailsImpl> checkSharedNote(Long noteId) throws  ServiceException {
+        List<UserDetailsImpl> shareUsers = getUsersWithSameNoteUuidById(noteId);
+
+        List<UserDetailsImpl> users = new ArrayList<UserDetailsImpl>();
+        users.add(getUserWhoSharedNote(noteId));
+        users.get(0).setAvatar(Helper.getAvatarUrl(users.get(0).getEmail()));
+
+        for (UserDetailsImpl u : shareUsers) {
+            u.setAvatar(Helper.getAvatarUrl(u.getEmail()));
+            if (!users.get(0).getEmail().equals(u.getEmail())) users.add(u);
+        }
+
+        return users;
+    }
 }
