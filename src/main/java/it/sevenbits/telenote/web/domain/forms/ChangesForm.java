@@ -1,4 +1,4 @@
-package it.sevenbits.telenote.web.domain;
+package it.sevenbits.telenote.web.domain.forms;
 
 public class ChangesForm {
 

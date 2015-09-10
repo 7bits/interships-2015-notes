@@ -1,4 +1,4 @@
-package it.sevenbits.telenote.web.service.validators;
+package it.sevenbits.telenote.service.validators;
 
 import org.springframework.stereotype.Service;
 

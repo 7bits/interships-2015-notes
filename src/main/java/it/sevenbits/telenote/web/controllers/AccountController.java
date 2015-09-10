@@ -1,10 +1,11 @@
 package it.sevenbits.telenote.web.controllers;
 
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
-import it.sevenbits.telenote.web.domain.ChangesForm;
-import it.sevenbits.telenote.web.service.AccountService;
-import it.sevenbits.telenote.web.service.NoteService;
-import it.sevenbits.telenote.web.service.ServiceException;
+import it.sevenbits.telenote.utils.Helper;
+import it.sevenbits.telenote.web.domain.forms.ChangesForm;
+import it.sevenbits.telenote.service.AccountService;
+import it.sevenbits.telenote.service.NoteService;
+import it.sevenbits.telenote.service.ServiceException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,7 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Controller
-public class AccountController {
+public class
+        AccountController {
 
     private static Logger LOG = Logger.getLogger(AccountController.class);
 
@@ -32,7 +34,7 @@ public class AccountController {
         ModelAndView model = new ModelAndView("home/account");
         model.addObject("user", user);
         model.addObject("changesForm", new ChangesForm("", ""));
-        model.addObject("avatar", accountService.getAvatarHash(user.getEmail()));
+        model.addObject("avatar", Helper.getAvatarUrl(user.getEmail()));
 
         return model;
     }
@@ -44,7 +46,7 @@ public class AccountController {
         String username = user.getName();
         ModelAndView model = new ModelAndView("home/account");
         model.addObject("user", user);
-        model.addObject(accountService.getAvatarHash(user.getEmail()));
+        model.addObject(Helper.getAvatarUrl(user.getEmail()));
 
         try {
             if (!form.getUsername().isEmpty() && !form.getUsername().equals(user.getName())) {

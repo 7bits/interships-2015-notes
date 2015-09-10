@@ -4,7 +4,7 @@ import it.sevenbits.telenote.core.domain.Note;
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.domain.OrderData;
 import it.sevenbits.telenote.core.domain.UserNote;
-import it.sevenbits.telenote.web.domain.NoteModel;
+import it.sevenbits.telenote.web.domain.models.NoteModel;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

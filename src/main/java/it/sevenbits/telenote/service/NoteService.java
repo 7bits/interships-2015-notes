@@ -1,4 +1,4 @@
-package it.sevenbits.telenote.web.service;
+package it.sevenbits.telenote.service;
 
 import it.sevenbits.telenote.core.domain.Note;
 import it.sevenbits.telenote.core.domain.OrderData;
@@ -7,15 +7,15 @@ import it.sevenbits.telenote.core.domain.UserNote;
 import it.sevenbits.telenote.core.repository.Note.INoteRepository;
 import it.sevenbits.telenote.core.repository.RepositoryException;
 import it.sevenbits.telenote.core.repository.User.IUserRepository;
-import it.sevenbits.telenote.web.domain.NoteForm;
-import it.sevenbits.telenote.web.domain.NoteModel;
-import it.sevenbits.telenote.web.domain.ShareForm;
-import it.sevenbits.telenote.web.domain.ResponseMessage;
+import it.sevenbits.telenote.utils.Helper;
+import it.sevenbits.telenote.web.domain.forms.NoteForm;
+import it.sevenbits.telenote.web.domain.models.NoteModel;
+import it.sevenbits.telenote.web.domain.forms.ShareForm;
+import it.sevenbits.telenote.web.domain.models.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -160,7 +160,7 @@ public class NoteService {
 
         Optional<UserDetailsImpl> user = userRepository.getUserByEmail(form.getUserEmail());
 
-        String avatar = accountService.getAvatarHash(user.get().getEmail());
+        String avatar = Helper.getAvatarUrl(user.get().getEmail());
         user.get().setAvatar(avatar);
 
         return new ResponseEntity<>(new ResponseMessage(true, "Успешно расшарено!", user.get()), HttpStatus.OK);
@@ -257,5 +257,54 @@ public class NoteService {
         } catch (RepositoryException e) {
             throw new ServiceException("Не удалось получить чужие расшаренные заметки" + e.getMessage());
         }
+    }
+
+    public Map<String, List<NoteModel>> getSortedMap(UserDetailsImpl currentUser) throws ServiceException {
+        List<NoteModel> listNotes = getNotesWithSameNoteUuidByUserId(currentUser.getId());
+        List<NoteModel> myNotes = new ArrayList<>();
+
+        Map<String, Long> uuidIdMap= new HashMap<String, Long>();
+
+        Iterator<NoteModel> it  = listNotes.iterator();
+        while (it.hasNext()) {
+            NoteModel noteModel = it.next();
+
+            if(noteModel.getEmailOfShareUser().equals(currentUser.getEmail())) {
+                uuidIdMap.put(noteModel.getUuid(), noteModel.getId());
+                noteModel.setEmailOfShareUser(null); // зануляем свой имейл, чтобы поместить в "Мои заметки"
+
+                myNotes.add(noteModel); // добавляемм заметку в наш myNotes, удаляем ее из общего листа
+                it.remove();
+            }
+        }
+
+        for (Map.Entry<String, Long> entry : uuidIdMap.entrySet()) {
+            boolean isExists = listNotes.stream().filter(o -> o.getUuid().equals(entry.getKey())).findFirst().isPresent();
+
+            if(isExists) {
+                myNotes.removeIf(o -> o.getUuid().equals(entry.getKey()));
+            }
+        }
+        listNotes.addAll(myNotes);
+
+        Collections.sort(listNotes, new NoteModel.NoteOrderDescComparator());
+        //Collections.sort(myNotes, new NoteModel.UpdatedAtDescComparator());
+
+        Map<String, List<NoteModel>> map = new HashMap<String, List<NoteModel>>();
+        String avatar;
+        for (NoteModel noteModel : listNotes) {
+            noteModel.setId(uuidIdMap.get(noteModel.getUuid())); // меняем id любой заметки на свой
+
+            List<NoteModel> list = map.get(noteModel.getEmailOfShareUser());
+            if (list == null) {
+                list = new ArrayList<NoteModel>();
+
+                avatar = Helper.getAvatarUrl(noteModel.getEmailOfShareUser());
+                noteModel.setUserAvatar(avatar);
+                map.put(noteModel.getEmailOfShareUser(), list);
+            }
+            list.add(noteModel);
+        }
+        return map;
     }
 }

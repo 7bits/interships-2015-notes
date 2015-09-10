@@ -1,4 +1,4 @@
-package it.sevenbits.telenote.web.domain;
+package it.sevenbits.telenote.web.domain.forms;
 
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;
@@ -7,8 +7,8 @@ package it.sevenbits.telenote.web.domain;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Pattern;
-//import it.sevenbits.telenote.web.service.validators.*;
-import it.sevenbits.telenote.web.service.validators.CommonFieldValidator;
+//import it.sevenbits.telenote.service.validators.*;
+import it.sevenbits.telenote.service.validators.CommonFieldValidator;
 
 //import org.springframework.stereotype.Component;
 /*import java.sql.Timestamp;
