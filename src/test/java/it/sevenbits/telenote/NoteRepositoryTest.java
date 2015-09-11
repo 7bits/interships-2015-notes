@@ -47,7 +47,7 @@ public class NoteRepositoryTest {
         assertNotNull(note.getId());
         assertTrue(note.getId().longValue() > 0);
 
-        user.setEmail("ok@ok.oke");
+        user.setUsername("ok@ok.oke");
         user.setPassword("qwerty");
         user.setName("Leo");
 
@@ -117,7 +117,7 @@ public class NoteRepositoryTest {
 
         UserDetailsImpl tuser = noteRep.getUserWhoSharedNote(note.getId());
         assertNotNull(tuser);
-        assertEquals(tuser.getEmail(), user.getEmail());
+        assertEquals(tuser.getUsername(), user.getUsername());
 
         noteRep.deleteNote(note);
         note = tNote;
@@ -198,7 +198,7 @@ public class NoteRepositoryTest {
     @Test
     public void getUserNoteByParentIdTest() throws Exception {
         UserDetailsImpl tuser = new UserDetailsImpl();
-        tuser.setEmail("123olo@ok.oke");
+        tuser.setUsername("123olo@ok.oke");
         tuser.setPassword("qwerty");
         tuser.setName("Leo");
 

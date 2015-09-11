@@ -30,7 +30,7 @@ public class UserRepositoryTests {
 
     @Before
     public void create() throws Exception {
-        user.setEmail("ok@ok.oke");
+        user.setUsername("ok@ok.oke");
         user.setPassword("qwerty");
         user.setName("Leo");
 
@@ -53,7 +53,7 @@ public class UserRepositoryTests {
     public void isEmailExistsTest() throws Exception {
         assertTrue(repository.isEmailExists(user));
 
-        user.setEmail("ololo@ololo.ololo");
+        user.setUsername("ololo@ololo.ololo");
 
         assertFalse(repository.isEmailExists(user));
     }
@@ -83,7 +83,7 @@ public class UserRepositoryTests {
 
     public void checkUserFields(UserDetailsImpl tUser) {
         assertEquals(tUser.getId(), user.getId());
-        assertEquals(tUser.getEmail(), user.getEmail());
+        assertEquals(tUser.getUsername(), user.getUsername());
         assertEquals(tUser.getName(), user.getName());
         assertEquals(tUser.getPassword(), user.getPassword());
 
@@ -103,7 +103,7 @@ public class UserRepositoryTests {
 
     @Test
     public void getUserByEmailTest() throws Exception {
-        Optional<UserDetailsImpl> tUser = repository.getUserByEmail(user.getEmail());
+        Optional<UserDetailsImpl> tUser = repository.getUserByEmail(user.getUsername());
 
         assertTrue(tUser.isPresent());
         checkUserFields(tUser.get());
@@ -111,16 +111,16 @@ public class UserRepositoryTests {
 
     @Test
     public void confirmTest() throws Exception {
-        repository.confirm(user.getEmail());
+        repository.confirm(user.getUsername());
 
-        Optional<UserDetailsImpl> tUser = repository.getUserByEmail(user.getEmail());
+        Optional<UserDetailsImpl> tUser = repository.getUserByEmail(user.getUsername());
         assertTrue(tUser.isPresent());
         assertTrue(tUser.get().getIsConfirmed());
     }
 
     @Test
     public void getTokenTest() throws Exception {
-        String token = repository.getTokenByEmail(user.getEmail());
+        String token = repository.getTokenByEmail(user.getUsername());
 
         assertFalse(token.isEmpty());
         assertTrue(token.length() == 32);
@@ -136,14 +136,14 @@ public class UserRepositoryTests {
 
     @Test
     public void setTokenTest() throws Exception {
-        String oldToken = repository.getTokenByEmail(user.getEmail());
+        String oldToken = repository.getTokenByEmail(user.getUsername());
         String newToken =  "newtokentocomparewith";
 
-        repository.setTokenByEmail(user.getEmail(), newToken);
-        newToken = repository.getTokenByEmail(user.getEmail());
+        repository.setTokenByEmail(user.getUsername(), newToken);
+        newToken = repository.getTokenByEmail(user.getUsername());
 
         assertNotEquals(oldToken, newToken);
 
-        repository.setTokenByEmail(user.getEmail(), oldToken);
+        repository.setTokenByEmail(user.getUsername(), oldToken);
     }
 }
