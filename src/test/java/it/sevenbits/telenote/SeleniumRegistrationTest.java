@@ -1,8 +1,8 @@
 package it.sevenbits.telenote;
 
+import it.sevenbits.telenote.config.TestContextInitializer;
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.repository.User.IUserRepository;
-import org.flywaydb.test.annotation.FlywayTest;
 import org.junit.*;
 import org.junit.runner.RunWith;
 
@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-//import static org.hamcrest.Matchers.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +23,7 @@ import static org.junit.Assert.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = Application.class, initializers = TestContextInitializer.class)
 @WebIntegrationTest
 public class SeleniumRegistrationTest {
 
@@ -58,7 +55,7 @@ public class SeleniumRegistrationTest {
         findInputFields();
 
         //register user
-        email.sendKeys(user.getEmail());
+        email.sendKeys(user.getUsername());
         username.sendKeys(user.getName());
         password.sendKeys(user.getPassword());
         //passwordRepeat.sendKeys(user.getPassword());
@@ -132,7 +129,7 @@ public class SeleniumRegistrationTest {
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
         user = new UserDetailsImpl();
-        user.setEmail("ololo@ololo.com");
+        user.setUsername("ololo@ololo.com");
         user.setName("Capitan");
         user.setPassword("Ololo73");
         //driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);

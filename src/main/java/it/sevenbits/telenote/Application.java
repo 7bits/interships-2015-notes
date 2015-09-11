@@ -1,6 +1,6 @@
 package it.sevenbits.telenote;
 
-import it.sevenbits.telenote.config.CostumContextInitializer;
+import it.sevenbits.telenote.config.CustomContextInitializer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -20,7 +20,7 @@ public class Application extends SpringBootServletInitializer {
         SpringApplication app = new SpringApplication(Application.class);
 
         ArrayList<ApplicationContextInitializer<ConfigurableApplicationContext>> list = new ArrayList<>();
-        list.add(new CostumContextInitializer(new YamlPropertySourceLoader(), "src/main/resources/config/", "application", ".yml"));
+        list.add(new CustomContextInitializer(new YamlPropertySourceLoader(), "src/main/resources/config/", "application", ".yml"));
 
         app.setInitializers(list);
         app.setShowBanner(false);

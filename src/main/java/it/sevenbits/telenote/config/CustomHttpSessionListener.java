@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSessionEvent;
  */
 
 @Component
-public class CostumHttpSessionListener implements javax.servlet.http.HttpSessionListener, ApplicationContextAware {
+public class CustomHttpSessionListener implements javax.servlet.http.HttpSessionListener, ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

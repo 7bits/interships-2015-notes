@@ -15,8 +15,8 @@ import java.io.IOException;
 /**
  * Created by sevenbits on 07.09.15.
  */
-public class CostumContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-    private static Logger LOG = LoggerFactory.getLogger(CostumContextInitializer.class);
+public class CustomContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+    private static Logger LOG = LoggerFactory.getLogger(CustomContextInitializer.class);
 
     private final String PROPERTY_SOURCE_NAME = "application";
     private final String CONFIG_NAME_SPLITTER = "-";
@@ -26,7 +26,7 @@ public class CostumContextInitializer implements ApplicationContextInitializer<C
     private String defaultConfigPath;
     private String defaultExtension;
 
-    public CostumContextInitializer(PropertySourceLoader loader, String defaultConfigPath, String defaultConfigName, String extension) {
+    public CustomContextInitializer(PropertySourceLoader loader, String defaultConfigPath, String defaultConfigName, String extension) {
         this.loader = loader;
         this.defaultConfigName = defaultConfigName;
         this.defaultConfigPath = defaultConfigPath;

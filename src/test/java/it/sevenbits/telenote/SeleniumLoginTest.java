@@ -1,5 +1,6 @@
 package it.sevenbits.telenote;
 
+import it.sevenbits.telenote.config.TestContextInitializer;
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.repository.User.IUserRepository;
 import org.junit.*;
@@ -24,7 +25,7 @@ import static org.junit.Assert.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = Application.class, initializers = TestContextInitializer.class)
 @WebIntegrationTest
 public class SeleniumLoginTest {
 
@@ -48,7 +49,7 @@ public class SeleniumLoginTest {
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
         user = new UserDetailsImpl();
-        user.setEmail("ololo@ololo.com");
+        user.setUsername("ololo@ololo.com");
         user.setName("Capitan");
         //driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
     }
@@ -79,7 +80,7 @@ public class SeleniumLoginTest {
 
     @Test
     public void loginAllOk() {
-        email.sendKeys(user.getEmail());
+        email.sendKeys(user.getUsername());
         password.sendKeys(user.getPassword());
 
         submit.submit();
@@ -104,7 +105,7 @@ public class SeleniumLoginTest {
 
     @Test
     public void loginWrongPassword() {
-        email.sendKeys(user.getEmail());
+        email.sendKeys(user.getUsername());
         password.sendKeys("123");
 
         submit.submit();

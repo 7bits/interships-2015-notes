@@ -19,8 +19,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,20 +38,19 @@ public class UserService implements UserDetailsService {
     @Qualifier(value = "theUserPersistRepository")
     private IUserRepository repository;
 
-    public void create(final UserCreateForm form) throws ServiceException {
-        final UserDetailsImpl userDetails = new UserDetailsImpl();
-        userDetails.setEmail(form.getEmail());
-        userDetails.setName(form.getUsername());
+    @Autowired
+    private EmailService emailService;
 
+    public void create(final UserDetailsImpl user) throws ServiceException {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        userDetails.setPassword(encoder.encode(form.getPassword()));
+        user.setPassword(encoder.encode(user.getPassword()));
 
         try {
-            if (repository.isEmailExists(userDetails))
+            if (repository.isEmailExists(user))
                 throw new ServiceException("Sorry, e-mail is already exists");
 
-            repository.create(userDetails);
-            LOG.debug(String.format("New user created: %s, %d", userDetails, userDetails.getId() ));
+            repository.create(user);
+            LOG.debug(String.format("New user created: %s, %d", user, user.getId() ));
         } catch (Exception e) {
             throw new ServiceException("An error occurred while saving subscription: " + e.getMessage(), e);
         }
@@ -71,7 +77,7 @@ public class UserService implements UserDetailsService {
     public void updatePassword(final UserCreateForm form, String password) throws ServiceException {
 
         final UserDetailsImpl userDetails = new UserDetailsImpl();
-        userDetails.setEmail(form.getEmail().toLowerCase());
+        userDetails.setUsername(form.getEmail().toLowerCase());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         userDetails.setPassword(encoder.encode(password));
 
@@ -125,5 +131,57 @@ public class UserService implements UserDetailsService {
         }
 
         return token;
+    }
+
+    public ModelAndView getSignUpErrors(String url, BindingResult bindingResult) throws ServiceException {
+        ModelAndView model = new ModelAndView(url);
+        List<String> matcher = new ArrayList<String>();
+
+        for (ObjectError objectError : bindingResult.getAllErrors()) {
+            try {
+                String error = ((FieldError) objectError).getField().toString();
+                if(!matcher.contains(error)) {
+                    matcher.add(error);
+                    model.addObject(error + "Error", error);
+                }
+            } catch (Exception e) {
+                model.addObject("emailExists", objectError);
+            }
+        }
+        return model;
+    }
+
+    public ModelAndView resetPassInDB(String email) throws ServiceException {
+        Optional<UserDetailsImpl> user = getUserByEmail(email);
+        if (user.isPresent()) {
+            String token = setNewToken(user.get().getUsername());
+            String link = "http://tele-notes.7bits.it/resetpass?token=" + token + "&email=" + email;
+
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("link", link);
+            map.put("username", user.get().getName());
+
+            emailService.sendHtml(user.get().getUsername(), "Tele-notes. Восстановление пароля.", "home/changePassMail", map);
+        } else {
+            return new ModelAndView("home/resetPass", "error", email);
+        }
+
+        return null;
+    }
+
+    public ModelAndView updatePass(String email, String token, String[] passwords) throws ServiceException {
+        Optional<UserDetailsImpl> user = getUserByEmail(email);
+        if (user.isPresent() && token.equals(getToken(email))
+                && passwords[0].equals(passwords[1])) {
+
+            UserCreateForm userForm = new UserCreateForm();
+            userForm.setEmail(email);
+
+            updatePassword(userForm, passwords[0]);
+
+            return null;
+        } else {
+            return new ModelAndView("home/newpass");
+        }
     }
 }

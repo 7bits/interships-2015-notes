@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>it.sevenbits</groupId>
-    <artifactId>springboot-tutorial</artifactId>
+    <artifactId>telenote</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <!-- <properties>
@@ -181,33 +181,6 @@
         </profile>
         <profile>
             <id>test</id>
-            <properties>
-                <profiles.active>test</profiles.active>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <systemPropertyVariables>
-                                <profiles.active>test</profiles.active>
-                            </systemPropertyVariables>
-                            <systemProperties>
-                                <property>
-                                    <name>
-                                        profiles.active
-                                    </name>
-                                    <value>
-                                        test
-                                    </value>
-                                </property>
-                            </systemProperties>
-                            <argLine>-Dprofiles.active=test</argLine>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
     </profiles>
 </project>

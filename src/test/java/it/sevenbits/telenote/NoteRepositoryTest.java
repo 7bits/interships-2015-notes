@@ -1,5 +1,6 @@
 package it.sevenbits.telenote;
 
+import it.sevenbits.telenote.config.TestContextInitializer;
 import it.sevenbits.telenote.core.domain.Note;
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.domain.UserNote;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = Application.class, initializers = TestContextInitializer.class)
 @WebIntegrationTest
 public class NoteRepositoryTest {
 
@@ -47,7 +47,7 @@ public class NoteRepositoryTest {
         assertNotNull(note.getId());
         assertTrue(note.getId().longValue() > 0);
 
-        user.setEmail("ok@ok.oke");
+        user.setUsername("ok@ok.oke");
         user.setPassword("qwerty");
         user.setName("Leo");
 
@@ -117,7 +117,7 @@ public class NoteRepositoryTest {
 
         UserDetailsImpl tuser = noteRep.getUserWhoSharedNote(note.getId());
         assertNotNull(tuser);
-        assertEquals(tuser.getEmail(), user.getEmail());
+        assertEquals(tuser.getUsername(), user.getUsername());
 
         noteRep.deleteNote(note);
         note = tNote;
@@ -198,7 +198,7 @@ public class NoteRepositoryTest {
     @Test
     public void getUserNoteByParentIdTest() throws Exception {
         UserDetailsImpl tuser = new UserDetailsImpl();
-        tuser.setEmail("123olo@ok.oke");
+        tuser.setUsername("123olo@ok.oke");
         tuser.setPassword("qwerty");
         tuser.setName("Leo");
 

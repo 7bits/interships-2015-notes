@@ -71,13 +71,4 @@ public class AccountService {
             throw new ServiceException("Не удалось сменить пароль в базе: " + e.getMessage());
         }
     }
-
-
-    public String getUserStyle(Long userId) throws ServiceException {
-        try {
-            return accountRepository.getUserStyle(userId);
-        } catch (RepositoryException e) {
-            throw new ServiceException("Ошибка чтения стиля" + e.getMessage());
-        }
-    }
 }

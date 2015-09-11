@@ -1,5 +1,6 @@
 package it.sevenbits.telenote;
 
+import it.sevenbits.telenote.config.TestContextInitializer;
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.repository.User.IUserRepository;
 import org.junit.*;
@@ -29,8 +30,9 @@ import static org.junit.Assert.fail;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
+@SpringApplicationConfiguration(classes = Application.class, initializers = TestContextInitializer.class)
 @WebIntegrationTest
+//@ContextConfiguration(initializers = TestContextInitializer.class)
 public class SeleniumNoteTest {
 
     private static WebDriver driver;
@@ -49,7 +51,7 @@ public class SeleniumNoteTest {
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
         user = new UserDetailsImpl();
-        user.setEmail("ololo@ololo.com");
+        user.setUsername("ololo@ololo.com");
         user.setName("Capitan");
         //driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
     }
@@ -85,7 +87,7 @@ public class SeleniumNoteTest {
         WebElement password = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] input[name=password]"));
         WebElement submit = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] .loginSubmit"));
 
-        email.sendKeys(user.getEmail());
+        email.sendKeys(user.getUsername());
         password.sendKeys(user.getPassword());
         submit.submit();
 
@@ -192,7 +194,7 @@ public class SeleniumNoteTest {
     @Test
     public void createShareNoteTest() {
       UserDetailsImpl user = new UserDetailsImpl();
-      user.setEmail("warumweil@gmail.com");
+      user.setUsername("warumweil@gmail.com");
       user.setName("J");
       try {
            user.setPassword((new BCryptPasswordEncoder()).encode("54321Qwerty"));
