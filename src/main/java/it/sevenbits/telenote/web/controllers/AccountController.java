@@ -1,7 +1,7 @@
 package it.sevenbits.telenote.web.controllers;
 
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
-import it.sevenbits.telenote.web.domain.ChangesForm;
+import it.sevenbits.telenote.web.domain.forms.ChangesForm;
 import it.sevenbits.telenote.web.service.AccountService;
 import it.sevenbits.telenote.web.service.NoteService;
 import it.sevenbits.telenote.web.service.ServiceException;

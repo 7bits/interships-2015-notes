@@ -1,4 +1,4 @@
-package it.sevenbits.telenote.web.domain;
+package it.sevenbits.telenote.web.domain.forms;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;

@@ -1,6 +1,6 @@
 package it.sevenbits.telenote.web.service.validators;
 
-import it.sevenbits.telenote.web.domain.UserCreateForm;
+import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
 import it.sevenbits.telenote.web.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

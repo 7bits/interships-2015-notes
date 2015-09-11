@@ -1,4 +1,4 @@
-package it.sevenbits.telenote.web.domain;
+package it.sevenbits.telenote.web.domain.models;
 
 /**
  * Created by sevenbits on 20.08.15.

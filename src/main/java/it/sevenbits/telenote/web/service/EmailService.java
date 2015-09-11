@@ -8,7 +8,7 @@ package it.sevenbits.telenote.web.service;
 
 import de.neuland.jade4j.JadeConfiguration;
 import de.neuland.jade4j.template.JadeTemplate;
-import it.sevenbits.telenote.web.domain.UserCreateForm;
+import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 

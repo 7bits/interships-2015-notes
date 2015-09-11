@@ -7,7 +7,7 @@ import it.sevenbits.telenote.core.domain.OrderData;
 import it.sevenbits.telenote.core.domain.UserNote;
 import it.sevenbits.telenote.core.mappers.NoteMapper;
 import it.sevenbits.telenote.core.repository.RepositoryException;
-import it.sevenbits.telenote.web.domain.NoteModel;
+import it.sevenbits.telenote.web.domain.models.NoteModel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

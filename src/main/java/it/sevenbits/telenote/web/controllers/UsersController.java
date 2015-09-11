@@ -1,8 +1,8 @@
 package it.sevenbits.telenote.web.controllers;
 
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
-import it.sevenbits.telenote.web.domain.RestorePasswordForm;
-import it.sevenbits.telenote.web.domain.UserCreateForm;
+import it.sevenbits.telenote.web.domain.forms.RestorePasswordForm;
+import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
 import it.sevenbits.telenote.web.service.EmailService;
 import it.sevenbits.telenote.web.service.ServiceException;
 import it.sevenbits.telenote.web.service.validators.UserCreateFormValidator;

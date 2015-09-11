@@ -5,7 +5,12 @@ import it.sevenbits.telenote.core.domain.Note;
 import it.sevenbits.telenote.core.domain.OrderData;
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.repository.RepositoryException;
-import it.sevenbits.telenote.web.domain.*;
+import it.sevenbits.telenote.web.domain.forms.NoteForm;
+import it.sevenbits.telenote.web.domain.forms.ShareForm;
+import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
+import it.sevenbits.telenote.web.domain.models.NoteModel;
+import it.sevenbits.telenote.web.domain.models.NoteSocketCommand;
+import it.sevenbits.telenote.web.domain.models.ResponseMessage;
 import it.sevenbits.telenote.web.service.AccountService;
 import it.sevenbits.telenote.web.service.NoteService;
 import it.sevenbits.telenote.web.service.ServiceException;
@@ -28,7 +33,7 @@ import java.util.*;
 
 //import org.springframework.security.core.userdetails.UserDetails;
 //import org.springframework.web.servlet.ModelAndView;
-//import it.sevenbits.telenote.web.domain.UserCreateForm;
+//import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
 //import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
