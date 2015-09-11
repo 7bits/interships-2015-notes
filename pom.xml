@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>it.sevenbits</groupId>
-    <artifactId>springboot-tutorial</artifactId>
+    <artifactId>telenote</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <!-- <properties>

@@ -48,7 +48,7 @@ public class SeleniumLoginTest {
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
         user = new UserDetailsImpl();
-        user.setEmail("ololo@ololo.com");
+        user.setUsername("ololo@ololo.com");
         user.setName("Capitan");
         //driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
     }
@@ -79,7 +79,7 @@ public class SeleniumLoginTest {
 
     @Test
     public void loginAllOk() {
-        email.sendKeys(user.getEmail());
+        email.sendKeys(user.getUsername());
         password.sendKeys(user.getPassword());
 
         submit.submit();
@@ -104,7 +104,7 @@ public class SeleniumLoginTest {
 
     @Test
     public void loginWrongPassword() {
-        email.sendKeys(user.getEmail());
+        email.sendKeys(user.getUsername());
         password.sendKeys("123");
 
         submit.submit();

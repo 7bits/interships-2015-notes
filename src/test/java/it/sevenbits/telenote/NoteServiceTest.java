@@ -52,7 +52,7 @@ public class NoteServiceTest {
 
     @Before
     public void create() throws Exception {
-        user.setEmail("ok@ok.oke");
+        user.setUsername("ok@ok.oke");
         user.setPassword("qwerty");
         user.setName("Leo");
 
@@ -68,7 +68,7 @@ public class NoteServiceTest {
         //создал еще 3 пользователей
         for (int i = 0; i < 6; i++) {
             UserDetailsImpl user = new UserDetailsImpl();
-            user.setEmail(RandomStringUtils.randomAlphabetic(4) + "@ok.oke");
+            user.setUsername(RandomStringUtils.randomAlphabetic(4) + "@ok.oke");
             user.setPassword("qwerty");
             user.setName("Leo");
 
@@ -80,13 +80,13 @@ public class NoteServiceTest {
     @Test
     public void deleteShareLinkTest() throws Exception {
         //расшарил с 0 пользователем заметку, парент юзер - глобальный юзер
-        ShareForm share = new ShareForm(newNoteId, users.get(0).getEmail());
+        ShareForm share = new ShareForm(newNoteId, users.get(0).getUsername());
         ResponseEntity<ResponseMessage> message = noteService.shareNote(share, user.getId());
         //System.out.println(message.getBody().getMessage());
         assertEquals(message.getStatusCode(), HttpStatus.OK);
 
         //расшарил с 1 пользователем заметку, парент юзер - глобальный юзер
-        share.setUserEmail(users.get(1).getEmail());
+        share.setUserEmail(users.get(1).getUsername());
         message = noteService.shareNote(share, user.getId());
         //System.out.println(message.getBody().getMessage());
         assertEquals(message.getStatusCode(), HttpStatus.OK);
@@ -98,27 +98,27 @@ public class NoteServiceTest {
         assertTrue(zeroUserNotes.size() == 1);
 
         //расшарил с 2 пользователем заметку 0 юзера, парент юзер - юзер номер 0
-        share.setUserEmail(users.get(2).getEmail());
+        share.setUserEmail(users.get(2).getUsername());
         share.setNoteId(zeroUserNotes.get(0).getId());
         message = noteService.shareNote(share, users.get(0).getId());
         //System.out.println(message.getBody().getMessage());
         assertEquals(message.getStatusCode(), HttpStatus.OK);
 
         //расшарил с 3 пользователем заметку, парент юзер - юзер номер 0
-        share.setUserEmail(users.get(3).getEmail());
+        share.setUserEmail(users.get(3).getUsername());
         message = noteService.shareNote(share, users.get(0).getId());
         //System.out.println(message.getBody().getMessage());
         assertEquals(message.getStatusCode(), HttpStatus.OK);
 
         //расшарил с 4 пользователем заметку, парент юзер - юзер номер 1
-        share.setUserEmail(users.get(4).getEmail());
+        share.setUserEmail(users.get(4).getUsername());
         share.setNoteId(firstUserNotes.get(0).getId());
         message = noteService.shareNote(share, users.get(1).getId());
         //System.out.println(message.getBody().getMessage());
         assertEquals(message.getStatusCode(), HttpStatus.OK);
 
         //расшарил с 5 пользователем заметку, парент юзер - юзер номер 1
-        share.setUserEmail(users.get(5).getEmail());
+        share.setUserEmail(users.get(5).getUsername());
         message = noteService.shareNote(share, users.get(1).getId());
         //System.out.println(message.getBody().getMessage());
         assertEquals(message.getStatusCode(), HttpStatus.OK);

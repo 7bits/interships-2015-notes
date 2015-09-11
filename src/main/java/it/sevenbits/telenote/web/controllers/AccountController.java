@@ -34,7 +34,7 @@ public class
         ModelAndView model = new ModelAndView("home/account");
         model.addObject("user", user);
         model.addObject("changesForm", new ChangesForm("", ""));
-        model.addObject("avatar", Helper.getAvatarUrl(user.getEmail()));
+        model.addObject("avatar", Helper.getAvatarUrl(user.getUsername()));
 
         return model;
     }
@@ -46,7 +46,7 @@ public class
         String username = user.getName();
         ModelAndView model = new ModelAndView("home/account");
         model.addObject("user", user);
-        model.addObject(Helper.getAvatarUrl(user.getEmail()));
+        model.addObject(Helper.getAvatarUrl(user.getUsername()));
 
         try {
             if (!form.getUsername().isEmpty() && !form.getUsername().equals(user.getName())) {

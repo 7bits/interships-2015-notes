@@ -70,7 +70,7 @@ public class HomeController {
         try {
             model.addObject("user", currentUser);
             model.addObject("noteSections", noteService.getSortedMap(currentUser));
-            model.addObject("avatar", Helper.getAvatarUrl(currentUser.getEmail()));
+            model.addObject("avatar", Helper.getAvatarUrl(currentUser.getUsername()));
 
         } catch (ServiceException se) {
             // show somehow error page

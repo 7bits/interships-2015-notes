@@ -116,7 +116,7 @@ public class NoteService {
     public ResponseEntity<ResponseMessage> shareNote(final ShareForm form, Long parentUserId) throws RepositoryException, ServiceException {
         Long parentNoteId = form.getNoteId();
         final UserDetailsImpl userDetails = new UserDetailsImpl();
-        userDetails.setEmail(form.getUserEmail());
+        userDetails.setUsername(form.getUserEmail());
 
         final Note note = new Note();
         note.setId(form.getNoteId());
@@ -160,7 +160,7 @@ public class NoteService {
 
         Optional<UserDetailsImpl> user = userRepository.getUserByEmail(form.getUserEmail());
 
-        String avatar = Helper.getAvatarUrl(user.get().getEmail());
+        String avatar = Helper.getAvatarUrl(user.get().getUsername());
         user.get().setAvatar(avatar);
 
         return new ResponseEntity<>(new ResponseMessage(true, "Успешно расшарено!", user.get()), HttpStatus.OK);
@@ -269,7 +269,7 @@ public class NoteService {
         while (it.hasNext()) {
             NoteModel noteModel = it.next();
 
-            if(noteModel.getEmailOfShareUser().equals(currentUser.getEmail())) {
+            if(noteModel.getEmailOfShareUser().equals(currentUser.getUsername())) {
                 uuidIdMap.put(noteModel.getUuid(), noteModel.getId());
                 noteModel.setEmailOfShareUser(null); // зануляем свой имейл, чтобы поместить в "Мои заметки"
 
@@ -313,11 +313,11 @@ public class NoteService {
 
         List<UserDetailsImpl> users = new ArrayList<UserDetailsImpl>();
         users.add(getUserWhoSharedNote(noteId));
-        users.get(0).setAvatar(Helper.getAvatarUrl(users.get(0).getEmail()));
+        users.get(0).setAvatar(Helper.getAvatarUrl(users.get(0).getUsername()));
 
         for (UserDetailsImpl u : shareUsers) {
-            u.setAvatar(Helper.getAvatarUrl(u.getEmail()));
-            if (!users.get(0).getEmail().equals(u.getEmail())) users.add(u);
+            u.setAvatar(Helper.getAvatarUrl(u.getUsername()));
+            if (!users.get(0).getUsername().equals(u.getUsername())) users.add(u);
         }
 
         return users;

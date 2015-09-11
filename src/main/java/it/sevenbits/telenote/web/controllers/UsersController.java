@@ -31,8 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-
-//import java.util.NoSuchElementException;
 /**
  * Created by sevenbits on 16.07.15.
  */
@@ -62,42 +60,33 @@ public class UsersController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public ModelAndView handleRegistrationGet(HttpSession session) throws ServiceException {
-        ModelAndView mav = new ModelAndView("redirect:/");
-        mav.addObject("form", (UserCreateForm)session.getAttribute("userForm"));
+        ModelAndView model = new ModelAndView("redirect:/");
+        model.addObject("form", (UserCreateForm)session.getAttribute("userForm"));
 
-        return mav;
+        return model;
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public ModelAndView handleRegistrationPost(@Valid @ModelAttribute("form") UserCreateForm form,
                 BindingResult bindingResult, HttpSession session, HttpServletRequest request) {
+        try {
+            if (bindingResult.hasErrors()) {
+                String url = "home/welcome";
+                ModelAndView model = userService.getSignUpErrors(url, bindingResult);
 
-        if (bindingResult.hasErrors()) {
-            ModelAndView model = new ModelAndView("home/welcome");
-            List<String> matcher = new ArrayList<String>();
-
-            for (ObjectError objectError : bindingResult.getAllErrors()) {
-                try {
-                    if(!matcher.contains(((FieldError) objectError).getField().toString())) {
-                        matcher.add(((FieldError) objectError).getField().toString());
-                        model.addObject(((FieldError) objectError).getField().toString() + "Error", ((FieldError) objectError).getField().toString());
-                    }
-                } catch (Exception e) {
-                    model.addObject("emailExists", objectError);
-                }
+                session.setAttribute("userForm", form);
+                model.addObject("signupForm", form);
+                return model;
             }
 
-            session.setAttribute("userForm", form);
-            model.addObject("signupForm", form);
-            return model;
-        }
-
-        try {
-            form.setEmail(form.getEmail().toLowerCase());
-
-            userService.create(form);
-
             if (!form.getEmail().isEmpty()) {
+                UserDetailsImpl user = new UserDetailsImpl();
+                user.setName(form.getUsername());
+                user.setUsername(form.getEmail().toLowerCase());
+                user.setPassword(form.getPassword());
+
+                userService.create(user);
+
                 String link = "http://tele-notes.7bits.it/confirm?token=" + userService.getToken(form.getEmail()) + "&email=" + form.getEmail();
                 //ModelAndView model = new ModelAndView("home/confirmRegMail");
                 //model.addObject("confirmLink", );
@@ -150,19 +139,8 @@ public class UsersController {
     @RequestMapping(value = "/resetpass", method = RequestMethod.POST)
     public ModelAndView resetPassInDB(@ModelAttribute UserCreateForm form) {
         try {
-            Optional<UserDetailsImpl> user = userService.getUserByEmail(form.getEmail());
-            if (user.isPresent()) {
-                String token = userService.setNewToken(user.get().getEmail());
-                String link = "http://tele-notes.7bits.it/resetpass?token=" + token + "&email=" + form.getEmail();
-
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("link", link);
-                map.put("username", user.get().getName());
-
-                emailService.sendHtml(user.get().getEmail(), "Tele-notes. Восстановление пароля.", "home/changePassMail", map);
-            } else {
-                return new ModelAndView("home/resetPass", "error", form.getEmail());
-            }
+            ModelAndView model = userService.resetPassInDB(form.getEmail());
+            if (model != null) return model;
         } catch (ServiceException e) {
             return new ModelAndView("home/errors", "error", e.getMessage());
         }
@@ -178,61 +156,45 @@ public class UsersController {
     @RequestMapping(value = "/updatepass", method = RequestMethod.POST)
     public ModelAndView updatePass(@ModelAttribute RestorePasswordForm form) {
         try {
-            Optional<UserDetailsImpl> user = userService.getUserByEmail(form.getEmail());
-            if (user.isPresent() && form.getToken().equals(userService.getToken(form.getEmail()))
-                    && form.getPassword().equals(form.getPasswordRepeat())) {
+            String[] passwords = new String[2];
+            passwords[0] = form.getPassword();
+            passwords[1] = form.getPasswordRepeat();
 
-                UserCreateForm userForm = new UserCreateForm();
-                userForm.setEmail(form.getEmail());
+            ModelAndView model = userService.updatePass(form.getEmail(), form.getToken(), passwords);
 
-                userService.updatePassword(userForm, form.getPassword());
-            } else {
-                ModelAndView model = new ModelAndView("home/newpass");
-
-                return model;
-            }
+            if (model != null) return model;
         } catch (ServiceException ex) {
             return new ModelAndView("home/errors", "error", ex.getMessage());
         }
 
         return new ModelAndView("redirect:/");
     }
-    /*@RequestMapping(value = "/send", method = RequestMethod.GET)
-    public String sendEmail(String email) {
-        try {
-            if (!email.isEmpty()) {
-                String link = "http://tele-notes.7bits.it/confirm?token=" + userService.getToken(email) + "&email=" + email;
-                //ModelAndView model = new ModelAndView("home/confirmRegMail");
-                //model.addObject("confirmLink", );
-                LOG.info("Sended email to " + email);
-                emailService.sendConfirm(email, "Tele-notes. Подтверждение регистрации.", link);
-            }
-        } catch (ServiceException e) {
-            throw new ServiceException(e.getMessage());
-        }
-
-        return "redirect:/";
-    }*/
 
     @RequestMapping(value = "/confirm", method = RequestMethod.GET)
-    public String confirmEmail(String token, String email) {
+    public ModelAndView confirmEmail(String token, String email) {
         if (token == null || email == null || token.isEmpty() || email.isEmpty()) {
-            return "home/errors";
+            ModelAndView model = new ModelAndView("home/errors");
+            model.addObject("header", "403");
+            model.addObject("message", "Переданные данные не корректны, попробуйте ещё раз.");
+            return model;
         }
 
         try {
             Optional<UserDetailsImpl> user = userService.getUserByEmail(email);
             if (!user.isPresent() && !user.get().getToken().equals(token)) {
-                return "home/errors";
+                throw new ServiceException();
             }
 
             userService.confirm(email);
             LOG.info(email + " confirmed!!");
         } catch (ServiceException ex) {
-            return "home/errors";
+            ModelAndView model = new ModelAndView("home/errors");
+            model.addObject("header", "403");
+            model.addObject("message", "Переданные данные не корректны, попробуйте ещё раз.");
+            return model;
         }
 
-        return "redirect:/";
+        return new ModelAndView("redirect:/");
     }
 
 
