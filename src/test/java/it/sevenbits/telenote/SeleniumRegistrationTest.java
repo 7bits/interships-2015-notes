@@ -26,7 +26,6 @@ import static org.junit.Assert.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@Profile("test")
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
 public class SeleniumRegistrationTest {

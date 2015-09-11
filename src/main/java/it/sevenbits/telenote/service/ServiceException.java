@@ -1,4 +1,4 @@
-package it.sevenbits.telenote.web.service;
+package it.sevenbits.telenote.service;
 
 public class ServiceException extends Exception {
     public ServiceException(String message) {

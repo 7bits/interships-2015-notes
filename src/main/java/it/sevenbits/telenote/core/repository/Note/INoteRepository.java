@@ -5,7 +5,7 @@ import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.domain.OrderData;
 import it.sevenbits.telenote.core.domain.UserNote;
 import it.sevenbits.telenote.core.repository.RepositoryException;
-import it.sevenbits.telenote.web.domain.NoteModel;
+import it.sevenbits.telenote.web.domain.models.NoteModel;
 
 import java.util.List;
 

@@ -5,13 +5,11 @@ import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 
 import it.sevenbits.telenote.core.repository.Note.INoteRepository;
 import it.sevenbits.telenote.core.repository.User.IUserRepository;
-import it.sevenbits.telenote.web.domain.NoteForm;
-import it.sevenbits.telenote.web.domain.NoteModel;
-import it.sevenbits.telenote.web.domain.ResponseMessage;
-import it.sevenbits.telenote.web.domain.ShareForm;
-import it.sevenbits.telenote.web.service.NoteService;
-
-import org.flywaydb.test.annotation.FlywayTest;
+import it.sevenbits.telenote.web.domain.forms.NoteForm;
+import it.sevenbits.telenote.web.domain.models.NoteModel;
+import it.sevenbits.telenote.web.domain.models.ResponseMessage;
+import it.sevenbits.telenote.web.domain.forms.ShareForm;
+import it.sevenbits.telenote.service.NoteService;
 import org.junit.*;
 import org.junit.runner.RunWith;
 
@@ -19,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -32,7 +29,6 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@Profile("test")
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
 public class NoteServiceTest {

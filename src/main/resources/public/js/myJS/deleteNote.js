@@ -43,8 +43,8 @@ function deleteNote(timeoutId, id) {
 						$(".js-noteSection").eq(0).remove();
 									
 
-						$actual.attr("value", $nextSection.text());
-						$actualOwner.text($nextOwner.text());
+						$actual.attr("value", $nextOwner.html());
+						$actualOwner.html($nextOwner.html());
 						$actualPic.attr("value", $nextPic.attr("src"));
 						$actualPic.attr("src", $nextPic.attr("src"));
 						$nextSection.remove();
@@ -63,7 +63,7 @@ function deleteNote(timeoutId, id) {
 							var $nextOwner = $nextSection.find(".js-sectionOwner");
 							var $nextPic = $nextSection.find(".js-sectionPic");
 
-							$actualOwner.text($nextOwner.text());
+							$actualOwner.html($nextOwner.html());
 							$actualPic.attr("src", $nextPic.attr("src"));
 							$actualPic.attr("value", $nextPic.attr("src"));
 

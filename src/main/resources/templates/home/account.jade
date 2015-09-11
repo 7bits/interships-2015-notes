@@ -16,11 +16,11 @@ block content
       .nameDiv
         label.labelName Имя
         if(changesForm.name==null)
-          input#js-username.username.test-username(type='textbox', name='username', value='#{user.name}', maxlength='20')
+          input#js-username.username(type='textbox', name='username', value='#{user.name}', maxlength='20')
         else if(changesForm.username!=user.username)
-          input#js-username.username.test-username(type='textbox', name='username', value='#{changesForm.name}', maxlength='20')
+          input#js-username.username(type='textbox', name='username', value='#{changesForm.name}', maxlength='20')
         else
-          input#js-username.username.test-username(type='textbox', name='username', value='#{user.name}', maxlength='20')
+          input#js-username.username(type='textbox', name='username', value='#{user.name}', maxlength='20')
         if incorrectUsername
           #js-nameDiv.errorUsernameDiv
             span#js-name Некорректное имя
@@ -31,7 +31,7 @@ block content
       .passwordHeader Пароль
       .currentPassDiv
         label.labelCurrentPass Текущий пароль
-        input#js-currentPass.currentPass.test-currentPass(type='password', name='currentPass', value='#{changesForm.currentPass}')
+        input#js-currentPass.currentPass(type='password', name='currentPass', value='#{changesForm.currentPass}')
         if incorrectPass
           #js-errorDiv.errorPassDiv.oldErrorPass
             span#js-oldPass Неверный пароль
@@ -40,7 +40,7 @@ block content
             span#js-oldPass Пароли не должны совпадать
       .newPassDiv
         label.labelNewPass Новый пароль
-        input#js-newPass.newPass.test-newPass(type='password', name='newPass', value='#{changesForm.newPass}')
+        input#js-newPass.newPass(type='password', name='newPass', value='#{changesForm.newPass}')
         if patternFail
           #js-errorDiv.errorPassDiv.newErrorPass
             span#js-newPassErr Пароль слишком прост
@@ -50,4 +50,4 @@ block content
         input#hidden(type='hidden', value=user.style, name='theme')
         #lightDen.theme.theme1.js-theme
         #darkDen.theme.theme2.js-theme
-    button.submit.test-submit(type='submit') Сохранить изменения
+    button.submit.js-submit(type='submit') Сохранить изменения

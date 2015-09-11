@@ -5,7 +5,6 @@ import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.domain.UserNote;
 import it.sevenbits.telenote.core.repository.Note.INoteRepository;
 import it.sevenbits.telenote.core.repository.User.IUserRepository;
-import org.flywaydb.test.annotation.FlywayTest;
 import org.junit.*;
 import org.junit.runner.RunWith;
 
@@ -23,7 +22,6 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@Profile("test")
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
 public class NoteRepositoryTest {

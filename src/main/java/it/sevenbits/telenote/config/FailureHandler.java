@@ -14,8 +14,8 @@ public class FailureHandler extends SimpleUrlAuthenticationFailureHandler {
                                         AuthenticationException exception)
                                         throws IOException, ServletException {
 
-        request.getSession().setAttribute("ERROR", true);
-        request.getSession().setAttribute("USER_NAME", exception.getAuthentication().getPrincipal().toString());
+        request.getSession().setAttribute("error", true);
+        request.getSession().setAttribute("username", exception.getAuthentication().getPrincipal().toString());
         //request.getSession().getAttribute("email");
         super.onAuthenticationFailure(request, response, exception);
     }

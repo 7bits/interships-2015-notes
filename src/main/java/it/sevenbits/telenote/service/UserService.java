@@ -1,11 +1,11 @@
-package it.sevenbits.telenote.web.service;
+package it.sevenbits.telenote.service;
 
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.domain.Role;
 import it.sevenbits.telenote.core.repository.RepositoryException;
 import it.sevenbits.telenote.core.repository.User.IUserRepository;
 
-import it.sevenbits.telenote.web.domain.UserCreateForm;
+import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;

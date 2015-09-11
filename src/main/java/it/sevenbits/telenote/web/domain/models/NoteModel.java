@@ -1,4 +1,4 @@
-package it.sevenbits.telenote.web.domain;
+package it.sevenbits.telenote.web.domain.models;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
