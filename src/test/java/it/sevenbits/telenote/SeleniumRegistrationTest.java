@@ -97,29 +97,29 @@ public class SeleniumRegistrationTest {
         //passwordRepeat.sendKeys(user.getPassword());
     }
 
-    /*@Test
+    @Test
     public void regWrongUsernameTest() throws Exception {
-        email.sendKeys(user.getEmail());
+        email.sendKeys("ololo@ololo.com");
         username.sendKeys("Leo");
         password.sendKeys(user.getPassword());
         //passwordRepeat.sendKeys(user.getPassword());
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void regWrongPasswordTest() throws Exception {
-        email.sendKeys(user.getEmail());
+        email.sendKeys("ololo@ololo.com");
         username.sendKeys(user.getUsername());
         password.sendKeys("123");
         //passwordRepeat.sendKeys(user.getPassword());
-    }*/
+    }
 
-    /*@Test
-    public void regUserExist() throws Exception {
-        email.sendKeys(user.getEmail());
+    @Test
+    public void regUserExists() throws Exception {
+        email.sendKeys("ololo@ololo.com");
         username.sendKeys(user.getUsername());
         password.sendKeys(user.getPassword());
         //passwordRepeat.sendKeys(user.getPassword());
-    }*/
+    }
 
     @BeforeClass
     public static void initDriver() {
