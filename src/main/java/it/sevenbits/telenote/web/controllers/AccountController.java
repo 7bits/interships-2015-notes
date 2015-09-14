@@ -1,11 +1,13 @@
 package it.sevenbits.telenote.web.controllers;
 
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
+
 import it.sevenbits.telenote.utils.Helper;
 import it.sevenbits.telenote.web.domain.forms.ChangesForm;
 import it.sevenbits.telenote.service.AccountService;
 import it.sevenbits.telenote.service.NoteService;
 import it.sevenbits.telenote.service.ServiceException;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,8 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Controller
-public class
-        AccountController {
+public class AccountController {
 
     private static Logger LOG = Logger.getLogger(AccountController.class);
 

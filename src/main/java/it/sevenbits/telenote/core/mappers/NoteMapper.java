@@ -18,9 +18,9 @@ public interface NoteMapper {
             "WHERE id=#{id}")
     void deleteNote(final Note note);
 
-    @Update("UPDATE notes N\n" +
+    @Update("UPDATE notes\n" +
             "SET\n" +
-            "parent_note_id=null, parent_user_id=(SELECT user_id from usernotes where note_id=N.id)\n" +
+            "parent_note_id=null, parent_user_id=(SELECT user_id from usernotes where note_id=notes.id)\n" +
             "WHERE parent_note_id=#{parentNoteId}")
     void resetAllParentNoteUserId(final Long parentNoteId);
 

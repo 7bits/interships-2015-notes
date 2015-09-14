@@ -8,6 +8,7 @@ import it.sevenbits.telenote.core.repository.Note.INoteRepository;
 import it.sevenbits.telenote.core.repository.RepositoryException;
 import it.sevenbits.telenote.core.repository.User.IUserRepository;
 import it.sevenbits.telenote.utils.Helper;
+
 import it.sevenbits.telenote.web.domain.forms.NoteForm;
 import it.sevenbits.telenote.web.domain.models.NoteModel;
 import it.sevenbits.telenote.web.domain.forms.ShareForm;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
 
@@ -54,7 +56,8 @@ public class NoteService {
         }
     }
 
-    public void deleteNote(final Note note, Long userId) throws ServiceException {
+    public @ResponseBody
+    void deleteNote(final Note note, Long userId) throws ServiceException {
         try {
             UserNote userNote = new UserNote(userId, note.getId());
 

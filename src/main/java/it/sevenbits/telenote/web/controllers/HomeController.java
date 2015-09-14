@@ -5,13 +5,14 @@ import it.sevenbits.telenote.core.domain.Note;
 import it.sevenbits.telenote.core.domain.OrderData;
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.repository.RepositoryException;
+
 import it.sevenbits.telenote.service.AccountService;
 import it.sevenbits.telenote.service.NoteService;
 import it.sevenbits.telenote.service.ServiceException;
 import it.sevenbits.telenote.utils.Helper;
+
 import it.sevenbits.telenote.web.domain.forms.NoteForm;
 import it.sevenbits.telenote.web.domain.forms.ShareForm;
-import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
 import it.sevenbits.telenote.web.domain.models.NoteModel;
 import it.sevenbits.telenote.web.domain.models.NoteSocketCommand;
 import it.sevenbits.telenote.web.domain.models.ResponseMessage;
@@ -32,6 +33,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.*;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.servlet.ModelAndView;
+import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
 public class HomeController {
@@ -54,9 +60,13 @@ public class HomeController {
         attrNames.add("error");
         attrNames.add("username");
 
-        Map<String, Object> attrMap = Helper.getAttributeMap(attrNames, request);
-        for (Map.Entry<String,Object> entry: attrMap.entrySet()) {
-            model.addObject(entry.getKey(), entry.getValue());
+        try {
+            Map<String, Object> attrMap = Helper.getAttributeMap(attrNames, request);
+            for (Map.Entry<String,Object> entry: attrMap.entrySet()) {
+                model.addObject(entry.getKey(), entry.getValue());
+            }
+        } catch (Exception e) {
+
         }
 
         return model;
@@ -115,7 +125,7 @@ public class HomeController {
 
 
     @RequestMapping(value = "/telenote/{id:\\d+}", method = RequestMethod.DELETE)
-    public void deleteNote(@PathVariable("id") Long noteId, Authentication auth) throws ServiceException {
+    public @ResponseBody void deleteNote(@PathVariable("id") Long noteId, Authentication auth) throws ServiceException {
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
 
         Note note = new Note();
@@ -124,7 +134,7 @@ public class HomeController {
         try {
             noteService.deleteNote(note, currentUser.getId());
         } catch (ServiceException se) {
-            // show somehow error page
+            return;// show somehow error page
         }
 
     }
@@ -141,8 +151,7 @@ public class HomeController {
         try {
             return noteService.shareNote(form, currentUser.getId());
         } catch (ServiceException se) {
-            // show somehow error page
-            return  null;
+            return new ResponseEntity<>(new ResponseMessage(false, "Error on service"), HttpStatus.NOT_ACCEPTABLE);
         }
 
     }

@@ -40,19 +40,30 @@ function deleteNote(timeoutId, id) {
 						var $nextOwner = $nextSection.find(".js-sectionOwner");
 						var $nextPic = $nextSection.find(".js-sectionPic");
 
-						$(".js-noteSection").eq(0).remove();
-									
+						if ($nextSection[0] != null) {
 
-						$actual.attr("value", $nextOwner.html());
-						$actualOwner.html($nextOwner.html());
-						$actualPic.attr("value", $nextPic.attr("src"));
-						$actualPic.attr("src", $nextPic.attr("src"));
-						$nextSection.remove();
-									
-						$nextSection = $('js-section').eq(0);
+							$(".js-noteSection").eq(0).remove();	
 
-						if ($nextSection[0] != null) { $nextSection.addClass("js-nextSection"); };
-								
+							$actual.attr("value", $nextOwner.html());
+							$actualOwner.html($nextOwner.html());
+							$actualPic.attr("value", $nextPic.attr("src"));
+							$actualPic.attr("src", $nextPic.attr("src"));
+							$nextSection.remove();
+									
+							$nextSection = $('js-section').eq(0);
+
+							if ($nextSection[0] != null) { $nextSection.addClass("js-nextSection"); };
+
+						} else {
+							$(".js-noteSection").eq(0).remove();
+
+							$actual.removeAttr("value");
+							$actualOwner.text("");
+							$actualPic.attr("src", "/img/shareNotRegUser.png");
+							$actualPic.attr("value", "/img/shareNotRegUser.png");
+						
+						}
+
 					} else {
 
 						var $deletedSection = $(".js-allSections").eq($thisNoteSection.index() - 1);

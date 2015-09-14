@@ -10,7 +10,9 @@ import it.sevenbits.telenote.web.domain.forms.NoteForm;
 import it.sevenbits.telenote.web.domain.models.NoteModel;
 import it.sevenbits.telenote.web.domain.models.ResponseMessage;
 import it.sevenbits.telenote.web.domain.forms.ShareForm;
+
 import it.sevenbits.telenote.service.NoteService;
+
 import org.junit.*;
 import org.junit.runner.RunWith;
 
