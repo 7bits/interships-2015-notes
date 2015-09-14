@@ -18,8 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Controller
-public class
-        AccountController {
+public class AccountController {
 
     private static Logger LOG = Logger.getLogger(AccountController.class);
 

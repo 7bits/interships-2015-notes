@@ -60,9 +60,13 @@ public class HomeController {
         attrNames.add("error");
         attrNames.add("username");
 
-        Map<String, Object> attrMap = Helper.getAttributeMap(attrNames, request);
-        for (Map.Entry<String,Object> entry: attrMap.entrySet()) {
-            model.addObject(entry.getKey(), entry.getValue());
+        try {
+            Map<String, Object> attrMap = Helper.getAttributeMap(attrNames, request);
+            for (Map.Entry<String,Object> entry: attrMap.entrySet()) {
+                model.addObject(entry.getKey(), entry.getValue());
+            }
+        } catch (Exception e) {
+
         }
 
         return model;
@@ -147,7 +151,7 @@ public class HomeController {
         try {
             return noteService.shareNote(form, currentUser.getId());
         } catch (ServiceException se) {
-            // show somehow error page
+            return new ResponseEntity<>(new ResponseMessage(false, "Error on service"), HttpStatus.NOT_ACCEPTABLE);
         }
 
     }
