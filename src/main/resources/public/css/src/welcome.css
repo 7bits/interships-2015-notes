@@ -31,27 +31,21 @@ body {
 	background-image: url("/img/welcomeBackground.png");
 	background-size: cover;
 	background-position: center;
-}
-
-.mainDiv {
 	min-width: 540px;
 }
 
-.perfomanceDiv, .logRegDiv {
+.landing {
 	position: absolute;
-	top: 11%;
-}
-
-.perfomanceDiv {
+	top: 45px;
 	left: 12%;
 }
 
-.imgDiv {
+.landing__images {
 	width: 100%;
   	height: 121px;
 }
 
-.logoImg {
+.landing__logo {
 	background-image: url("/img/logo.png");
 	background-size: cover;
 	background-position: center;
@@ -60,7 +54,7 @@ body {
 	float: left;
 }
 
-.slogon {
+.landing__slogon {
 	background-image: url("/img/dark-label.png");
 	background-size: cover;
 	background-position: center;
@@ -71,71 +65,73 @@ body {
   	margin-left: 10px;
 }
 
-h1 {
+.landing__title {
 	font-size: 24px;
   	font-family: "Lato-Regular";
   	color: rgb(0, 0, 0);
   	margin-bottom: 32px;
 }
 
-h2 {
+.landing__body {
 	font-size: 14px;
   	font-family: "Lato-Light";
   	color: rgb(0, 0, 0);
-}
-
-.logRegDiv {
-	width: 310px;
-	top: 10%;
-  	left: 59%;
-  	margin-bottom: 15px;
-}
-
-.loginDiv, .regDiv {	
-	padding: 15px 15px 8px 15px;
-	position: relative;
 } 
 
-.formHead {
+.welcomeForm__formTitle {
 	margin: auto;
 	color: black;
 	font-family: "Room";
 	opacity: 1;
 	font-size: 18px;
+	margin-bottom: 10px;
 }
 
-.loginDiv {
-	margin-bottom: 30px;
-	height: 182px;
+.welcomeForm {}
+
+.welcomeForm__form {
+	width: 310px;
+    box-sizing: border-box;
+    padding: 15px 15px 8px 15px;
+    text-align: center;
 }
 
-.overlayLogin, .overlayReg {
+.welcomeForm__form_login {
+	position: absolute;
+	top: 50px;
+    left: 59%;
+}
+
+.welcomeForm__form_registration {
+	position: absolute;
+	top: 245px;
+	left: 59%;
+	margin-top: 20px;
+}
+
+.welcomeForm__overlay {
 	border-radius: 4px;
 	background-color: rgba(176, 184, 193, 0.8);
   	opacity: 0.302;
 }
 
-.overlayLogin {
+.welcomeForm__overlay_login {
 	width: 310px;
   	height: 200px;
-  	margin-bottom: -200px;
+  	position: absolute;
+  	top: 45px;
+    left: 59%;
 }
 
-.overlayReg {
+.welcomeForm__overlay_registration {
 	width: 310px;
-  	height: 221px;
-  	margin-bottom: -221px;
+  	height: 211px;
+  	position: absolute;
+  	top: 266px;
+    left: 59%;	
 }
 
-.signinForm, .signupForm {
-	text-align: center;
-}
-
-.inputData {
-	margin-top: 13px;
-}
-
-input[type='textbox'], input[type='password'] {
+.welcomeForm__textbox {
 	font-size: 12px;
   	font-family: "Roboto-Light";
   	color: black;
@@ -149,15 +145,15 @@ input[type='textbox'], input[type='password'] {
   	margin-bottom: 10px;
 }
 
-input[type='textbox'], input[type='password']:hover {
+.welcomeForm__textbox:hover {
 	box-shadow: 0px 5px 7.6px 0.4px rgba(0, 0, 0, 0.1);
 } 
 
-input[type='textbox'], input[type='password']:active {
+.welcomeForm__textbox:active {
 	box-shadow: 0px 5px 7.6px 0.4px rgba(0, 0, 0, 0.1);
 }
 
-.loginSubmit {
+.welcomeForm__button {
 	border-radius: 2px;
 	background-color: rgb(32, 64, 108);
 	width: 280px;
@@ -168,7 +164,7 @@ input[type='textbox'], input[type='password']:active {
   	color: rgb(255, 255, 255);
 }
 
-.errorDiv {
+.welcomeForm__error {
 	background-image: url("/img/errorIcon.png");
 	background-repeat: no-repeat;
 	background-position-y: 5px;
@@ -186,19 +182,19 @@ input[type='textbox'], input[type='password']:active {
   	font-family: "Roboto-Light"
 }
 
-.emailError {
+.welcomeForm__error_email {
 	width: 140px;
 }
 
-.nameError {
+.welcomeForm__error_name {
 	width: 131px;
 }
 
-.passError {
+.welcomeForm__error_password {
 	width: 152px;
 }
 
-.forgotPass {
+.welcomeForm__href {
 	font-family: "Roboto-Light";
 	font-size: 12px;
 	color: black;
@@ -207,65 +203,61 @@ input[type='textbox'], input[type='password']:active {
 	
 }
 
-.resetPass {
-	width: 115px;
-}
-
 .badFieldBorder {
 	border: 1px solid #f74e19;
 }
 
 @media screen and (max-width: 1200px) {
 
-	input[type='textbox'], input[type='password'] {
+	.welcomeForm__textbox {
 		width: 180px;
 	}
 
-	.loginSubmit {
+	.welcomeForm__button {
 		width: 200px;
 	}
 
-	.logRegDiv {
-		left: 54%;
+	.welcomeForm__form {
 		width: 230px;
 	}
 
-	.overlayLogin, .overlayReg {
-		width: 230px;
+	.welcomeForm__overlay {
+		left: 59%;
+		width: 230px;	
 	}
 
-	.errorDiv {
+	.welcomeForm__error {
 		margin-left: 202px;
 	}
 }
 
 @media screen and (max-width: 890px) {
 
-	h1 {
+	.landing__title {
 		font-size: 16px;
 	}
 
-	h2 {
+	.landing__body {
 		font-size: 11px;
 	}
 }
 
 @media screen and (max-width: 600px) {
 
-	.logoImg {
+	.landing__logo {
 		width: 30px;
   		height: 37px;
 	}
 
-	.slogon {
+	.landing__slogon {
 		margin-top: 10px;
 	}
 
-	h1, h2 {
+	.landing__title, .landing__body {
 		display: none;
 	}
 
-	.perfomanceDiv {
+	.landing {
 		position: inherit;
   		height: 40px;
   		margin: auto;
@@ -274,19 +266,38 @@ input[type='textbox'], input[type='password']:active {
   		margin-top: 15px;
 	}
 
-	.imgDiv {
+	.landing__images {
 		width: 183px;
 		height: 40px;
   		margin: auto;
 	}
 
-	.logRegDiv {
-		position: inherit;
+	.welcomeForm__form {
+		position: relative;
 		margin: auto;
 		margin-top: 10px;
+		top: 0;
+    	left: 0;
 	}
 
-	.errorDiv {
+	.welcomeForm__overlay_login, .welcomeForm__overlay_registration {
+		position: relative;
+		margin: auto;
+		top: 0;
+		left: 0;
+	}
+
+	.welcomeForm__overlay_login {
+		margin-top: 10px;
+		margin-bottom: -210px;
+	}
+
+	.welcomeForm__overlay_registration {
+		margin-top: 65px;
+    	margin-bottom: -223px;
+	}
+
+	.welcomeForm__error {
 		background-position-y: 3px;
 	  	margin-left: 200px;
 	  	margin-top: -39px;
