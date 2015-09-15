@@ -56,8 +56,8 @@ function addingShareUser(data) {
             "<img src='" + data.user.avatar + "'>" + 
         "</div>"+
         "<div class='shareUserInfo'>"+
-            "<div class='js-shareUserName shareUserName'>"+data.user.name+"</div>"+
-            "<div class='js-shareUserEmail shareUserEmail'>"+$('.addShareEmail').val()+"</div>"+
+            "<div class='js-shareUserName shareUserName'>" + data.user.name + "</div>"+
+            "<div class='js-shareUserEmail shareUserEmail'>" + $('.addShareEmail').val() + "</div>"+
         "</div>"+
         "<div class='shareActionDiv'>"+
             "<button class='js-deleteShare deleteShare'></button>"+
