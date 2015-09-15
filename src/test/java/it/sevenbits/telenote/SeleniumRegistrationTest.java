@@ -118,17 +118,35 @@ public class SeleniumRegistrationTest {
         email.sendKeys("ololo@ololo.com");
         username.sendKeys("1234");
         password.sendKeys(user.getPassword());
-        //passwordRepeat.sendKeys(user.getPassword());
     }
+
+    @Test
+    public void regEmptyPasswordTest() throws Exception {
+        email.sendKeys("ololo@ololo.com");
+        username.sendKeys(user.getUsername());
+        password.sendKeys("");
+    }
+
+    @Test
+    public void regSpacePasswordTest() throws Exception {
+        email.sendKeys("ololo@ololo.com");
+        username.sendKeys(user.getUsername());
+        password.sendKeys("        ");
+    }
+
+    @Test
+    public void regShortPasswordTest() throws Exception {
+        email.sendKeys("ololo@ololo.com");
+        username.sendKeys(user.getUsername());
+        password.sendKeys("1");
+    }
+
     @Test
     public void regWrongPasswordTest() throws Exception {
         email.sendKeys("ololo@ololo.com");
         username.sendKeys(user.getUsername());
         password.sendKeys("123");
-        //passwordRepeat.sendKeys(user.getPassword());
     }
-
-
 
     @BeforeClass
     public static void initDriver() {
