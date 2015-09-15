@@ -6,7 +6,6 @@ import it.sevenbits.telenote.core.domain.OrderData;
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.repository.RepositoryException;
 
-import it.sevenbits.telenote.service.AccountService;
 import it.sevenbits.telenote.service.NoteService;
 import it.sevenbits.telenote.service.ServiceException;
 import it.sevenbits.telenote.utils.Helper;
@@ -18,26 +17,22 @@ import it.sevenbits.telenote.web.domain.models.NoteSocketCommand;
 import it.sevenbits.telenote.web.domain.models.ResponseMessage;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.text.MessageFormat;
 import java.util.*;
 
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.servlet.ModelAndView;
 import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
 public class HomeController {
@@ -76,7 +71,6 @@ public class HomeController {
     public ModelAndView getTelenote(Authentication auth) throws ServiceException {
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
         ModelAndView model = new ModelAndView("home/telenote");
-
         try {
             model.addObject("user", currentUser);
             model.addObject("noteSections", noteService.getSortedMap(currentUser));
@@ -92,6 +86,7 @@ public class HomeController {
     @RequestMapping(value = "/telenote", method = RequestMethod.POST)
     public @ResponseBody
     Long editNote (HttpServletRequest request, HttpServletResponse response, Authentication auth) throws ServiceException{
+
         Long id = Long.parseLong(request.getParameter("id"));
         String text = request.getParameter("text");
         NoteForm form = new NoteForm(id, text);
@@ -117,7 +112,7 @@ public class HomeController {
         Long noteId = Long.parseLong(request.getParameter("id"));
 
         try {
-            return noteService.checkSharedNote(noteId);
+            return noteService.getListOfShareUsers(noteId);
         } catch (ServiceException se) {
             return null;
         }
@@ -181,6 +176,8 @@ public class HomeController {
             noteService.updateOrder(orderData);
         } catch (ServiceException se) {
             // show somehow error page
+//            LOG.error(MessageFormat.format("Ошибка обновления порядка заметок: idPrev={0}, idCur={1}, idPrev{2}",
+//                    orderData.getId_prev(), orderData.getId_cur(),orderData.getId_next()));
         }
 
     }

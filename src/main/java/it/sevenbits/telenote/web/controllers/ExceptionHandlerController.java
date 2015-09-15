@@ -14,10 +14,13 @@ public class ExceptionHandlerController {
     public ModelAndView defaultErrorHandler(HttpServletRequest request, Exception e) {
         ModelAndView mav = new ModelAndView(DEFAULT_ERROR_VIEW);
 
-        final Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
+        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
 
-        //String message = HttpMessage.getHttpMessage(statusCode);
-        String message = e.getMessage();
+        // handling "Request method 'GET' not supported"
+        if(statusCode == null)
+            statusCode = 404;
+
+        String message = HttpMessage.getHttpMessage(statusCode);
 
         mav.addObject("message", message);
         mav.addObject("errorCode", statusCode);

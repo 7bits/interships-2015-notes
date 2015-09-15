@@ -9,6 +9,7 @@ package it.sevenbits.telenote.service;
 import de.neuland.jade4j.JadeConfiguration;
 import de.neuland.jade4j.template.JadeTemplate;
 import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
+import org.apache.log4j.Logger;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 
@@ -19,6 +20,10 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.HashMap;
 
@@ -27,7 +32,7 @@ import java.util.HashMap;
  */
 @Service
 public class EmailService {
-    //private static final Logger log = Logger.getLogger(EmailService.class.getName());
+    private static final Logger LOG = Logger.getLogger(EmailService.class);
     @Autowired
     private JavaMailSender mailSender;
 
@@ -48,9 +53,10 @@ public class EmailService {
 
             sender.send(mimeMessage);
         } catch (MailException e) {
-            //log.error("Email did send", e);
+            LOG.error(String.format("An error occurred while sending email. To: %s, From: %s.", to, sender.getUsername()));
             throw new ServiceException(e.getMessage(), e);
         } catch (MessagingException e) {
+            LOG.error(String.format("An error occurred while setting email attributes. To: %s, Subject: %s, From:", to, subject, sender.getUsername()));
             throw new ServiceException(e.getMessage(), e);
         }
     }

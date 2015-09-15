@@ -19,6 +19,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -40,33 +44,56 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private EmailService emailService;
+    /**
+     * Transaction settings name
+     */
+    private static final String TX_NAME = "txService";
+    /**
+     * Spring Transaction Manager
+     */
+    @Autowired
+    private PlatformTransactionManager txManager;
+    /**
+     * Transaction settings object
+     */
+    private DefaultTransactionDefinition customTx;
+
+    public UserService() {
+        this.customTx = new DefaultTransactionDefinition();
+        this.customTx.setName(TX_NAME);
+        this.customTx.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+    }
 
     public void create(final UserDetailsImpl user) throws ServiceException {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
-
+        TransactionStatus status = txManager.getTransaction(customTx);
         try {
             if (repository.isEmailExists(user))
                 throw new ServiceException("Sorry, e-mail is already exists");
 
             repository.create(user);
-            LOG.debug(String.format("New user created: %s, %d", user, user.getId() ));
+            txManager.commit(status);
+            LOG.info(String.format("New user is created: UserId: %d, UserEmail: %s.", user.getId(), user.getName()));
         } catch (Exception e) {
-            throw new ServiceException("An error occurred while saving subscription: " + e.getMessage(), e);
+            LOG.error(String.format("An error occurred while creating user. UserId: %d, UserEmail: %s.",
+                    user.getId(), user.getName()));
+            txManager.rollback(status);
+            throw new ServiceException("An error occurred while creating user: " + e.getMessage(), e);
         }
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        TransactionStatus status = txManager.getTransaction(customTx);
         try {
-            LOG.info("Loading user by email: " + email);
             Optional<UserDetailsImpl> userDetails = this.getUserByEmail(email.toLowerCase());
             if (userDetails.isPresent() && userDetails.get().getRole().equals(Role.USER)) {
             //if (userDetails.isPresent() && userDetails.get().getRole().equals(Role.USER) && userDetails.get().getIsConfirmed()) {
                 return userDetails.get();
             }
         } catch (Exception e) {
-            LOG.error("Cant load user by username due to repository error: " + e.getMessage(), e);
+            LOG.error("Cant load user by username. UserEmail: " + email);
             throw new UsernameNotFoundException("User details can not be obtained because of " + e.getMessage(), e);
         }
 
@@ -76,57 +103,87 @@ public class UserService implements UserDetailsService {
 
     public void updatePassword(final UserCreateForm form, String password) throws ServiceException {
 
-        final UserDetailsImpl userDetails = new UserDetailsImpl();
-        userDetails.setUsername(form.getEmail().toLowerCase());
+        final UserDetailsImpl user = new UserDetailsImpl();
+        user.setUsername(form.getEmail().toLowerCase());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        userDetails.setPassword(encoder.encode(password));
+        user.setPassword(encoder.encode(password));
 
+        TransactionStatus status = txManager.getTransaction(customTx);
         try {
-            repository.updatePassword(userDetails);
+            repository.updatePassword(user);
+            txManager.commit(status);
+            LOG.info("Password is updated. UserEmail: " + user.getUsername());
         } catch (Exception e) {
-            throw new ServiceException("E-mail is not exists!");
+            LOG.error("An error occurred while updating password. UserEmail: " + user.getUsername());
+            txManager.rollback(status);
+            throw new ServiceException("E-mail does not exist!");
         }
     }
 
     public Optional<UserDetailsImpl> getUserByEmail(String email) throws ServiceException {
+        Optional<UserDetailsImpl> user = null;
+        TransactionStatus status = txManager.getTransaction(customTx);
         try {
-            return repository.getUserByEmail(email);
+            user = repository.getUserByEmail(email);
+            txManager.commit(status);
+            return user;
         } catch (Exception e) {
             //mb, has to be reworked
+            LOG.error("Could not get user by email. UserEmail: " + email);
+            txManager.rollback(status);
             throw new ServiceException(e.getMessage());
         }
     }
 
-    public Optional<UserDetailsImpl> getUserById(Long id) throws ServiceException {
-        try {
-            return repository.getUserById(id);
+    public Optional<UserDetailsImpl> getUserById(Long userId) throws ServiceException {
+        Optional<UserDetailsImpl> user = null;
+        TransactionStatus status = txManager.getTransaction(customTx);try {
+            user = repository.getUserById(userId);
+            txManager.commit(status);
+            return user;
         } catch (Exception e) {
+            LOG.error("Could not get user by id. UserId: " + userId);
+            txManager.rollback(status);
             throw new ServiceException(e.getMessage());
         }
     }
 
     public void confirm(String email) throws ServiceException {
+        TransactionStatus status = txManager.getTransaction(customTx);
         try {
             repository.confirm(email);
+            txManager.commit(status);
+            LOG.info("Email is confirmed. UserEmail: " + email);
         } catch (Exception e) {
+            LOG.error("Could not confirm email. UserEmail: " + email);
+            txManager.rollback(status);
             throw new ServiceException(e.getMessage());
         }
     }
 
     public String getToken(String email) throws ServiceException {
+        String token = "";
+        TransactionStatus status = txManager.getTransaction(customTx);
         try {
-            return repository.getTokenByEmail(email);
+            token = repository.getTokenByEmail(email);
+            txManager.commit(status);
+            return token;
         } catch (Exception e) {
+            LOG.error("Could not get token by email. UserEmail: " + email);
+            txManager.rollback(status);
             throw new ServiceException(e.getMessage());
         }
     }
 
     public String setNewToken(String email) throws ServiceException {
         String token = RandomStringUtils.random(32, 0, 0, true, true, null, new SecureRandom());
-
+        TransactionStatus status = txManager.getTransaction(customTx);
         try {
             repository.setTokenByEmail(email, token);
+            txManager.commit(status);
         } catch (RepositoryException ex) {
+            LOG.error("Could not set new token.Us erEmail: " + email);
+            txManager.rollback(status);
             throw new ServiceException(ex.getMessage());
         }
 
@@ -152,36 +209,51 @@ public class UserService implements UserDetailsService {
     }
 
     public ModelAndView resetPassInDB(String email) throws ServiceException {
-        Optional<UserDetailsImpl> user = getUserByEmail(email);
-        if (user.isPresent()) {
-            String token = setNewToken(user.get().getUsername());
-            String link = "http://tele-notes.7bits.it/resetpass?token=" + token + "&email=" + email;
+        TransactionStatus status = txManager.getTransaction(customTx);
+        try {
+            Optional<UserDetailsImpl> user = getUserByEmail(email);
+            if (user.isPresent()) {
+                String token = setNewToken(user.get().getUsername());
+                String link = "http://tele-notes.7bits.it/resetpass?token=" + token + "&email=" + email;
 
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("link", link);
-            map.put("username", user.get().getName());
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("link", link);
+                map.put("username", user.get().getName());
 
-            emailService.sendHtml(user.get().getUsername(), "Tele-notes. Восстановление пароля.", "home/changePassMail", map);
-        } else {
-            return new ModelAndView("home/resetPass", "error", email);
+                emailService.sendHtml(user.get().getUsername(), "Tele-notes. Восстановление пароля.", "home/changePassMail", map);
+                txManager.commit(status);
+                LOG.info("Password is successfully reset. UserEmail: " + email);
+            } else {
+                return new ModelAndView("home/resetPass", "error", email);
+            }
+        } catch (ServiceException e) {
+            LOG.error("Could not reset password. UserEmail: " + email);
+            txManager.rollback(status);
+            throw new ServiceException("Could not reset password. UserEmail: " + email, e);
         }
-
         return null;
     }
 
     public ModelAndView updatePass(String email, String token, String[] passwords) throws ServiceException {
-        Optional<UserDetailsImpl> user = getUserByEmail(email);
-        if (user.isPresent() && token.equals(getToken(email))
-                && passwords[0].equals(passwords[1])) {
+        TransactionStatus status = txManager.getTransaction(customTx);
+        try {
+            Optional<UserDetailsImpl> user = getUserByEmail(email);
+            if (user.isPresent() && token.equals(getToken(email))
+                    && passwords[0].equals(passwords[1])) {
 
-            UserCreateForm userForm = new UserCreateForm();
-            userForm.setEmail(email);
+                UserCreateForm userForm = new UserCreateForm();
+                userForm.setEmail(email);
 
-            updatePassword(userForm, passwords[0]);
-
-            return null;
-        } else {
-            return new ModelAndView("home/newpass");
+                updatePassword(userForm, passwords[0]);
+                txManager.commit(status);
+                return null;
+            } else {
+                return new ModelAndView("home/newpass");
+            }
+        } catch (ServiceException e) {
+            LOG.error("Could not update password. UserEmail: " + email);
+            txManager.rollback(status);
+            throw new ServiceException("Could not update password. UserEmail: " + email, e);
         }
     }
 }
