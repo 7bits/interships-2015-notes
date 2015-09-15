@@ -1,5 +1,6 @@
 package it.sevenbits.telenote.web.controllers;
 
+import it.sevenbits.telenote.utils.HttpMessage;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,12 +18,8 @@ public class RestController implements ErrorController {
         ModelAndView mav = new ModelAndView(DEFAULT_ERROR_VIEW);
 
         final Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-        String requestUri = (String) request.getAttribute("javax.servlet.error.request_uri");
-        if (requestUri == null) {
-            requestUri = "Unknown";
-        }
 
-        final String message = "Страница не найдена";
+        String message = HttpMessage.getHttpMessage(statusCode);
 
         mav.addObject("errorCode", statusCode);
         mav.addObject("message", message);
