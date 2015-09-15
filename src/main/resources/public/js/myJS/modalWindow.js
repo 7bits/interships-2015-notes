@@ -136,7 +136,7 @@ function checkSharedNote(noteId) {
 					"</div>" +
 					"<div class='shareUserInfo'>" + 
 						"<div class='js-shareUserName shareUserName'>" + data[0].name + "<span> (автор)</span></div>" +
-						"<div class='js-shareUserEmail shareUserEmail'>" + data[0].email + "</div>" + 
+						"<div class='js-shareUserEmail shareUserEmail'>" + data[0].username + "</div>" +
 					"</div>" +
 				"</div>");
 
@@ -147,7 +147,7 @@ function checkSharedNote(noteId) {
 			 			"</div>" +
 					 	"<div class='shareUserInfo'>" + 
 					 		"<div class='js-shareUserName shareUserName'>" + data[i].name + "</div>" +
-					 		"<div class='js-shareUserEmail shareUserEmail'>" + data[i].email + "</div>" + 
+					 		"<div class='js-shareUserEmail shareUserEmail'>" + data[i].username + "</div>" +
 						"</div>" +
 					 	"<div class='shareActionDiv'>"+
 					 		"<button class='js-deleteShare deleteShare'></button>"+
