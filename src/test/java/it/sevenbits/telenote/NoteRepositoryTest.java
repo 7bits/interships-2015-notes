@@ -1,6 +1,5 @@
 package it.sevenbits.telenote;
 
-import it.sevenbits.telenote.config.TestContextInitializer;
 import it.sevenbits.telenote.core.domain.Note;
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.domain.UserNote;
@@ -22,7 +21,7 @@ import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class, initializers = TestContextInitializer.class)
+@SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
 public class NoteRepositoryTest {
 
