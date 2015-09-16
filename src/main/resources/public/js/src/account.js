@@ -6,7 +6,7 @@
 			var style = $('#hidden').attr('value');
 
 			$('#'+style).addClass('chosen');
-		})
+		});
 
 
 		//подсветка выбранной темы
@@ -16,13 +16,13 @@
 			self.addClass('chosen');
 
 			$('#hidden').attr('value', self.attr('id'));			
-		})
+		});
 
 
 		//подсветка неверных полей
 		$(function() {
 			if ($('#js-name')[0] != null) {
-				$('#js-username').addClass('badFieldBorder')
+				$('#js-username').addClass('badFieldBorder');
 				$('#js-nameDiv').attr('style', 'margin-left: 115px;').animate({
 						marginLeft: '327px'
 					}, 200, 'swing', function() {
@@ -53,6 +53,6 @@
 			}/* else {
 				$('.newPass').attr('style', 'border: 1px solid #ffffff;');
 			};*/			
-		})
-	})
+		});
+	});
 })(jQuery);

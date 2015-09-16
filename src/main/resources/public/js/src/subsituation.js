@@ -2,16 +2,19 @@ function divToTextarea($content) {
 
 	//блокируем заметку
     var cmd = {
-        id: $content.parent('.js-note').attr("id"),
-        command : "block"
-    }
+      id: $content
+        .parent('.js-note')
+          .attr('id'),
+      command: 'block'
+    };
     
     sendCommand(cmd);
 
 	$content.removeClass('displayBlock').addClass('displayNone');
 	var $note = $content.parent('.js-note');
 
-	var textarea = "<textarea id='js-textarea' class='textarea' name='text' maxlength='20000'>"
+	var textarea = '<textarea id="js-textarea" ' +
+    'class="textarea" name="text" maxlength="20000">';
 
 	$note.prepend(textarea);
 
@@ -34,16 +37,18 @@ function textareaToDiv($textarea, timeoutId) {
 	clearTimeout(timeoutId);
 
 	var cmd = {
-        id: $textarea.parent('.js-note').attr("id"),
-        command : "unblock"
-    }
+    id: $textarea
+      .parent('.js-note')
+        .attr('id'),
+    command : 'unblock'
+  };
            
-    sendCommand(cmd);
+  sendCommand(cmd);
 
 	var data = {
-        id: cmd.id,
-        text: $textarea.val()
-    } 
+    id: cmd.id,
+    text: $textarea.val()
+  }; 
 
 	data.text = htmlspecialchars(data.text);
 	data.text = nl2br(data.text);
@@ -57,16 +62,16 @@ function textareaToDiv($textarea, timeoutId) {
 
 		if ($(window).width() > 800) {
 							
-			$('#js-status').text("Все заметки сохранены");
+			$('#js-status').text('Все заметки сохранены');
 						
 		} else {
 							
 			$('#js-minStatus').text('');
 			$('#js-minStatus').removeClass('minStatusTyping');
 						
-		};
+		}
 
 		return timeoutId;
 	
-	})
+	});
 }

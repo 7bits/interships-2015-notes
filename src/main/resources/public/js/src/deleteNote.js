@@ -1,12 +1,16 @@
 function deleteNote(timeoutId, id) {
 			
 	$.ajax({
-		type: "DELETE",
-		headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
-		url: "/telenote/" + id
-	}).done( function() {
-		clearTimeout(timeoutId);
-		var $note = $(".js-note[id=" + id + "]");
+
+		type: 'DELETE',
+		headers: {'X-CSRF-TOKEN': $('meta[name = _csrf]')
+      .attr('content') },
+		url: '/telenote/' + id
+	
+  }).done( function() {
+		
+    clearTimeout(timeoutId);
+		var $note = $('.js-note[id=' + id + ']');
 		$note.css('min-width', '0px');
 		$note.children('.delBtn').css('visibility', 'hidden');
 		$note.children('.shaBtn').css('visibility', 'hidden');
@@ -23,9 +27,9 @@ function deleteNote(timeoutId, id) {
 
 			$note.remove();
 
-			var $actual = $("#js-actualSection");
-			var $actualOwner = $actual.find(".js-sectionOwner");
-			var $actualPic = $actual.find(".js-sectionPic");
+			var $actual = $('#js-actualSection');
+			var $actualOwner = $actual.find('.js-sectionOwner');
+			var $actualPic = $actual.find('.js-sectionPic');
 
 			var $allSections = $('.js-noteSection');
 
@@ -33,83 +37,109 @@ function deleteNote(timeoutId, id) {
 							
 				var $thisNoteSection = $(this);
 
-				if ($thisNoteSection.find(".js-note").length == 0) {
-					if ($thisNoteSection.index() == 0) {
+				if (!$thisNoteSection.find('.js-note').length) {
+
+          var $nextSection;
+          var $nextOwner;
+          var $nextPic;
+
+					if ($thisNoteSection.index() === 0) {
 									
-						var $nextSection = $('.js-section').eq(0);
-						var $nextOwner = $nextSection.find(".js-sectionOwner");
-						var $nextPic = $nextSection.find(".js-sectionPic");
+						$nextSection = $('.js-section').eq(0);
+						$nextOwner = $nextSection.find('.js-sectionOwner');
+						$nextPic = $nextSection.find('.js-sectionPic');
 
 						if ($nextSection[0] != null) {
 
-							$(".js-noteSection").eq(0).remove();	
+							$('.js-noteSection')
+                .eq(0)
+                  .remove();	
 
-							$actual.attr("value", $nextOwner.html());
-							$actualOwner.html($nextOwner.html());
-							$actualPic.attr("value", $nextPic.attr("src"));
-							$actualPic.attr("src", $nextPic.attr("src"));
+							$actual
+                .attr('value', $nextOwner
+                  .html());
+							$actualOwner
+                .html($nextOwner
+                  .html());
+							$actualPic
+                .attr('value', $nextPic
+                  .attr('src'));
+							$actualPic
+                .attr('src', $nextPic
+                  .attr('src'));
 							$nextSection.remove();
 									
 							$nextSection = $('js-section').eq(0);
 
-							if ($nextSection[0] != null) { $nextSection.addClass("js-nextSection"); };
+							if ($nextSection[0] != null) { $nextSection
+                .addClass('js-nextSection'); }
 
 						} else {
-							$(".js-noteSection").eq(0).remove();
 
-							$actual.removeAttr("value");
-							$actualOwner.text("");
-							$actualPic.attr("src", "/img/shareNotRegUser.png");
-							$actualPic.attr("value", "/img/shareNotRegUser.png");
+							$('.js-noteSection')
+                .eq(0)
+                  .remove();
+
+							$actual.removeAttr('value');
+							$actualOwner.text('');
+							$actualPic.attr('src', '/img/shareNotRegUser.png');
+							$actualPic.attr('value', '/img/shareNotRegUser.png');
 						
 						}
 
 					} else {
 
-						var $deletedSection = $(".js-allSections").eq($thisNoteSection.index() - 1);
+						var $deletedSection = $('.js-allSections')
+              .eq($thisNoteSection
+                .index() - 1);
 
-						if ($actualOwner.text() == $deletedSection.find(".js-sectionOwner").text()) {
+						if ($actualOwner.text() === $deletedSection
+              .find('.js-sectionOwner').text()) {
 										
-							var $nextSection = $(".js-nextSection");
-							var $nextOwner = $nextSection.find(".js-sectionOwner");
-							var $nextPic = $nextSection.find(".js-sectionPic");
+							$nextSection = $('.js-nextSection');
+							$nextOwner = $nextSection.find('.js-sectionOwner');
+							$nextPic = $nextSection.find('.js-sectionPic');
 
 							$actualOwner.html($nextOwner.html());
-							$actualPic.attr("src", $nextPic.attr("src"));
-							$actualPic.attr("value", $nextPic.attr("src"));
+							$actualPic.attr('src', $nextPic.attr('src'));
+							$actualPic.attr('value', $nextPic.attr('src'));
 
 							$deletedSection.remove();
 							$thisNoteSection.remove();
 
-							$(".js-prevSection").removeClass("js-prevSection");
+							$('.js-prevSection').removeClass('js-prevSection');
 
-							$nextSection.removeClass("js-nextSection").addClass("js-prevSection");
+							$nextSection
+                .removeClass('js-nextSection')
+                .addClass('js-prevSection');
 
-							$("js-allSections").eq($nextSection.index() + 1).addClass("js-nextSection");
+							$('js-allSections')
+                .eq($nextSection.index() + 1)
+                  .addClass('js-nextSection');
 
 						} else {
 										
-							var next = $("js-allSections").eq($deletedSection.index() + 2)
+							var next = $('js-allSections').eq($deletedSection.index() + 2);
 
-							if (next[0] != null) { next.addClass("js-nextSection"); };
+							if (next[0] != null) { next.addClass('js-nextSection'); }
 
 							$deletedSection.remove();
 							$thisNoteSection.remove();
 									
-						};
+						}
 
-					};
+					}
 							
 				}
-			})
+			});
 		});
 
 
 		if ($(window).width() > 840) {
-			$('#js-status').text("Все заметки сохранены");
+			$('#js-status').text('Все заметки сохранены');
 		} else {
 			$('#js-minStatus').text('');
-			$('#js-minStatus').css('background-image', "url('/img/ok.png')");
-		};
+			$('#js-minStatus').css('background-image', 'url("/img/ok.png")');
+		}
 	});
 }

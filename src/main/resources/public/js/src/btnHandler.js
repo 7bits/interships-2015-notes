@@ -4,29 +4,32 @@
 		var shareData = {
 			addedShareEmails: [],
 			$clickedNoteSection: null
-		}
+		};
 		var timeoutId;
-		var oldVal ="";
+		var oldVal = '';
 
-        connect();
+    connect();
 
 		App.Note.save = function(data, callback) {
 			$.ajax({
-				type: "POST",
-				url: "/telenote",
-				dataType: "json",
-				headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]").attr("content") },
+				type: 'POST',
+				url: '/telenote',
+				dataType: 'json',
+				headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]")
+          .attr('content') },
 				data: data
 			}).done(function(data) {
 				callback(data);
-			})
+			});
 		};
 		
 
 		//функция удаления заметки из базы и с рабочего поля
 		$('body').on('click', '.js-delBtn', function() {
 			
-			var id = $(this).closest('.js-note').attr("id");
+			var id = $(this)
+        .closest('.js-note')
+          .attr('id');
 			deleteNote(timeoutId, id);
 			
 		});
@@ -36,7 +39,7 @@
 
 			var currentVal = $(this).val();
 
-            if(currentVal == oldVal) {
+            if(currentVal === oldVal) {
                 return; //проверка изменения состояния текста
             }
 
@@ -44,15 +47,14 @@
 
             if ($(window).width() > 800) {
 
-            	$('#js-status').text("Сохранение...");
+            	$('#js-status').text('Сохранение...');
 
             } else {
 
             	$('#js-minStatus').addClass('minStatusTyping');
             	$('#js-minStatus').text('...');
 
-            };
-			
+            }
 		});
 
 
@@ -61,12 +63,12 @@
 			
 			clearTimeout(timeoutId);
 
-			var $textarea = $(this)
+			var $textarea = $(this);
 			timeoutId = setTimeout(function() {
 				autosaver($textarea);
 			}, 750);
 
-		})
+		});
 
 
 		//расшаривание
@@ -88,7 +90,7 @@
 			var $note = $(this);
 			mouseLeave($note);
 
-		})
+		});
 
 
 		//подмена активного элемента
@@ -96,22 +98,22 @@
 
 			if ($('#js-textarea')[0] == null) {
 
-                var $content = $(this);
-                divToTextarea($content);
+        var $content = $(this);
+        divToTextarea($content);
 
 			} else {
 
 				$('#js-textarea').blur();
 				$(this).click();
 				
-			};
+			}
 
 		}).on('blur', '#js-textarea', function() {
            
            	var $textarea = $(this);
            	timeoutId = textareaToDiv($textarea, timeoutId);	
 		
-		})
+		});
 
 
 		$(function() {
@@ -120,9 +122,9 @@
 				var text = $(item).text();
 				$(item).text('');
 				$(item).html(text);
-			})
+			});
 	
-		})
+		});
 		
 
 		//Обработчик кнопки share и генерация модального окна
@@ -130,10 +132,9 @@
 
 			var $note = $(this);
 			modalStart($note);
-			shareData.$clickedNoteSection = $note.closest(".js-noteSection");
+			shareData.$clickedNoteSection = $note.closest('.js-noteSection');
 
-		})
-
+		});
 
 		//Выход из модального окна
 		$('body').on('click', '#js-modalClose', function() {
@@ -147,14 +148,14 @@
 			
 			$('#js-shareMessage').addClass('displayNone');
 		
-		})
+		});
 
 
-		$("#js-addShareEmail").on('input', function() {
+		$('#js-addShareEmail').on('input', function() {
 
 			$('#js-shareMessage').removeClass('messageFail');
 
-        });
+    });
 
 
 		//поведение плюсика в шаринге
@@ -163,23 +164,26 @@
 			var $emailInput = $(this);
 			addShareBtn($emailInput, key);
 
-		})
+		});
 
 
 		//удаление синхронизации
         $('.js-modalWindow').on('click', '.js-deleteShare', function() {
 
         	var $deleteShare = $(this);
-            shareData.addedShareEmails = deleteShare($deleteShare, shareData.addedShareEmails);
+            shareData.addedShareEmails = deleteShare($deleteShare,
+              shareData.addedShareEmails);
 
-        })
+        });
 
 
 		$(document).keydown(function (key) {
 
-            if ((key.which == 27) && ($('.js-modalWindow').css('display') == 'block')) { $('#js-modalClose').click(); }
+      if ((key.which === 27) &&
+        ($('.js-modalWindow')
+          .css('display') === 'block')) { $('#js-modalClose').click(); }
     
-        })
+    });
 
 	});
 })(jQuery);

@@ -4,5 +4,5 @@
 			var bodyHeight = document.documentElement.clientHeight;
 			$("body").outerHeight(bodyHeight);
 		};
-	})
-})(jQuery)
+	});
+})(jQuery);

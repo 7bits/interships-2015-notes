@@ -5,9 +5,9 @@ function autosaver($textarea) {
 	var data = {
         id: $textarea.closest('.js-note').attr('id'),
         text: text
-    }
+    };
 
-    $(".js-note[id=" + data.id + "] .js-content").text(text);
+    $('.js-note[id=' + data.id + '] .js-content').text(text);
 		
 	data.text = htmlspecialchars(data.text);
 	
@@ -15,7 +15,7 @@ function autosaver($textarea) {
 	var cmd = {
         id: data.id,
         text: data.text,
-        command: "block,text"
+        command: 'block,text'
     };
 
     sendCommand(cmd);
@@ -26,13 +26,14 @@ function autosaver($textarea) {
 
 		if ($(window).width() > 800) {
 							
-			$('#js-status').text("Все заметки сохранены");
+			$('#js-status')
+        .text('Все заметки сохранены');
 						
 		} else {
 							
 			$('#js-minStatus').text('');
 			$('#js-minStatus').removeClass('minStatusTyping');
 						
-		};
+		}
 	});
 }
