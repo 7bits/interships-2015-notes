@@ -82,9 +82,9 @@ public class SeleniumNoteTest {
         };
         wait.until(e);
 
-        WebElement email = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] input[name=username]"));
-        WebElement password = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] input[name=password]"));
-        WebElement submit = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] .loginSubmit"));
+        WebElement email = driver.findElement(By.id("js-logText"));
+        WebElement password = driver.findElement(By.className("js-logPass"));
+        WebElement submit = driver.findElement(By.className("js-logSubmit"));
 
         email.sendKeys(user.getUsername());
         password.sendKeys(user.getPassword());
@@ -102,7 +102,7 @@ public class SeleniumNoteTest {
         }
     }
 
-    @Test
+    /*@Test
     public void createDeleteNoteTest() {
         driver.findElement(By.id("js-addNote")).click();
 
@@ -135,10 +135,9 @@ public class SeleniumNoteTest {
             }
         };
         wait.until(elNotFound);
+    }*/
 
-    }
-
-    @Test
+    /*@Test
     public void userNameTest() {
         driver.findElement(By.className("js-user")).click();
 
@@ -154,9 +153,9 @@ public class SeleniumNoteTest {
         action.moveToElement(button);
         action.perform();
         button.click();
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void userPasswordTest() {
         driver.findElement(By.className("js-user")).click();
 
@@ -167,15 +166,15 @@ public class SeleniumNoteTest {
         toClear.sendKeys(Keys.DELETE);
   	    toClear.sendKeys("Ololo73");
 	    driver.findElement(By.id("js-newPass")).sendKeys("Capitan1234");
-  	
+
         WebElement button = driver.findElement(By.className("js-submit"));
         Actions action = new Actions(driver);
         action.moveToElement(button);
         action.perform();
         button.click();
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void userDesignTest() {
         driver.findElement(By.className("js-user")).click();
 
@@ -188,9 +187,9 @@ public class SeleniumNoteTest {
         button.click();
 
 	    driver.findElement(By.className("js-submit")).click();
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void createShareNoteTest() {
       UserDetailsImpl user = new UserDetailsImpl();
       user.setUsername("warumweil@gmail.com");
@@ -214,9 +213,9 @@ public class SeleniumNoteTest {
 
         driver.findElement(By.id("logout")).click();
 
-      WebElement email = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] input[name=username]"));
-      WebElement password = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] input[name=password]"));
-      WebElement submit = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] .loginSubmit"));
+      WebElement email = driver.findElement(By.id("js-logText"));
+      WebElement password = driver.findElement(By.className("js-logPass"));
+      WebElement submit = driver.findElement(By.className("js-logSubmit"));
 
       email.sendKeys("warumweil@gmail.com");
       password.sendKeys("54321Qwerty");
@@ -229,7 +228,7 @@ public class SeleniumNoteTest {
       } catch (Exception ex) {
           fail(ex.getMessage());
       }
-    }
+  }*/
 
 	/*@Test
     public void deleteSharingNoteTest() {
