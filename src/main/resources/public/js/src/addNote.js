@@ -1,4 +1,6 @@
 (function($) {
+  'use strict';
+  
   $(document).ready(function() { 
     //функция обработки нажатия "+" и добавления заметки на рабочее поле
     $('#js-addNote').click(function() {

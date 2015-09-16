@@ -1,5 +1,6 @@
 //функция запроса синхронизированных пользователей
 function checkSharedNote(noteId) {
+  'use strict';
 
   var sendInfo = {
     id: noteId
@@ -48,7 +49,9 @@ function checkSharedNote(noteId) {
 
 
 function modalStart($note) {
-	$('#js-textarea').blur();
+	'use strict';
+
+  $('#js-textarea').blur();
 
 	var id = $note.closest('.js-note').attr('id');
 	$('.js-modalWindow').attr('id', id);
@@ -68,6 +71,7 @@ function modalStart($note) {
 
 
 function modalClose(data) {
+  'use strict';
 
 	var $curnote = data.$clickedNoteSection.find('.js-note[id="' +
     $('.js-modalWindow').attr('id') + '"]');
@@ -187,6 +191,7 @@ function modalClose(data) {
 
 
 function addShareBtn($emailInput, key) {
+  'use strict';
 
 	if ($emailInput.val() === '') {
 			
@@ -207,39 +212,40 @@ function addShareBtn($emailInput, key) {
 
 
 function deleteShare($deleteShare) {
-	
+	'use strict';
+
 	var sendInfo = {
-      	userId: $deleteShare.closest('.js-shareUser').attr('id'),
-      	noteId: $deleteShare.closest('.js-modalWindow').attr('id')
-    };
+    userId: $deleteShare.closest('.js-shareUser').attr('id'),
+    noteId: $deleteShare.closest('.js-modalWindow').attr('id')
+  };
 
-    $.ajax({
-     	type: 'POST',
-      url: '/telenote/deletesync',
-     	dataType: 'json',
-      data: sendInfo,
-      headers: {'X-CSRF-TOKEN': $('meta[name = _csrf]').attr('content') },
-      success: function(data) {
+  $.ajax({
+    type: 'POST',
+    url: '/telenote/deletesync',
+    dataType: 'json',
+    data: sendInfo,
+    headers: {'X-CSRF-TOKEN': $('meta[name = _csrf]').attr('content') },
+    success: function(data) {
             
-        $('#'+sendInfo.userId).empty().animate({
+      $('#'+sendInfo.userId).empty().animate({
             
-        	height: '0px'
+          height: '0px'
             
-          }, 300, 'swing', function() {
+        }, 300, 'swing', function() {
             	
-          	$('#'+sendInfo.userId).remove();
+          $('#'+sendInfo.userId).remove();
             	
-          	var result = [];
+          var result = [];
 
-           	$('.shareUserEmail').each(function() {
+          $('.shareUserEmail').each(function() {
 
-            		result.push($(this).text());
+            result.push($(this).text());
 
-            });
-
-            	return result;
-            
           });
-        }
-    });
+
+          return result;
+            
+        });
+      }
+  });
 }

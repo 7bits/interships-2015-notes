@@ -1,4 +1,5 @@
 function deleteNote(timeoutId, id) {
+  'use strict';
 			
 	$.ajax({
 

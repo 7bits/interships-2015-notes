@@ -1,4 +1,6 @@
 (function($) {
+  'use strict';
+
 	$(document).ready(function () {
 
 		var shareData = {
@@ -15,7 +17,7 @@
 				type: 'POST',
 				url: '/telenote',
 				dataType: 'json',
-				headers: {'X-CSRF-TOKEN': $("meta[name = _csrf]")
+				headers: {'X-CSRF-TOKEN': $('meta[name = _csrf]')
           .attr('content') },
 				data: data
 			}).done(function(data) {

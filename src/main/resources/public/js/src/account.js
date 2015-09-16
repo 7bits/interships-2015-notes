@@ -1,4 +1,6 @@
 (function($) {
+  'use strict';
+  
 	$(document).ready(function() {
 		
 		//подсветка текущей темы
