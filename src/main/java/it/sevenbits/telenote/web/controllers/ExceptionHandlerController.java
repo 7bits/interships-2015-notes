@@ -16,8 +16,8 @@ public class ExceptionHandlerController {
 
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
 
-        // handling "Request method 'GET' not supported"
-        if(statusCode == null)
+        // handling spring exception
+        if(e.getMessage().equals("Request method 'GET' not supported"))
             statusCode = 404;
 
         String message = HttpMessage.getHttpMessage(statusCode);

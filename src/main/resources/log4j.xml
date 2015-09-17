@@ -7,7 +7,7 @@
 
     <appender name="ROLL" class="org.apache.log4j.rolling.RollingFileAppender">
         <!-- The active file to log to -->
-        <param name="file" value="/home/andy/interships-2015-notes/file.log"/>
+        <param name="file" value="/home/andy/Github/interships-2015-notes/logs.log"/>
         <param name="append" value="true"/>
         <param name="encoding" value="UTF-8"/>
 
