@@ -42,7 +42,7 @@ public class AccountController {
 
     @RequestMapping(value = "/account", method = RequestMethod.POST)
     public @ResponseBody
-    ModelAndView changePass(@Valid @ModelAttribute("form") ChangesForm form, Authentication auth) throws ServiceException {
+    ModelAndView changeAccountSettings(@Valid @ModelAttribute("form") ChangesForm form, Authentication auth) throws ServiceException {
         UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
         String username = user.getName();
         ModelAndView model = new ModelAndView("home/account");

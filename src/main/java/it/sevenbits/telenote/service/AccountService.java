@@ -44,21 +44,23 @@ public class AccountService {
     }
 
     public void changeTheme(UserDetailsImpl user) throws ServiceException {
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             accountRepository.changeStyle(user);
             txManager.commit(status);
             LOG.info(String.format("User's theme is successfully updated. UserEmail: %s, Theme: %s", user.getUsername(), user.getStyle()));
         } catch (RepositoryException e) {
-            LOG.error(String.format("Could not change user's theme. UserEmail: %s, Theme: %s", user.getUsername(),user.getStyle()));
-            txManager.rollback(status);
+            LOG.error(String.format("Could not change user's theme. UserEmail: %s, Theme: %s", user.getUsername(), user.getStyle()));
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("Could not change user's theme." + e.getMessage());
         }
     }
 
     public void changeUsername(UserDetailsImpl user) throws ServiceException {
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             //Pattern pattern = Pattern.compile("\\b[\\wа-яА-Я-]{2,15}\\b");
             Pattern pattern = Pattern.compile(".+\\s.+");
             Matcher matcher = pattern.matcher(user.getName());
@@ -73,15 +75,16 @@ public class AccountService {
 
         } catch (RepositoryException e) {
             LOG.error(String.format("Could not change username. UserEmail: %s, NewUserName: %s", user.getUsername(), user.getName()));
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("Could not change username: " + e.getMessage());
         }
     }
 
     public void changePass(String currentPass, String newPass, UserDetailsImpl user) throws ServiceException {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             Pattern pattern = Pattern.compile("(([a-z]+[A-Z]+[0-9]+)|([a-z]+[0-9]+[A-Z]+)|([A-Z]+[a-z]+[0-9]+)|([A-Z]+[0-9]+[a-z]+)|([0-9]+[A-Z]+[a-z]+)|([0-9]+[a-z]+[A-Z]+)|([0-9]+[a-z]+)|([a-z]+[0-9]+))");
             Matcher matcher = pattern.matcher(newPass);
 
@@ -90,8 +93,6 @@ public class AccountService {
                     if (!currentPass.equals(newPass)){
                         user.setPassword(encoder.encode(newPass));
                         accountRepository.changePass(user);
-                        txManager.commit(status);
-                        LOG.info("Password is successfully changed. UserEmail: " + user.getUsername());
                     } else {
                         throw new ServiceException("curPassEqualsNewPass");
                     }
@@ -102,10 +103,16 @@ public class AccountService {
             } else {
                 throw new ServiceException("patternFail");
             }
+            txManager.commit(status);
+            LOG.info("Password is successfully changed. UserEmail: " + user.getUsername());
         } catch (RepositoryException e) {
             LOG.error(String.format("An error occurred while changing password. UserEmail: %s", user.getUsername()));
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("An error occurred while changing password: " + e.getMessage());
         }
+    }
+
+    public void changeAccountSettings(String currentPass, String newPass, UserDetailsImpl user) throws ServiceException {
+
     }
 }
