@@ -122,15 +122,18 @@ public class UserService implements UserDetailsService {
 
     public Optional<UserDetailsImpl> getUserByEmail(String email) throws ServiceException {
         Optional<UserDetailsImpl> user = null;
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             user = repository.getUserByEmail(email);
             txManager.commit(status);
             return user;
         } catch (Exception e) {
             //mb, has to be reworked
             LOG.error("Could not get user by email. UserEmail: " + email);
-            txManager.rollback(status);
+            if (status != null) {
+                txManager.rollback(status);
+            }
             throw new ServiceException(e.getMessage());
         }
     }

@@ -2,11 +2,11 @@ body {
 	background-color: #d7dbe2;
 }
 
-.container {
+.page {
   	background-color: #d7dbe2;
 }
 
-.headWrapper {
+.page__header {
 	background-color: #20406c;
 }
 

@@ -40,13 +40,13 @@ body{
     user-select: none;
 }
 
-.container{
+.page {
 	min-width: 415px;
   	width: 100%;
   	padding: 0px;
 }
 
-.headWrapper{
+.page__header {
 	width: 100%;
 	margin: auto;
 	height: 88px;
@@ -57,12 +57,12 @@ body{
 	min-width: 415px;
 }
 
-.logoDiv{
+.header__logo{
 	float: left;
 	margin-top: 12px;
 }
 
-.logoImg {
+.header__logoImg {
 	float: left;
 	background-image: url("/img/logo.png");
 	width: 53px;
@@ -72,7 +72,7 @@ body{
 	background-size: cover;
 }
 
-.slogon {
+.header__slogon {
 	background-image: url("/img/label.png");
 	width: 159px;
 	height: 21px;
@@ -83,7 +83,7 @@ body{
 	background-size: cover;
 }
 
-.in-outMenu{
+.header__in-outMenu{
 	float: right;
 	text-align: justify;
 	margin-right: 25px;
@@ -105,65 +105,59 @@ body{
   	border-radius: 50px;
 }
 
-.logMenu{
+.header__logMenu{
 	text-align: right;
 	margin-left: 10px;
 	margin-top: 9px;
 }
 
-.user {
+.header__user {
 	margin-top: -3px;
 	margin-bottom: -3px;
 }
 
-#username {
+.header__username {
 	color: white;
 	font-family: "Roboto-Light";
 	font-size: 19px;
 }
 
-#logout {
+.header__logout {
 	font-family: "Roboto-Thin";
 	font-size: 15px;
 	color: white;
 }
 
-.addNote {
-	float: right;
+.page__addNote {
+	position: fixed;
+	top: 67px;
+  	right: 160px;
 	border-radius: 50px;
-	margin-top: -21px;
 	width: 50px;
 	height: 50px;
 	text-align: center;
+	z-index: 4;
 }
 
-.addNote img {
+.page__addNote img {
 	cursor: pointer;
 	box-shadow: 0px 5px 12.45px 2.55px rgba(0, 0, 0, 0.2);
 	border-radius: 50px;
 	width: 40px;
 }
 
-.addNote img:hover {
+.page__addNote img:hover {
 	width: 45px;
 	margin-top: -3px;
 	box-shadow: 0px 5px 16.02px 1.98px;
 }
 
-.addNote img:active {
+.page__addNote img:active {
 	background: url("/img/addBtn-click.png");
 	box-shadow: 0px 10px 12.45px 2.55px rgba(0, 0, 0, 0.15);
 }
 
-.addNoteDiv {
-	position: fixed;
-  	float: right;
-  	top: 88px;
-  	right: 160px;
-  	z-index: 4;
-}
-
-.infoDiv {
+.page__status {
 	position: fixed;
 	right: 0;
 	top: 88px;
@@ -182,13 +176,13 @@ body{
   	margin-right: 2px;
 }
 
-.status {
+.status__mainStatus {
 	cursor: default;
 	font-family: "Roboto-LightItalic";
 	font-size: 12px;
 }
 
-.statusDiv {
+.status__container {
 	margin-left: 60px;
 	width: 134px;
 	text-align: right;
@@ -196,7 +190,7 @@ body{
 	float: left;
 }
 
-.minStatus {
+.status__minStatus {
 	display: none;
 }
 
@@ -452,23 +446,23 @@ input[type="checkbox"]:checked + label {
 /*ЭТО ДОЛЖНО БЫТЬ В САМОМ КОНЦЕ!!!*/
 @media screen and (max-width: 780px) {
 
-	.headWrapper {
+	.page__header {
 	  	height: 60px;
 	}
 
-	.logoImg {
+	.header__logoImg {
 		margin-top: -4px;
 		width: 32px;
     	height: 38px;
 	}
 
-	.slogon {
+	.header__slogon {
 		margin-top: 6px;
 		width: 130px;
     	height: 17px;
 	}
 
-	.in-outMenu {
+	.header__in-outMenu {
 		margin-top: 21px;
 		margin-right: 14px;
 	}
@@ -479,41 +473,54 @@ input[type="checkbox"]:checked + label {
 		height: 32px;
 	}
 
-	.logMenu{
+	.header__logMenu{
 		margin-top: -14px;
 		margin-right: -6px;
 	}
 
-	.user {
+	.header__user {
 		margin-top: 6px;
   		margin-bottom: -4px;
 	}
 
-	#username {
+	.header__username {
 		font-size: 15px;
 	}
 
-	#logout {
+	.header__logout {
 		font-size: 11px;
 	}
 
-	.addNoteDiv, .actualSection, .infoDiv{
+	.page__addNote {
+		top: 40px;
+	}
+
+	.actualSection, .page__status{
 		top: 60px;
 	}
 
-	.infoDiv {
+	.page__status {
 		width: 280px;
 	}
 
-	.minStatus {
+	.status__mainStatus {
+		display: none;
+	}
+
+	.status__container {
+		width: 30px;
+		margin-left: 29px;
+		margin-top: 4px;
+	}
+
+	.status__minStatus {
 		display: inherit;
-		float: right;
 		background-image: url('/img/ok.png');
 		background-repeat: no-repeat;
 		background-size: cover;
 		width: 17px;
   		height: 13px;
-  		margin-top: 7px;
+  		margin-top: 10px;
   		font-size: 16px;
   		cursor: default;
   		color: white;
@@ -522,16 +529,6 @@ input[type="checkbox"]:checked + label {
 	.minStatusTyping {
 		background-image: none;
 		color: black;
-	}
-
-	.status {
-		display: none;
-	}
-
-	.statusDiv {
-		width: 30px;
-		margin-left: 29px;
-		margin-top: 4px;
 	}
 
 	.noteDiv {
