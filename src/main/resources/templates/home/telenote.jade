@@ -26,13 +26,11 @@ block userImgLink
   a(href='/account')
     img.js-userImg.userImg(src="#{avatar}")
 block content
-  .addNoteDiv
-    #js-addNote.addNote
-      img(src="img/addBtn.png")
-  .infoDiv
-    .statusDiv
-      span#js-status.status Все заметки сохранены
-      #js-minStatus.minStatus
+  #js-addNote.page__addNote
+    img(src="img/addBtn.png")
+  .page__status
+    #js-status.status__container.status__mainStatus Все заметки сохранены
+    #js-minStatus.status__container.status__minStatus
   #js-actualSection.js-allSections.textNoteSection.actualSection(value="Actual")
     img.js-sectionPic.sectionPic(src="/img/shareNotRegUser.png")
     .js-sectionOwner.sectionOwner

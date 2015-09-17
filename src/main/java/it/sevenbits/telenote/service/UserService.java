@@ -135,6 +135,7 @@ public class UserService implements UserDetailsService {
             //mb, has to be reworked
             LOG.error("Could not get user by email. UserEmail: " + email);
             if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
+
             throw new ServiceException(e.getMessage());
         }
     }

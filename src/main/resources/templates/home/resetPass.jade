@@ -11,17 +11,17 @@ html
     script(src='js/libs/jquery-1.11.3.js')
     script(src='js/src/welcome.js')
   body
-    .mainDiv
-      .perfomanceDiv
-        .imgDiv
-          .logoImg
-          .slogon
-        .perfomanceMessage
-          h1
+    .container
+      .container__landing
+        .landing__images
+          .landing__logo
+          .landing__slogon
+        .landing__message
+          h1.landing__title
             | Организуйте дела, идеи, мысли.
             br
             | Делитесь с друзьями.
-          h2
+          h2.landing__body
             | Зарегистрируйтесь на TeleNote.
             br
             | Cоздавайте и редактируйте текстовые заметки.
@@ -31,15 +31,12 @@ html
             | Делитесь заметками с семьёй и друзьями.
             br
             | Ведите дела вместе.
-      .logRegDiv
-        .overlayLogin
-        .loginDiv
-          form.signinForm(role='form', action='/resetpass', method='POST', name='resetForm')
-            span.formHead Восстановление пароля
-            input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
-            .inputData
-              input#js-logText(type='textbox', name='email', placeholder='e-mail', value='#{error}')
-              if error
-                .errorDiv.loginError.resetPass
-                  span#js-loginError Адрес не найден
-            button.loginSubmit(type='submit') Продолжить
+      .container__welcomeForm
+        form.welcomeForm__form.welcomeForm__form_forgot(role='form', action='/resetpass', method='POST', name='resetForm')
+          .welcomeForm__formTitle.welcomeForm__formTitle_forgot Восстановление пароля
+          input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
+          input#js-logText.welcomeForm__textbox(type='textbox', name='email', placeholder='e-mail', value='#{error}')
+          if error
+            .welcomeForm__error.loginError.resetPass
+              span#js-loginError Адрес не найден
+          button.welcomeForm__button(type='submit') Продолжить

@@ -71,21 +71,22 @@ public class NoteService {
         final Note note = new Note();
         note.setId(form.getId());
         note.setText(form.getText());
-
         TransactionStatus status = null;
+
         try {
             status = txManager.getTransaction(customTx);
             if (repository.isNoteBelongToUser(note.getId(), userId)) {
                 note.setUuid(repository.getUuidById(note.getId()));
                 repository.updateNotesByUuid(note);
-                txManager.commit(status);
             } else {
                 LOG.error("An error occurred while saving note. Current note is not belong to user.");
                 throw new ServiceException("Current note is not belong to user!");
             }
+            txManager.commit(status);
         } catch (Exception e) {
             LOG.error(String.format("An error occurred while saving note. UserId: %d, NoteId: %d. Rolling back.", userId, note.getId()));
             if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
+
             throw new ServiceException("An error occurred while saving note: " + e.getMessage(), e);
         }
     }
@@ -95,19 +96,23 @@ public class NoteService {
         TransactionStatus status = null;
         try {
             status = txManager.getTransaction(customTx);
+
             UserNote userNote = new UserNote(userId, note.getId());
 
             if (repository.isNoteBelongToUser(note.getId(), userId)) {
                 repository.deleteNote(note);
                 repository.resetAllParentNoteUserId(note.getId());
-                txManager.commit(status);
+
+
             } else {
                 LOG.error("Current note is not belong to user.");
                 throw new ServiceException("Current note is not belong to user!");
             }
+            txManager.commit(status);
         } catch (Exception e) {
             LOG.error(String.format("An error occurred while deleting note. UserId: %d, NoteId: %d. Rolling back.", userId, note.getId()));
             if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
+
             throw new ServiceException("An error occurred while deleting note: " + e.getMessage(), e);
         }
     }

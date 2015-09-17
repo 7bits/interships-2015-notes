@@ -9,17 +9,17 @@ html
     link(rel='stylesheet', type='text/css', href='css/src/checkMail.css')
     link(rel="shortcut icon", type="image/x-icon", href="img/logo.png")
   body
-    .mainDiv
-      .perfomanceDiv
-        .imgDiv
-          .logoImg
-          .slogon
-        .perfomanceMessage
-          h1
+    .container
+      .container__landing
+        .landing__images
+          .landing__logo
+          .landing__slogon
+        .landing__message
+          h1.landing__title
             | Организуйте дела, идеи, мысли.
             br
             | Делитесь с друзьями.
-          h2
+          h2.landing__body
             | Зарегистрируйтесь на TeleNote.
             br
             | Cоздавайте и редактируйте текстовые заметки.
@@ -29,17 +29,15 @@ html
             | Делитесь заметками с семьёй и друзьями.
             br
             | Ведите дела вместе.
-      .logRegDiv
-        .overlayCheckMail
-        .checkYourMail
-          span.formHead= title
+      .container__welcomeForm
+        .welcomeForm__form
+          .welcomeForm__formTitle= title
+          br
+          .welcomeForm__mailMsg= message
+          br
+          .welcomeForm__email#{email}
           br
           br
-          span.infoCheckMail= message
-          br
-          span.mailForCheck#{email}
-          br
-          br
-          span.infoCheckMail Проверьте свой почтовый ящик
-          a(href='/')
-            .backToMain вернуться на главную
+          .welcomeForm__mailMsg Проверьте свой почтовый ящик
+          .welcomeForm__href_check
+            a(href='/') вернуться на главную
