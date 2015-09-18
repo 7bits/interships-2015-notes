@@ -1,25 +1,35 @@
 package it.sevenbits.telenote.utils;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by andy on 14.09.15.
  */
+@Component
 public class HttpMessage {
-    private static Map<Integer, String> map = new HashMap<Integer, String>(){{
-        put(403,  "Вы сделали что-то запрещённое для сервера");
-        put(404, "Страница не найдена");
-        put(405,   "Данное действие сейчас не доступно");
-        put(500,   "Ошибка на сервере,\n" + "когда вы вернётесь на главную, всё должно быть в норме");
-    }};
-    private static String unknownError = "Упс, что-то пошло не так, попробуйте повторить поздней";
+    @Autowired
+    private MessageSource messageSource;
 
-    public static String getHttpMessage(Integer statusCode) {
+    private Map<Integer, String> map = new HashMap<>();
+
+    public String getHttpMessage(Integer statusCode) {
+        if (map.isEmpty()) {
+            map.put(403, messageSource.getMessage("message.error.403", null,  LocaleContextHolder.getLocale()));
+            map.put(404, messageSource.getMessage("message.error.404", null,  LocaleContextHolder.getLocale()));
+            map.put(405, messageSource.getMessage("message.error.405", null,  LocaleContextHolder.getLocale()));
+            map.put(500, messageSource.getMessage("message.error.500", null,  LocaleContextHolder.getLocale()));
+        }
+
         if(map.containsKey(statusCode)) {
             return map.get(statusCode);
         } else {
-            return unknownError;
+            return messageSource.getMessage("message.error.unknown", null,  LocaleContextHolder.getLocale());
         }
     }
 }
