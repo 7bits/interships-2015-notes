@@ -13,8 +13,8 @@ function deleteNote(timeoutId, id) {
     clearTimeout(timeoutId);
 		var $note = $('.js-note[id=' + id + ']');
 		$note.css('min-width', '0px');
-		$note.children('.delBtn').css('visibility', 'hidden');
-		$note.children('.shaBtn').css('visibility', 'hidden');
+		$note.children('.js-delBtn').css('visibility', 'hidden');
+		$note.children('.js-shaBtn').css('visibility', 'hidden');
 					
 		$note.animate({
 			height: '2px',

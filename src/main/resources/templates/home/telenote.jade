@@ -24,40 +24,37 @@ block scripts
   script(src="js/src/telenote.js")
 block userImgLink
   a(href='/account')
-    img.js-userImg.userImg(src="#{avatar}")
+    img.js-userImg.header__userImg(src="#{avatar}")
 block content
-  .addNoteDiv
-    #js-addNote.addNote
-      img(src="img/addBtn.png")
-  .infoDiv
-    .statusDiv
-      span#js-status.status Все заметки сохранены
-      #js-minStatus.minStatus
-  #js-actualSection.js-allSections.textNoteSection.actualSection(value="Actual")
-    img.js-sectionPic.sectionPic(src="/img/shareNotRegUser.png")
-    .js-sectionOwner.sectionOwner
+  #js-addNote.page__addNote
+    img(src="img/addBtn.png")
+  .page__status
+    #js-status.status__container.status__mainStatus Все заметки сохранены
+    #js-minStatus.status__container.status__minStatus
+  #js-actualSection.js-allSections.noteSpace__sectionInfo.noteSpace__sectionInfo_actual(value="Actual")
+    img.js-sectionPic.sectionInfo__picture(src="/img/shareNotRegUser.png")
+    .js-sectionOwner.sectionInfo__owner
       span
-  .workDiv
-    #js-noteDiv.noteDiv
-      for noteSection in noteSections.entrySet()
-        if(noteSection.getKey()==null)
-          .js-section.js-allSections.textNoteSection
-            img.js-sectionPic.sectionPic(src="#{avatar}")
-            .js-sectionOwner.sectionOwner Мои заметки
-              span.js-span
-        else
-          .js-section.js-allSections.textNoteSection
-            img.js-sectionPic.sectionPic(src="#{noteSection.value.get(0).userAvatar}")
-            .js-sectionOwner.sectionOwner Общие с #{noteSection.value.get(0).usernameOfShareUser}
-              span.js-span  (#{noteSection.getKey()})
-        .js-noteSection.noteSection(id="ns_#{noteSection.getKey()}")
-          for note in noteSection.value
-            .js-note.note(id=note.id)
-              .js-content.content.clickable
-                #{note.text}
-              .js-control.control
-                button.delBtn.js-delBtn
-                button.shaBtn.js-shaBtn
+  #js-noteDiv.noteSpace
+    for noteSection in noteSections.entrySet()
+      if(noteSection.getKey()==null)
+        .js-section.js-allSections.noteSpace__sectionInfo
+          img.js-sectionPic.sectionInfo__picture(src="#{avatar}")
+          .js-sectionOwner.sectionInfo__owner Мои заметки
+            span.js-span
+      else
+        .js-section.js-allSections.noteSpace__sectionInfo
+          img.js-sectionPic.sectionInfo__picture(src="#{noteSection.value.get(0).userAvatar}")
+          .js-sectionOwner.sectionInfo__owner Общие с #{noteSection.value.get(0).usernameOfShareUser}
+            span.js-span  (#{noteSection.getKey()})
+      .js-noteSection.noteSpace__noteSection(id="ns_#{noteSection.getKey()}")
+        for note in noteSection.value
+          .js-note.noteSection__note(id=note.id)
+            .js-content.noteSection__content.clickable
+              #{note.text}
+            .js-control.noteSection__control
+              button.noteSection__delBtn.js-delBtn
+              button.noteSection__shaBtn.js-shaBtn
 block modal
   .js-modalWindow.modalWindow
     .shareMainDiv

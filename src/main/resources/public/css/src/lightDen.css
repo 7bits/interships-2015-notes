@@ -2,11 +2,11 @@ body {
 	background-color: #d7dbe2;
 }
 
-.container {
+.page {
   	background-color: #d7dbe2;
 }
 
-.headWrapper {
+.page__header {
 	background-color: #20406c;
 }
 
@@ -14,15 +14,15 @@ body {
 	color: #000000;
 }
 
-.note {
+.noteSection__note {
 	background-color: #ffffff;
 }
 
-.delBtn, .shaBtn {
+.noteSection__delBtn, .noteSection__shaBtn {
 	background-color: #ffffff;
 }
 
-.note button:hover {
+.noteSection__note button:hover {
 	background-color: #ebedf0;
 }
 
@@ -35,7 +35,7 @@ body {
 	color: #010101;
 }
 
-.control {
+.noteSection__control {
 	border-top: 1px solid #e1e1e1;
 }
 

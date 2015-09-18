@@ -23,21 +23,28 @@
 	src: url("/css/fonts/Lato/Lato-Light.ttf");
 }
 
-
 body {
+	background-image: url("/img/welcomeBackground.png");
 	margin: 0px;
 	border: 0px;
 	padding: 0px;
-	background-image: url("/img/welcomeBackground.png");
 	background-size: cover;
 	background-position: center;
-	min-width: 540px;
+	box-sizing: border-box;
 }
 
-.landing {
+
+.container {
 	position: absolute;
 	top: 45px;
-	left: 12%;
+	left: 10%;
+	min-width: 540px;
+	max-width: 976px;
+	width: 71%;
+}
+
+.container__landing {
+	float: left;
 }
 
 .landing__images {
@@ -87,48 +94,21 @@ body {
 	margin-bottom: 10px;
 }
 
-.welcomeForm {}
+.container__welcomeForm {
+	float: right;
+}
 
 .welcomeForm__form {
 	width: 310px;
     box-sizing: border-box;
-    padding: 15px 15px 8px 15px;
+    padding: 15px;
+    margin-top: 15px;
     text-align: center;
+    background-image: url("/img/overlay.png");
 }
 
-.welcomeForm__form_login {
-	position: absolute;
-	top: 50px;
-    left: 59%;
-}
-
-.welcomeForm__form_registration {
-	position: absolute;
-	top: 245px;
-	left: 59%;
-	margin-top: 20px;
-}
-
-.welcomeForm__overlay {
-	border-radius: 4px;
-	background-color: rgba(176, 184, 193, 0.8);
-  	opacity: 0.302;
-}
-
-.welcomeForm__overlay_login {
-	width: 310px;
-  	height: 200px;
-  	position: absolute;
-  	top: 45px;
-    left: 59%;
-}
-
-.welcomeForm__overlay_registration {
-	width: 310px;
-  	height: 211px;
-  	position: absolute;
-  	top: 266px;
-    left: 59%;	
+.welcomeForm__form_forgot {
+	margin-top: 80px;
 }
 
 .welcomeForm__textbox {
@@ -164,6 +144,31 @@ body {
   	color: rgb(255, 255, 255);
 }
 
+.welcomeForm__mailMsg {
+	text-align: left;
+  	float: left;
+  	font-family: "Roboto-Light";
+  	font-size: 12px;
+}
+
+.welcomeForm__email {
+	font-family: "Roboto-Regular";
+	font-size: 12px;
+	float: left;
+	color: #f67d58;
+}
+
+.welcomeForm__href_check {
+	margin-top: 30px;
+    font-family: "Roboto-Thin";
+  	font-size: 13px;
+    text-align: left;
+}
+
+.welcomeForm__href_check a {
+	color: black;
+}
+
 .welcomeForm__error {
 	background-image: url("/img/errorIcon.png");
 	background-repeat: no-repeat;
@@ -197,17 +202,35 @@ body {
 .welcomeForm__href {
 	font-family: "Roboto-Light";
 	font-size: 12px;
-	color: black;
-	float: right;
+	text-align: right;
 	margin-top: 10px;
 	
+}
+
+.welcomeForm__href_color {
+	color: black;
 }
 
 .badFieldBorder {
 	border: 1px solid #f74e19;
 }
 
+@media screen and (max-width: 1918px) {
+	.container {
+		max-width: 980px;
+		left: 15%;
+	}	
+}
+
 @media screen and (max-width: 1200px) {
+
+	.container {
+		max-width: 820px;
+	}
+
+	.welcomeForm__formTitle_forgot {
+		font-size: 17px;
+	}
 
 	.welcomeForm__textbox {
 		width: 180px;
@@ -242,7 +265,23 @@ body {
 	}
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 630px) {
+
+	.container {
+		position: relative;
+		top: 0;
+    	left: 0;
+    	min-width: 250px;
+    	width: 240px;
+    	margin: auto;
+    	margin-top: 5%;
+	}
+
+	.container__landing {
+		position: relative;
+    	margin: auto;
+    	float: none;
+	}
 
 	.landing__logo {
 		width: 30px;
@@ -275,26 +314,9 @@ body {
 	.welcomeForm__form {
 		position: relative;
 		margin: auto;
-		margin-top: 10px;
+		margin-top: 15px;
 		top: 0;
     	left: 0;
-	}
-
-	.welcomeForm__overlay_login, .welcomeForm__overlay_registration {
-		position: relative;
-		margin: auto;
-		top: 0;
-		left: 0;
-	}
-
-	.welcomeForm__overlay_login {
-		margin-top: 10px;
-		margin-bottom: -210px;
-	}
-
-	.welcomeForm__overlay_registration {
-		margin-top: 65px;
-    	margin-bottom: -223px;
 	}
 
 	.welcomeForm__error {
