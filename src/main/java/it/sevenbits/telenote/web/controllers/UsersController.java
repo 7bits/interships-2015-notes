@@ -9,13 +9,12 @@ import it.sevenbits.telenote.service.ServiceException;
 import it.sevenbits.telenote.service.validators.UserCreateFormValidator;
 import it.sevenbits.telenote.service.UserService;
 
-
 import org.apache.log4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +47,9 @@ public class UsersController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private MessageSource messageSource;
 
     @InitBinder("form")
     public void initBinder(WebDataBinder binder) {
@@ -93,21 +94,21 @@ public class UsersController {
                 //ModelAndView model = new ModelAndView("home/confirmRegMail");
                 //model.addObject("confirmLink", );
                 LOG.info("Sended email to " + form.getEmail());
-                emailService.sendConfirm(form, "Tele-notes. Подтверждение регистрации.", link);
+                emailService.sendConfirm(form, messageSource.getMessage("message.confirm.email", null, LocaleContextHolder.getLocale()), link);
             }
             //request.login(form.getEmail(), form.getPassword());
         } catch (ServiceException e) {
             LOG.info(e.getMessage());
 
             List<String> errors = new ArrayList<>();
-            errors.add("Не удалось зарегестрировать пользователя.");
+            errors.add(messageSource.getMessage("message.signup.error", null, LocaleContextHolder.getLocale()));
             session.setAttribute("userForm", form);
             return new ModelAndView("home/welcome", "errorMessages", errors);
         }
 
         ModelAndView model = new ModelAndView("home/checkMail");
-        model.addObject("message", "Письмо с инструкцией подтверждения регистрации выслано на ваш адрес");
-        model.addObject("title", "Регистрация");
+        model.addObject("message", messageSource.getMessage("message.signup.email.notice", null, LocaleContextHolder.getLocale()));
+        model.addObject("title", messageSource.getMessage("message.signup.email.title", null, LocaleContextHolder.getLocale()));
         model.addObject("email", form.getEmail());
 
         return model;
@@ -131,7 +132,7 @@ public class UsersController {
 
                 return model;
             } else {
-                return new ModelAndView("home/errors", "error", "Неверный или устаревший токен.");
+                return new ModelAndView("home/errors", "error", messageSource.getMessage("message.resetpass.tokenerror", null, LocaleContextHolder.getLocale()));
             }
         } catch (ServiceException e) {
             return new ModelAndView("home/errors", "error", e.getMessage());
@@ -148,8 +149,8 @@ public class UsersController {
         }
 
         ModelAndView model = new ModelAndView("home/checkMail");
-        model.addObject("message", "Письмо с инструкцией подтверждения регистрации выслано на ваш адрес:");
-        model.addObject("title", "Восстановление пароля");
+        model.addObject("message", messageSource.getMessage("message.resetpass.email.notice", null, LocaleContextHolder.getLocale()));
+        model.addObject("title", messageSource.getMessage("message.resetpass.email.title", null, LocaleContextHolder.getLocale()));
         model.addObject("email", form.getEmail());
 
         return model;
@@ -177,7 +178,7 @@ public class UsersController {
         if (token == null || email == null || token.isEmpty() || email.isEmpty()) {
             ModelAndView model = new ModelAndView("home/errors");
             model.addObject("header", "403");
-            model.addObject("message", "${message.confirm.wrongdata}");
+            model.addObject("message", messageSource.getMessage("message.confirm.wrongdata", null, LocaleContextHolder.getLocale()));
             return model;
         }
 
@@ -192,7 +193,7 @@ public class UsersController {
         } catch (ServiceException ex) {
             ModelAndView model = new ModelAndView("home/errors");
             model.addObject("header", "403");
-            model.addObject("message", "${message.confirm.wrongdata}");
+            model.addObject("message", messageSource.getMessage("message.confirm.wrongdata", null, LocaleContextHolder.getLocale()));
             return model;
         }
 
