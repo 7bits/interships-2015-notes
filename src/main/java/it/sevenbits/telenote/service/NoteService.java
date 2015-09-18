@@ -64,7 +64,7 @@ public class NoteService {
     public NoteService() {
             this.customTx = new DefaultTransactionDefinition();
             this.customTx.setName(TX_NAME);
-            this.customTx.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+            this.customTx.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
     }
 
     public void updateNote(final NoteForm form, Long userId) throws ServiceException {

@@ -61,7 +61,7 @@ public class UserService implements UserDetailsService {
     public UserService() {
         this.customTx = new DefaultTransactionDefinition();
         this.customTx.setName(TX_NAME);
-        this.customTx.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        this.customTx.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
     }
 
     public void create(final UserDetailsImpl user) throws ServiceException {
