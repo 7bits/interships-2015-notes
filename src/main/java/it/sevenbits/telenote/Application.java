@@ -1,13 +1,13 @@
 package it.sevenbits.telenote;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.spi.RootLogger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.LogManager;
+import org.springframework.context.annotation.Bean;
 
 /**
  * @see <a href="https://spring.io/guides/gs/spring-boot/">Official guide</a>
