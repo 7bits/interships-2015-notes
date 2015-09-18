@@ -8,14 +8,14 @@
 	src: url("/css/fonts/Lato/Lato-Thin.ttf");
 }
 
-.workDiv {
+.accountInfo {
 	width: 600px;
 	margin: auto;
 	margin-top: 118px;
 	text-align: center;
 }
 
-.profileDiv, .passwordDiv, .themeDiv {
+.accountInfo__section {
 	width: 100%;
 	background-color: rgb(245, 247, 250);
 	box-shadow: 0px 5px 7.6px 0.4px rgba(0, 0, 0, 0.05);
@@ -23,7 +23,7 @@
 	text-align: left;
 }
 
-.profileHeader, .passwordHeader, .themeHeader {
+.accountInfo__section_profile, .accountInfo__section_password, .accountInfo__section_theme {
 	background-repeat: no-repeat;
 	background-position: 20px 10px;
 	background-color: #f67d58;
@@ -38,46 +38,46 @@
 	margin-bottom: 15px;
 }
 
-.profileHeader {
+.accountInfo__section_profile {
 	background-image: url("/img/profileBlock.png");
 }
 
-.passwordHeader {
+.accountInfo__section_password {
 	background-image: url("/img/passwordBlock.png");
 }
 
-.themeHeader {
+.accountInfo__section_theme {
 	background-image: url("/img/themeBlock.png");
 	margin-bottom: 0px;
 }
 
-.nameDiv {
+.accountInfo__name {
 	margin-bottom: 20px;
 }
 
-.labelName, .labelEmail, .labelCurrentPass, .labelNewPass {
+.section__label {
 	margin-left: 45px;
   	font-family: "Roboto-Light";
   	color: black;
 }
 
-.labelName {
+.section__label_name {
 	margin-right: 35px;
 }
 
-.labelEmail {
+.section__label_email {
 	margin-right: 22px;
 }
 
-.labelCurrentPass {
+.section__label_currentPass {
 	margin-right: 45px;
 }
 
-.labelNewPass {
+.section__label_newPass {
 	margin-right: 61px;
 }
 
-.username, .currentPass, .newPass {
+.section__input {
 	box-shadow: 0px 5px 7.6px 0.4px rgba(0, 0, 0, 0.05);
 	border-radius: 2px;
 	padding: 7px;
@@ -85,44 +85,40 @@
   	font-family: "Roboto-Light";
 }
 
-.username {
+.section__input_username {
 	width: 200px;
 }
 
-.currentPass, .newPass {
+.section__input_currentPass, .section__input_newPass {
 	width: 185px;
 }
 
-.username:active, input:active {
+.section__input_username:active, input:active {
 	border: 1px solid white;
 	outline: none;
 }
 
-.emailDiv {
+.accountInfo__email {
 	padding-bottom: 20px;
 	font-family: "Lato-Thin";
 	color: black;
 }
 
-.logoDiv {
-	width: 244px;
-}
-
-.currentPassDiv {
+.accountInfo__currentPass {
 	margin-bottom: 20px;
 }
 
-.newPassDiv {
+.accountInfo__newPass {
 	padding-bottom: 20px;
 }
 
-.themes {
+.accountInfo__themes {
 	width: 570px;
 	height: 110px;
   	padding: 10px 15px 10px 15px;
 }
 
-.theme {
+.themes__theme {
 	float: left;
   	margin: 15px;
   	background-size: cover;
@@ -136,15 +132,15 @@
 	border: 2px solid #f67d58;
 }
 
-.theme1 {
+.themes__theme_1 {
 	background-image: url("/img/lightDenIcon.png");
 }
 
-.theme2 {
+.themes__theme_2 {
 	background-image: url("/img/darkDenIcon.png");
 }
 
-.submit {
+.accountInfo__button {
 	border-radius: 2px;
 	background-color: rgb(32, 64, 108);
 	font-family: "Room-Thin";
@@ -154,7 +150,7 @@
 	margin-bottom: 20px;
 }
 
-.errorPassDiv, .errorUsernameDiv {
+.section__passError, .section__nameError {
 	background-image: url("/img/errorIcon.png");
 	background-repeat: no-repeat;
   	background-position: 10px 5px;
@@ -174,23 +170,23 @@
   	color: black;
 }
 
-.errorUsernameDiv {
+.section__nameError {
 	margin-top: -29px;
 	margin-left: 327px;
 	//width: 135px;
 }
 
-.errorPassDiv {
+.section__passError {
 	margin-top: -30px;
  	margin-left: 412px;
   	
 }
 
-.oldErrorPass {
+.section__passError_old {
 	//width: 188px;
 }
 
-.newErrorPass {
+.section__passError_new {
 	//width: 154px;
 }
 
