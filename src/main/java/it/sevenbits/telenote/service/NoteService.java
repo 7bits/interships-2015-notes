@@ -71,49 +71,56 @@ public class NoteService {
         final Note note = new Note();
         note.setId(form.getId());
         note.setText(form.getText());
+        TransactionStatus status = null;
 
-        TransactionStatus status = txManager.getTransaction(customTx);
         try {
+            status = txManager.getTransaction(customTx);
             if (repository.isNoteBelongToUser(note.getId(), userId)) {
                 note.setUuid(repository.getUuidById(note.getId()));
                 repository.updateNotesByUuid(note);
-                txManager.commit(status);
             } else {
                 LOG.error("An error occurred while saving note. Current note is not belong to user.");
                 throw new ServiceException("Current note is not belong to user!");
             }
+            txManager.commit(status);
         } catch (Exception e) {
             LOG.error(String.format("An error occurred while saving note. UserId: %d, NoteId: %d. Rolling back.", userId, note.getId()));
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
+
             throw new ServiceException("An error occurred while saving note: " + e.getMessage(), e);
         }
     }
 
     public @ResponseBody
     void deleteNote(final Note note, Long userId) throws ServiceException {
-        TransactionStatus status = txManager.getTransaction(customTx);
-
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
+
             UserNote userNote = new UserNote(userId, note.getId());
 
             if (repository.isNoteBelongToUser(note.getId(), userId)) {
                 repository.deleteNote(note);
                 repository.resetAllParentNoteUserId(note.getId());
-                txManager.commit(status);
+
+
             } else {
                 LOG.error("Current note is not belong to user.");
                 throw new ServiceException("Current note is not belong to user!");
             }
+            txManager.commit(status);
         } catch (Exception e) {
             LOG.error(String.format("An error occurred while deleting note. UserId: %d, NoteId: %d. Rolling back.", userId, note.getId()));
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
+
             throw new ServiceException("An error occurred while deleting note: " + e.getMessage(), e);
         }
     }
 
     public List<NoteModel> findUserNotes(final Long userId) throws ServiceException {
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             List<Note> notes = repository.findUserNotes(userId);
             List<NoteModel> models = new ArrayList<>(notes.size());
             for (Note n : notes) {
@@ -125,20 +132,21 @@ public class NoteService {
             return models;
         } catch (Exception e) {
             LOG.error(String.format("An error occurred while finding user notes. UserId: %d. Rolling back.", userId));
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("An error occurred while finding user notes: " + e.getMessage());
         }
     }
 
     public List<UserDetailsImpl> findShareUsers(final Long noteId) throws ServiceException {
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             List<UserDetailsImpl> shareUsers = repository.findShareUsers(noteId);
             txManager.commit(status);
             return shareUsers;
         } catch (Exception e) {
             LOG.error(String.format("An error occurred while finding share users. NoteId: %d. Rolling back.", noteId));
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("An error occurred while finding share users: " + e.getMessage());
         }
     }
@@ -149,9 +157,9 @@ public class NoteService {
         note.setUuid(Note.generateUUID());
         note.setParent_user_id(userId);
 
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
-
+            status = txManager.getTransaction(customTx);
             if (repository.findUserNotes(userId).size() == 0) {
                 repository.addFirstNote(note);
             } else {
@@ -165,7 +173,7 @@ public class NoteService {
             return note.getId();
         } catch (Exception e) {
             LOG.error(String.format("An error occurred while  adding note. UserId: %d, NoteId: %d. Rolling back.", userId, note.getId()));
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("An error occurred while adding note: " + e.getMessage());
         }
     }
@@ -182,8 +190,9 @@ public class NoteService {
         whoShare.setNote_id(form.getNoteId());
 
         final UserNote toWhomShare = new UserNote();
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             if (userRepository.isEmailExists(userDetails)) {
                 whoShare.setUser_id(parentUserId);
                 toWhomShare.setUser_id(userRepository.getIdByEmail(userDetails));
@@ -228,14 +237,14 @@ public class NoteService {
         } catch (Exception e) {
             LOG.error(String.format("An error occurred while sharing note. WhoShare: %d, ToWhomShare: %d, WhoShareNoteId: %d, NewNoteId: %d. Rolling back.",
                     whoShare.getUser_id(), toWhomShare.getUser_id(), whoShare.getNote_id(), note.getId()));
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             return new ResponseEntity<>(new ResponseMessage(false, "Возникла ошибка при шаринге заметки: " + e.getMessage()), HttpStatus.NOT_FOUND);
         }
     }
-
     public void updateOrder(final OrderData orderData) throws ServiceException {
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             if (orderData.getId_next() == 0L) {
                 repository.updateOrder(orderData);
             } else if (orderData.getId_prev().equals(0L)) {
@@ -247,15 +256,16 @@ public class NoteService {
         } catch (RepositoryException e) {
             LOG.error(String.format("An error occurred while saving note order. PrevNoteId: %d, CurNoteId: %d, NextNoteId: %d." +
                     " Rolling back.", orderData.getId_prev(), orderData.getId_cur(), orderData.getId_next()));
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");} //if (status != null) {\if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}\nLOG.info("Rollback done.");\n}
             throw new ServiceException("An error occurred while saving note order." + e.getMessage());
         }
     }
 
     public UserDetailsImpl getUserWhoSharedNote(Long noteId) throws ServiceException {
         UserDetailsImpl user = null;
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             if (repository.isParentNoteIdExists(noteId) != null) {
                 user = repository.getUserWhoSharedNote(noteId);
             } else {
@@ -265,14 +275,15 @@ public class NoteService {
             return user;
         } catch (RepositoryException e) {
             LOG.error(String.format("An error occurred while finding share user. NoteId: %d. Rolling back.", noteId));
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("Couldn't find user in db" + e.getMessage());
         }
     }
 
     public void deleteShareLink(Long rootNoteId, Long userId) throws ServiceException {
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             HashMap<Long, ArrayList<Long>> map = new HashMap<>();
             List<Note> notes = repository.getNotesWithSameUuidById(rootNoteId);
             Long unsyncNote = repository.getNoteIdByUserIdParentId(userId, rootNoteId);
@@ -301,7 +312,7 @@ public class NoteService {
             txManager.commit(status);
         } catch (RepositoryException e) {
             LOG.error(String.format("An error occurred while deleting share link. UserId: %d, RootNoteId: %d. Rolling back.", userId, rootNoteId));
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("An error occurred while deleting share link.", e);
         }
     }
@@ -317,49 +328,53 @@ public class NoteService {
 
     public List<UserDetailsImpl> getUsersWithSameNoteUuidById(Long noteId) throws ServiceException {
         List<UserDetailsImpl> users = null;
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             users = repository.getUsersWithSameNoteUuid(repository.getUuidById(noteId));
             txManager.commit(status);
             return users;
         } catch (RepositoryException e) {
             LOG.error(String.format("An error occurred while getting users by note uuid. NoteId: %d. Rolling back.", noteId));
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("An error occurred while getting users by note uuid" + e.getMessage());
         }
     }
 
     public List<NoteModel> getNotesWithSameNoteUuidByUserId(Long userId) throws ServiceException {
         List<NoteModel> notes = null;
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             notes = repository.getNotesWithSameNoteUuidByUserId(userId);
             txManager.commit(status);
             return notes;
         } catch (RepositoryException e) {
             LOG.error(String.format("An error occurred while getting notes with same uuid by userId. UserId: %d. Rolling back.", userId));
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("An error occurred while getting notes with same uuid by userId." + e.getMessage());
         }
     }
 
     public List<NoteModel> getAllSharedNoteModels(Long userId) throws ServiceException {
         List<NoteModel> notes = null;
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             notes = repository.getAllSharedNoteModels(userId);
             txManager.commit(status);
             return notes;
         } catch (RepositoryException e) {
             LOG.error(String.format("An error occurred while getting all shared notes. UserId: %d. Rolling back.", userId));
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("An error occurred while getting all shared notes." + e.getMessage());
         }
     }
 
     public Map<String, List<NoteModel>> getSortedMap(UserDetailsImpl currentUser) throws ServiceException {
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             List<NoteModel> listNotes = getNotesWithSameNoteUuidByUserId(currentUser.getId());
             List<NoteModel> myNotes = new ArrayList<>();
             Map<String, Long> uuidIdMap = new HashMap<String, Long>();
@@ -406,15 +421,16 @@ public class NoteService {
         } catch (ServiceException e){
             LOG.error(String.format("An error occurred while getting sorted map of notes. UserId: %d, UserEmail: %d." +
                     " Rolling back.", currentUser.getId(), currentUser.getUsername()));
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("An error occurred while getting sorted map of notes." + e.getMessage());
         }
     }
 
     public List<UserDetailsImpl> getListOfShareUsers(Long noteId) throws  ServiceException {
         List<UserDetailsImpl> users = new ArrayList<UserDetailsImpl>();
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             List<UserDetailsImpl> shareUsers = getUsersWithSameNoteUuidById(noteId);
 
             UserDetailsImpl owner = getUserWhoSharedNote(noteId);
@@ -437,7 +453,7 @@ public class NoteService {
         } catch (ServiceException e) {
             LOG.error(String.format("An error occurred while getting share users of note." +
                     " NoteId: %d. Cause: %s. Rolling back.", noteId, e.getMessage()));
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("An error occurred while getting share users of note.", e);
         }
     }

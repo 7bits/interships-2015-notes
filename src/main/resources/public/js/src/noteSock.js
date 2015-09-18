@@ -1,20 +1,9 @@
 var stompClient = null;
 
-function connect() {
-    var socket = new SockJS('/updatenote');
-    stompClient = Stomp.over(socket);
-    var headerName = $('meta[name=_csrf_header]').attr('content');
-    var token = $('meta[name=_csrf]').attr('content');
-    var headers = {};
-    headers[headerName] = token;
-    stompClient.connect(headers, function(frame) {
-        //setConnected(true);
-        //var email = $("meta[name=current_user]").attr("content");
-        stompClient.subscribe('/user/queue/notes', subscribeEvent);
-    });
-}
 
 function subscribeEvent(noteForm) {
+  'use strict';
+
   var quote = JSON.parse(noteForm.body);
 
   //да да, свитч плохо все дела, но пока у меня нет времени на полиморфизм)
@@ -63,11 +52,34 @@ function subscribeEvent(noteForm) {
   }
 }
 
+
+function connect() {
+  'use strict';
+
+  var socket = new SockJS('/updatenote');
+  stompClient = Stomp.over(socket);
+  var headerName = $('meta[name=_csrf_header]').attr('content');
+  var token = $('meta[name=_csrf]').attr('content');
+  var headers = {};
+  headers[headerName] = token;
+  stompClient.connect(headers, function() {
+    //setConnected(true);
+    //var email = $("meta[name=current_user]").attr("content");
+    stompClient.subscribe('/user/queue/notes', subscribeEvent);
+  });
+}
+
+
+
 function disconnect() {
-    stompClient.disconnect();
+  'use strict';
+
+  stompClient.disconnect();
     //setConnected(false);
 }
 
 function sendCommand(data) {
-    stompClient.send('/app/updatenote', {}, JSON.stringify(data));
+  'use strict';
+
+  stompClient.send('/app/updatenote', {}, JSON.stringify(data));
 }

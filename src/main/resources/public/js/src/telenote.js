@@ -1,4 +1,6 @@
 (function($) {
+  'use strict';
+  
 	$(document).ready(function() {
 		$('.js-sectionOwner')
       .eq(0)

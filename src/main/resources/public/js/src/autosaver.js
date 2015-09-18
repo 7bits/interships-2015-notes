@@ -1,4 +1,5 @@
 function autosaver($textarea) {
+  'use strict';
 
 	var text = $textarea.val();
 

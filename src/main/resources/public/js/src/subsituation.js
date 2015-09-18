@@ -1,4 +1,5 @@
 function divToTextarea($content) {
+  'use strict';
 
 	//блокируем заметку
     var cmd = {
@@ -33,6 +34,7 @@ function divToTextarea($content) {
 
 
 function textareaToDiv($textarea, timeoutId) {
+  'use strict';
 
 	clearTimeout(timeoutId);
 

@@ -1,5 +1,7 @@
 //функция анимации ошибок
 function errorsAnimate(element) {
+  'use strict';
+
   element.attr('style', 'margin-left: 0px;');
   var width = document.documentElement.clientWidth;
   var margin;
@@ -21,7 +23,9 @@ function errorsAnimate(element) {
 
 
 (function($) {
-	$(document).ready(function() {
+	'use strict';
+  
+  $(document).ready(function() {
 		
 	  //подсветка неверных полей
 		$(function() {

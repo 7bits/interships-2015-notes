@@ -13,17 +13,17 @@ html
     block title
       title Telenote
   body
-    .container
-      .headWrapper
-        .logoDiv
+    .page
+      .page__header
+        .header__logo
           a(href='/telenote')
-            .logoImg
-            .slogon
-        .in-outMenu
-          .logMenu
-            a#username(href='/account')
-              .user.js-user#{user.name}
-            a#logout(href='/logout') Выход
+            .header__logoImg
+            .header__slogon
+        .header__in-outMenu
+          .header__logMenu
+            a.header__username(href='/account')
+              .header__user.js-user#{user.name}
+            a.header__logout(href='/logout') Выход
           block userImgLink
       block content
     block modal

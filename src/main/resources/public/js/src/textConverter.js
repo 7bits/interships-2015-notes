@@ -1,4 +1,5 @@
 function nl2br (str) {
+  'use strict';
 	
   var breakTag = '<br>';    
 
@@ -9,7 +10,8 @@ function nl2br (str) {
    
 
 function br2nl (str) {
-	
+	'use strict';
+
   var nl = '\n';
 	
   //.replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&amp;/g, "&");
@@ -19,7 +21,8 @@ function br2nl (str) {
 
 
 function htmlspecialchars(str) {
-         	
+  'use strict';
+
   if (typeof(str) === 'string') {
 		 
     var quot = '&quot';
@@ -39,6 +42,7 @@ function htmlspecialchars(str) {
 
 
 function rhtmlspecialchars(str) {
+  'use strict';
           	
   if (typeof(str) === 'string') {
            	

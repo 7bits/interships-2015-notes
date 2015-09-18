@@ -72,9 +72,9 @@ public class SeleniumLoginTest {
 
         driver.get("http://127.0.0.1:9000");
 
-        email = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] input[name=username]"));
-        password = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] input[name=password]"));
-        submit = driver.findElement(By.ByCssSelector.cssSelector("form[name=signinForm] .loginSubmit"));
+        email = driver.findElement(By.id("js-logText"));
+        password = driver.findElement(By.className("js-logPass"));
+        submit = driver.findElement(By.className("js-logSubmit"));
     }
 
     @Test
@@ -99,7 +99,7 @@ public class SeleniumLoginTest {
 
         submit.submit();
 
-        driver.findElement(By.className("errorDiv"));
+        driver.findElement(By.id("js-loginError"));
     }
 
     @Test
@@ -108,8 +108,9 @@ public class SeleniumLoginTest {
         password.sendKeys("123");
 
         submit.submit();
+        
+        driver.findElement(By.id("js-loginError"));
 
-        driver.findElement(By.className("errorDiv"));
     }
 
     @After

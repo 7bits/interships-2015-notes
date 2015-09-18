@@ -1,5 +1,6 @@
 function mouseHover($note) {
-	
+	'use strict';
+
 	var $control = $note.find('.js-control');
 	var $delBtn = $note.find('.js-delBtn');
 	var $shareBtn = $note.find('.js-shaBtn');
@@ -24,6 +25,7 @@ function mouseHover($note) {
 
 
 function mouseLeave($note) {
+  'use strict';
 
 	var $control = $note.find('.js-control');
 	var $delBtn = $note.find('.js-delBtn');

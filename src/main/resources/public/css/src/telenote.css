@@ -40,13 +40,13 @@ body{
     user-select: none;
 }
 
-.container{
+.page {
 	min-width: 415px;
   	width: 100%;
   	padding: 0px;
 }
 
-.headWrapper{
+.page__header {
 	width: 100%;
 	margin: auto;
 	height: 88px;
@@ -57,12 +57,12 @@ body{
 	min-width: 415px;
 }
 
-.logoDiv{
+.header__logo{
 	float: left;
 	margin-top: 12px;
 }
 
-.logoImg {
+.header__logoImg {
 	float: left;
 	background-image: url("/img/logo.png");
 	width: 53px;
@@ -72,7 +72,7 @@ body{
 	background-size: cover;
 }
 
-.slogon {
+.header__slogon {
 	background-image: url("/img/label.png");
 	width: 159px;
 	height: 21px;
@@ -83,7 +83,7 @@ body{
 	background-size: cover;
 }
 
-.in-outMenu{
+.header__in-outMenu{
 	float: right;
 	text-align: justify;
 	margin-right: 25px;
@@ -95,7 +95,7 @@ body{
 	float: left;
 }
 
-.userImg{
+.header__userImg{
 	float: left;
 	width: 50px;
 	height: 50px;
@@ -105,65 +105,59 @@ body{
   	border-radius: 50px;
 }
 
-.logMenu{
+.header__logMenu{
 	text-align: right;
 	margin-left: 10px;
 	margin-top: 9px;
 }
 
-.user {
+.header__user {
 	margin-top: -3px;
 	margin-bottom: -3px;
 }
 
-#username {
+.header__username {
 	color: white;
 	font-family: "Roboto-Light";
 	font-size: 19px;
 }
 
-#logout {
+.header__logout {
 	font-family: "Roboto-Thin";
 	font-size: 15px;
 	color: white;
 }
 
-.addNote {
-	float: right;
+.page__addNote {
+	position: fixed;
+	top: 67px;
+  	right: 160px;
 	border-radius: 50px;
-	margin-top: -21px;
 	width: 50px;
 	height: 50px;
 	text-align: center;
+	z-index: 4;
 }
 
-.addNote img {
+.page__addNote img {
 	cursor: pointer;
 	box-shadow: 0px 5px 12.45px 2.55px rgba(0, 0, 0, 0.2);
 	border-radius: 50px;
 	width: 40px;
 }
 
-.addNote img:hover {
+.page__addNote img:hover {
 	width: 45px;
 	margin-top: -3px;
 	box-shadow: 0px 5px 16.02px 1.98px;
 }
 
-.addNote img:active {
+.page__addNote img:active {
 	background: url("/img/addBtn-click.png");
 	box-shadow: 0px 10px 12.45px 2.55px rgba(0, 0, 0, 0.15);
 }
 
-.addNoteDiv {
-	position: fixed;
-  	float: right;
-  	top: 88px;
-  	right: 160px;
-  	z-index: 4;
-}
-
-.infoDiv {
+.page__status {
 	position: fixed;
 	right: 0;
 	top: 88px;
@@ -182,13 +176,13 @@ body{
   	margin-right: 2px;
 }
 
-.status {
+.status__mainStatus {
 	cursor: default;
 	font-family: "Roboto-LightItalic";
 	font-size: 12px;
 }
 
-.statusDiv {
+.status__container {
 	margin-left: 60px;
 	width: 134px;
 	text-align: right;
@@ -196,7 +190,7 @@ body{
 	float: left;
 }
 
-.minStatus {
+.status__minStatus {
 	display: none;
 }
 
@@ -246,19 +240,14 @@ a:hover {
     cursor: pointer;
 }
 
-.workDiv{
+.noteSpace {
 	width: 100%;
   	display: inherit;
   	margin-top: 143px;
+  	float: left;
 }
 
-.noteDiv {
-	float: left;
-	width: 100%;
-	display: inline-block;
-}
-
-.note{
+.noteSection__note{
 	background-color: white;
 	cursor: -webkit-grab;
 	vertical-align: top;
@@ -279,7 +268,7 @@ a:hover {
 	box-shadow: 0px 5px 14.94px 3.06px rgba(0, 0, 0, 0.15);
 }
 
-.delBtn, .shaBtn {
+.noteSection__delBtn, .noteSection__shaBtn {
 	float: right;
 	width: 80px;
   	height: 0px;
@@ -289,23 +278,23 @@ a:hover {
 	padding: 0px;
 }
 
-.delBtn:focus, .shaBtn:focus {
+.noteSection__delBtn:focus, .noteSection__shaBtn:focus {
 	outline: none;
 }
 
-.delBtn {
+.noteSection__delBtn {
 	background-image: url("/img/delBtn.png");
 }
 
-.delBtn:active {
+.noteSection__delBtn:active {
 	background-image: url("/img/delBtn-click.png");
 }
 
-.shaBtn {
+.noteSection__shaBtn {
 	background-image: url("/img/shareBtn.png");
 }
 
-.shaBtn:active {
+.noteSection__shaBtn:active {
 	background-image: url("/img/shareBtn-click.png");
 }
 
@@ -313,7 +302,7 @@ a:hover {
 	height: 0px;
 }
 
-.content {
+.noteSection__content {
 	text-align: left;
 	height: 143px;
 	width: 322px;
@@ -363,7 +352,7 @@ a:hover {
 	margin-top: 50px;
 }
 
-.control {
+.noteSection__control {
 	height: 0px;
 	margin-top: 40px;
 	visibility: hidden;
@@ -385,37 +374,18 @@ a:hover {
   /* Box-shadow: 0px 0px 0px 2px #f00; */
 }
 
-/*input[type="checkbox"] {
-  display:none;
-}*/
-/*input[type="checkbox"] + label {
-  display:inline-block;
-  margin:-1px 4px 0 0;
-  vertical-align:middle;
-  background:url(/img/c_unchecked.png) left top no-repeat;
-  cursor:pointer;
-}
-input[type="checkbox"]:checked + label {
-  background:url(/img/c_checked.png) left top no-repeat;
-}*/
-
-.noteSection {
+.noteSpace__noteSection {
 
 }
 
-.sectionPic {
+.sectionInfo__picture {
    	height: 28px;
   	margin-top: -4px;
   	border-radius: 50px;
   	float: left;
 }
 
-.notePic {
-	margin-top: 6px;
-    margin-left: 6px;
-}
-
-.sectionOwner {
+.sectionInfo__owner {
 	float: left;
 	margin-top: 2px;
   	margin-left: 10px;
@@ -423,11 +393,11 @@ input[type="checkbox"]:checked + label {
   	font-size: 12px;
 }
 
-.sectionOwner span {
+.sectionInfo__owner span {
 	font-family: "Roboto-Light";
 }
 
-.textNoteSection {
+.noteSpace__sectionInfo {
 	position: relative;
 	color: black;
 	width: 100%;
@@ -442,7 +412,7 @@ input[type="checkbox"]:checked + label {
     box-sizing: border-box;
 }
 
-.actualSection {
+.noteSpace__sectionInfo_actual {
 	position: fixed;
 	top: 88px;
 	left: 0px;
@@ -452,68 +422,81 @@ input[type="checkbox"]:checked + label {
 /*ЭТО ДОЛЖНО БЫТЬ В САМОМ КОНЦЕ!!!*/
 @media screen and (max-width: 780px) {
 
-	.headWrapper {
+	.page__header {
 	  	height: 60px;
 	}
 
-	.logoImg {
+	.header__logoImg {
 		margin-top: -4px;
 		width: 32px;
     	height: 38px;
 	}
 
-	.slogon {
+	.header__slogon {
 		margin-top: 6px;
 		width: 130px;
     	height: 17px;
 	}
 
-	.in-outMenu {
+	.header__in-outMenu {
 		margin-top: 21px;
 		margin-right: 14px;
 	}
 
-	.userImg{
+	.header__userImg{
 		margin-top: -8px;
 		width: 32px;
 		height: 32px;
 	}
 
-	.logMenu{
+	.header__logMenu{
 		margin-top: -14px;
 		margin-right: -6px;
 	}
 
-	.user {
+	.header__user {
 		margin-top: 6px;
   		margin-bottom: -4px;
 	}
 
-	#username {
+	.header__username {
 		font-size: 15px;
 	}
 
-	#logout {
+	.header__logout {
 		font-size: 11px;
 	}
 
-	.addNoteDiv, .actualSection, .infoDiv{
+	.page__addNote {
+		top: 40px;
+	}
+
+	.noteSpace__sectionInfo_actual, .page__status{
 		top: 60px;
 	}
 
-	.infoDiv {
+	.page__status {
 		width: 280px;
 	}
 
-	.minStatus {
+	.status__mainStatus {
+		display: none;
+	}
+
+	.status__container {
+		width: 30px;
+		margin-left: 29px;
+		margin-top: 4px;
+	}
+
+	.status__minStatus {
 		display: inherit;
-		float: right;
 		background-image: url('/img/ok.png');
 		background-repeat: no-repeat;
 		background-size: cover;
 		width: 17px;
   		height: 13px;
-  		margin-top: 7px;
+  		margin-top: 10px;
   		font-size: 16px;
   		cursor: default;
   		color: white;
@@ -524,25 +507,12 @@ input[type="checkbox"]:checked + label {
 		color: black;
 	}
 
-	.status {
-		display: none;
-	}
-
-	.statusDiv {
-		width: 30px;
-		margin-left: 29px;
-		margin-top: 4px;
-	}
-
-	.noteDiv {
-		text-align: center;
-	}
-
 	.welcome {
 		margin-top: 80px;
 	}
 
-	.workDiv {
+	.noteSpace {
 		margin-top: 110px;
+		text-align: center;
 	}
 }

@@ -67,8 +67,9 @@ public class UserService implements UserDetailsService {
     public void create(final UserDetailsImpl user) throws ServiceException {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             if (repository.isEmailExists(user))
                 throw new ServiceException("Sorry, e-mail is already exists");
 
@@ -78,15 +79,16 @@ public class UserService implements UserDetailsService {
         } catch (Exception e) {
             LOG.error(String.format("An error occurred while creating user. UserId: %d, UserEmail: %s.",
                     user.getId(), user.getName()));
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("An error occurred while creating user: " + e.getMessage(), e);
         }
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             Optional<UserDetailsImpl> userDetails = this.getUserByEmail(email.toLowerCase());
             if (userDetails.isPresent() && userDetails.get().getRole().equals(Role.USER)) {
             //if (userDetails.isPresent() && userDetails.get().getRole().equals(Role.USER) && userDetails.get().getIsConfirmed()) {
@@ -108,82 +110,90 @@ public class UserService implements UserDetailsService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(password));
 
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             repository.updatePassword(user);
             txManager.commit(status);
             LOG.info("Password is updated. UserEmail: " + user.getUsername());
         } catch (Exception e) {
             LOG.error("An error occurred while updating password. UserEmail: " + user.getUsername());
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("E-mail does not exist!");
         }
     }
 
     public Optional<UserDetailsImpl> getUserByEmail(String email) throws ServiceException {
         Optional<UserDetailsImpl> user = null;
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             user = repository.getUserByEmail(email);
             txManager.commit(status);
             return user;
         } catch (Exception e) {
             //mb, has to be reworked
             LOG.error("Could not get user by email. UserEmail: " + email);
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
+
             throw new ServiceException(e.getMessage());
         }
     }
 
     public Optional<UserDetailsImpl> getUserById(Long userId) throws ServiceException {
         Optional<UserDetailsImpl> user = null;
-        TransactionStatus status = txManager.getTransaction(customTx);try {
+        TransactionStatus status = null;
+        try {
+            status = txManager.getTransaction(customTx);
             user = repository.getUserById(userId);
             txManager.commit(status);
             return user;
         } catch (Exception e) {
             LOG.error("Could not get user by id. UserId: " + userId);
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException(e.getMessage());
         }
     }
 
     public void confirm(String email) throws ServiceException {
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             repository.confirm(email);
             txManager.commit(status);
             LOG.info("Email is confirmed. UserEmail: " + email);
         } catch (Exception e) {
             LOG.error("Could not confirm email. UserEmail: " + email);
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException(e.getMessage());
         }
     }
 
     public String getToken(String email) throws ServiceException {
         String token = "";
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             token = repository.getTokenByEmail(email);
             txManager.commit(status);
             return token;
         } catch (Exception e) {
             LOG.error("Could not get token by email. UserEmail: " + email);
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException(e.getMessage());
         }
     }
 
     public String setNewToken(String email) throws ServiceException {
         String token = RandomStringUtils.random(32, 0, 0, true, true, null, new SecureRandom());
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             repository.setTokenByEmail(email, token);
             txManager.commit(status);
         } catch (RepositoryException ex) {
             LOG.error("Could not set new token.Us erEmail: " + email);
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException(ex.getMessage());
         }
 
@@ -209,8 +219,9 @@ public class UserService implements UserDetailsService {
     }
 
     public ModelAndView resetPassInDB(String email) throws ServiceException {
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             Optional<UserDetailsImpl> user = getUserByEmail(email);
             if (user.isPresent()) {
                 String token = setNewToken(user.get().getUsername());
@@ -228,15 +239,16 @@ public class UserService implements UserDetailsService {
             }
         } catch (ServiceException e) {
             LOG.error("Could not reset password. UserEmail: " + email);
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("Could not reset password. UserEmail: " + email, e);
         }
         return null;
     }
 
     public ModelAndView updatePass(String email, String token, String[] passwords) throws ServiceException {
-        TransactionStatus status = txManager.getTransaction(customTx);
+        TransactionStatus status = null;
         try {
+            status = txManager.getTransaction(customTx);
             Optional<UserDetailsImpl> user = getUserByEmail(email);
             if (user.isPresent() && token.equals(getToken(email))
                     && passwords[0].equals(passwords[1])) {
@@ -252,7 +264,7 @@ public class UserService implements UserDetailsService {
             }
         } catch (ServiceException e) {
             LOG.error("Could not update password. UserEmail: " + email);
-            txManager.rollback(status);
+            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("Could not update password. UserEmail: " + email, e);
         }
     }
