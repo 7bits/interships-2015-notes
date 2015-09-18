@@ -17,6 +17,8 @@ import it.sevenbits.telenote.web.domain.models.NoteSocketCommand;
 import it.sevenbits.telenote.web.domain.models.ResponseMessage;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -36,6 +38,9 @@ import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
 
 @Controller
 public class HomeController {
+
+    @Autowired
+    private MessageSource messageSource;
 
     @Autowired
     private NoteService noteService;
@@ -159,10 +164,10 @@ public class HomeController {
             Long userId = Long.parseLong(request.getParameter("userId"));
             noteService.deleteShareLink(noteId, userId);
         } catch (ServiceException se) {
-            return new ResponseEntity<>(new ResponseMessage(true, "Разрыв не совершён"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ResponseMessage(true, messageSource.getMessage("message.deletesync.ok", null, LocaleContextHolder.getLocale())), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(new ResponseMessage(true, "Разрыв совершён"), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseMessage(true, messageSource.getMessage("message.deletesync.error", null, LocaleContextHolder.getLocale())), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/telenote/order", method = RequestMethod.POST)
