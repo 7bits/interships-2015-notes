@@ -6,7 +6,7 @@
 /target/*
 telenote.iml
 /src/main/resources/config/application.yml
-/src/main/resources/config/keystore.p12
+/src/main/resources/keystore.p12
 # Package Files #
 *.jar
 *.war
