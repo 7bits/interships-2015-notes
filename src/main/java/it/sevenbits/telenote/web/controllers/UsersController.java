@@ -177,7 +177,7 @@ public class UsersController {
         if (token == null || email == null || token.isEmpty() || email.isEmpty()) {
             ModelAndView model = new ModelAndView("home/errors");
             model.addObject("header", "403");
-            model.addObject("message", "Переданные данные не корректны, попробуйте ещё раз.");
+            model.addObject("message", "${message.confirm.wrongdata}");
             return model;
         }
 
@@ -192,7 +192,7 @@ public class UsersController {
         } catch (ServiceException ex) {
             ModelAndView model = new ModelAndView("home/errors");
             model.addObject("header", "403");
-            model.addObject("message", "Переданные данные не корректны, попробуйте ещё раз.");
+            model.addObject("message", "${message.confirm.wrongdata}");
             return model;
         }
 

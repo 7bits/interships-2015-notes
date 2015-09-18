@@ -1,5 +1,6 @@
 package it.sevenbits.telenote.web.controllers;
 import it.sevenbits.telenote.utils.HttpMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -7,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class ExceptionHandlerController {
+
+    @Autowired
+    private HttpMessage messageSource;
 
     public static final String DEFAULT_ERROR_VIEW = "home/error";
 
@@ -20,7 +24,7 @@ public class ExceptionHandlerController {
         if(e.getMessage().equals("Request method 'GET' not supported"))
             statusCode = 404;
 
-        String message = HttpMessage.getHttpMessage(statusCode);
+        String message = messageSource.getHttpMessage(statusCode);
 
         mav.addObject("message", message);
         mav.addObject("errorCode", statusCode);
