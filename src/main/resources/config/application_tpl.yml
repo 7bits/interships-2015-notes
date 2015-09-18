@@ -1,12 +1,13 @@
 server:
-  port: 9000
+  port: 8443
 
 spring:
   profiles:
+    active: dev
   datasource:
     url: jdbc:postgresql://localhost:5432/notes
     username: 
-    password:
+    password: 
 
 mail:
     username: tele.notes.7bits@gmail.com
@@ -20,3 +21,14 @@ mail:
             enable: true
             required: true
         debug: true
+
+connectors:
+    http:
+        port: 9000
+    https:
+        enabled: false
+        port: ${server.port}
+        keystoreFile: keystore.p12
+        keystorePass: 
+        keystoreType: PKCS12
+        keyAlias: 
