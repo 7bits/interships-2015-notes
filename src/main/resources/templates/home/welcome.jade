@@ -38,8 +38,8 @@ html
           if error
             .welcomeForm__error.js-loginError
               span#js-loginError Адрес и пароль не совпадают
-          input.welcomeForm__textbox(type='password', name='password', autocomplete='off', placeholder='пароль', maxlength='30')
-          button.welcomeForm__button(type='submit') Войти
+          input.js-logPass.welcomeForm__textbox(type='password', name='password', autocomplete='off', placeholder='пароль', maxlength='30')
+          button.js-logSubmit.welcomeForm__button(type='submit') Войти
           .welcomeForm__href 
             a.welcomeForm__href_color(href='/resetpass') Забыли пароль?
       .container__welcomeForm
@@ -61,4 +61,4 @@ html
           if passwordError
             .welcomeForm__error.welcomeForm__error_password.js-passError
               span#js-regPassMess Пароль слишком прост
-          button.welcomeForm__button(type='submit') Зарегистрироваться
+          button.js-regSubmit.welcomeForm__button(type='submit') Зарегистрироваться

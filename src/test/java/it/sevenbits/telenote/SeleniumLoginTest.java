@@ -37,8 +37,16 @@ public class SeleniumLoginTest {
     public IUserRepository repository;
 
     private WebElement email;
+    private WebElement username;
     private WebElement password;
     private WebElement submit;
+
+    private void findInputFields() {
+        email = driver.findElement(By.id("js-regEmail"));
+        username = driver.findElement(By.id("js-regUsername"));
+        password = driver.findElement(By.id("js-regPass"));
+        submit = driver.findElement(By.className("js-regSubmit"));
+    }
 
     @BeforeClass
     public static void initDriver() {
@@ -81,12 +89,11 @@ public class SeleniumLoginTest {
     public void loginAllOk() {
         email.sendKeys(user.getUsername());
         password.sendKeys(user.getPassword());
-
         submit.submit();
 
         assertEquals("http://127.0.0.1:9000/telenote", driver.getCurrentUrl());
 
-        WebElement element = driver.findElement(By.ByCssSelector.cssSelector(".logMenu a[href='/logout']"));
+        WebElement element = driver.findElement(By.className("header__logout"));
         element.click();
 
         assertEquals("http://127.0.0.1:9000/", driver.getCurrentUrl());
@@ -103,14 +110,33 @@ public class SeleniumLoginTest {
     }
 
     @Test
-    public void loginWrongPassword() {
+    public void loginWrongPasswordTest() {
         email.sendKeys(user.getUsername());
         password.sendKeys("123");
 
         submit.submit();
-        
+
         driver.findElement(By.id("js-loginError"));
 
+    }
+
+    @Test
+    public void loginWithoutConfirmationTest() {
+        findInputFields();
+        email.sendKeys("ololo1@ololo.com");
+        username.sendKeys("Capitan");
+        password.sendKeys("Capitan1234");
+        submit.submit();
+
+        assertEquals("http://127.0.0.1:9000/signup", driver.getCurrentUrl());
+        driver.findElement(By.className("js-backToMain")).click();
+
+        email = driver.findElement(By.id("js-logText"));
+        password = driver.findElement(By.className("js-logPass"));
+        submit = driver.findElement(By.className("js-logSubmit"));
+        email.sendKeys("ololo1@ololo.com");
+        password.sendKeys("Capitan1234");
+        submit.submit();
     }
 
     @After

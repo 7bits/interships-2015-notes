@@ -102,7 +102,7 @@ public class SeleniumNoteTest {
         }
     }
 
-    /*@Test
+    @Test
     public void createDeleteNoteTest() {
         driver.findElement(By.id("js-addNote")).click();
 
@@ -135,9 +135,9 @@ public class SeleniumNoteTest {
             }
         };
         wait.until(elNotFound);
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void userNameTest() {
         driver.findElement(By.className("js-user")).click();
 
@@ -153,9 +153,9 @@ public class SeleniumNoteTest {
         action.moveToElement(button);
         action.perform();
         button.click();
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void userPasswordTest() {
         driver.findElement(By.className("js-user")).click();
 
@@ -172,9 +172,9 @@ public class SeleniumNoteTest {
         action.moveToElement(button);
         action.perform();
         button.click();
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void userDesignTest() {
         driver.findElement(By.className("js-user")).click();
 
@@ -187,7 +187,7 @@ public class SeleniumNoteTest {
         button.click();
 
 	    driver.findElement(By.className("js-submit")).click();
-    }*/
+    }
 
     /*@Test
     public void createShareNoteTest() {
@@ -269,7 +269,7 @@ public class SeleniumNoteTest {
         }
     }*/
 
-    /*@Test
+    @Test
     public void createTypeNoteTest() {
         driver.findElement(By.id("js-addNote")).click();
 
@@ -279,7 +279,7 @@ public class SeleniumNoteTest {
        content.click();
        WebElement text = driver.findElement(By.ByCssSelector.cssSelector(".textarea"));
        text.sendKeys("some text");
-    }*/
+    }
 
     private void clickShareButton(WebDriver driver) {
         Actions action = new Actions(driver);
