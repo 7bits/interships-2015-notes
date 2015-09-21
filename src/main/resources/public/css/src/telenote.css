@@ -64,7 +64,7 @@ body{
 
 .header__logoImg {
 	float: left;
-	background-image: url("/img/logo.png");
+	background-image: url("/img/gulp/logo.png");
 	width: 53px;
 	height: 64px;
 	display: inline-block;
@@ -73,7 +73,7 @@ body{
 }
 
 .header__slogon {
-	background-image: url("/img/label.png");
+	background-image: url("/img/gulp/label.png");
 	width: 159px;
 	height: 21px;
 	display: inline-block;
@@ -153,7 +153,7 @@ body{
 }
 
 .page__addNote img:active {
-	background: url("/img/addBtn-click.png");
+	background: url("/img/gulp/addBtn-click.png");
 	box-shadow: 0px 10px 12.45px 2.55px rgba(0, 0, 0, 0.15);
 }
 
@@ -229,7 +229,7 @@ a:hover {
 }
 
 .sortByDate {
-	background-image: url("/img/sortedByDate.png");
+	background-image: url("/img/gulp/sortedByDate.png");
 	background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -283,19 +283,19 @@ a:hover {
 }
 
 .noteSection__delBtn {
-	background-image: url("/img/delBtn.png");
+	background-image: url("/img/gulp/delBtn.png");
 }
 
 .noteSection__delBtn:active {
-	background-image: url("/img/delBtn-click.png");
+	background-image: url("/img/gulp/delBtn-click.png");
 }
 
 .noteSection__shaBtn {
-	background-image: url("/img/shareBtn.png");
+	background-image: url("/img/gulp/shareBtn.png");
 }
 
 .noteSection__shaBtn:active {
-	background-image: url("/img/shareBtn-click.png");
+	background-image: url("/img/gulp/shareBtn-click.png");
 }
 
 .btnHeightZero {
@@ -491,7 +491,7 @@ a:hover {
 
 	.status__minStatus {
 		display: inherit;
-		background-image: url('/img/ok.png');
+		background-image: url('/img/gulp/ok.png');
 		background-repeat: no-repeat;
 		background-size: cover;
 		width: 17px;

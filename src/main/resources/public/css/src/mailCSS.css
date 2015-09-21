@@ -33,7 +33,7 @@ body {
 }
 
 .logoImg {
-	background-image: url("/img/logo.png");
+	background-image: url("/img/gulp/logo.png");
 	background-repeat: no-repeat;
 	background-size: cover;
 	width: 45px;
@@ -43,7 +43,7 @@ body {
 }
 
 .slogon {
-	background-image: url("/img/dark-label.png");
+	background-image: url("/img/gulp/dark-label.png");
 	background-size: cover;
 	float: left;
 	margin-top: 19px;

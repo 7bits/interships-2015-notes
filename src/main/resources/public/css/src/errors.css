@@ -14,7 +14,7 @@
 }
 
 body {
-	background-image: url('/img/background.png');
+	background-image: url('/img/gulp/background.png');
 	background-repeat: no-repeat;
 	background-size: cover;
 	margin: 0px;
@@ -54,7 +54,7 @@ a {
 }
 
 .backToMain {
-	background-image: url('/img/backIcon.png');
+	background-image: url('/img/gulp/backIcon.png');
 	background-repeat: no-repeat;
 	background-position: center;
 	margin: 11px 10px 0 0;
@@ -70,7 +70,7 @@ a {
 }
 
 .logoImg {
-	background-image: url("/img/logo.png");
+	background-image: url("/img/gulp/logo.png");
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
@@ -81,7 +81,7 @@ a {
 }
 
 .slogon {
-	background-image: url("/img/label.png");
+	background-image: url("/img/gulp/label.png");
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
