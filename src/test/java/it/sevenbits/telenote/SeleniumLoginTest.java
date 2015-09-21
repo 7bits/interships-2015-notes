@@ -100,6 +100,16 @@ public class SeleniumLoginTest {
     }
 
     @Test
+    public void loginEmptyInputsTest() {
+        email.sendKeys("");
+        password.sendKeys("");
+
+        submit.submit();
+
+        driver.findElement(By.id("js-loginError"));
+    }
+
+    @Test
     public void loginWrongEmail() {
         email.sendKeys("ololo");
         password.sendKeys(user.getPassword());
@@ -117,7 +127,6 @@ public class SeleniumLoginTest {
         submit.submit();
 
         driver.findElement(By.id("js-loginError"));
-
     }
 
     @Test

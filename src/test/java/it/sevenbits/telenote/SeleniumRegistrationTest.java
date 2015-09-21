@@ -90,7 +90,6 @@ public class SeleniumRegistrationTest {
         email.sendKeys(user.getUsername());
         username.sendKeys(user.getName());
         password.sendKeys(user.getPassword());
-        //passwordRepeat.sendKeys(user.getPassword());
         submit.submit();
     }*/
 
@@ -101,7 +100,6 @@ public class SeleniumRegistrationTest {
         username.click();
         username.sendKeys(user.getName());
         password.sendKeys(user.getPassword());
-        //passwordRepeat.sendKeys(user.getPassword());
         submit.submit();
     }*/
 
@@ -110,7 +108,6 @@ public class SeleniumRegistrationTest {
         email.sendKeys("ololo@ololo.com");
         username.sendKeys(user.getUsername());
         password.sendKeys(user.getPassword());
-        //passwordRepeat.sendKeys(user.getPassword());
         submit.submit();
     }*/
 
