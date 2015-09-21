@@ -231,7 +231,7 @@ public class UserService implements UserDetailsService {
                 map.put("link", link);
                 map.put("username", user.get().getName());
 
-                emailService.sendHtml(user.get().getUsername(), "Tele-notes. Восстановление пароля.", "home/changePassMail", map);
+                emailService.sendHtml(user.get().getUsername(), "Tele-notes. Восстановление пароля.", "mails/changePassMail", map);
                 txManager.commit(status);
                 LOG.info("Password is successfully reset. UserEmail: " + email);
             } else {

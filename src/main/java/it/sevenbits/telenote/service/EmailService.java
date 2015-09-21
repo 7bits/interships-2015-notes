@@ -74,7 +74,7 @@ public class EmailService {
 
     public void sendConfirm(UserCreateForm to, String subject, String link) throws ServiceException  {
         try {
-            JadeTemplate template = jade.getTemplate("home/confirmRegMail");
+            JadeTemplate template = jade.getTemplate("mails/confirmRegMail");
             HashMap<String, Object> model = new HashMap<String, Object>();
             model.put("confirmLink", link);
             model.put("username", to.getUsername());
