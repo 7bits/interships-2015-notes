@@ -9,9 +9,10 @@ var minify = require('gulp-minify-css');
 var browserSync = require('browser-sync').create();
 var uglify = require('gulp-uglify');
 var hash = require('gulp-hash-filename');
+var imagemin = require('imagemin-pngquant');
 
 gulp.task('build', function () {
-  runSequence('css', 'js');
+  runSequence('css', 'js', 'imgmin');
 });
 
 gulp.task('css', function () {
@@ -46,4 +47,11 @@ gulp.task('browser-sync', function () {
       files: 'src/main/resources/public/**/*'
     }
   });
+});
+
+gulp.task('imgmin', function () {
+  return gulp
+    .src('src/main/resources/public/img/*.png')
+    .pipe(imagemin({quality: '65-80', speed: 3})())
+    .pipe(gulp.dest('src/main/resources/public/img/gulp'));
 });

@@ -44,7 +44,7 @@
 }
 
 .backToMain {
-	background-image: url("/img/backIconGray.png");
+	background-image: url("/img/gulp/backIconGray.png");
 	background-repeat: no-repeat;
 	background-position-y: 5px;
   	margin-left: -22px;

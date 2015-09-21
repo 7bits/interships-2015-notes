@@ -39,15 +39,15 @@
 }
 
 .accountInfo__section_profile {
-	background-image: url("/img/profileBlock.png");
+	background-image: url("/img/gulp/profileBlock.png");
 }
 
 .accountInfo__section_password {
-	background-image: url("/img/passwordBlock.png");
+	background-image: url("/img/gulp/passwordBlock.png");
 }
 
 .accountInfo__section_theme {
-	background-image: url("/img/themeBlock.png");
+	background-image: url("/img/gulp/themeBlock.png");
 	margin-bottom: 0px;
 }
 
@@ -133,11 +133,11 @@
 }
 
 .themes__theme_1 {
-	background-image: url("/img/lightDenIcon.png");
+	background-image: url("/img/gulp/lightDenIcon.png");
 }
 
 .themes__theme_2 {
-	background-image: url("/img/darkDenIcon.png");
+	background-image: url("/img/gulp/darkDenIcon.png");
 }
 
 .accountInfo__button {
@@ -151,7 +151,7 @@
 }
 
 .section__passError, .section__nameError {
-	background-image: url("/img/errorIcon.png");
+	background-image: url("/img/gulp/errorIcon.png");
 	background-repeat: no-repeat;
   	background-position: 10px 5px;
 	float: left;
