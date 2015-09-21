@@ -1,5 +1,8 @@
 package it.sevenbits.telenote.core.domain;
 
+/**
+ * POJO for ordering notes. It contains previous, current and next noteIds.
+ */
 public class OrderData {
 
     private Long id_prev;

@@ -55,8 +55,8 @@ public class AccountController {
                 accountService.changeUsername(user);
             }
 
-            if (!form.getTheme().equals(user.getStyle())) {
-                user.setStyle(form.getTheme());
+            if (!form.getStyle().equals(user.getStyle())) {
+                user.setStyle(form.getStyle());
                 accountService.changeTheme(user);
             }
 

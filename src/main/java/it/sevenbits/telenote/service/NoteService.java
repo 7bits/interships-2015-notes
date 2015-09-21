@@ -154,7 +154,7 @@ public class NoteService {
     public Long addNote(final NoteForm form, Long userId) throws ServiceException {
         Note note = new Note();
         note.setText(form.getText());
-        note.setUuid(Note.generateUUID());
+        note.setUuid(Helper.generateUUID());
         note.setParent_user_id(userId);
 
         TransactionStatus status = null;
@@ -308,7 +308,7 @@ public class NoteService {
             updNote.setParent_note_id(null);
 
             repository.updateNote(updNote);
-            repository.updateUuidByIds(result, Note.generateUUID());
+            repository.updateUuidByIds(result, Helper.generateUUID());
             txManager.commit(status);
         } catch (RepositoryException e) {
             LOG.error(String.format("An error occurred while deleting share link. UserId: %d, RootNoteId: %d. Rolling back.", userId, rootNoteId));
@@ -356,16 +356,16 @@ public class NoteService {
         }
     }
 
-    public List<NoteModel> getAllSharedNoteModels(Long userId) throws ServiceException {
+    public List<NoteModel> getAllSharedNoteModels(Long noteId) throws ServiceException {
         List<NoteModel> notes = null;
         TransactionStatus status = null;
         try {
             status = txManager.getTransaction(customTx);
-            notes = repository.getAllSharedNoteModels(userId);
+            notes = repository.getAllSharedNoteModels(noteId);
             txManager.commit(status);
             return notes;
         } catch (RepositoryException e) {
-            LOG.error(String.format("An error occurred while getting all shared notes. UserId: %d. Rolling back.", userId));
+            LOG.error(String.format("An error occurred while getting all shared notes. UserId: %d. Rolling back.", noteId));
             if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
             throw new ServiceException("An error occurred while getting all shared notes." + e.getMessage());
         }

@@ -24,6 +24,10 @@ public class NoteRepository implements INoteRepository {
     @Autowired
     private NoteMapper mapper;
 
+    /**
+     * Updates note fields updated_at to update time, parent_note_id to specified in note by note id.
+     * @param note POJO that contains note data.
+     */
     @Override
     public void updateNote(final Note note) throws RepositoryException {
         if (note == null) {
@@ -36,15 +40,23 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    /**
+     * Deletes note by note id.
+     * @param note POJO for note.
+     */
     @Override
     public void deleteNote(final Note note) throws RepositoryException {
         try {
-            mapper.deleteNote(note);
+            mapper.deleteNote(note.getId());
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while deleting note: " + e.getMessage(), e);
         }
     }
-
+    /**
+     * Gets list of notes in a descending order owned by user with user id.
+     * @param userId user id.
+     * @return list of notes in a descending order owned by user with user id
+     */
     @Override
     public List<Note> findUserNotes(final Long userId) throws RepositoryException {
         try {
@@ -54,6 +66,10 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    /**
+     * Updates fields note, updated_at of note with specified uuid.
+     * @param note POJO that contains note data.
+     */
     @Override
     public void updateNotesByUuid(Note note) throws RepositoryException {
         try {
@@ -63,6 +79,11 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    /**
+     * Gets field uuid of note with specified note id.
+     * @param noteId note id.
+     * @return field uuid of note with specified note id.
+     */
     @Override
     public String getUuidById(Long noteId) throws RepositoryException {
         try {
@@ -72,6 +93,11 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    /**
+     * Gets list of users which have note with specified uuid.
+     * @param noteUuid uuid of a note.
+     * @return list of users which have note with specified uuid.
+     */
     @Override
     public List<UserDetailsImpl> getUsersWithSameNoteUuid(String noteUuid) throws RepositoryException{
         try {
@@ -80,6 +106,7 @@ public class NoteRepository implements INoteRepository {
             throw new RepositoryException("An error occurred while getting users with same note UUID: " + e.getMessage(), e);
         }
     }
+
 
     @Override
     public void resetAllParentNoteUserId(Long parentNoteId) throws RepositoryException {
@@ -90,6 +117,10 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    /**
+     * Adds note with text, uuid, parent_user_id specified in note.
+     * @param note POJO that contains note data.
+     */
     @Override
     public void addNote(final Note note) throws RepositoryException {
         try {
@@ -99,6 +130,10 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    /**
+     * Adds first note with text, uuid, parent_user_id specified in note.
+     * @param note POJO that contains note data.
+     */
     @Override
     public void addFirstNote(final Note note) throws RepositoryException {
         try {
@@ -108,6 +143,13 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    /**
+     * Checks is note already shared to user with user id specified in userNote
+     * by counting records in usernotes with the same uuid as in note with note id specified in userNote.
+     * User id fixes user. Note id fixes uuid of a note.
+     * @param userNote POJO that contains pair user id - note id.
+     * @return true if count of pairs user id - note id not equals 0.
+     */
     @Override
     public boolean isNoteAlreadyShared(UserNote userNote) throws RepositoryException {
         try {
@@ -117,6 +159,11 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    /**
+     * Adds a record user id - note id in usernotes table.
+     * @param userId user id.
+     * @param noteId note id.
+     */
     @Override
     public void linkUserWithNote(final Long userId, final Long noteId) throws RepositoryException {
         try {
@@ -126,6 +173,10 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    /**
+     * Adds a clone of a specified note with new note id.
+     * @param note POJO that contains note data.
+     */
     @Override
     public void duplicateNote(final Note note) throws RepositoryException {
         try {
@@ -135,15 +186,26 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    /**
+     * Checks is note belongs to user.
+     * @param noteId note id.
+     * @param userId user id.
+     * @return true if count of pairs user id - note id not equals 0.
+     */
     @Override
     public boolean isNoteBelongToUser(final Long noteId, final Long userId) throws RepositoryException {
         try {
-            return mapper.isNoteBelongToUser(noteId, userId) == 0 ? false : true;
+            return mapper.isNoteBelongsToUser(noteId, userId) == 0 ? false : true;
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while checking owner of note: " + e.getMessage(), e);
         }
     }
 
+    /**
+     * Gets user who shared note with specified note id.
+     * @param noteId note id.
+     * @return user who shared note with specified note id.
+     */
     @Override
     public UserDetailsImpl getUserWhoSharedNote(final Long noteId) throws RepositoryException {
         try {
@@ -153,6 +215,11 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    /**
+     * Updates field note_order of note that is between the other two.
+     * New value is (previous note_order + next note_order) / 2.
+     * @param orderData POJO for ordering notes.
+     */
     @Override
     public void updateOrder(final OrderData orderData) throws RepositoryException {
         try {
@@ -162,6 +229,11 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    /**
+     * Gets list of users, with which note shared.
+     * @param noteId note id.
+     * @return list of users, with which note shared.
+     */
     @Override
     public List<UserDetailsImpl> findShareUsers(Long noteId) throws RepositoryException {
         try {
@@ -171,6 +243,11 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    /**
+     * Updates field note_order of note that is first in the list.
+     * New value is (next note_order + 1).
+     * @param orderData POJO for ordering notes.
+     */
     @Override
     public void updateFirstElementOrder(final OrderData orderData) throws RepositoryException {
         try {
@@ -180,6 +257,11 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    /**
+     * Gets field parent_note_id of note with specified note id.
+     * @param noteId note id.
+     * @return field parent_note_id of note with specified note id.
+     */
     @Override
     public Long isParentNoteIdExists(Long noteId) throws RepositoryException {
         try {
@@ -189,6 +271,11 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    /**
+     * Gets user who owns note with specified note id.
+     * @param noteId note id.
+     * @return user who owns note with0 specified note id.
+     */
     @Override
     public UserDetailsImpl getUserWhoOwnsNote(Long noteId) throws RepositoryException {
         try {
@@ -198,7 +285,11 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
-
+    /**
+     * Gets list of notes with same uuid as it is in note with specified note id.
+     * @param noteId note id.
+     * @return list of notes with same uuid as it is in note with specified note id.
+     */
     @Override
     public List<Note> getNotesWithSameUuidById(Long noteId) throws RepositoryException{
         try {
@@ -208,15 +299,26 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    /**
+     * Updates field uuid of notes which specified by notesId list.
+     * @param notesIdList list of note ids to be updated.
+     * @param uuid uuid to update with.
+     */
     @Override
-    public void updateUuidByIds(final List<Long> notes, String uuid) throws RepositoryException{
+    public void updateUuidByIds(final List<Long> notesIdList, String uuid) throws RepositoryException{
         try {
-            mapper.updateUuidByIds(notes, uuid);
+            mapper.updateUuidByIds(notesIdList, uuid);
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while updating notes UUID: " + e.getMessage(), e);
         }
     }
 
+    /**
+     * Gets id of a note with specified field parent_note_id owned by user with userId.
+     * @param userId user id.
+     * @param parentNoteId parent note id.
+     * @return id of a note with specified field parent_note_id owned by user with userId.
+     */
     @Override
     public Long getNoteIdByUserIdParentId(Long userId, Long parentNoteId) throws RepositoryException {
         try {
@@ -226,15 +328,25 @@ public class NoteRepository implements INoteRepository {
         }
     }
 
+    /**
+     * Gets note models(note id, owner username, owner email) of notes with specified uuid.
+     * @param noteId note id.
+     * @return note models(note id, owner username, owner email) of notes with specified uuid.
+     */
     @Override
-    public List<NoteModel> getAllSharedNoteModels(Long userId) throws RepositoryException {
+    public List<NoteModel> getAllSharedNoteModels(Long noteId) throws RepositoryException {
         try {
-            return mapper.getAllSharedNoteModels(userId);
+            return mapper.getAllSharedNoteModels(noteId);
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while getting user's shared notes: " + e.getMessage(), e);
         }
     }
 
+    /**
+     * Gets list of notes that contains notes owned by user and notes, which uuid is the same with one of own notes.
+     * @param userId user id.
+     * @return list of notes that contains notes owned by user and notes, which uuid is the same with one of own notes.
+     */
     @Override
     public List<NoteModel> getNotesWithSameNoteUuidByUserId(Long userId) throws RepositoryException {
         try {

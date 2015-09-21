@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 /**
- * Created by Admin on 13.07.2015.
+ * POJO for note.
  */
 public class Note {
 
@@ -24,10 +24,6 @@ public class Note {
 
     public void setParent_user_id(Long parent_user_id) {
         this.parent_user_id = parent_user_id;
-    }
-
-    public static String generateUUID() {
-        return UUID.randomUUID().toString();
     }
 
     public float getNote_order()
@@ -109,8 +105,6 @@ public class Note {
     {
         this.id = id;
     }
-
-
 
 
     //private List<String> category;

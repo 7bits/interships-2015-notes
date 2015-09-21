@@ -1,6 +1,5 @@
 package it.sevenbits.telenote.core.repository.Account;
 
-import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.mappers.AccountMapper;
 import it.sevenbits.telenote.core.repository.RepositoryException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,28 +13,32 @@ public class AccountRepository implements IAccountRepository {
     @Autowired
     private AccountMapper accountMapper;
 
+    /**
+     * Updates user theme by user id.
+     * @param userId user id.
+     */
     @Override
-    public void changeStyle(UserDetailsImpl user) throws RepositoryException {
+    public void changeStyle(Long userId) throws RepositoryException {
         try {
-            accountMapper.changeStyle(user);
+            accountMapper.changeStyle(userId);
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while changing user's theme style: " + e.getMessage(), e);
         }
     }
 
     @Override
-    public void changeUsername(UserDetailsImpl user) throws RepositoryException {
+    public void changeUsername(Long userId) throws RepositoryException {
         try {
-            accountMapper.changeUsername(user);
+            accountMapper.changeUsername(userId);
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while changing username: " + e.getMessage(), e);
         }
     }
 
     @Override
-    public void changePass(UserDetailsImpl user) throws RepositoryException {
+    public void changePass(Long userId) throws RepositoryException {
         try {
-            accountMapper.changePass(user);
+            accountMapper.changePass(userId);
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while changing password: " + e.getMessage(), e);
         }

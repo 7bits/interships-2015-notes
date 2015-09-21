@@ -5,13 +5,12 @@ import it.sevenbits.telenote.core.domain.Note;
 import it.sevenbits.telenote.core.domain.OrderData;
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.repository.RepositoryException;
-
 import it.sevenbits.telenote.service.NoteService;
 import it.sevenbits.telenote.service.ServiceException;
 import it.sevenbits.telenote.utils.Helper;
-
 import it.sevenbits.telenote.web.domain.forms.NoteForm;
 import it.sevenbits.telenote.web.domain.forms.ShareForm;
+import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
 import it.sevenbits.telenote.web.domain.models.NoteModel;
 import it.sevenbits.telenote.web.domain.models.NoteSocketCommand;
 import it.sevenbits.telenote.web.domain.models.ResponseMessage;
@@ -25,16 +24,17 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.text.MessageFormat;
-import java.util.*;
-
-import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class HomeController {
@@ -164,10 +164,12 @@ public class HomeController {
             Long userId = Long.parseLong(request.getParameter("userId"));
             noteService.deleteShareLink(noteId, userId);
         } catch (ServiceException se) {
-            return new ResponseEntity<>(new ResponseMessage(true, messageSource.getMessage("message.deletesync.ok", null, LocaleContextHolder.getLocale())), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new ResponseMessage(true, messageSource.getMessage("message.deletesync.error", null,
+            LocaleContextHolder.getLocale())), HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(new ResponseMessage(true, messageSource.getMessage("message.deletesync.error", null, LocaleContextHolder.getLocale())), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseMessage(true, messageSource.getMessage("message.deletesync.ok", null,
+        LocaleContextHolder.getLocale())), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/telenote/order", method = RequestMethod.POST)

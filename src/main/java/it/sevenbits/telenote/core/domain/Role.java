@@ -1,7 +1,9 @@
 package it.sevenbits.telenote.core.domain;
 
 import org.springframework.security.core.GrantedAuthority;
-
+/**
+ * Role class. Need this class for separate user authorities.
+ */
 public enum Role implements GrantedAuthority {
     USER (0, "USER"),
     ANONYMOUS (1, "ANONYMOUS");

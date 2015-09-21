@@ -9,12 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by vik on 10.09.15.
  */
 
 public class Helper {
+    public static String generateUUID() {
+        return UUID.randomUUID().toString();
+    }
 
     public static String getAvatarUrl(String email) {
         Md5PasswordEncoder encoder = new Md5PasswordEncoder();
