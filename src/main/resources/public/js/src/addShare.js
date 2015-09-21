@@ -56,28 +56,28 @@ function addShare(addedShareEmails) {
 
     $.ajax({
 	    type: 'POST',
-		url: '/telenote/share',
-		dataType: 'json',
-		headers: {'X-CSRF-TOKEN': $('meta[name = _csrf]')
-      .attr('content') },
-		data: sendInfo,
+		  url: '/telenote/share',
+		  dataType: 'json',
+		  headers: {'X-CSRF-TOKEN': $('meta[name = _csrf]')
+        .attr('content') },
+		  data: sendInfo,
 		success: function(data){
 
-			addingShareUser(data);
+			  addingShareUser(data);
 
-			addedShareEmails.splice(0, 0, $('#js-addShareEmail').val());
+			  addedShareEmails.splice(0, 0, $('#js-addShareEmail').val());
 
-			$('#js-addShareEmail').val('');
+			  $('#js-addShareEmail').val('');
 					
-		}
-	}).fail(function(data) {
+		  }
+	  }).fail(function(data) {
 					
-		$('#js-addShareEmail').focus();
-		$infoLabel.text(data.responseJSON.message);
-		curClass = 'messageFail';
-          $infoLabel.addClass(curClass);
+		  $('#js-addShareEmail').focus();
+		  $infoLabel.text(data.responseJSON.message);
+		  curClass = 'messageFail';
+      $infoLabel.addClass(curClass);
                 
-      });
+    });
 
   } else {
     			
