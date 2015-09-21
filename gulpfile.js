@@ -8,9 +8,10 @@ var runSequence = require('run-sequence');
 var minify = require('gulp-minify-css');
 var browserSync = require('browser-sync').create();
 var uglify = require('gulp-uglify');
+var hash = require('gulp-hash-filename');
 
 gulp.task('build', function () {
-  runSequence('css');
+  runSequence('css', 'js');
 });
 
 gulp.task('css', function () {
@@ -24,6 +25,7 @@ gulp.task('css', function () {
     .pipe(postcss(processors))
     .pipe(minify())
     .pipe(concat('style.css'))
+    .pipe(hash())
     .pipe(gulp.dest('src/main/resources/public/css/gulp'));
 });
 
@@ -32,6 +34,7 @@ gulp.task('js', function () {
     .src('src/main/resources/public/js/src/*.js')
     .pipe(uglify())
     .pipe(concat('script.js'))
+    .pipe(hash())
     .pipe(gulp.dest('src/main/resources/public/js/gulp'));
 });
 
