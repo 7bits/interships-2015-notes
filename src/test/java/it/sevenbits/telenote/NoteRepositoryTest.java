@@ -5,6 +5,7 @@ import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.domain.UserNote;
 import it.sevenbits.telenote.core.repository.Note.INoteRepository;
 import it.sevenbits.telenote.core.repository.User.IUserRepository;
+import it.sevenbits.telenote.utils.Helper;
 import org.junit.*;
 import org.junit.runner.RunWith;
 
@@ -40,7 +41,7 @@ public class NoteRepositoryTest {
     public void create() throws Exception {
 
         note.setText("Путь праведника труден, ибо препятствуют ему самолюбивые и тираны, из злых людей.");
-        note.setUuid(Note.generateUUID());
+        note.setUuid(Helper.generateUUID());
         noteRep.addFirstNote(note);
 
         assertNotNull(note.getId());
@@ -174,7 +175,7 @@ public class NoteRepositoryTest {
     public void updateUuidByIdTest() throws Exception {
         Note tnote = new Note();
         tnote.setText("Путь праведника труден, ибо препятствуют ему самолюбивые и тираны, из злых людей.");
-        tnote.setUuid(Note.generateUUID());
+        tnote.setUuid(Helper.generateUUID());
         noteRep.addNote(tnote);
 
         assertNotNull(tnote.getId());
@@ -184,7 +185,7 @@ public class NoteRepositoryTest {
         notes.add(tnote.getId());
         notes.add(note.getId());
 
-        noteRep.updateUuidByIds(notes, Note.generateUUID());
+        noteRep.updateUuidByIds(notes, Helper.generateUUID());
 
         List<Note> list = noteRep.getNotesWithSameUuidById(note.getId());
 

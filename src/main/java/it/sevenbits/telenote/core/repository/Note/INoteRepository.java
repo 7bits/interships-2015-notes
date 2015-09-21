@@ -10,7 +10,7 @@ import it.sevenbits.telenote.web.domain.models.NoteModel;
 import java.util.List;
 
 /**
- * Created by Admin on 09.07.2015.
+ * Interface for NoteRepository
  */
 public interface INoteRepository {
 
@@ -50,7 +50,7 @@ public interface INoteRepository {
 
     List<Note> getNotesWithSameUuidById(Long id) throws RepositoryException;
 
-    void updateUuidByIds(final List<Long> notes, String uuid) throws RepositoryException;
+    void updateUuidByIds(final List<Long> notesIdList, String uuid) throws RepositoryException;
 
     Long getNoteIdByUserIdParentId(Long userId, Long parentNoteId) throws RepositoryException;
 
@@ -58,7 +58,7 @@ public interface INoteRepository {
 
     List<UserDetailsImpl> getUsersWithSameNoteUuid(final String noteUuid) throws RepositoryException;
 
-    List<NoteModel> getAllSharedNoteModels(Long userId) throws RepositoryException;
+    List<NoteModel> getAllSharedNoteModels(Long noteId) throws RepositoryException;
 
     void resetAllParentNoteUserId(final Long parentNoteId) throws RepositoryException;
 }

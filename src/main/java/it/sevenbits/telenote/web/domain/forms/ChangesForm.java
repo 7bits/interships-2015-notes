@@ -8,7 +8,7 @@ public class ChangesForm {
 
     private String newPass;
 
-    private String theme;
+    private String style;
 
     public ChangesForm(String currentPass, String newPass) {
         this.currentPass = currentPass;
@@ -25,12 +25,12 @@ public class ChangesForm {
         this.username = username;
     }
 
-    public String getTheme() {
-        return theme;
+    public String getStyle() {
+        return style;
     }
 
-    public void setTheme(String theme) {
-        this.theme = theme;
+    public void setStyle(String style) {
+        this.style = style;
     }
 
     public String getCurrentPass() {
