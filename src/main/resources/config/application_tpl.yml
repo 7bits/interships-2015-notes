@@ -29,6 +29,9 @@ connectors:
         enabled: false
         port: ${server.port}
         keystoreFile: keystore.p12
-        keystorePass: 
+        keystorePass:
         keystoreType: PKCS12
-        keyAlias: 
+        keyAlias: tomcat
+
+logging:
+    config: file:src/main/resources/log4j.properties
