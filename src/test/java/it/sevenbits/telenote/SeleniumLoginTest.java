@@ -148,6 +148,17 @@ public class SeleniumLoginTest {
         submit.submit();
     }
 
+    @Test
+    public void resetPasswordTest() {
+        driver.findElement(By.className("welcomeForm__href_color")).click();
+        assertEquals("http://127.0.0.1:9000/resetpass", driver.getCurrentUrl());
+        email = driver.findElement(By.id("js-logText"));
+        email.sendKeys("ololo@ololo.com");
+        submit = driver.findElement(By.className("welcomeForm__button"));
+        submit.submit();
+
+    }
+
     @After
     public void after() throws Exception {
        repository.emptyBD();
