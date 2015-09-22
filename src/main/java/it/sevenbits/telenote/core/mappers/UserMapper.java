@@ -5,9 +5,13 @@ import it.sevenbits.telenote.core.domain.Role;
 import org.apache.ibatis.annotations.*;
 
 /**
- * Created by Admin on 09.07.2015.
+ * Mapper for user operations.
  */
 public interface UserMapper {
+    /**
+     * Adds new user with specified email. username, password, role, enabled flag.
+     * @param userDetails POJO for user.
+     */
     @Insert("INSERT INTO users " +
             "(email, username, password, role, enabled) " +
             "VALUES " +
@@ -16,27 +20,52 @@ public interface UserMapper {
     void insert(final UserDetailsImpl userDetails);
 
     //Повесить уникальный индекс на email, и тогда он не вставит запись если такой mail есть. ???
+
+    /**
+     * Checks does email exist by counting records in users with specified email.
+     * @param userDetails POJO for user.
+     * @return count of records with specified email.
+     */
     @Select("SELECT count(*)\n" +
             "FROM users\n" +
             "WHERE email = #{email}")
     int isEmailExists(final UserDetailsImpl userDetails);
 
+    /**
+     * Gets user id by user email.
+     * @param userDetails POJO for user.
+     * @return user id.
+     */
     @Select("SELECT id " +
             "FROM users " +
             "WHERE email=#{email};")
     Object getIdByEmail(final UserDetailsImpl userDetails);
 
+    /**
+     * Gets user password(hash) by user id.
+     * @param userDetails POJO for user.
+     * @return user password(hash).
+     */
     @Select("SELECT password " +
             "FROM users " +
             "WHERE id=#{id};")
     String getPasswordById(final UserDetailsImpl userDetails);
 
+    /**
+     * Updates user password(hash) by user email.
+     * @param userDetails POJO for user.
+     */
     @Update("UPDATE users " +
             "SET password=#{password} " +
             "WHERE email=#{email};")
     void updatePassword(final UserDetailsImpl userDetails);
 
-    @Select("SELECT * FROM users WHERE id=#{id};")
+    /**
+     * Gets user data by user id.
+     * @param userId user id.
+     * @return user data by user id.
+     */
+    @Select("SELECT * FROM users WHERE id=#{userId};")
     @Results({
             @Result(column = "id", property = "id"),
             @Result(column = "email", property = "email"),
@@ -48,8 +77,13 @@ public interface UserMapper {
             @Result(column = "enabled", property = "enabled"),
             @Result(column = "role", property = "role", javaType = Role.class)
     })
-    UserDetailsImpl getUserById(Long id);
+    UserDetailsImpl getUserById(Long userId);
 
+    /**
+     * Gets user data by user email.
+     * @param email user email.
+     * @return user data by user email.
+     */
     @Select("SELECT * FROM users WHERE email=#{email};")
     @Results({
             @Result(column = "id", property = "id"),
@@ -65,26 +99,53 @@ public interface UserMapper {
     })
     UserDetailsImpl getUserByEmail(String email);
 
+    /**
+     * Removes user from users by email or id.
+     * @param userDetails POJO for user.
+     */
     @Delete("DELETE FROM users\n" +
             "WHERE email=#{email} OR id=#{id}")
-    void remove(final UserDetailsImpl user);
+    void remove(final UserDetailsImpl userDetails);
 
+    /**
+     * Removes all records from users.
+     */
     @Delete("DELETE FROM users")
     void emptyUsers();
 
+    /**
+     * Removes all records from notes.
+     */
     @Delete("DELETE FROM notes")
     void emptyNotes();
 
+    /**
+     * Removes all records from usernotes.
+     */
     @Delete("DELETE FROM usernotes")
     void emptyUsernote();
 
+    /**
+     * Sets user is_confirmed flag to true by email.
+     * @param email user email.
+     */
     @Update("UPDATE users SET is_confirmed=TRUE " +
             "WHERE email=#{email};")
     void confirm(String email);
 
+    /**
+     * Gets user token by user email.
+     * @param email user email.
+     * @return user token by user email.
+     */
     @Select("SELECT token FROM users WHERE email=#{email}")
     String getTokenByEmail(String email);
 
+    /**
+     * Sets user token by user email
+     * @param email user email.
+     * @param token user token.
+     */
     @Update("UPDATE users SET token=#{token}, token_at=DEFAULT WHERE email=#{email}")
     void setTokenByEmail(@Param("email") String email, @Param("token") String token);
 }

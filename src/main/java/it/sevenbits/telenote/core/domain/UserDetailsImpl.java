@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.sql.Timestamp;
 import java.util.Collection;
 
-
+/**
+ * POJO for users.
+ */
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = -7238711359613870647L;
 

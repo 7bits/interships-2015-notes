@@ -61,7 +61,7 @@ public class SeleniumRegistrationTest {
         submit.submit();
 
         assertEquals("http://127.0.0.1:9000/signup", driver.getCurrentUrl());
-        driver.findElement(By.className("backToMain")).click();
+        driver.findElement(By.className("js-backToMain")).click();
 
         /*List<WebElement> error = driver.findElements(By.className("errorText"));
         assertTrue(error.isEmpty());*/
@@ -85,80 +85,99 @@ public class SeleniumRegistrationTest {
         }
     }
 
-    /*@Test
+    @Test
     public void regAllValidTest() throws Exception {
+        findInputFields();
         email.sendKeys(user.getUsername());
         username.sendKeys(user.getName());
         password.sendKeys(user.getPassword());
         submit.submit();
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void regWrongEmailTest() throws Exception {
         //WebElement email = driver.findElement(By.name("email"));
+        findInputFields();
         email.sendKeys("ololo");
         username.click();
         username.sendKeys(user.getName());
         password.sendKeys(user.getPassword());
         submit.submit();
-    }*/
 
-    /*@Test
+        driver.findElement(By.id("js-loginError"));
+    }
+
+    @Test
     public void regUserExistsTest() throws Exception {
+        findInputFields();
         email.sendKeys("ololo@ololo.com");
         username.sendKeys(user.getUsername());
         password.sendKeys(user.getPassword());
         submit.submit();
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void regWrongUsernameTest() throws Exception {
-        email.sendKeys("ololo@ololo.com");
+        findInputFields();
+        email.sendKeys("ololo1@ololo.com");
         username.sendKeys("Leo");
         password.sendKeys(user.getPassword());
         //passwordRepeat.sendKeys(user.getPassword());
         submit.submit();
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void regNumberUsernameTest() throws Exception {
-        email.sendKeys("ololo@ololo.com");
+        findInputFields();
+        email.sendKeys("ololo2@ololo.com");
         username.sendKeys("1234");
         password.sendKeys(user.getPassword());
         submit.submit();
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void regEmptyPasswordTest() throws Exception {
-        email.sendKeys("ololo@ololo.com");
-        username.sendKeys(user.getUsername());
+        findInputFields();
+        email.sendKeys("ololo3@ololo.com");
+        username.sendKeys("Leo");
         password.sendKeys("");
         submit.submit();
-    }*/
 
-    /*@Test
-    public void regSpacePasswordTest() throws Exception {
-        email.sendKeys("ololo@ololo.com");
-        username.sendKeys(user.getUsername());
+        driver.findElement(By.id("js-loginError"));
+    }
+
+    @Test
+    public void regSpacesPasswordTest() throws Exception {
+        findInputFields();
+        email.sendKeys("ololo4@ololo.com");
+        username.sendKeys("Leo");
         password.sendKeys("        ");
         submit.submit();
-    }*/
 
-    /*@Test
+        driver.findElement(By.id("js-loginError"));
+    }
+
+    @Test
     public void regShortPasswordTest() throws Exception {
-        email.sendKeys("ololo@ololo.com");
-        username.sendKeys(user.getUsername());
+        findInputFields();
+        email.sendKeys("ololo5@ololo.com");
+        username.sendKeys("Leo");
         password.sendKeys("1");
         submit.submit();
-    }*/
 
-    /*@Test
+        driver.findElement(By.id("js-loginError"));
+    }
+
+    @Test
     public void regWrongPasswordTest() throws Exception {
-        email.sendKeys("ololo@ololo.com");
-        username.sendKeys(user.getUsername());
+        findInputFields();
+        email.sendKeys("ololo6@ololo.com");
+        username.sendKeys("Leo");
         password.sendKeys("123");
         submit.submit();
-    }*/
+
+        driver.findElement(By.id("js-loginError"));
+    }
 
     @BeforeClass
     public static void initDriver() {

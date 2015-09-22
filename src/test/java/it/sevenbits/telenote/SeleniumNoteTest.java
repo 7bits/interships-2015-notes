@@ -103,6 +103,29 @@ public class SeleniumNoteTest {
     }
 
     @Test
+    public void createNoteTest() {
+        driver.findElement(By.id("js-addNote")).click();
+
+        assertFalse(driver.findElements(By.className("js-note")).isEmpty());
+}
+
+/*@Test
+public void createNoteWithoutAuthorizationTest() {
+    driver.get("http://127.0.0.1:9000");
+    driver.findElement(By.id("js-addNote")).click();
+
+    assertFalse(driver.findElements(By.className("js-note")).isEmpty());
+}*/
+
+@Test
+public void createNoteAndRefreshPageTest() {
+    driver.findElement(By.id("js-addNote")).click();
+
+    assertFalse(driver.findElements(By.className("js-note")).isEmpty());
+    driver.navigate().refresh();
+}
+
+    @Test
     public void createDeleteNoteTest() {
         driver.findElement(By.id("js-addNote")).click();
 

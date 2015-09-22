@@ -1,7 +1,7 @@
 package it.sevenbits.telenote.core.domain;
 
 /**
- * Created by vik on 16.07.15.
+ * POJO for linking user with note.
  */
 public class UserNote {
 

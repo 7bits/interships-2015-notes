@@ -6,7 +6,6 @@ import it.sevenbits.telenote.core.repository.RepositoryException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -47,7 +46,7 @@ public class AccountService {
         TransactionStatus status = null;
         try {
             status = txManager.getTransaction(customTx);
-            accountRepository.changeStyle(user);
+            accountRepository.changeStyle(user.getId());
             txManager.commit(status);
             LOG.info(String.format("User's theme is successfully updated. UserEmail: %s, Theme: %s", user.getUsername(), user.getStyle()));
         } catch (RepositoryException e) {
@@ -65,7 +64,7 @@ public class AccountService {
             Pattern pattern = Pattern.compile(".+\\s.+");
             Matcher matcher = pattern.matcher(user.getName());
             if (!matcher.matches()) {
-                accountRepository.changeUsername(user);
+                accountRepository.changeUsername(user.getId());
                 txManager.commit(status);
                 LOG.info(String.format("Username is successfully updated. UserEmail: %s, NewUserName: %s", user.getUsername(), user.getName()));
             } else {
@@ -92,7 +91,7 @@ public class AccountService {
                 if (encoder.matches(currentPass, user.getPassword())) {
                     if (!currentPass.equals(newPass)){
                         user.setPassword(encoder.encode(newPass));
-                        accountRepository.changePass(user);
+                        accountRepository.changePass(user.getId());
                     } else {
                         throw new ServiceException("curPassEqualsNewPass");
                     }

@@ -10,26 +10,44 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 /***
- * Created by Admin on 09.07.2015.
+ * Mapper for note operations.
  */
 public interface NoteMapper {
+    /**
+     * Deletes note by note id.
+     * @param noteId note id.
+     */
     @Delete("DELETE " +
             "FROM notes " +
             "WHERE id=#{id}")
-    void deleteNote(final Note note);
+    void deleteNote(Long noteId);
 
+    /**
+     * Resets db field parent_note_id to null, changes db field parent_user_id to user id who owns note.
+     * Do this for all notes with parent_note_id field equals parentNoteId.
+     * @param parentNoteId id of a note, which created other note by sharing.
+     */
     @Update("UPDATE notes\n" +
             "SET\n" +
             "parent_note_id=null, parent_user_id=(SELECT user_id from usernotes where note_id=notes.id)\n" +
             "WHERE parent_note_id=#{parentNoteId}")
     void resetAllParentNoteUserId(final Long parentNoteId);
 
+    /**
+     * Updates note fields updated_at to update time, parent_note_id to specified in note by note id.
+     * @param note POJO that contains note data.
+     */
     @Update("UPDATE notes\n" +
             "SET " +
             "updated_at = DEFAULT, parent_note_id = #{parent_note_id}\n" +
             "WHERE id=#{id}")
     void updateNote(final Note note);
 
+    /**
+     * Gets list of notes in a descending order owned by user with user id.
+     * @param userId user id.
+     * @return list of notes in a descending order owned by user with user id
+     */
     @Select("SELECT id, text, note_date, created_at, updated_at, parent_note_id, parent_user_id, uuid, note_order\n" +
             "FROM notes INNER JOIN usernotes\n" +
             "ON user_id=#{userId}\n" +
@@ -48,6 +66,11 @@ public interface NoteMapper {
     })
     List<Note> findUserNotes(final Long userId);
 
+    /**
+     * Gets list of users, with which note shared.
+     * @param noteId note id.
+     * @return list of users, with which note shared.
+     */
     @Select("select users.id, email, username, enabled\n" +
             "from users\n" +
             "inner join usernotes\n" +
@@ -63,6 +86,10 @@ public interface NoteMapper {
     })
     List<UserDetailsImpl> findShareUsers(final Long noteId);
 
+    /**
+     * Adds note with text, uuid, parent_user_id specified in note.
+     * @param note POJO that contains note data.
+     */
     @Insert("INSERT INTO notes\n" +
             "(text, uuid, parent_user_id, note_order)\n" +
             "VALUES (#{text}, #{uuid}, #{parent_user_id},\n" +
@@ -71,18 +98,31 @@ public interface NoteMapper {
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void addNote(final Note note);
 
+    /**
+     * Adds first note with text, uuid, parent_user_id specified in note.
+     * @param note POJO that contains note data.
+     */
     @Insert("INSERT INTO notes\n" +
             "(text, uuid, parent_user_id, note_order)\n" +
             "VALUES (#{text}, #{uuid}, #{parent_user_id}, nextval('note_order_seq'))")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void addFirstNote(final Note note);
 
+    /**
+     * Adds a record user id - note id in usernotes table.
+     * @param userId user id.
+     * @param noteId note id.
+     */
     @Insert("INSERT INTO usernotes " +
             "(user_id, note_id) " +
             "VALUES " +
             "(#{userId}, #{noteId})")
     void linkUserWithNote(@Param("userId") final Long userId, @Param("noteId") final Long noteId);
 
+    /**
+     * Adds a clone of a specified note with new note id.
+     * @param note POJO that contains note data.
+     */
     @Insert("INSERT INTO notes\n" +
             "(text, note_date, created_at, parent_note_id, parent_user_id, uuid)\n" +
             "SELECT text, note_date, created_at, #{id}, #{parent_user_id}, uuid\n" +
@@ -90,11 +130,22 @@ public interface NoteMapper {
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     void duplicateNote(final Note note);
 
+    /**
+     * Checks is note belongs to user by counting pairs user id - note id.
+     * @param noteId note id.
+     * @param userId user id.
+     * @return count of pairs user id - note id.
+     */
     @Select("SELECT count(*) " +
             "FROM usernotes " +
             "WHERE note_id=#{noteId} and user_id=#{userId}")
-    int isNoteBelongToUser(@Param("noteId")final Long noteId, @Param("userId")final Long userId);
+    int isNoteBelongsToUser(@Param("noteId") final Long noteId, @Param("userId") final Long userId);
 
+    /**
+     * Gets user who shared note with specified note id.
+     * @param noteId note id.
+     * @return user who shared note with specified note id.
+     */
     @Select("SELECT id, email, username, enabled\n" +
             "FROM users\n" +
             "WHERE id =\n" +
@@ -112,6 +163,11 @@ public interface NoteMapper {
     })
     UserDetailsImpl getUserWhoSharedNote(final Long noteId);
 
+    /**
+     * Gets user who owns note with specified note id.
+     * @param noteId note id.
+     * @return user who owns note with specified note id.
+     */
     @Select("SELECT id, email, username, enabled\n" +
             "FROM users\n" +
             "WHERE id = \n" +
@@ -126,21 +182,42 @@ public interface NoteMapper {
     })
     UserDetailsImpl getUserWhoOwnsNote(final Long noteId);
 
+    /**
+     * Gets field parent_note_id of note with specified note id.
+     * @param noteId note id.
+     * @return field parent_note_id of note with specified note id.
+     */
     @Select("SELECT parent_note_id\n" +
             "FROM notes\n" +
             "WHERE id = #{noteId}")
     Long isParentNoteIdExists(Long noteId);
 
+    /**
+     * Gets field uuid of note with specified note id.
+     * @param noteId note id.
+     * @return field uuid of note with specified note id.
+     */
     @Select("SELECT uuid\n" +
             "from notes\n" +
             "where id = #{id}")
     String getUuidById(Long noteId);
 
+    /**
+     * Updates fields note, updated_at of note with specified uuid.
+     * @param note POJO that contains note data.
+     */
     @Select("UPDATE notes\n" +
             "SET text=#{text}, updated_at=DEFAULT\n" +
             "where uuid = #{uuid}")
     void updateNotesByUuid(Note note);
 
+    /**
+     * Checks is note already shared to user. with user id specified in userNote
+     * by counting records in usernotes with the same uuid as in note with note id specified in userNote.
+     * User id fixes user. Note id fixes uuid of a note.
+     * @param userNote POJO that contains pair user id - note id.
+     * @return count of records user id - note id.
+     */
     @Select("SELECT COUNT(*)\n" +
             "from usernotes\n" +
             "where note_id IN\n" +
@@ -149,6 +226,11 @@ public interface NoteMapper {
             "and user_id=#{user_id};")
     int isNoteAlreadyShared(UserNote userNote);
 
+    /**
+     * Updates field note_order of note that is between the other two.
+     * New value is (previous note_order + next note_order) / 2.
+     * @param orderData POJO for ordering notes.
+     */
     @Update("UPDATE notes\n" +
             "SET note_order = \n" +
             "(SELECT sum(note_order)/2.0\n" +
@@ -157,6 +239,11 @@ public interface NoteMapper {
             "WHERE id = #{id_cur}")
     void updateOrder(final OrderData orderData);
 
+    /**
+     * Updates field note_order of note that is first in the list.
+     * New value is (next note_order + 1).
+     * @param orderData POJO for ordering notes.
+     */
     @Update("UPDATE notes\n" +
             "SET note_order = \n" +
             "(SELECT note_order + 1\n" +
@@ -165,6 +252,11 @@ public interface NoteMapper {
             "WHERE id = #{id_cur}")
     void updateFirstElementOrder(final OrderData orderData);
 
+    /**
+     * Gets list of notes with same uuid as it is in note with specified note id.
+     * @param noteId note id.
+     * @return list of notes with same uuid as it is in note with specified note id.
+     */
     @Select("SELECT parent_note_id, id\n" +
             "FROM notes\n" +
             "WHERE uuid=\n" +
@@ -173,6 +265,11 @@ public interface NoteMapper {
             "   WHERE id=#{noteId})")
     List<Note> getNotesWithSameUuidById(Long noteId);
 
+    /**
+     * Gets list of users which have note with specified uuid.
+     * @param noteUuid uuid of a note.
+     * @return list of users which have note with specified uuid.
+     */
     @Select("select users.id, email, username, enabled\n" +
             "from users\n" +
             "inner join usernotes\n" +
@@ -188,6 +285,11 @@ public interface NoteMapper {
     })
     List<UserDetailsImpl> getUsersWithSameNoteUuid(final String noteUuid);
 
+    /**
+     * Updates field uuid of notes which specified by notesId list.
+     * @param notesId list of note ids to be updated.
+     * @param uuid uuid to update with.
+     */
     @Update({"<script>UPDATE notes SET uuid=#{uuid} WHERE id IN ",
             "<foreach item='item' index='index' collection='list'",
                 "open='(' separator=',' close=')'>",
@@ -195,19 +297,30 @@ public interface NoteMapper {
             "</foreach></script>"})
     void updateUuidByIds(@Param("list") List<Long> notesId, @Param("uuid") String uuid);
 
+    /**
+     * Gets id of a note with specified field parent_note_id owned by user with userId.
+     * @param userId user id.
+     * @param parentNoteId parent note id.
+     * @return id of a note with specified field parent_note_id owned by user with userId.
+     */
     @Select("SELECT id\n" +
             "FROM notes\n" +
             "INNER JOIN usernotes\n" +
             "ON id=note_id\n" +
-            "WHERE parent_note_id=#{parentId}\n" +
+            "WHERE parent_note_id=#{parentNoteId}\n" +
             "AND user_id=#{userId}")
-    Long getNoteIdByUserIdParentId(@Param("userId") Long userId, @Param("parentId") Long parentId);
+    Long getNoteIdByUserIdParentId(@Param("userId") Long userId, @Param("parentId") Long parentNoteId);
 
+    /**
+     * Gets list of notes that contains notes owned by user and notes, which uuid is the same with one of own notes.
+     * @param userId user id.
+     * @return list of notes that contains notes owned by user and notes, which uuid is the same with one of own notes.
+     */
     @Select("select notes.*, users.email, users.username\n" +
             "from notes\n" +
             "inner join usernotes on usernotes.note_id=notes.id\n" +
             "inner join users on users.id=usernotes.user_id\n" +
-            //"where users.id<>#{userId}\n" + // раскомментировать, если надо исключить свою заметку
+            //"where users.id<>#{userId}\n" + // uncomment if need to exclude own note
             //"and uuid IN \n" +
             "where uuid IN \n" +
             "(select uuid from notes\n" +
@@ -229,6 +342,11 @@ public interface NoteMapper {
     })
     List<NoteModel> getNotesWithSameNoteUuidByUserId(Long userId);
 
+    /**
+     * Gets note models(note id, owner username, owner email) of notes with specified uuid.
+     * @param noteId note id.
+     * @return note models(note id, owner username, owner email) of notes with specified uuid.
+     */
     @Select("SELECT notes.id, users.email, users.username\n" +
             "from notes \n" +
             "inner join usernotes on notes.id = usernotes.note_id\n" +
