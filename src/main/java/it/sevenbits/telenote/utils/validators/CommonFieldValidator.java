@@ -1,4 +1,4 @@
-package it.sevenbits.telenote.service.validators;
+package it.sevenbits.telenote.utils.validators;
 
 import org.springframework.stereotype.Service;
 
@@ -34,11 +34,7 @@ public class CommonFieldValidator {
     public boolean isEmail(final String value) {
         if (value != null) {
             Matcher matcher = VALID_EMAIL_ADDRESS_PATTERN .matcher(value);
-            if (!matcher.find()) {
-                return false;
-            }
-
-            return true;
+            return matcher.find();
         }
 
         return false;
@@ -52,13 +48,13 @@ public class CommonFieldValidator {
      */
     public boolean isShorterThan(final String value, final Integer maxLength) {
         if (value != null) {
-            if (value.length() > maxLength) {
-                return false;
-            }
-
-            return true;
+            return value.length() < maxLength;
         }
 
         return false;
+    }
+
+    public boolean isInRange(int value, int right, int left) {
+        return value >= right && value <= left;
     }
 }

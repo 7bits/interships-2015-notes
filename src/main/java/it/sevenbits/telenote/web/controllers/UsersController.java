@@ -1,12 +1,13 @@
 package it.sevenbits.telenote.web.controllers;
 
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
+import it.sevenbits.telenote.utils.validators.RestorePasswordFormValidator;
 import it.sevenbits.telenote.web.domain.forms.RestorePasswordForm;
 import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
 
 import it.sevenbits.telenote.service.EmailService;
 import it.sevenbits.telenote.service.ServiceException;
-import it.sevenbits.telenote.service.validators.UserCreateFormValidator;
+import it.sevenbits.telenote.utils.validators.UserCreateFormValidator;
 import it.sevenbits.telenote.service.UserService;
 
 import org.apache.log4j.Logger;
@@ -43,7 +44,10 @@ public class UsersController {
     private UserService userService;
 
     @Autowired
-    private UserCreateFormValidator validator;
+    private UserCreateFormValidator userCreateFormValidator;
+
+    @Autowired
+    private RestorePasswordFormValidator restoreValidator;
 
     @Autowired
     private EmailService emailService;
@@ -52,8 +56,13 @@ public class UsersController {
     private MessageSource messageSource;
 
     @InitBinder("form")
-    public void initBinder(WebDataBinder binder) {
-        binder.addValidators(validator);
+    public void initBinderSignupForm(WebDataBinder binder) {
+        binder.addValidators(userCreateFormValidator);
+    }
+
+    @InitBinder("resetForm")
+    public void initBinderResetForm(WebDataBinder binder) {
+        binder.addValidators(restoreValidator);
     }
 
     @RequestMapping(value = "/signin", method = RequestMethod.GET)

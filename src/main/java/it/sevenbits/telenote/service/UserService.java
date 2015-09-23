@@ -209,10 +209,11 @@ public class UserService implements UserDetailsService {
                 String error = ((FieldError) objectError).getField().toString();
                 if(!matcher.contains(error)) {
                     matcher.add(error);
-                    model.addObject(error + "Error", error);
+                    model.addObject(error + "Error", objectError.getCode());
                 }
             } catch (Exception e) {
-                model.addObject("emailExists", objectError);
+                LOG.error("Wrong type of error, expected FieldError, get another. " + e.getMessage());
+                throw new ServiceException(e.getMessage());
             }
         }
         return model;

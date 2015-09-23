@@ -49,16 +49,13 @@ html
           input#js-regEmail.welcomeForm__textbox(type='textbox', name='email', placeholder='e-mail', value='#{signupForm.email}', maxlength='30')
           if emailError
             .welcomeForm__error.welcomeForm__error_email.js-emailError
-              span#js-regEmailMess Неправильный адрес
-          if emailExists
-            .welcomeForm__error
-              span#js-regEmailMess email уже используется
+              span#js-regEmailMess= emailError
           input#js-regUsername.welcomeForm__textbox(type='textbox', name='username', placeholder='имя', value='#{signupForm.username}', maxlength='30')
           if usernameError
             .welcomeForm__error.welcomeForm__error_name.js-nameError
-              span#js-regUsernameMess Неподходящее имя
+              span#js-regUsernameMess= usernameError
           input#js-regPass.welcomeForm__textbox(type='password', name='password', autocomplete='off', placeholder='пароль', value='#{signupForm.password}', maxlength='30')
           if passwordError
             .welcomeForm__error.welcomeForm__error_password.js-passError
-              span#js-regPassMess Пароль слишком прост
+              span#js-regPassMess= passwordError
           button.js-regSubmit.welcomeForm__button(type='submit') Зарегистрироваться
