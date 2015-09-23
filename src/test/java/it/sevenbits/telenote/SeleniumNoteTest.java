@@ -161,7 +161,7 @@ public void createNoteAndRefreshPageTest() {
     }
 
     @Test
-    public void userNameTest() {
+    public void validUserNameTest() {
         driver.findElement(By.className("js-user")).click();
 
         assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
@@ -179,7 +179,43 @@ public void createNoteAndRefreshPageTest() {
     }
 
     @Test
-    public void userPasswordTest() {
+    public void symbolsUserNameTest() {
+        driver.findElement(By.className("js-user")).click();
+
+        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
+
+        WebElement toClear = driver.findElement(By.id("js-username"));
+        toClear.sendKeys(Keys.CONTROL + "a");
+        toClear.sendKeys(Keys.DELETE);
+        toClear.sendKeys("!@#%^&*$");
+
+       WebElement button = driver.findElement(By.className("js-submit"));
+        Actions action = new Actions(driver);
+        action.moveToElement(button);
+        action.perform();
+        button.click();
+    }
+
+    @Test
+    public void emptyUserNameTest() {
+        driver.findElement(By.className("js-user")).click();
+
+        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
+
+        WebElement toClear = driver.findElement(By.id("js-username"));
+        toClear.sendKeys(Keys.CONTROL + "a");
+        toClear.sendKeys(Keys.DELETE);
+        toClear.sendKeys("   ");
+
+       WebElement button = driver.findElement(By.className("js-submit"));
+        Actions action = new Actions(driver);
+        action.moveToElement(button);
+        action.perform();
+        button.click();
+    }
+
+    @Test
+    public void validUserPasswordTest() {
         driver.findElement(By.className("js-user")).click();
 
         assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
@@ -196,6 +232,45 @@ public void createNoteAndRefreshPageTest() {
         action.perform();
         button.click();
     }
+
+    @Test
+    public void emptyUserPasswordTest() {
+        driver.findElement(By.className("js-user")).click();
+
+        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
+
+        WebElement toClear = driver.findElement(By.id("js-currentPass"));
+	    toClear.sendKeys(Keys.CONTROL + "a");
+        toClear.sendKeys(Keys.DELETE);
+  	    toClear.sendKeys("Ololo73");
+	    driver.findElement(By.id("js-newPass")).sendKeys(" ");
+
+        WebElement button = driver.findElement(By.className("js-submit"));
+        Actions action = new Actions(driver);
+        action.moveToElement(button);
+        action.perform();
+        button.click();
+    }
+
+    @Test
+    public void shortUserPasswordTest() {
+        driver.findElement(By.className("js-user")).click();
+
+        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
+
+        WebElement toClear = driver.findElement(By.id("js-currentPass"));
+	    toClear.sendKeys(Keys.CONTROL + "a");
+        toClear.sendKeys(Keys.DELETE);
+  	    toClear.sendKeys("Ololo73");
+	    driver.findElement(By.id("js-newPass")).sendKeys("123");
+
+        WebElement button = driver.findElement(By.className("js-submit"));
+        Actions action = new Actions(driver);
+        action.moveToElement(button);
+        action.perform();
+        button.click();
+    }
+
 
     @Test
     public void userDesignTest() {
