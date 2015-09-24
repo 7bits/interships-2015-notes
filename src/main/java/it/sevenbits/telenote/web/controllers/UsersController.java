@@ -51,16 +51,28 @@ public class UsersController {
     @Autowired
     private MessageSource messageSource;
 
+    /** Validates form. */
     @InitBinder("form")
     public void initBinder(WebDataBinder binder) {
         binder.addValidators(validator);
     }
 
+    /**
+     * Redirects to welcome page.
+     * @return welcome page.
+     * @throws ServiceException
+     */
     @RequestMapping(value = "/signin", method = RequestMethod.GET)
     public ModelAndView handleLoginGet() throws ServiceException {
         return new ModelAndView("redirect:/");
     }
 
+    /**
+     * Redirects to root with form in session.
+     * @param session contains user form.
+     * @return sign up page with user form.
+     * @throws ServiceException
+     */
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
     public ModelAndView handleRegistrationGet(HttpSession session) throws ServiceException {
         ModelAndView model = new ModelAndView("redirect:/");
@@ -69,9 +81,16 @@ public class UsersController {
         return model;
     }
 
+    /**
+     * Signs up when form data is valid. Gets sign up page with certain errors when form data is invalid.
+     * @param form contains registration data.
+     * @param bindingResult contains errors, if form is invalid.
+     * @param session persists form data to show invalid fields.
+     * @return error/success sign up page.
+     */
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public ModelAndView handleRegistrationPost(@Valid @ModelAttribute("form") UserCreateForm form,
-                BindingResult bindingResult, HttpSession session, HttpServletRequest request) {
+                BindingResult bindingResult, HttpSession session) {
         try {
             if (bindingResult.hasErrors()) {
                 String url = "home/welcome";
@@ -90,10 +109,10 @@ public class UsersController {
 
                 userService.create(user);
 
-                String link = "http://tele-notes.7bits.it/confirm?token=" + userService.getToken(form.getEmail()) + "&email=" + form.getEmail();
+                String link = "http://tele-notes.7bits.it/confirm?token=" + userService.getToken(form.getEmail().toLowerCase()) + "&email=" + form.getEmail().toLowerCase();
                 //ModelAndView model = new ModelAndView("home/confirmRegMail");
                 //model.addObject("confirmLink", );
-                LOG.info("Sended email to " + form.getEmail());
+                LOG.info("Sended email to " + form.getEmail().toLowerCase());
                 emailService.sendConfirm(form, messageSource.getMessage("message.confirm.email", null, LocaleContextHolder.getLocale()), link);
             }
             //request.login(form.getEmail(), form.getPassword());
@@ -114,6 +133,12 @@ public class UsersController {
         return model;
     }
 
+    /**
+     * Sends an email to user with link to reset password.
+     * @param token user token
+     * @param email user email.
+     * @return error/success page.
+     */
     @RequestMapping(value = "/resetpass", method = RequestMethod.GET)
     public ModelAndView resetPass(String token, String email) {
         boolean isEmptyInput = token == null || email == null || token.isEmpty() || email.isEmpty();
@@ -142,7 +167,7 @@ public class UsersController {
     @RequestMapping(value = "/resetpass", method = RequestMethod.POST)
     public ModelAndView resetPassInDB(@ModelAttribute UserCreateForm form) {
         try {
-            ModelAndView model = userService.resetPassInDB(form.getEmail());
+            ModelAndView model = userService.resetPassInDB(form.getEmail().toLowerCase());
             if (model != null) return model;
         } catch (ServiceException e) {
             return new ModelAndView("home/errors", "error", e.getMessage());

@@ -78,8 +78,11 @@ public class UserService implements UserDetailsService {
             LOG.info(String.format("New user is created: UserId: %d, UserEmail: %s.", user.getId(), user.getName()));
         } catch (Exception e) {
             LOG.error(String.format("An error occurred while creating user. UserId: %d, UserEmail: %s.",
-                    user.getId(), user.getName()));
-            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
+            user.getId(), user.getName()));
+            if (status != null) {
+                txManager.rollback(status);
+                LOG.info("Rollback done.");
+            }
             throw new ServiceException("An error occurred while creating user: " + e.getMessage(), e);
         }
     }
@@ -91,7 +94,7 @@ public class UserService implements UserDetailsService {
             status = txManager.getTransaction(customTx);
             Optional<UserDetailsImpl> userDetails = this.getUserByEmail(email.toLowerCase());
             if (userDetails.isPresent() && userDetails.get().getRole().equals(Role.USER)) {
-            //if (userDetails.isPresent() && userDetails.get().getRole().equals(Role.USER) && userDetails.get().getIsConfirmed()) {
+                //if (userDetails.isPresent() && userDetails.get().getRole().equals(Role.USER) && userDetails.get().getIsConfirmed()) {
                 return userDetails.get();
             }
         } catch (Exception e) {
@@ -118,7 +121,10 @@ public class UserService implements UserDetailsService {
             LOG.info("Password is updated. UserEmail: " + user.getUsername());
         } catch (Exception e) {
             LOG.error("An error occurred while updating password. UserEmail: " + user.getUsername());
-            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
+            if (status != null) {
+                txManager.rollback(status);
+                LOG.info("Rollback done.");
+            }
             throw new ServiceException("E-mail does not exist!");
         }
     }
@@ -134,7 +140,10 @@ public class UserService implements UserDetailsService {
         } catch (Exception e) {
             //mb, has to be reworked
             LOG.error("Could not get user by email. UserEmail: " + email);
-            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
+            if (status != null) {
+                txManager.rollback(status);
+                LOG.info("Rollback done.");
+            }
 
             throw new ServiceException(e.getMessage());
         }
@@ -150,7 +159,10 @@ public class UserService implements UserDetailsService {
             return user;
         } catch (Exception e) {
             LOG.error("Could not get user by id. UserId: " + userId);
-            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
+            if (status != null) {
+                txManager.rollback(status);
+                LOG.info("Rollback done.");
+            }
             throw new ServiceException(e.getMessage());
         }
     }
@@ -164,7 +176,10 @@ public class UserService implements UserDetailsService {
             LOG.info("Email is confirmed. UserEmail: " + email);
         } catch (Exception e) {
             LOG.error("Could not confirm email. UserEmail: " + email);
-            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
+            if (status != null) {
+                txManager.rollback(status);
+                LOG.info("Rollback done.");
+            }
             throw new ServiceException(e.getMessage());
         }
     }
@@ -179,7 +194,10 @@ public class UserService implements UserDetailsService {
             return token;
         } catch (Exception e) {
             LOG.error("Could not get token by email. UserEmail: " + email);
-            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
+            if (status != null) {
+                txManager.rollback(status);
+                LOG.info("Rollback done.");
+            }
             throw new ServiceException(e.getMessage());
         }
     }
@@ -192,8 +210,11 @@ public class UserService implements UserDetailsService {
             repository.setTokenByEmail(email, token);
             txManager.commit(status);
         } catch (RepositoryException ex) {
-            LOG.error("Could not set new token.Us erEmail: " + email);
-            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
+            LOG.error("Could not set new token. User Email: " + email);
+            if (status != null) {
+                txManager.rollback(status);
+                LOG.info("Rollback done.");
+            }
             throw new ServiceException(ex.getMessage());
         }
 
@@ -207,7 +228,7 @@ public class UserService implements UserDetailsService {
         for (ObjectError objectError : bindingResult.getAllErrors()) {
             try {
                 String error = ((FieldError) objectError).getField().toString();
-                if(!matcher.contains(error)) {
+                if (!matcher.contains(error)) {
                     matcher.add(error);
                     model.addObject(error + "Error", error);
                 }
@@ -239,7 +260,10 @@ public class UserService implements UserDetailsService {
             }
         } catch (ServiceException e) {
             LOG.error("Could not reset password. UserEmail: " + email);
-            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
+            if (status != null) {
+                txManager.rollback(status);
+                LOG.info("Rollback done.");
+            }
             throw new ServiceException("Could not reset password. UserEmail: " + email, e);
         }
         return null;
@@ -251,7 +275,7 @@ public class UserService implements UserDetailsService {
             status = txManager.getTransaction(customTx);
             Optional<UserDetailsImpl> user = getUserByEmail(email);
             if (user.isPresent() && token.equals(getToken(email))
-                    && passwords[0].equals(passwords[1])) {
+            && passwords[0].equals(passwords[1])) {
 
                 UserCreateForm userForm = new UserCreateForm();
                 userForm.setEmail(email);
@@ -264,8 +288,27 @@ public class UserService implements UserDetailsService {
             }
         } catch (ServiceException e) {
             LOG.error("Could not update password. UserEmail: " + email);
-            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
+            if (status != null) {
+                txManager.rollback(status);
+                LOG.info("Rollback done.");
+            }
             throw new ServiceException("Could not update password. UserEmail: " + email, e);
+        }
+    }
+
+    public void cleanDB() throws ServiceException {
+        TransactionStatus status = null;
+        try {
+            status = txManager.getTransaction(customTx);
+            repository.cleanDB();
+            txManager.commit(status);
+        } catch (RepositoryException e) {
+            LOG.error("Could not clean database.");
+            if (status != null) {
+                txManager.rollback(status);
+                LOG.info("Rollback done.");
+            }
+            throw new ServiceException("Could not clean database.", e);
         }
     }
 }

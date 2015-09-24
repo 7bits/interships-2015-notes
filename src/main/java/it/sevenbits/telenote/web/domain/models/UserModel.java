@@ -5,7 +5,9 @@ package it.sevenbits.telenote.web.domain.models;
 
 import java.sql.Timestamp;
 
-
+/**
+ * Model for users.
+ */
 public class UserModel {
     private static final long serialVersionUID = -7238711359613870647L;
 

@@ -188,7 +188,10 @@ body {
 }
 
 .welcomeForm__error_email {
-	width: 140px;
+	width: 141px;
+}
+.welcomeForm__email_in_use {
+	width: 155px;
 }
 
 .welcomeForm__error_name {
@@ -199,6 +202,9 @@ body {
 	width: 152px;
 }
 
+.loginError {
+	width: 115px;
+}
 .welcomeForm__href {
 	font-family: "Roboto-Light";
 	font-size: 12px;

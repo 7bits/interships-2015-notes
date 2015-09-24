@@ -16,6 +16,10 @@ import java.util.Collection;
 import java.util.List;*/
 
 //@ConfigurationProperties(locations = "classpath:ValidationMessages.properties")
+
+/**
+ * Form for creating new users.
+ */
 public class UserCreateForm {
 
     @NotNull(message="Почтовый адрес не должен быть пустым")

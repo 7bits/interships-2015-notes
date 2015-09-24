@@ -40,6 +40,13 @@ public class AccountController {
         return model;
     }
 
+    /**
+     * Validates form and changes account settings if it's correct.
+     * @param form transmitted ChangesForm.
+     * @param auth for user identification.
+     * @return ModelAndView with
+     * @throws ServiceException
+     */
     @RequestMapping(value = "/account", method = RequestMethod.POST)
     public @ResponseBody
     ModelAndView changeAccountSettings(@Valid @ModelAttribute("form") ChangesForm form, Authentication auth) throws ServiceException {

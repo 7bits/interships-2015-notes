@@ -5,6 +5,7 @@ import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 
 import it.sevenbits.telenote.core.repository.Note.INoteRepository;
 import it.sevenbits.telenote.core.repository.User.IUserRepository;
+import it.sevenbits.telenote.service.UserService;
 import it.sevenbits.telenote.web.domain.forms.NoteForm;
 import it.sevenbits.telenote.web.domain.models.NoteModel;
 import it.sevenbits.telenote.web.domain.models.ResponseMessage;
@@ -48,6 +49,9 @@ public class NoteServiceTest {
     @Autowired
     @Qualifier(value = "noteRepository")
     public INoteRepository noteRep;
+
+    @Autowired
+    public UserService userService;
 
     private List<UserDetailsImpl> users = new ArrayList<>();
 
@@ -150,6 +154,6 @@ public class NoteServiceTest {
 
     @After
     public void destroy() throws Exception {
-        userRepository.emptyBD();
+        userService.cleanDB();
     }
 }

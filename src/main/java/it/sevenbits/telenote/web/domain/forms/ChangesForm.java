@@ -1,5 +1,8 @@
 package it.sevenbits.telenote.web.domain.forms;
 
+/**
+ * Form for change username, user password and user theme.
+ */
 public class ChangesForm {
 
     private String username;

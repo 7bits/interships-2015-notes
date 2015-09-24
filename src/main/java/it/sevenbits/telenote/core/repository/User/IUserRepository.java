@@ -5,7 +5,7 @@ import it.sevenbits.telenote.core.repository.RepositoryException;
 import java.util.Optional;
 
 /**
- * Created by Admin on 09.07.2015.
+ * Interface for UserRepository.
  */
 public interface IUserRepository {
     public void create(final UserDetailsImpl userDetails) throws RepositoryException;
@@ -18,7 +18,7 @@ public interface IUserRepository {
 
     public void updatePassword(final UserDetailsImpl userDetails) throws RepositoryException;
 
-    public Optional<UserDetailsImpl> getUserById(Long id)  throws RepositoryException;
+    public Optional<UserDetailsImpl> getUserById(Long userId)  throws RepositoryException;
 
     public Optional<UserDetailsImpl> getUserByEmail(String email)  throws RepositoryException;
 
@@ -30,5 +30,5 @@ public interface IUserRepository {
 
     public String getTokenByEmail(String email) throws RepositoryException;
 
-    public void emptyBD() throws  RepositoryException;
+    public void cleanDB() throws  RepositoryException;
 }

@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.Comparator;
 
 /**
- * Created by Admin on 13.07.2015.
+ * Model for notes. Also contains user fields: emailOfShareUser, usernameOfShareUser, userAvatar.
  */
 public class NoteModel {
 

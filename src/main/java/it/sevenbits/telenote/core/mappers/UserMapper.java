@@ -17,7 +17,7 @@ public interface UserMapper {
             "VALUES " +
             "(#{email}, #{name}, #{password}, 'USER', TRUE)")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
-    void insert(final UserDetailsImpl userDetails);
+    void create(final UserDetailsImpl userDetails);
 
     //Повесить уникальный индекс на email, и тогда он не вставит запись если такой mail есть. ???
 
@@ -111,19 +111,19 @@ public interface UserMapper {
      * Removes all records from users.
      */
     @Delete("DELETE FROM users")
-    void emptyUsers();
+    void deleteUsers();
 
     /**
      * Removes all records from notes.
      */
     @Delete("DELETE FROM notes")
-    void emptyNotes();
+    void deleteNotes();
 
     /**
      * Removes all records from usernotes.
      */
     @Delete("DELETE FROM usernotes")
-    void emptyUsernote();
+    void deleteUsernotes();
 
     /**
      * Sets user is_confirmed flag to true by email.

@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+/**
+ * Validates user email for registration.
+ */
 @Service
 public class UserCreateFormValidator implements Validator {
 
@@ -33,7 +36,7 @@ public class UserCreateFormValidator implements Validator {
 
     private void validateEmail(Errors errors, UserCreateForm form) {
         try {
-            if (userService.getUserByEmail(form.getEmail()).isPresent()) {
+            if (userService.getUserByEmail(form.getEmail().toLowerCase()).isPresent()) {
                 errors.reject("email.exists", "Пользователь с таким почтовым адресом уже существует.");
                 return;
             }

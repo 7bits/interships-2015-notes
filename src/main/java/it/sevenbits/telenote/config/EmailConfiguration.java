@@ -1,8 +1,6 @@
 package it.sevenbits.telenote.config;
 
-/**
- * Created by sevenbits on 09.07.15.
- */
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +9,9 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.JavaMailSender;
 import java.util.Properties;
 
+/**
+ * Contains settings for sending emails to users.
+ */
 @Configuration
 public class EmailConfiguration {
         @Value("${mail.protocol}")

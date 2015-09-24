@@ -1,5 +1,6 @@
 package it.sevenbits.telenote.core.repository.Account;
 
+import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.mappers.AccountMapper;
 import it.sevenbits.telenote.core.repository.RepositoryException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,35 +16,52 @@ public class AccountRepository implements IAccountRepository {
 
     /**
      * Updates user theme by user id.
-     * @param userId user id.
+     * @param user POJO that contains theme name and user id.
+     * @throws RepositoryException
      */
     @Override
-    public void changeStyle(Long userId) throws RepositoryException {
+    public void changeStyle(UserDetailsImpl user) throws RepositoryException {
         try {
-            accountMapper.changeStyle(userId);
+            accountMapper.changeStyle(user);
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while changing user's theme style: " + e.getMessage(), e);
         }
     }
 
+    /**
+     * Updates username by user id.
+     * @param user POJO that contains username and user id.
+     * @throws RepositoryException
+     */
     @Override
-    public void changeUsername(Long userId) throws RepositoryException {
+    public void changeUsername(UserDetailsImpl user) throws RepositoryException {
         try {
-            accountMapper.changeUsername(userId);
+            accountMapper.changeUsername(user);
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while changing username: " + e.getMessage(), e);
         }
     }
 
+    /**
+     * Updates user password by user id.
+     * @param user POJO that contains user password and user id.
+     * @throws RepositoryException
+     */
     @Override
-    public void changePass(Long userId) throws RepositoryException {
+    public void changePass(UserDetailsImpl user) throws RepositoryException {
         try {
-            accountMapper.changePass(userId);
+            accountMapper.changePass(user);
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while changing password: " + e.getMessage(), e);
         }
     }
 
+    /**
+     * Gets user theme by user id.
+     * @param userId user id.
+     * @return user theme.
+     * @throws RepositoryException
+     */
     @Override
     public String getUserStyle(Long userId) throws RepositoryException {
         try {

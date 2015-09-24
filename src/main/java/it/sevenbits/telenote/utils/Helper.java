@@ -12,14 +12,20 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Created by vik on 10.09.15.
+ * Helper class for different goals.
  */
 
 public class Helper {
+
     public static String generateUUID() {
         return UUID.randomUUID().toString();
     }
 
+    /**
+     * Gets gravatar URL for show user avatar. Hashes user email and concat in required string.
+     * @param email user email
+     * @return gravatar URL for show user avatar.
+     */
     public static String getAvatarUrl(String email) {
         Md5PasswordEncoder encoder = new Md5PasswordEncoder();
 
@@ -32,6 +38,12 @@ public class Helper {
         return avatarLink.toString();
     }
 
+    /**
+     * Gets attributeName - attrValue map from specified request. Checks for error attribute specified in FailureHandler.
+     * @param attrNames list of attribute names.
+     * @param request request from user.
+     * @return attributeName - attrValue map from specified request
+     */
     public static Map<String, Object> getAttributeMap(List<String> attrNames, HttpServletRequest request) {
         // map attrName-attr
         Map<String, Object> map = new HashMap<>();

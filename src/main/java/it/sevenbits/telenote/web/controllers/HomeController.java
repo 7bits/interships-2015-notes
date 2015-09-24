@@ -32,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,8 +51,14 @@ public class HomeController {
 
     private static Logger LOG = Logger.getLogger(HomeController.class);
 
+    /**
+     * Gets welcome page with attributes(include error).
+     * @param request contains attributes.
+     * @return welcome page.
+     * @throws Exception
+     */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView homePage(HttpServletRequest request) {
+    public ModelAndView homePage(HttpServletRequest request) throws Exception{
         ModelAndView model = new ModelAndView("home/welcome");
         //model.addObject("signinForm", new UserLoginForm());
         model.addObject("signupForm", new UserCreateForm());
@@ -66,12 +73,18 @@ public class HomeController {
                 model.addObject(entry.getKey(), entry.getValue());
             }
         } catch (Exception e) {
-
+            throw new Exception("An error occured while getting home page." + e.getMessage());
         }
 
         return model;
     }
 
+    /**
+     * Gets all user notes(own and shared). Returns specified model.
+     * @param auth contains user data.
+     * @return model with all user notes.
+     * @throws ServiceException
+     */
     @RequestMapping(value = "/telenote", method = RequestMethod.GET)
     public ModelAndView getTelenote(Authentication auth) throws ServiceException {
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
@@ -82,15 +95,23 @@ public class HomeController {
             model.addObject("avatar", Helper.getAvatarUrl(currentUser.getUsername()));
 
         } catch (ServiceException se) {
-            // show somehow error page
+            throw new ServiceException("An error occurred while getting notes.", se);
         }
 
         return model;
     }
 
+    /**
+     * Adds note if it's a new note(note id < 1). Edits note if it already exists in db.
+     * Returns note id to set it to new note.
+     * @param request contains note id.
+     * @param auth contains note owner id.
+     * @return updated note id.
+     * @throws ServiceException
+     */
     @RequestMapping(value = "/telenote", method = RequestMethod.POST)
     public @ResponseBody
-    Long editNote (HttpServletRequest request, HttpServletResponse response, Authentication auth) throws ServiceException{
+    Long editNote (HttpServletRequest request, Authentication auth) throws ServiceException{
 
         Long id = Long.parseLong(request.getParameter("id"));
         String text = request.getParameter("text");
@@ -105,25 +126,36 @@ public class HomeController {
                 noteService.updateNote(form, currentUser.getId());
             }
         } catch (ServiceException se) {
-            // show somehow error page
+            throw new ServiceException("An error occurred while editing note.", se);
         }
 
         return form.getId();
     }
 
+    /**
+     * Gets list of share users for note.
+     * @param request contains note id.
+     * @return ist of share users for note.
+     * @throws ServiceException
+     */
     @RequestMapping(value = "/telenote/checknote", method = RequestMethod.POST)
-    public @ResponseBody List<UserDetailsImpl> checkSharedNote(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+    public @ResponseBody List<UserDetailsImpl> checkSharedNote(HttpServletRequest request) throws ServiceException {
 
         Long noteId = Long.parseLong(request.getParameter("id"));
 
         try {
             return noteService.getListOfShareUsers(noteId);
         } catch (ServiceException se) {
-            return null;
+            throw new ServiceException("An error occurred while getting list of share users for note.", se);
         }
     }
 
-
+    /**
+     * Removes note from db.
+     * @param noteId note id.
+     * @param auth contains note owner id.
+     * @throws ServiceException
+     */
     @RequestMapping(value = "/telenote/{id:\\d+}", method = RequestMethod.DELETE)
     public @ResponseBody void deleteNote(@PathVariable("id") Long noteId, Authentication auth) throws ServiceException {
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
@@ -134,14 +166,22 @@ public class HomeController {
         try {
             noteService.deleteNote(note, currentUser.getId());
         } catch (ServiceException se) {
-            return;// show somehow error page
+            throw new ServiceException("An error occurred while deleting note.", se);
         }
 
     }
 
+    /**
+     * Shares note with specified user. Returns error/success message and http status.
+     * @param request contains note id and user email.
+     * @param auth contains note owner id.
+     * @return error/success message and http status.
+     * @throws RepositoryException
+     * @throws ServiceException
+     */
     @RequestMapping(value = "/telenote/share", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<ResponseMessage> shareNote (HttpServletRequest request, HttpServletResponse response, Authentication auth) throws RepositoryException, ServiceException{
+    ResponseEntity<ResponseMessage> shareNote (HttpServletRequest request, Authentication auth) throws RepositoryException, ServiceException{
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
 
         Long noteId = Long.parseLong(request.getParameter("id"));
@@ -156,8 +196,14 @@ public class HomeController {
 
     }
 
+    /**
+     * Breaks note sync. Returns error/success message and http status.
+     * @param request
+     * @return success message and http status.
+     * @throws ServiceException
+     */
     @RequestMapping(value = "telenote/deletesync", method = RequestMethod.POST)
-    public ResponseEntity<ResponseMessage> deleteSync(HttpServletRequest request,Authentication auth) throws ServiceException {
+    public ResponseEntity<ResponseMessage> deleteSync(HttpServletRequest request) throws ServiceException {
 
         try {
             Long noteId = Long.parseLong(request.getParameter("noteId"));
@@ -172,8 +218,14 @@ public class HomeController {
         LocaleContextHolder.getLocale())), HttpStatus.OK);
     }
 
+    /**
+     * Updates note order of a note.
+     * @param request contains previous, current and next note id.
+     * @throws RepositoryException
+     * @throws ServiceException
+     */
     @RequestMapping(value = "/telenote/order", method = RequestMethod.POST)
-    public void updateOrder(HttpServletRequest request, HttpServletResponse response, Authentication auth) throws RepositoryException, ServiceException {
+    public void updateOrder(HttpServletRequest request) throws RepositoryException, ServiceException {
         final OrderData orderData = new OrderData(
         Long.parseLong(request.getParameter("idPrev")),
         Long.parseLong(request.getParameter("idCur")),
@@ -182,9 +234,9 @@ public class HomeController {
         try {
             noteService.updateOrder(orderData);
         } catch (ServiceException se) {
-            // show somehow error page
-//            LOG.error(MessageFormat.format("Ошибка обновления порядка заметок: idPrev={0}, idCur={1}, idPrev{2}",
-//                    orderData.getId_prev(), orderData.getId_cur(),orderData.getId_next()));
+            LOG.error(MessageFormat.format("Ошибка обновления порядка заметок: idPrev={0}, idCur={1}, idPrev{2}",
+                orderData.getId_prev(), orderData.getId_cur(), orderData.getId_next()));
+            throw new ServiceException("An error occured while updating note order.", se);
         }
 
     }

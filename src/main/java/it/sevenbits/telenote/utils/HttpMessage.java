@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by andy on 14.09.15.
+ * Generates http message for error pages.
  */
 @Component
 public class HttpMessage {

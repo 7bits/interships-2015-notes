@@ -37,7 +37,7 @@ html
           input#js-logText.welcomeForm__textbox(type='textbox', name='username', placeholder='e-mail', value='#{username}', maxlength='30')
           if error
             .welcomeForm__error.js-loginError
-              span#js-loginError Адрес и пароль не совпадают
+              span#js-loginError Логин и пароль не совпадают
           input.js-logPass.welcomeForm__textbox(type='password', name='password', autocomplete='off', placeholder='пароль', maxlength='30')
           button.js-logSubmit.welcomeForm__button(type='submit') Войти
           .welcomeForm__href 
@@ -51,8 +51,8 @@ html
             .welcomeForm__error.welcomeForm__error_email.js-emailError
               span#js-regEmailMess Неправильный адрес
           if emailExists
-            .welcomeForm__error
-              span#js-regEmailMess email уже используется
+            .welcomeForm__error.welcomeForm__email_in_use
+              span#js-regEmailMess Email уже используется
           input#js-regUsername.welcomeForm__textbox(type='textbox', name='username', placeholder='имя', value='#{signupForm.username}', maxlength='30')
           if usernameError
             .welcomeForm__error.welcomeForm__error_name.js-nameError

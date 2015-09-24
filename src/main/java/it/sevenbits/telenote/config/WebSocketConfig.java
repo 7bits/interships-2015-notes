@@ -8,6 +8,9 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.server.standard.TomcatRequestUpgradeStrategy;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
+/**
+ * Configurates websockets.
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {

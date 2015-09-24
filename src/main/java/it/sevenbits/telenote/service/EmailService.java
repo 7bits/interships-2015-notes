@@ -1,11 +1,5 @@
 package it.sevenbits.telenote.service;
 
-/**
- * Created by sevenbits on 08.07.15.
- */
-//import com.ipastushenko.core.service.exception.ServiceException;
-//import org.apache.log4j.Logger;
-
 import de.neuland.jade4j.JadeConfiguration;
 import de.neuland.jade4j.template.JadeTemplate;
 import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
@@ -28,7 +22,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import java.util.HashMap;
 
 /**
- * service for sends emails
+ * Service for sends emails
  */
 @Service
 public class EmailService {

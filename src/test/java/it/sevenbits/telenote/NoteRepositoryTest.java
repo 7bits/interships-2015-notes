@@ -5,6 +5,7 @@ import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.domain.UserNote;
 import it.sevenbits.telenote.core.repository.Note.INoteRepository;
 import it.sevenbits.telenote.core.repository.User.IUserRepository;
+import it.sevenbits.telenote.service.UserService;
 import it.sevenbits.telenote.utils.Helper;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -33,6 +34,9 @@ public class NoteRepositoryTest {
     @Autowired
     @Qualifier(value = "theUserPersistRepository")
     public IUserRepository userRep;
+    
+    @Autowired
+    public UserService userService;
 
     private Note note = new Note();
     private UserDetailsImpl user = new UserDetailsImpl();
@@ -60,7 +64,7 @@ public class NoteRepositoryTest {
 
     @After
     public void remove() throws Exception {
-        userRep.emptyBD();
+        userService.cleanDB();
     }
 
     @Test

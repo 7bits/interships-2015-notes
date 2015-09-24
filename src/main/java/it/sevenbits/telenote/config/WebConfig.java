@@ -13,6 +13,9 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Locale;
 
+/**
+ * Config for locales.
+ */
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
     @Autowired
@@ -28,6 +31,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        //messageSource.setBasename("classpath:locale/messages");
         messageSource.setBasename("locale/messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
@@ -36,7 +40,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(Locale.ENGLISH);
+        //slr.setDefaultLocale(Locale.ENGLISH);
         return slr;
     }
 
