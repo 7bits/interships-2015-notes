@@ -1,5 +1,8 @@
 package it.sevenbits.telenote.web.domain.forms;
 
+/**
+ * Form for creating new users.
+ */
 public class UserCreateForm {
 
     private String email;
@@ -35,9 +38,9 @@ public class UserCreateForm {
     @Override
     public String toString() {
         return "UserForm{" +
-                "email='" + email + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        "email='" + email + '\'' +
+        ", username='" + username + '\'' +
+        ", password='" + password + '\'' +
+        '}';
     }
 }

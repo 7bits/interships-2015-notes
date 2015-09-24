@@ -22,18 +22,12 @@ public class AccountService {
     @Autowired
     @Qualifier(value = "accountRepository")
     private IAccountRepository accountRepository;
-    /**
-     * Transaction settings name
-     */
+    /** Transaction settings name */
     private static final String TX_NAME = "txService";
-    /**
-     * Spring Transaction Manager
-     */
+    /** Spring Transaction Manager */
     @Autowired
     private PlatformTransactionManager txManager;
-    /**
-     * Transaction settings object
-     */
+    /** Transaction settings object */
     private DefaultTransactionDefinition customTx;
 
     public AccountService() {
@@ -46,7 +40,7 @@ public class AccountService {
         TransactionStatus status = null;
         try {
             status = txManager.getTransaction(customTx);
-            accountRepository.changeStyle(user.getId());
+            accountRepository.changeStyle(user);
             txManager.commit(status);
             LOG.info(String.format("User's theme is successfully updated. UserEmail: %s, Theme: %s", user.getUsername(), user.getStyle()));
         } catch (RepositoryException e) {
@@ -64,7 +58,7 @@ public class AccountService {
             Pattern pattern = Pattern.compile(".+\\s.+");
             Matcher matcher = pattern.matcher(user.getName());
             if (!matcher.matches()) {
-                accountRepository.changeUsername(user.getId());
+                accountRepository.changeUsername(user);
                 txManager.commit(status);
                 LOG.info(String.format("Username is successfully updated. UserEmail: %s, NewUserName: %s", user.getUsername(), user.getName()));
             } else {
@@ -91,7 +85,7 @@ public class AccountService {
                 if (encoder.matches(currentPass, user.getPassword())) {
                     if (!currentPass.equals(newPass)){
                         user.setPassword(encoder.encode(newPass));
-                        accountRepository.changePass(user.getId());
+                        accountRepository.changePass(user);
                     } else {
                         throw new ServiceException("curPassEqualsNewPass");
                     }

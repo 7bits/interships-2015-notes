@@ -47,18 +47,12 @@ public class NoteService {
     @Autowired
     private AccountService accountService;
 
-    /**
-     * Transaction settings name
-     */
+    /** Transaction settings name */
     private static final String TX_NAME = "txService";
-    /**
-     * Spring Transaction Manager
-     */
+    /** Spring Transaction Manager */
     @Autowired
     private PlatformTransactionManager txManager;
-    /**
-     * Transaction settings object
-     */
+    /** Transaction settings object */
     private DefaultTransactionDefinition customTx;
 
     public NoteService() {
@@ -102,8 +96,6 @@ public class NoteService {
             if (repository.isNoteBelongToUser(note.getId(), userId)) {
                 repository.deleteNote(note);
                 repository.resetAllParentNoteUserId(note.getId());
-
-
             } else {
                 LOG.error("Current note is not belong to user.");
                 throw new ServiceException("Current note is not belong to user!");
@@ -384,9 +376,9 @@ public class NoteService {
                 NoteModel noteModel = it.next();
                 if (noteModel.getEmailOfShareUser().equals(currentUser.getUsername())) {
                     uuidIdMap.put(noteModel.getUuid(), noteModel.getId());
-                    noteModel.setEmailOfShareUser(null); // зануляем свой имейл, чтобы поместить в "Мои заметки"
+                    noteModel.setEmailOfShareUser(null); // set email to null to place note in "My notes" section"
 
-                    myNotes.add(noteModel); // добавляемм заметку в наш myNotes, удаляем ее из общего листа
+                    myNotes.add(noteModel); // Add note wih current user email to myNotes, remove this note from listNotes
                     it.remove();
                 }
             }

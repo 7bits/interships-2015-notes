@@ -48,13 +48,16 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
         //auth.userDetailsService(userDetailsService);
     }
 
+    /**
+     * Allows to access public files.
+     */
     @Override
     public void configure(WebSecurity webSecurity) throws Exception {
-        webSecurity.ignoring().antMatchers("/resources/public/**", "/img/*.png");
+        webSecurity.ignoring().antMatchers("/resources/public/**", "/img/**");
     }
 }

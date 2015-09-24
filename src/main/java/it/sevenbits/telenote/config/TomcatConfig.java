@@ -17,7 +17,7 @@ import org.springframework.core.io.Resource;
 import java.io.IOException;
 
 /**
- * @author ycavatars
+ * Configurates tomcat connectors.
  */
 @Configuration
 public class TomcatConfig {
@@ -40,6 +40,11 @@ public class TomcatConfig {
     @Value("${connectors.https.keystoreType}")
     private String keystoreType;
 
+    /**
+     * If httpsEnabled is true, creates https connector and http connector that redirects to https.
+     * If httpsEnabled is false, returns default.
+     * @return
+     */
     @Bean
     public EmbeddedServletContainerFactory servletContainer() {
         if (httpsEnabled) {
@@ -63,6 +68,10 @@ public class TomcatConfig {
         return new TomcatEmbeddedServletContainerFactory();
     }
 
+    /**
+     * Initiates http connector that redirects to httpsPort.
+     * @return http connector that redirects to httpsPort.
+     */
     private Connector initiateHttpConnector() {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setScheme("http");
@@ -73,6 +82,11 @@ public class TomcatConfig {
         return connector;
     }
 
+    /**
+     * Customize ssl connector. If httpsEnabled is true, creates ssl connector with specified settings.
+     * If httpsEnabled is false, does nothing.
+     * @return ssl connector or empty method.
+     */
     @Bean(name = "tomcatSslConnectorCustomizer")
     public TomcatConnectorCustomizer sslConnectorCustomizer() {
         if (httpsEnabled) {
@@ -80,6 +94,7 @@ public class TomcatConfig {
                 @Override public void customize(Connector connector) {
                     connector.setSecure(true);
                     connector.setScheme("https");
+                    connector.setProxyPort(443);
                     connector.setAttribute("keyAlias", keyAlias);
                     connector.setAttribute("keystorePass", keystorePass);
                     connector.setAttribute("keystoreType", keystoreType);

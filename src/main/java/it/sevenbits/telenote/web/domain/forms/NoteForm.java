@@ -3,7 +3,7 @@ package it.sevenbits.telenote.web.domain.forms;
 import java.sql.Timestamp;
 
 /**
- * Created by Admin on 13.07.2015.
+ * Form for notes.
  */
 public class NoteForm {
 

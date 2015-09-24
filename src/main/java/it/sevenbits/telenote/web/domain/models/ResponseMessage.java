@@ -4,6 +4,9 @@ import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 
 import java.io.Serializable;
 
+/**
+ * Model for showing to user different success/failure messages.
+ */
 public class ResponseMessage implements Serializable {
     private Boolean success;
     private String message;

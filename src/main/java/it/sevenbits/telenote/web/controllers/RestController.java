@@ -8,15 +8,25 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Error controller.
+ */
 @org.springframework.web.bind.annotation.RestController
 public class RestController implements ErrorController {
 
     @Autowired
     private HttpMessage messageSource;
 
+    /** Default Spring error URL. */
     private static final String PATH = "/error";
+
     public static final String DEFAULT_ERROR_VIEW = "home/error";
 
+    /**
+     * Gets error page when input URL is not found.
+     * @param request request that contains error status code.
+     * @return error page with certain text.
+     */
     @RequestMapping(value = PATH)
     public ModelAndView error(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView(DEFAULT_ERROR_VIEW);

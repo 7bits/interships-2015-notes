@@ -7,6 +7,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Adds csrf token into model.
+ */
 @Service
 public class CsrfInterceptor extends HandlerInterceptorAdapter {
     @Override
@@ -16,7 +19,7 @@ public class CsrfInterceptor extends HandlerInterceptorAdapter {
             Object handler,
             ModelAndView mav
     ) throws Exception {
-        // Специальный фикс для jade, так как сама библиотека jade не складывает csrf токен в модель.
+        // Special fix for jade, because jade lib doesnt add csrf token to the model
         if (mav != null) {
             mav.addObject("_csrf", request.getAttribute("_csrf"));
         }

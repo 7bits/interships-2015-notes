@@ -9,9 +9,8 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.servlet.http.HttpSessionEvent;
 
 /**
- * Created by sevenbits on 17.08.15.
+ * Manages user sessions.
  */
-
 @Component
 public class CustomHttpSessionListener implements javax.servlet.http.HttpSessionListener, ApplicationContextAware {
 

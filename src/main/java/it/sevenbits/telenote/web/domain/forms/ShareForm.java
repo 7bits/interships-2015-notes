@@ -1,7 +1,7 @@
 package it.sevenbits.telenote.web.domain.forms;
 
 /**
- * Created by andy on 22.07.15.
+ * Form for sharing note with other users.
  */
 public class ShareForm {
     private Long noteId;

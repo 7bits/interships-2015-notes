@@ -2,6 +2,7 @@ package it.sevenbits.telenote;
 
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.repository.User.IUserRepository;
+import it.sevenbits.telenote.service.UserService;
 import org.junit.*;
 import org.junit.runner.RunWith;
 
@@ -31,6 +32,9 @@ public class SeleniumRegistrationTest {
     @Autowired
     @Qualifier(value = "theUserPersistRepository")
     public IUserRepository repository;
+
+    @Autowired
+    public UserService userService;
 
     private static UserDetailsImpl user;
 
@@ -79,7 +83,7 @@ public class SeleniumRegistrationTest {
         assertFalse(error.isEmpty());
 
         try {
-            repository.emptyBD();
+            userService.cleanDB();
         } catch (Exception ex) {
             fail(ex.getMessage());
         }

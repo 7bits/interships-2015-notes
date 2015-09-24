@@ -5,7 +5,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
- * Created by sevenbits on 12.08.15.
+ * Form for restoring user password.
  */
 public class RestorePasswordForm {
 

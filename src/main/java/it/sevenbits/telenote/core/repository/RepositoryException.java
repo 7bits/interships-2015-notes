@@ -1,5 +1,8 @@
 package it.sevenbits.telenote.core.repository;
 
+/**
+ * Exception for repositories.
+ */
 public class RepositoryException extends Exception {
     public RepositoryException(String message) {
         super(message);

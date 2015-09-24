@@ -19,15 +19,26 @@ public class UserRepository implements IUserRepository {
     @Autowired
     private UserMapper mapper;
 
+    /**
+     * Adds new user with specified email. username, password, role, enabled flag.
+     * @param userDetails POJO for user.
+     * @throws RepositoryException
+     */
     @Override
     public void create(final UserDetailsImpl userDetails) throws RepositoryException {
         try {
-            mapper.insert(userDetails);
+            mapper.create(userDetails);
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while saving user: " + e.getMessage(), e);
         }
     }
 
+    /**
+     * Checks does email exist by counting records in users with specified email.
+     * @param userDetails POJO for user.
+     * @return count of records with specified email.
+     * @throws RepositoryException
+     */
     @Override
     public boolean isEmailExists(final UserDetailsImpl userDetails) throws RepositoryException {
         try {
@@ -37,6 +48,12 @@ public class UserRepository implements IUserRepository {
         }
     }
 
+    /**
+     * Gets user id by user email.
+     * @param userDetails POJO for user.
+     * @return user id.
+     * @throws RepositoryException
+     */
     @Override
     public Long getIdByEmail(final UserDetailsImpl userDetails) throws RepositoryException {
         try {
@@ -46,6 +63,12 @@ public class UserRepository implements IUserRepository {
         }
     }
 
+    /**
+     * Gets user password(hash) by user id.
+     * @param userDetails POJO for user.
+     * @return user password(hash).
+     * @throws RepositoryException
+     */
     @Override
     public String getPasswordById(final UserDetailsImpl userDetails) throws RepositoryException {
         try {
@@ -55,6 +78,11 @@ public class UserRepository implements IUserRepository {
         }
     }
 
+    /**
+     * Updates user password(hash) by user email.
+     * @param userDetails POJO for user.
+     * @throws RepositoryException
+     */
     @Override
     public void updatePassword(final UserDetailsImpl userDetails) throws RepositoryException {
         try {
@@ -64,15 +92,27 @@ public class UserRepository implements IUserRepository {
         }
     }
 
+    /**
+     * Gets user data by user id.
+     * @param userId user id.
+     * @return user data by user id.
+     * @throws RepositoryException
+     */
     @Override
-    public Optional<UserDetailsImpl> getUserById(Long id) throws RepositoryException {
+    public Optional<UserDetailsImpl> getUserById(Long userId) throws RepositoryException {
         try {
-            return Optional.ofNullable(mapper.getUserById(id));
+            return Optional.ofNullable(mapper.getUserById(userId));
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while getting user by id: " + e.getMessage(), e);
         }
     }
 
+    /**
+     * Gets user data by user email.
+     * @param email user email.
+     * @return user data by user email.
+     * @throws RepositoryException
+     */
     @Override
     public Optional<UserDetailsImpl> getUserByEmail(String email) throws RepositoryException {
         try {
@@ -82,6 +122,11 @@ public class UserRepository implements IUserRepository {
         }
     }
 
+    /**
+     * Removes user from users by email or id.
+     * @param user POJO for user.
+     * @throws RepositoryException
+     */
     @Override
     @Description("You can remove users by email or by id.")
     public void remove(final UserDetailsImpl user) throws RepositoryException {
@@ -92,6 +137,11 @@ public class UserRepository implements IUserRepository {
         }
     }
 
+    /**
+     * Sets user is_confirmed flag to true by email.
+     * @param email user email.
+     * @throws RepositoryException
+     */
     @Override
     public void confirm(String email) throws RepositoryException {
         try {
@@ -101,6 +151,12 @@ public class UserRepository implements IUserRepository {
         }
     }
 
+    /**
+     * Sets user token by user email
+     * @param email user email.
+     * @param token user token.
+     * @throws RepositoryException
+     */
     @Override
     public void setTokenByEmail(String email, String token) throws RepositoryException {
         try {
@@ -110,6 +166,12 @@ public class UserRepository implements IUserRepository {
         }
     }
 
+    /**
+     * Gets user token by user email.
+     * @param email user email.
+     * @return user token by user email.
+     * @throws RepositoryException
+     */
     @Override
     public String getTokenByEmail(String email) throws RepositoryException {
         try {
@@ -119,11 +181,14 @@ public class UserRepository implements IUserRepository {
         }
     }
 
+    /**
+     * Clean all records from users, notes, usernotes.
+     * @throws RepositoryException
+     */
     @Override
-    @Description("Empty test database after tests")
-    public void emptyBD() throws RepositoryException {
-        mapper.emptyUsers();
-        mapper.emptyNotes();
-        mapper.emptyUsernote();
+    public void cleanDB() throws RepositoryException {
+        mapper.deleteUsers();
+        mapper.deleteNotes();
+        mapper.deleteUsernotes();
     }
 }
