@@ -24,13 +24,16 @@
 }
 
 body {
-	background-image: url("/img/gulp/welcomeBackground.png");
 	margin: 0px;
 	border: 0px;
 	padding: 0px;
+	box-sizing: border-box;
+}
+
+.body {
+	background-image: url("/img/gulp/welcomeBackground.png");
 	background-size: cover;
 	background-position: center;
-	box-sizing: border-box;
 }
 
 
@@ -104,7 +107,7 @@ body {
     padding: 15px;
     margin-top: 15px;
     text-align: center;
-    background-image: url("/img/gulp/overlay.png");
+    background-image: inline("overlay.png");
 }
 
 .welcomeForm__form_forgot {
@@ -170,7 +173,7 @@ body {
 }
 
 .welcomeForm__error {
-	background-image: url("/img/gulp/errorIcon.png");
+	background-image: inline("errorIcon.png");
 	background-repeat: no-repeat;
 	background-position-y: 5px;
   	background-position-x: 10px;

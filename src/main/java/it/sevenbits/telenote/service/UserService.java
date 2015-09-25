@@ -75,7 +75,7 @@ public class UserService implements UserDetailsService {
 
             repository.create(user);
             txManager.commit(status);
-            LOG.info(String.format("New user is created: UserId: %d, UserEmail: %s.", user.getId(), user.getName()));
+            LOG.info(String.format("New user is created: UserId: %d, UserEmail: %s.", user.getId(), user.getUsername()));
         } catch (Exception e) {
             LOG.error(String.format("An error occurred while creating user. UserId: %d, UserEmail: %s.",
             user.getId(), user.getName()));

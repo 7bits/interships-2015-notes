@@ -153,7 +153,7 @@ public class UsersController {
         boolean isEmptyInput = token == null || email == null || token.isEmpty() || email.isEmpty();
         if (isEmptyInput) {
             ModelAndView model = new ModelAndView("home/resetPass");
-            model.addObject("resetForm", new UserCreateForm());
+            model.addObject("form", new UserCreateForm());
 
             return model;
         }

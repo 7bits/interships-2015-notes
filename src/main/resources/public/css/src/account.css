@@ -39,15 +39,15 @@
 }
 
 .accountInfo__section_profile {
-	background-image: url("/img/gulp/profileBlock.png");
+	background-image: inline("profileBlock.png");
 }
 
 .accountInfo__section_password {
-	background-image: url("/img/gulp/passwordBlock.png");
+	background-image: inline("passwordBlock.png");
 }
 
 .accountInfo__section_theme {
-	background-image: url("/img/gulp/themeBlock.png");
+	background-image: inline("themeBlock.png");
 	margin-bottom: 0px;
 }
 
@@ -151,7 +151,7 @@
 }
 
 .section__passError, .section__nameError {
-	background-image: url("/img/gulp/errorIcon.png");
+	background-image: inline("errorIcon.png");
 	background-repeat: no-repeat;
   	background-position: 10px 5px;
 	float: left;

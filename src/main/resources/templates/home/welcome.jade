@@ -1,61 +1,34 @@
-doctype html
-html
-  head
-    meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(name="_csrf", content="#{_csrf.token}")
-    meta(name="_csrf_header", content="#{_csrf.headerName}")
-    link(rel='stylesheet', type='text/css', href='css/src/welcome.css')
-    link(rel="shortcut icon", type="image/x-icon", href="/img/gulp/logo.png")
-    script(src='js/libs/jquery-1.11.3.js')
-    script(src='js/src/welcome.js')
-  body
-    .container
-      .container__landing
-        .landing__images
-          .landing__logo
-          .landing__slogon
-        .landing__message
-          h1.landing__title
-            | Организуйте дела, идеи, мысли.
-            br
-            | Делитесь с друзьями.
-          h2.landing__body
-            | Зарегистрируйтесь на TeleNote.
-            br
-            | Cоздавайте и редактируйте текстовые заметки.
-            br
-            | Записывайте мысли, идеи, дела, рецепты.
-            br
-            | Делитесь заметками с семьёй и друзьями.
-            br
-            | Ведите дела вместе.
-      .container__welcomeForm
-        form.welcomeForm__form(role='form', action='/signin', method='POST', name='signinForm')
-          .welcomeForm__formTitle Вход
-          input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
-          input#js-logText.welcomeForm__textbox(type='textbox', name='username', placeholder='e-mail', value='#{username}', maxlength='30')
-          if error
-            .welcomeForm__error.js-loginError
-              span#js-loginError Логин и пароль не совпадают
-          input.js-logPass.welcomeForm__textbox(type='password', name='password', autocomplete='off', placeholder='пароль', maxlength='30')
-          button.js-logSubmit.welcomeForm__button(type='submit') Войти
-          .welcomeForm__href 
-            a.welcomeForm__href_color(href='/resetpass') Забыли пароль?
-      .container__welcomeForm
-        form.welcomeForm__form(role='form', action='/signup', method='POST', name='signupForm')
-          .welcomeForm__formTitle Регистрация
-          input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
-          input#js-regEmail.welcomeForm__textbox(type='textbox', name='email', placeholder='e-mail', value='#{signupForm.email}', maxlength='30')
-          if emailError
-            .welcomeForm__error.welcomeForm__error_email.js-emailError
-              span#js-regEmailMess= emailError
-          input#js-regUsername.welcomeForm__textbox(type='textbox', name='username', placeholder='имя', value='#{signupForm.username}', maxlength='30')
-          if usernameError
-            .welcomeForm__error.welcomeForm__error_name.js-nameError
-              span#js-regUsernameMess= usernameError
-          input#js-regPass.welcomeForm__textbox(type='password', name='password', autocomplete='off', placeholder='пароль', value='#{signupForm.password}', maxlength='30')
-          if passwordError
-            .welcomeForm__error.welcomeForm__error_password.js-passError
-              span#js-regPassMess= passwordError
-          button.js-regSubmit.welcomeForm__button(type='submit') Зарегистрироваться
+extend layouts/outsideLayout.jade
+block formsContainer
+  .container__welcomeForm
+    form.welcomeForm__form(role='form', action='/signin', method='POST', name='signinForm')
+      .welcomeForm__formTitle Вход
+      input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
+      input#js-logText.welcomeForm__textbox(type='textbox', name='username', placeholder='e-mail', value='#{username}', maxlength='30')
+      if error
+        .welcomeForm__error.js-loginError
+          span#js-loginError Адрес и пароль не совпадают
+      input.welcomeForm__textbox(type='password', name='password', autocomplete='off', placeholder='пароль', maxlength='30')
+      button.welcomeForm__button(type='submit') Войти
+      .welcomeForm__href 
+        a.welcomeForm__href_color(href='/resetpass') Забыли пароль?
+  .container__welcomeForm
+    form.welcomeForm__form(role='form', action='/signup', method='POST', name='signupForm')
+      .welcomeForm__formTitle Регистрация
+      input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
+      input#js-regEmail.welcomeForm__textbox(type='textbox', name='email', placeholder='e-mail', value='#{signupForm.email}', maxlength='30')
+      if emailError
+        .welcomeForm__error.welcomeForm__error_email.js-emailError
+          span#js-regEmailMess Неправильный адрес
+      if emailExists
+        .welcomeForm__error
+          span#js-regEmailMess email уже используется
+      input#js-regUsername.welcomeForm__textbox(type='textbox', name='username', placeholder='имя', value='#{signupForm.username}', maxlength='30')
+      if usernameError
+        .welcomeForm__error.welcomeForm__error_name.js-nameError
+          span#js-regUsernameMess Неподходящее имя
+      input#js-regPass.welcomeForm__textbox(type='password', name='password', autocomplete='off', placeholder='пароль', value='#{signupForm.password}', maxlength='30')
+      if passwordError
+        .welcomeForm__error.welcomeForm__error_password.js-passError
+          span#js-regPassMess Пароль слишком прост
+      button.welcomeForm__button(type='submit') Зарегистрироваться

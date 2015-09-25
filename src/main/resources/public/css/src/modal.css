@@ -62,7 +62,6 @@
 .shareMiddle {
 	padding: 13px 6px 13px 6px;
 	width: 100%;
-	max-height: 
 }
 
 .syncUsers {
@@ -114,7 +113,7 @@
 }
 
 .addShareUserImg {
-	background-image: url('/img/gulp/addShare.png');
+	background-image: inline('addShare.png');
 }
 
 .ownerImg {
@@ -143,7 +142,7 @@
 }
 
 .addShare {
-	background-image: url("/img/gulp/addShareBtn.png");
+	background-image: inline("addShareBtn.png");
 	background-repeat: no-repeat;
 	border-radius: 50px;
 	width: 20px;
@@ -176,7 +175,7 @@
 }
 
 .shareApply {
-	background-image: url("/img/gulp/ok.png");
+	background-image: inline("ok.png");
 	background-color: #fefefe;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -195,7 +194,7 @@
 }
 
 .shareApply:active {
-	background-image: url('/img/gulp/okActive.png');
+	background-image: inline('okActive.png');
 }
 
 .messageSuccess {
@@ -209,7 +208,7 @@
 }
 
 .deleteShare {
-	background-image: url("/img/gulp/deleteShare.png");
+	background-image: inline("deleteShare.png");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
@@ -227,7 +226,7 @@
 }
 
 .deleteShare:active {
-	background-image: url("/img/gulp/deleteShareActive.png");
+	background-image: inline("deleteShareActive.png");
 }
 
 .addShareEmail:focus {

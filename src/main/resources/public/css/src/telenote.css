@@ -164,7 +164,6 @@ body{
 	background-color: white;
 	height: 35px;
 	width: 440px;
-	-webkit-clip-path: polygon(0 -50px, 100% 0, 100% 100%, 9% 100%);
  	clip-path: polygon(0 -50px, 100% 0, 100% 100%, 9% 100%);
  	z-index: 3;
 }
@@ -192,10 +191,6 @@ body{
 
 .status__minStatus {
 	display: none;
-}
-
-a:hover {
-	color: white;
 }
 
 .noteManager{
@@ -226,18 +221,6 @@ a:hover {
 
 .sortLabel, .sortByDate {
 	margin-right: 20px;
-}
-
-.sortByDate {
-	background-image: url("/img/gulp/sortedByDate.png");
-	background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    width: 16px;
-    height: 18px;
-    float: right;
-    margin-top: -3px;
-    cursor: pointer;
 }
 
 .noteSpace {
@@ -283,19 +266,20 @@ a:hover {
 }
 
 .noteSection__delBtn {
-	background-image: url("/img/gulp/delBtn.png");
+
+	background-image: inline("delBtn.png");
 }
 
 .noteSection__delBtn:active {
-	background-image: url("/img/gulp/delBtn-click.png");
+	background-image: inline("delBtn-click.png");
 }
 
 .noteSection__shaBtn {
-	background-image: url("/img/gulp/shareBtn.png");
+	background-image: inline("shareBtn.png");
 }
 
 .noteSection__shaBtn:active {
-	background-image: url("/img/gulp/shareBtn-click.png");
+	background-image: inline("shareBtn-click.png");
 }
 
 .btnHeightZero {
@@ -429,7 +413,7 @@ a:hover {
 	.header__logoImg {
 		margin-top: -4px;
 		width: 32px;
-    	height: 38px;
+    	height: 39px;
 	}
 
 	.header__slogon {
@@ -491,7 +475,7 @@ a:hover {
 
 	.status__minStatus {
 		display: inherit;
-		background-image: url('/img/gulp/ok.png');
+		background-image: inline('ok.png');
 		background-repeat: no-repeat;
 		background-size: cover;
 		width: 17px;
