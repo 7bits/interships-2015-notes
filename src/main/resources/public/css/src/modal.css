@@ -18,7 +18,7 @@
 	src: url("/css/fonts/Roboto/Roboto-Italic.ttf");
 }
 
-.modalWindow {
+.modal {
 	width: 400px;
 	background: #fefefe;
 	position: fixed;
@@ -31,7 +31,7 @@
   	z-index: 11;
 }
 
-.overlay {
+.modal__overlay {
 	z-index: 2;
 	position: fixed;
 	left: 0;
@@ -44,14 +44,14 @@
   	z-index: 10;
 }
 
-.shareMainDiv {
+.modal__content {
 	margin: auto;
 	height: 100%;
 	padding: 12px;
 	background-color: #fefefe;
 }
 
-.shareWrapper {
+.modal__title {
 	padding: 3px 9px 10px 9px;
 	border-bottom: 1px solid #cecece;
 	font-family: "Roboto-Regular";
@@ -59,23 +59,23 @@
 	font-size: 21px;
 }
 
-.shareMiddle {
+.modal__info {
 	padding: 13px 6px 13px 6px;
 	width: 100%;
 }
 
-.syncUsers {
+.modal__users {
 	max-height: 213px;
 	overflow-y: auto;
 }
 
-.shareUser {
+.modal__user {
 	width: 100%;
 	height: 62px;
 	margin-bottom: 9px;
 }
 
-.shareUserImg {
+.user__img {
 	background-size: cover;
 	background-repeat: no-repeat;
 	height: 62px;
@@ -85,47 +85,43 @@
   	border-radius: 50px;
 }
 
-.shareUserImg img {
+.user__img img {
 	border-radius: 50px;
     width: 100%;
 }
 
-.shareUserInfo {
+.user__info {
 	float: left;
 }
 
-.shareUserName {
+.user__name {
 	font-family: "Roboto-Regular";
 	font-size: 14px;
 	color: #3f3f3f;
 	margin-top: 11px;
 }
 
-.shareUserName span {
+.user__name span {
 	font-family: "Roboto-LightItalic";
 	color: #383838;
 }
 
-.shareUserEmail {
+.user__email {
 	font-family: "Roboto-Light";
 	font-size: 15px;
 	background-color: #fefefe;
 }
 
-.addShareUserImg {
-	background-image: inline('addShare.png');
+.user__img_addUser {
+	background-image: url('/img/gulp/addShare.png');
 }
 
-.ownerImg {
-	background-image: url('/img/gulp/user.png');
-}
-
-.shareActionDiv {
+.user__action {
 	float: right;
 	margin-right: 20px;
 }
 
-.addShareEmail {
+.user__input {
 	margin-top: 17px;
 	border: 0px;
 	width: 240px;
@@ -137,45 +133,51 @@
 	background-color: #fefefe;
 }
 
-.addShareEmail:focus {
-	outline: none
+.user__input:focus {
+	outline: none;
+	border-bottom: 1px solid #383838;
 }
 
-.addShare {
-	background-color: white;
-	background-image: inline("addShareBtn.png");
+.user__button {
+	background-color: #fefefe;
 	background-repeat: no-repeat;
+	background-position: center;
 	border-radius: 50px;
-	width: 20px;
-  	height: 20px;
   	background-position: center;
   	border: 0px;
-  	background-color: #fefefe;
   	margin-top: 20px;
+}
+
+.user__button_add {
+	background-image: inline("addShareBtn.png");
+	width: 20px;
+  	height: 20px;
   	display: none;
 }
 
-.addShare:focus {
+.user__button_del {
+	background-image: inline("deleteShare.png");
+	width: 18px;
+  	height: 18px;
+  	margin-right: 1px;
+}
+
+.user__button:focus {
 	outline: none;
 }
 
-.shareMessage {
-	font-family: "Roboto-LightItalic";
-	font-size: 14px;
-	color: #f74e19;  
-	margin-right: 2px;
-	display: none;
-	width: 400px;
+.user__button_del:active {
+	background-image: inline("deleteShareActive.png");
 }
 
-.shareFooter {
+.modal__footer {
 	border-top: 1px solid #cecece;
 	height: 40px;
 	width: 100%;
 	background-color: #fefefe;
 }
 
-.shareApply {
+.footer__button {
 	background-image: inline("ok.png");
 	background-color: #fefefe;
 	background-position: center;
@@ -186,15 +188,15 @@
 	border: 0px;
 }
 
-.shareApply:hover {
+.footer__button:hover {
 	background-color: #e2e2e2;
 }
 
-.shareApply:focus {
+.footer__button:focus {
 	outline: none;
 }
 
-.shareApply:active {
+.footer__button:active {
 	background-image: inline('okActive.png');
 }
 
@@ -208,28 +210,11 @@
 	display: block !important;
 }
 
-.deleteShare {
-	background-image: inline("deleteShare.png");
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center;
-	border-radius: 50px;
-	width: 18px;
-  	height: 18px;
-  	border: 0px;
-  	background-color: #fefefe;
-  	margin-top: 20px;
-  	margin-right: 1px;
-}
-
-.deleteShare:focus {
-	outline: none;
-}
-
-.deleteShare:active {
-	background-image: inline("deleteShareActive.png");
-}
-
-.addShareEmail:focus {
-	border-bottom: 1px solid #383838;
+.shareMessage {
+	font-family: "Roboto-LightItalic";
+	font-size: 14px;
+	color: #f74e19;  
+	margin-right: 2px;
+	display: none;
+	width: 400px;
 }

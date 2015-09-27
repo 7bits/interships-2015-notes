@@ -13,18 +13,18 @@ function addingShareUser(data) {
 
   var shareUser = '<div id="js-newShare" ' +
 
-  'class="shareUser js-shareUser" style="height: 0px;""></div>';
-  var innerShareUser = '<div class="shareUserImg">' + 
+  'class="modal__user js-shareUser" style="height: 0px;""></div>';
+  var innerShareUser = '<div class="user__img">' + 
           '<img src="' + data.user.avatar + '"">' + 
       '</div>'+
-      '<div class="shareUserInfo">' +
-          '<div class="js-shareUserName shareUserName">' + 
+      '<div class="user__info">' +
+          '<div class="js-shareUserName user__name">' + 
             data.user.name + '</div>'+
-          '<div class="js-shareUserEmail shareUserEmail">' +
-            $('.addShareEmail').val() + '</div>' +
+          '<div class="js-shareUserEmail user__email">' +
+            $('#js-addShareEmail').val() + '</div>' +
       '</div>' +
-      '<div class="shareActionDiv">' +
-          '<button class="js-deleteShare deleteShare"></button>' +
+      '<div class="user__action">' +
+          '<button class="js-deleteShare user__button user__button_del"></button>' +
       '</div>';
 
   $('#js-syncUsers').append(shareUser);
