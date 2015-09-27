@@ -163,8 +163,17 @@ body{
 	background-color: white;
 	height: 35px;
 	width: 440px;
- 	clip-path: polygon(0 -50px, 100% 0, 100% 100%, 9% 100%);
  	z-index: 3;
+}
+
+.page__statusTriangle {
+	width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 35px 35px 0;
+    border-color: transparent #ffffff transparent transparent;
+    float: left;
+    margin-left: -35px;
 }
 
 .sortMenu {
@@ -293,7 +302,6 @@ body{
 	font-family: "Roboto-Light";
 	font-size: 15px;
 	display: block;
-	white-space:pre;
 	word-wrap: break-word;
 	word-break: normal;
 	overflow-y: auto;
@@ -308,7 +316,6 @@ body{
 	height: 143px;
 	padding: 8px 14px 8px 14px;
 	display: block;
-	white-space:pre;
 	word-wrap: break-word;
     word-break: normal;
     overflow-x:none;
