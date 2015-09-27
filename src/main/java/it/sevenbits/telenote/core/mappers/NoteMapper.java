@@ -309,7 +309,7 @@ public interface NoteMapper {
             "ON id=note_id\n" +
             "WHERE parent_note_id=#{parentNoteId}\n" +
             "AND user_id=#{userId}")
-    Long getNoteIdByUserIdParentId(@Param("userId") Long userId, @Param("parentId") Long parentNoteId);
+    Long getNoteIdByUserIdParentId(@Param("userId") Long userId, @Param("parentNoteId") Long parentNoteId);
 
     /**
      * Gets list of notes that contains notes owned by user and notes, which uuid is the same with one of own notes.

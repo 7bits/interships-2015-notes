@@ -85,8 +85,7 @@ public class NoteService {
         }
     }
 
-    public @ResponseBody
-    void deleteNote(final Note note, Long userId) throws ServiceException {
+    public void deleteNote(final Note note, Long userId) throws ServiceException {
         TransactionStatus status = null;
         try {
             status = txManager.getTransaction(customTx);
@@ -170,10 +169,11 @@ public class NoteService {
         }
     }
 
-    public ResponseEntity<ResponseMessage> shareNote(final ShareForm form, Long parentUserId) throws RepositoryException, ServiceException {
+    public String[] shareNote(final ShareForm form, Long parentUserId) throws RepositoryException, ServiceException {
         Long parentNoteId = form.getNoteId();
         final UserDetailsImpl userDetails = new UserDetailsImpl();
         userDetails.setUsername(form.getUserEmail());
+        String[] result = new String[2];
 
         final Note note = new Note();
         note.setId(form.getNoteId());
@@ -183,6 +183,7 @@ public class NoteService {
 
         final UserNote toWhomShare = new UserNote();
         TransactionStatus status = null;
+
         try {
             status = txManager.getTransaction(customTx);
             if (userRepository.isEmailExists(userDetails)) {
@@ -192,7 +193,9 @@ public class NoteService {
                 if (whoShare.getUser_id() == toWhomShare.getUser_id()) {
                     LOG.warn(String.format("Can't share own note. UserId: %d, NoteId: %d.",
                             whoShare.getUser_id(), parentNoteId));
-                    return new ResponseEntity<>(new ResponseMessage(false, "Can't share own note."), HttpStatus.NOT_ACCEPTABLE);
+                    result[0] = "Can't share own note.";
+                    result[1] = "406";
+                    return result;
                 }
 
                 if (repository.isNoteBelongToUser(parentNoteId, whoShare.getUser_id())) {
@@ -203,7 +206,9 @@ public class NoteService {
                     if (repository.isNoteAlreadyShared(curNoteIdNextUser)) {
                         LOG.warn(String.format("Note is already shared to user. WhoShare: %d," +
                                 " ToWhomShare: %d, NoteId: %d.", whoShare.getUser_id(), toWhomShare.getUser_id(), parentNoteId));
-                        return new ResponseEntity<>(new ResponseMessage(false, "Пользователь уже добавен"), HttpStatus.NOT_ACCEPTABLE);
+                        result[0] = "Пользователь уже добавен";
+                        result[1] = "406";
+                        return result;
                     }
 
                     note.setParent_user_id(parentUserId);
@@ -216,23 +221,33 @@ public class NoteService {
                     user.get().setAvatar(avatar);
 
                     txManager.commit(status);
-                    return new ResponseEntity<>(new ResponseMessage(true, "Успешно расшарено!", user.get()), HttpStatus.OK);
+                    result[0] = "Успешно расшарено!";
+                    result[1] = "200";
+                    return result;
                 } else {
                     LOG.warn(String.format("Can't share not own note. UserId: %d, NoteId: %d.", whoShare.getUser_id(), parentNoteId));
-                    return new ResponseEntity<>(new ResponseMessage(false, "Вы не можете удалить не свою заметку"), HttpStatus.NOT_ACCEPTABLE);
+                    result[0] = "Вы не можете удалить не свою заметку";
+                    result[1] = "406";
+                    return result;
                 }
 
             } else {
                 LOG.warn(String.format("Email(%s) is not found.", userDetails.getUsername()));
-                return new ResponseEntity<>(new ResponseMessage(false, "Введенный email не найден"), HttpStatus.NOT_FOUND);
+                result[0] = "Введенный email не найден";
+                result[1] = "404";
+                return result;
             }
         } catch (Exception e) {
             LOG.error(String.format("An error occurred while sharing note. WhoShare: %d, ToWhomShare: %d, WhoShareNoteId: %d, NewNoteId: %d. Rolling back.",
                     whoShare.getUser_id(), toWhomShare.getUser_id(), whoShare.getNote_id(), note.getId()));
             if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
-            return new ResponseEntity<>(new ResponseMessage(false, "Возникла ошибка при шаринге заметки: " + e.getMessage()), HttpStatus.NOT_FOUND);
+
+            result[0] = "Возникла ошибка при шаринге заметки";
+            result[1] = "404";
+            return result;
         }
     }
+
     public void updateOrder(final OrderData orderData) throws ServiceException {
         TransactionStatus status = null;
         try {

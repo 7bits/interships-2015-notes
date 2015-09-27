@@ -36,6 +36,8 @@ public class ResponseMessage implements Serializable {
         this.user = user;
     }
 
+    public ResponseMessage() {};
+
     public ResponseMessage(Boolean success, String message) {
 
         this.success = success;
