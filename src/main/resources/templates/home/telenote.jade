@@ -56,18 +56,18 @@ block content
               button.noteSection__delBtn.js-delBtn
               button.noteSection__shaBtn.js-shaBtn
 block modal
-  .js-modalWindow.modalWindow
-    .shareMainDiv
-      .shareWrapper Поделиться с друзьями
-      .shareMiddle
-        #js-syncUsers.syncUsers
-        .js-shareUser.shareUser
-          .shareUserImg.addShareUserImg
-          .focusDiv
-            input#js-addShareEmail.addShareEmail(type='textbox', placeholder='Введите адрес')
-            .shareActionDiv
-              button#js-addShare.addShare
+  .js-modalWindow.modal
+    .modal__content
+      .modal__title Поделиться с друзьями
+      .modal__info
+        #js-syncUsers.modal__users
+        .js-shareUser.modal__user
+          .user__img.user__img_addUser
+          .user__adding
+            input#js-addShareEmail.user__input(type='textbox', placeholder='Введите адрес')
+            .user__action
+              button#js-addShare.user__button.user__button_add
             label#js-shareMessage
-    .shareFooter
-      button#js-modalClose.shareApply
-  #js-overlay.overlay
+    .modal__footer
+      button#js-modalClose.footer__button
+  #js-overlay.modal__overlay

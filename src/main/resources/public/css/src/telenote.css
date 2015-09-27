@@ -408,6 +408,14 @@ body{
 	left: 0px;
 }
 
+.displayNone {
+	display: none;
+}
+
+.displayBlock {
+	display: block;
+}
+
 
 /*ЭТО ДОЛЖНО БЫТЬ В САМОМ КОНЦЕ!!!*/
 @media screen and (max-width: 780px) {
