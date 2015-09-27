@@ -52,11 +52,6 @@ body {
 	color: #f5f5f5;
 }
 
-button {
-	background-color: #313131;
-	border: none;
-}
-
 button:focus {
 	outline: none;
 }

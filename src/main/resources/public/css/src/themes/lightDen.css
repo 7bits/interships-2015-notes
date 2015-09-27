@@ -48,7 +48,7 @@ body {
 	color: #ededed;
 }
 
-button {
+.noteSection__delBtn, .noteSection__shaBtn {
 	background-color: #20406c;
 	border: none;
 	color: #ededed;

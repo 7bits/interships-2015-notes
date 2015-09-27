@@ -142,6 +142,7 @@
 }
 
 .addShare {
+	background-color: white;
 	background-image: inline("addShareBtn.png");
 	background-repeat: no-repeat;
 	border-radius: 50px;
