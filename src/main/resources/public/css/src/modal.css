@@ -233,11 +233,3 @@
 .addShareEmail:focus {
 	border-bottom: 1px solid #383838;
 }
-
-.displayNone {
-	display: none;
-}
-
-.displayBlock {
-	display: block;
-}
