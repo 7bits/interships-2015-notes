@@ -2,3 +2,8 @@ language: java
 
 jdk:
 - oraclejdk8
+
+addons:
+  sauce_connect:
+    username: "jnovikova"
+    access_key: "800b6843-fb79-4cec-96d4-dbd5ccead76c"
