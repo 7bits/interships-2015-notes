@@ -33,6 +33,13 @@ public class EmailService {
     @Autowired
     private JadeConfiguration jade;
 
+    /**
+     * Sends email to user with specified subject and body.
+     * @param to user email.
+     * @param subject subject of a message.
+     * @param body body of a message.
+     * @throws ServiceException
+     */
     private void sendMail(String to, String subject, String body) throws ServiceException {
         JavaMailSenderImpl sender = (JavaMailSenderImpl) mailSender;
 
@@ -55,6 +62,14 @@ public class EmailService {
         }
     }
 
+    /**
+     * Sends html to user with specified subject. Renders jade template, adds model.
+     * @param to user email.
+     * @param subject subject of a message.
+     * @param templateName template name.
+     * @param model model.
+     * @throws ServiceException
+     */
     public void sendHtml(String to, String subject, String templateName, HashMap<String, Object> model) throws ServiceException  {
         try {
             JadeTemplate template = jade.getTemplate(templateName);
@@ -66,6 +81,13 @@ public class EmailService {
         }
     }
 
+    /**
+     * Sends page to user with confirm registration link.
+     * @param to user email.
+     * @param subject subject of a message.
+     * @param link registration link.
+     * @throws ServiceException
+     */
     public void sendConfirm(UserCreateForm to, String subject, String link) throws ServiceException  {
         try {
             JadeTemplate template = jade.getTemplate("mails/confirmRegMail");

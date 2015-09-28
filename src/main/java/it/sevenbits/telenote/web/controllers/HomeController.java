@@ -20,6 +20,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.MessagingException;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.security.core.Authentication;
@@ -102,7 +103,7 @@ public class HomeController {
     }
 
     /**
-     * Adds note if it's a new note(note id < 1). Edits note if it already exists in db.
+     * Adds note if it's a new note(note id less than 1). Edits note if it already exists in db.
      * Returns note id to set it to new note.
      * @param request contains note id.
      * @param auth contains note owner id.
@@ -267,7 +268,10 @@ public class HomeController {
                 }
             }
         } catch (ServiceException se) {
-            // show somehow error page
+            throw new ServiceException("An error occured while getting all shared note models.", se);
+        } catch (MessagingException me) {
+            throw new ServiceException("An error occured while messaging user.", me);
         }
+
     }
 }

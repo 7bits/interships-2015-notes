@@ -1,0 +1,42 @@
+server:
+  address: 127.0.0.1
+  port: 8443
+
+spring:
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/notes
+    username: note_admin
+    password: bestpassword
+
+mail:
+    username: tele.notes.7bits@gmail.com
+    password:
+    protocol: smtp
+    host: smtp.gmail.com
+    port: 587
+    smtp:
+        auth: true
+        starttls:
+            enable: true
+            required: true
+        debug: true
+
+connectors:
+    http:
+        port: 9000
+    https:
+        enabled: false
+        port: ${server.port}
+        keystoreFile: keystore.p12
+        keystorePass: bestpassword
+        keystoreType: PKCS12
+        keyAlias: tomcat
+
+assets:
+    version:
+
+logging:
+    config: file:src/main/resources/log4j.properties
+

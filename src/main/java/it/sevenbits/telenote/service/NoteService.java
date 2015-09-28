@@ -61,6 +61,12 @@ public class NoteService {
             this.customTx.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
     }
 
+    /**
+     * Checks whether user own a note and updates the note.
+     * @param form note form.
+     * @param userId user id.
+     * @throws ServiceException
+     */
     public void updateNote(final NoteForm form, Long userId) throws ServiceException {
         final Note note = new Note();
         note.setId(form.getId());
@@ -85,6 +91,12 @@ public class NoteService {
         }
     }
 
+    /**
+     * Checks whether user own a note and deletes the note.
+     * @param note note data.
+     * @param userId user id.
+     * @throws ServiceException
+     */
     public void deleteNote(final Note note, Long userId) throws ServiceException {
         TransactionStatus status = null;
         try {
@@ -108,6 +120,12 @@ public class NoteService {
         }
     }
 
+    /**
+     * Gets list of user notes.
+     * @param userId user id.
+     * @return list of user notes.
+     * @throws ServiceException
+     */
     public List<NoteModel> findUserNotes(final Long userId) throws ServiceException {
         TransactionStatus status = null;
         try {
@@ -128,6 +146,12 @@ public class NoteService {
         }
     }
 
+    /**
+     * Gets list of share users.
+     * @param noteId note id.
+     * @return list of share users.
+     * @throws ServiceException
+     */
     public List<UserDetailsImpl> findShareUsers(final Long noteId) throws ServiceException {
         TransactionStatus status = null;
         try {
@@ -142,6 +166,13 @@ public class NoteService {
         }
     }
 
+    /**
+     * Adds a note in database and links note to user.
+     * @param form note form.
+     * @param userId user id.
+     * @return note id in database.
+     * @throws ServiceException
+     */
     public Long addNote(final NoteForm form, Long userId) throws ServiceException {
         Note note = new Note();
         note.setText(form.getText());
@@ -169,6 +200,14 @@ public class NoteService {
         }
     }
 
+    /**
+     * Checks whether user own a note and shares the note with user.
+     * @param form share form. Contains user data to share with.
+     * @param parentUserId parent user id.
+     * @return
+     * @throws RepositoryException
+     * @throws ServiceException
+     */
     public String[] shareNote(final ShareForm form, Long parentUserId) throws RepositoryException, ServiceException {
         Long parentNoteId = form.getNoteId();
         final UserDetailsImpl userDetails = new UserDetailsImpl();
@@ -248,6 +287,11 @@ public class NoteService {
         }
     }
 
+    /**
+     * Updates field note_order of a note.
+     * @param orderData contains note_order of previous, current and next note.
+     * @throws ServiceException
+     */
     public void updateOrder(final OrderData orderData) throws ServiceException {
         TransactionStatus status = null;
         try {
@@ -268,6 +312,12 @@ public class NoteService {
         }
     }
 
+    /**
+     * Gets user who shared note.
+     * @param noteId note id.
+     * @return user who shared note.
+     * @throws ServiceException
+     */
     public UserDetailsImpl getUserWhoSharedNote(Long noteId) throws ServiceException {
         UserDetailsImpl user = null;
         TransactionStatus status = null;
@@ -287,6 +337,12 @@ public class NoteService {
         }
     }
 
+    /**
+     * Deletes share link.
+     * @param rootNoteId
+     * @param userId user id.
+     * @throws ServiceException
+     */
     public void deleteShareLink(Long rootNoteId, Long userId) throws ServiceException {
         TransactionStatus status = null;
         try {
@@ -393,7 +449,7 @@ public class NoteService {
                     uuidIdMap.put(noteModel.getUuid(), noteModel.getId());
                     noteModel.setEmailOfShareUser(null); // set email to null to place note in "My notes" section"
 
-                    myNotes.add(noteModel); // Add note wih current user email to myNotes, remove this note from listNotes
+                    myNotes.add(noteModel); // Add note with current user email to myNotes, remove this note from listNotes
                     it.remove();
                 }
             }
