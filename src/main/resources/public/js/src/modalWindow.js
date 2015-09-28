@@ -14,32 +14,33 @@ function checkSharedNote(noteId) {
     headers: {'X-CSRF-TOKEN': $('meta[name = _csrf]').attr('content') },
     success: function(data) {
 
-      $('.syncUsers').prepend('<div id="js-owner" class="shareUser">' +
-          '<div class="shareUserImg">' +
+      $('#js-syncUsers').prepend('<div id="js-owner" class="modal__user">' +
+          '<div class="user__img">' +
             '<img src="' + data[0].avatar + '">' +
           '</div>' +
-          '<div class="shareUserInfo">' + 
-            '<div class="js-shareUserName shareUserName">' +
+          '<div class="user__info">' + 
+            '<div class="js-shareUserName user__name">' +
               data[0].name + '<span> (автор)</span></div>' +
-            '<div class="js-shareUserEmail shareUserEmail">' +
+            '<div class="js-shareUserEmail user__email">' +
               data[0].username + '</div>' +
           '</div>' +
         '</div>');
 
       for (var i = data.length-1; i > 0; i--) {
         $('#js-owner').after('<div id="' +
-          data[i].id + '" class="js-shareUser shareUser">' +
-            '<div class="shareUserImg">' +
+          data[i].id + '" class="js-shareUser modal__user">' +
+            '<div class="user__img">' +
               '<img src="' + data[i].avatar + '">' +
             '</div>' +
-            '<div class="shareUserInfo">' + 
-              '<div class="js-shareUserName shareUserName">' + 
+            '<div class="user__info">' + 
+              '<div class="js-shareUserName user__name">' + 
                 data[i].name + '</div>' +
-              '<div class="js-shareUserEmail shareUserEmail">' +
+              '<div class="js-shareUserEmail user__email">' +
                 data[i].username + '</div>' +
             '</div>' +
-            '<div class="shareActionDiv">' +
-              '<button class="js-deleteShare deleteShare"></button>' +
+            '<div class="user__action">' +
+              '<button class="js-deleteShare ' +
+              'user__button user__button_del"></button>' +
             '</div>' +
            '</div>');
       }
@@ -109,15 +110,16 @@ function modalClose(data) {
 				} else {
 					
 					$otherNoteSection = '<div class="js-noteSection ' +
-              'noteSection ' +
+              'noteSpace__noteSection ' +
               'ui-sortable" ' +
             'id="ns_' + otherShareUserEmail + '"></div>';
 
 					var section = '<div class="js-section ' +
               'js-allSections ' +
-              'textNoteSection">' +
-	            '<img class="js-sectionPic sectionPic" src=' + userPicLink + '>' +
-	            '<div class="js-sectionOwner sectionOwner">' +
+              'noteSpace__sectionInfo">' +
+	            '<img class="js-sectionPic sectionInfo__picture" src=' +
+                userPicLink + '>' +
+	            '<div class="js-sectionOwner sectionInfo__owner">' +
               'Общие с ' + userName + 
               '<span class="js-span"> (' + otherShareUserEmail +
               ')</span></div>' +

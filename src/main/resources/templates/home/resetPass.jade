@@ -1,41 +1,11 @@
-doctype html
-html
-  head
-    meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(name="_csrf", content="#{_csrf.token}")
-    meta(name="_csrf_header", content="#{_csrf.headerName}")
-    link(rel='stylesheet', type='text/css', href='css/src/welcome.css')
-    link(rel="shortcut icon", type="image/x-icon", href="/img/gulp/logo.png")
-    script(src='js/libs/jquery-1.11.3.js')
-    script(src='js/src/welcome.js')
-  body
-    .container
-      .container__landing
-        .landing__images
-          .landing__logo
-          .landing__slogon
-        .landing__message
-          h1.landing__title
-            | Организуйте дела, идеи, мысли.
-            br
-            | Делитесь с друзьями.
-          h2.landing__body
-            | Зарегистрируйтесь на TeleNote.
-            br
-            | Cоздавайте и редактируйте текстовые заметки.
-            br
-            | Записывайте мысли, идеи, дела, рецепты.
-            br
-            | Делитесь заметками с семьёй и друзьями.
-            br
-            | Ведите дела вместе.
-      .container__welcomeForm
-        form.welcomeForm__form.welcomeForm__form_forgot(role='form', action='/resetpass', method='POST', name='resetForm')
-          .welcomeForm__formTitle.welcomeForm__formTitle_forgot Восстановление пароля
-          input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
-          input#js-logText.welcomeForm__textbox(type='textbox', name='email', placeholder='e-mail', value='#{error}')
-          if error
-            .welcomeForm__error.loginError
-              span#js-loginError Адрес не найден
-          button.welcomeForm__button(type='submit') Продолжить
+extend layouts/outsideLayout.jade
+block formsContainer
+  .container__welcomeForm
+    form.welcomeForm__form.welcomeForm__form_forgot(role='form', action='/resetpass', method='POST', name='resetForm')
+      .welcomeForm__formTitle.welcomeForm__formTitle_forgot Восстановление пароля
+      input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
+      input#js-logText.welcomeForm__textbox(type='textbox', name='email', placeholder='e-mail', value='#{error}')
+      if error
+        .welcomeForm__error.loginError.resetPass
+          span#js-loginError Адрес не найден
+      button.welcomeForm__button(type='submit') Продолжить

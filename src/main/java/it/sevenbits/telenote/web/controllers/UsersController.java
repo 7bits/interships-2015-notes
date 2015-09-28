@@ -30,6 +30,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -103,7 +104,12 @@ public class UsersController {
         try {
             if (bindingResult.hasErrors()) {
                 String url = "home/welcome";
-                ModelAndView model = userService.getSignUpErrors(url, bindingResult);
+                ModelAndView model = new ModelAndView(url);
+                Map<String, String> map = userService.getSignUpErrors(bindingResult);
+
+                for (Map.Entry<String, String> entry : map.entrySet()) {
+                    model.addObject(entry.getValue() + "Error", entry.getKey());
+                }
 
                 session.setAttribute("userForm", form);
                 model.addObject("signupForm", form);
@@ -153,7 +159,7 @@ public class UsersController {
         boolean isEmptyInput = token == null || email == null || token.isEmpty() || email.isEmpty();
         if (isEmptyInput) {
             ModelAndView model = new ModelAndView("home/resetPass");
-            model.addObject("resetForm", new UserCreateForm());
+            model.addObject("form", new UserCreateForm());
 
             return model;
         }
@@ -176,8 +182,9 @@ public class UsersController {
     @RequestMapping(value = "/resetpass", method = RequestMethod.POST)
     public ModelAndView resetPassInDB(@ModelAttribute UserCreateForm form) {
         try {
-            ModelAndView model = userService.resetPassInDB(form.getEmail().toLowerCase());
-            if (model != null) return model;
+            String email = form.getEmail().toLowerCase();
+            boolean checkError = userService.resetPassInDB(email);
+            if (!checkError) new ModelAndView("home/resetPass", "error", email);
         } catch (ServiceException e) {
             return new ModelAndView("home/errors", "error", e.getMessage());
         }
@@ -197,9 +204,9 @@ public class UsersController {
             passwords[0] = form.getPassword();
             passwords[1] = form.getPasswordRepeat();
 
-            ModelAndView model = userService.updatePass(form.getEmail(), form.getToken(), passwords);
+            boolean checkError = userService.updatePass(form.getEmail(), form.getToken(), passwords);
 
-            if (model != null) return model;
+            if (!checkError) return new ModelAndView("home/newpass");
         } catch (ServiceException ex) {
             return new ModelAndView("home/errors", "error", ex.getMessage());
         }

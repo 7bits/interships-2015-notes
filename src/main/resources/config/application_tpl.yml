@@ -33,5 +33,9 @@ connectors:
         keystoreType: PKCS12
         keyAlias: tomcat
 
+assets:
+    version:
+
 logging:
     config: file:src/main/resources/log4j.properties
+

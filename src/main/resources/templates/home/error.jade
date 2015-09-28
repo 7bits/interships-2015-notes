@@ -7,14 +7,14 @@ html
     link(rel="shortcut icon", type="image/x-icon", href="/img/gulp/logo.png")
     script(src='js/libs/jquery-1.11.3.js')
     script(src='js/src/error.js')
-  body
-    #js-back.background
-      .messageDiv
+  body.errorPage
+    #js-back
+      .errorPage__message
         h1= errorCode
         h2= message
         a(href='/telenote')
-          .backToMain
+          .errorPage__backToMain
           | вернуться на главную
-      .footer
-        .logoImg
-        .slogon
+      .errorPage__footer
+        .errorPage__logoImg
+        .errorPage__slogon

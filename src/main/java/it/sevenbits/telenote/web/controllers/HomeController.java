@@ -189,7 +189,18 @@ public class HomeController {
         ShareForm form = new ShareForm(noteId, userEmail);
 
         try {
-            return noteService.shareNote(form, currentUser.getId());
+            String[] result = noteService.shareNote(form, currentUser.getId());
+            ResponseMessage message;
+            if (!result[1].equals("200")) {
+                message = new ResponseMessage(false, result[0]);
+            } else {
+                currentUser.setAvatar(Helper.getAvatarUrl(userEmail));
+                message = new ResponseMessage(true, result[0], currentUser);
+                return new ResponseEntity<ResponseMessage>(message, HttpStatus.OK);
+            }
+
+            if (result[1].equals("406")) return  new ResponseEntity<ResponseMessage>(message, HttpStatus.NOT_ACCEPTABLE);
+            else return new ResponseEntity<ResponseMessage>(message, HttpStatus.NOT_FOUND);
         } catch (ServiceException se) {
             return new ResponseEntity<>(new ResponseMessage(false, "Error on service"), HttpStatus.NOT_ACCEPTABLE);
         }

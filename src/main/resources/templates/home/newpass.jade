@@ -1,47 +1,17 @@
-doctype html
-html
-  head
-    meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(name="_csrf", content="#{_csrf.token}")
-    meta(name="_csrf_header", content="#{_csrf.headerName}")
-    link(rel='stylesheet', type='text/css', href='css/src/welcome.css')
-    link(rel='stylesheet', type='text/css', href='css/src/resetPass.css')
-    link(rel='stylesheet', type='text/css', href='css/src/newpass.css')
-    link(rel="shortcut icon", type="image/x-icon", href="/img/gulp/logo.png")
-  body
-    .container
-      .container__landing
-        .landing__images
-          .landing__logo
-          .landing__slogon
-        .landing__message
-          h1.landing__title
-            | Организуйте дела, идеи, мысли.
-            br
-            | Делитесь с друзьями.
-          h2.landing__body
-            | Зарегистрируйтесь на TeleNote.
-            br
-            | Cоздавайте и редактируйте текстовые заметки.
-            br
-            | Записывайте мысли, идеи, дела, рецепты.
-            br
-            | Делитесь заметками с семьёй и друзьями.
-            br
-            | Ведите дела вместе.
-      .container__welcomeForm
-        form.welcomeForm__form.welcomeForm__form_forgot(role='form', action='/updatepass', method='POST', name='resetForm')
-          .welcomeForm__formTitle.welcomeForm__formTitle_forgot Восстановление пароля
-          input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
-          input(type='hidden', name='token', value='#{token}')
-          input(type='hidden', name='email', value='#{email}')
-          input#js-regPass.welcomeForm__textbox(type='password', name='password', autocomplete='off', placeholder='Новый пароль', value='#{resetForm.password}')
-          if passwordError
-            .welcomeForm__error.loginError.resetPass
-              span#js-regPassMess1 Пароль слишком прост
-          input#js-regPass.welcomeForm__textbox(type='password', name='passwordRepeat', autocomplete='off', placeholder='Ещё раз', value='#{resetForm.password}')
-          if passwordError
-            .welcomeForm__error.loginError.resetPass
-              span#js-regPassMess2 Пароли не совпадают
-          button.welcomeForm__button(type='submit') Восстановить
+extend layouts/outsideLayout.jade
+block formsContainer
+  .container__welcomeForm
+    form.welcomeForm__form.welcomeForm__form_forgot(role='form', action='/updatepass', method='POST', name='resetForm')
+      .welcomeForm__formTitle.welcomeForm__formTitle_forgot Восстановление пароля
+      input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
+      input(type='hidden', name='token', value='#{token}')
+      input(type='hidden', name='email', value='#{email}')
+      input#js-regPass.welcomeForm__textbox(type='password', name='password', autocomplete='off', placeholder='Новый пароль', value='#{resetForm.password}')
+      if passwordError
+        .welcomeForm__error.loginError.resetPass
+          span#js-regPassMess1 Пароль слишком прост
+      input#js-regPass.welcomeForm__textbox(type='password', name='passwordRepeat', autocomplete='off', placeholder='Ещё раз', value='#{resetForm.password}')
+      if passwordError
+        .welcomeForm__error.loginError.resetPass
+          span#js-regPassMess2 Пароли не совпадают
+      button.welcomeForm__button(type='submit') Восстановить

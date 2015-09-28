@@ -1,43 +1,14 @@
-doctype html
-html
-  head
-    meta(charset='utf-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    meta(name="_csrf", content="#{_csrf.token}")
-    meta(name="_csrf_header", content="#{_csrf.headerName}")
-    link(rel='stylesheet', type='text/css', href='css/src/welcome.css')
-    link(rel='stylesheet', type='text/css', href='css/src/checkMail.css')
-    link(rel="shortcut icon", type="image/x-icon", href="/img/gulp/logo.png")
-  body
-    .container
-      .container__landing
-        .landing__images
-          .landing__logo
-          .landing__slogon
-        .landing__message
-          h1.landing__title
-            | Организуйте дела, идеи, мысли.
-            br
-            | Делитесь с друзьями.
-          h2.landing__body
-            | Зарегистрируйтесь на TeleNote.
-            br
-            | Cоздавайте и редактируйте текстовые заметки.
-            br
-            | Записывайте мысли, идеи, дела, рецепты.
-            br
-            | Делитесь заметками с семьёй и друзьями.
-            br
-            | Ведите дела вместе.
-      .container__welcomeForm
-        .welcomeForm__form
-          .welcomeForm__formTitle= title
-          br
-          .welcomeForm__mailMsg= message
-          br
-          .welcomeForm__email#{email}
-          br
-          br
-          .welcomeForm__mailMsg Проверьте свой почтовый ящик
-          .welcomeForm__href_check
-            a(href='/').js-backToMain вернуться на главную
+extend layouts/outsideLayout.jade
+block formsContainer
+  .container__welcomeForm
+    .welcomeForm__form
+      .welcomeForm__formTitle= title
+      br
+      .welcomeForm__mailMsg= message
+      br
+      .welcomeForm__email#{email}
+      br
+      br
+      .welcomeForm__mailMsg Проверьте свой почтовый ящик
+      .welcomeForm__href_check
+        a(href='/').js-backToMain вернуться на главную
