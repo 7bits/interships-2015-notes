@@ -14,23 +14,26 @@
 }
 
 body {
-	background-image: url('/img/gulp/background.png');
-	background-repeat: no-repeat;
-	background-size: cover;
 	margin: 0px;
 	padding: 0px;
 	border: 0px;
-	background-color: #1e1e1e;
 	height: 100%;
 }
 
-.messageDiv {
+.errorPage {
+	background-color: #1e1e1e;
+	background-image: url('/img/gulp/backgroundError.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.errorPage__message {
 	position: absolute;
   	top: 22%;
   	left: 14%;
 }
 
-h1 {
+.errorPage__message h1 {
 	margin: 0;
 	color: white;
 	font-family: "AzoftSansRegular";
@@ -38,14 +41,14 @@ h1 {
 	margin-bottom: 20px;
 }
 
-h2 {
+.errorPage__message h2 {
   	font-family: "Roboto-Thin";
   	font-size: 30px;
   	color: white;
 	margin-bottom: 20px;
 }
 
-a {
+.errorPage__message a {
 	font-size: 24px;
 	font-family: "Roboto-Thin";
 	color: white;
@@ -53,8 +56,8 @@ a {
 	margin-bottom: 20px;
 }
 
-.backToMain {
-	background-image: url('/img/gulp/backIcon.png');
+.errorPage__backToMain {
+	background-image: inline('backIcon.png');
 	background-repeat: no-repeat;
 	background-position: center;
 	margin: 11px 10px 0 0;
@@ -63,13 +66,13 @@ a {
 	float: left;
 }
 
-.footer {
+.errorPage__footer {
 	position: absolute;
 	bottom: 5%;
 	left: 5%;
 }
 
-.logoImg {
+.errorPage__logoImg {
 	background-image: url("/img/gulp/logo.png");
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -80,7 +83,7 @@ a {
 	margin-right: 19px;
 }
 
-.slogon {
+.errorPage__slogon {
 	background-image: url("/img/gulp/label.png");
 	background-size: cover;
 	background-repeat: no-repeat;

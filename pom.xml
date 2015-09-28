@@ -22,6 +22,11 @@
         <version>1.2.5.RELEASE</version>
     </parent>
 
+    <properties>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>yyyyMMddHHmm</maven.build.timestamp.format>
+    </properties>
+
     <!-- Add typical dependencies for a web application -->
     <dependencies>
         <dependency>
@@ -56,6 +61,12 @@
             <groupId>com.domingosuarez.boot</groupId>
             <artifactId>spring-boot-starter-jade4j</artifactId>
             <version>0.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -163,6 +174,24 @@
 
     <!-- Package as an executable jar -->
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>config/application-develop.yml</include>
+                    <include>config/application-staging.yml</include>
+                    <include>config/application-test.yml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

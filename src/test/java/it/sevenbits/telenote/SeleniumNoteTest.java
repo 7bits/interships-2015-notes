@@ -94,7 +94,7 @@ public class SeleniumNoteTest {
         password.sendKeys(user.getPassword());
         submit.submit();
 
-        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/telenote"));
+        assertTrue(driver.getCurrentUrl().equals("https://127.0.0.1:8443/telenote"));
     }
 
     @After

@@ -82,7 +82,7 @@ public class SeleniumLoginTest {
             fail(ex.getMessage());
         }
 
-        driver.get("http://127.0.0.1:9000");
+        driver.get("http://127.0.0.1:8443");
 
         email = driver.findElement(By.id("js-logText"));
         password = driver.findElement(By.className("js-logPass"));

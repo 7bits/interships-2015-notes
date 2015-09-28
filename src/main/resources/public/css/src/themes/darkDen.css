@@ -1,57 +1,55 @@
 body {
-	background-color: #d7dbe2;
+	background-color: #414141;
 }
 
 .page {
-  	background-color: #d7dbe2;
+  	background-color: #414141;
 }
 
 .page__header {
-	background-color: #20406c;
+	background-color: #313131;
 }
 
 .status {
-	color: #000000;
+	color: #a1a1a1;
+}
+
+.noteSpace {
+	color: #f5f5f5;
 }
 
 .noteSection__note {
-	background-color: #ffffff;
+	background-color: #f5f5f5;
 }
 
 .noteSection__delBtn, .noteSection__shaBtn {
-	background-color: #ffffff;
+	background-color: #f5f5f5;
 }
 
 .noteSection__note button:hover {
-	background-color: #ebedf0;
+	background-color: #e2e2e2;
 }
 
 .textarea {
 	color: #010101;
-	background-color: #ffffff;
+	background-color: #f5f5f5;
 }
 
 .welcome {
-	color: #010101;
+	color: #FFFFFF;
 }
 
 .noteSection__control {
-	border-top: 1px solid #e1e1e1;
+	border-top: 1px solid #dcdcdc;
 }
 
 #emptyList {
-	color: #010101;
+	color: white;
 }
 
 #select {
-	background-color: #20406c;
-	color: #ededed;
-}
-
-button {
-	background-color: #20406c;
-	border: none;
-	color: #ededed;
+	background-color: #313131;
+	color: #f5f5f5;
 }
 
 button:focus {

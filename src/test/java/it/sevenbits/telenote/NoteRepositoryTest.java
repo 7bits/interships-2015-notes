@@ -1,5 +1,7 @@
 package it.sevenbits.telenote;
 
+import org.junit.runner.RunWith;
+
 import it.sevenbits.telenote.core.domain.Note;
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.domain.UserNote;

@@ -6,47 +6,62 @@ var csswring = require('csswring');
 var concat = require('gulp-concat');
 var runSequence = require('run-sequence');
 var minify = require('gulp-minify-css');
-var browserSync = require('browser-sync').create();
 var uglify = require('gulp-uglify');
-var hash = require('gulp-hash-filename');
 var imagemin = require('imagemin-pngquant');
+var assets = require('postcss-assets');
+var yaml = require('js-yaml');
+var fs = require('fs');
+
+function readAssetsVersion() {
+  var version = '';
+
+  try {
+    var doc = yaml.safeLoad(fs.readFileSync('target/classes/config/application-develop.yml'));
+    version = doc.assets.version;
+  } catch (e) {
+    console.log(JSON.stringify(e));
+    console.error('Fatal error. Before running scripts packaging package spring application');
+    version = '';
+  }
+
+  return version;
+}
 
 gulp.task('build', function () {
-  runSequence('css', 'js', 'imgmin');
+  runSequence('css', 'js');
 });
 
 gulp.task('css', function () {
   var processors = [
     autoprefixer({browsers: ['last 4 version']}),
+    assets({loadPaths: ['src/main/resources/public/img/gulp/']}),
     mqpacker,
     csswring
   ];
+  var version = readAssetsVersion();
+
   return gulp
     .src('src/main/resources/public/css/src/*.css')
     .pipe(postcss(processors))
     .pipe(minify())
-    .pipe(concat('style.css'))
-    .pipe(hash())
+    .pipe(concat('bundle' + version + '.css'))
     .pipe(gulp.dest('src/main/resources/public/css/gulp'));
 });
 
 gulp.task('js', function () {
+  var version = readAssetsVersion();
   return gulp
     .src('src/main/resources/public/js/src/*.js')
     .pipe(uglify())
-    .pipe(concat('script.js'))
-    .pipe(hash())
+    .pipe(concat('bundle' + version + '.js'))
     .pipe(gulp.dest('src/main/resources/public/js/gulp'));
 });
 
-gulp.task('browser-sync', function () {
-
-  browserSync.init({
-    server: {
-      proxy: 'http://localhost:9000',
-      files: 'src/main/resources/public/**/*'
-    }
-  });
+gulp.task('imgmin', function () {
+  return gulp
+    .src('src/main/resources/public/img/*.png')
+    .pipe(imagemin({quality: '65-80', speed: 3})())
+    .pipe(gulp.dest('src/main/resources/public/img/gulp'));
 });
 
 gulp.task('imgmin', function () {

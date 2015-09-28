@@ -29,10 +29,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -221,26 +218,24 @@ public class UserService implements UserDetailsService {
         return token;
     }
 
-    public ModelAndView getSignUpErrors(String url, BindingResult bindingResult) throws ServiceException {
-        ModelAndView model = new ModelAndView(url);
-        List<String> matcher = new ArrayList<String>();
+    public Map<String, String> getSignUpErrors(BindingResult bindingResult) throws ServiceException {
+        Map<String, String> matcher = new HashMap<>();
 
         for (ObjectError objectError : bindingResult.getAllErrors()) {
             try {
-                String error = ((FieldError) objectError).getField().toString();
-                if (!matcher.contains(error)) {
-                    matcher.add(error);
-                    model.addObject(error + "Error", objectError.getCode());
+                String errCod = objectError.getCode();
+                if (!matcher.containsKey(errCod)) {
+                    matcher.put(errCod, ((FieldError) objectError).getField().toString());
                 }
             } catch (Exception e) {
                 LOG.error("Wrong type of error, expected FieldError, get another. " + e.getMessage());
                 throw new ServiceException(e.getMessage());
             }
         }
-        return model;
+        return matcher;
     }
 
-    public ModelAndView resetPassInDB(String email) throws ServiceException {
+    public boolean resetPassInDB(String email) throws ServiceException {
         TransactionStatus status = null;
         try {
             status = txManager.getTransaction(customTx);
@@ -257,7 +252,7 @@ public class UserService implements UserDetailsService {
                 txManager.commit(status);
                 LOG.info("Password is successfully reset. UserEmail: " + email);
             } else {
-                return new ModelAndView("home/resetPass", "error", email);
+                return false;
             }
         } catch (ServiceException e) {
             LOG.error("Could not reset password. UserEmail: " + email);
@@ -267,25 +262,25 @@ public class UserService implements UserDetailsService {
             }
             throw new ServiceException("Could not reset password. UserEmail: " + email, e);
         }
-        return null;
+        return true;
     }
 
-    public ModelAndView updatePass(String email, String token, String[] passwords) throws ServiceException {
+    public boolean updatePass(String email, String token, String[] passwords) throws ServiceException {
         TransactionStatus status = null;
         try {
             status = txManager.getTransaction(customTx);
             Optional<UserDetailsImpl> user = getUserByEmail(email);
-            if (user.isPresent() && token.equals(getToken(email))
-            && passwords[0].equals(passwords[1])) {
+            if (user.isPresent() && token.equals(getToken(email)) &&
+            passwords[0].equals(passwords[1])) {
 
                 UserCreateForm userForm = new UserCreateForm();
                 userForm.setEmail(email);
 
                 updatePassword(userForm, passwords[0]);
                 txManager.commit(status);
-                return null;
+                return true;
             } else {
-                return new ModelAndView("home/newpass");
+                return false;
             }
         } catch (ServiceException e) {
             LOG.error("Could not update password. UserEmail: " + email);
