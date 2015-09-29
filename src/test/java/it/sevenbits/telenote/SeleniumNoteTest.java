@@ -94,7 +94,7 @@ public class SeleniumNoteTest {
         password.sendKeys(user.getPassword());
         submit.submit();
 
-        assertTrue(driver.getCurrentUrl().equals("https://127.0.0.1:8443/telenote"));
+        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/telenote"));
     }
 
     @After
@@ -113,14 +113,6 @@ public class SeleniumNoteTest {
 
         assertFalse(driver.findElements(By.className("js-note")).isEmpty());
 }
-
-/*@Test
-public void createNoteWithoutAuthorizationTest() {
-    driver.get("http://127.0.0.1:9000");
-    driver.findElement(By.id("js-addNote")).click();
-
-    assertFalse(driver.findElements(By.className("js-note")).isEmpty());
-}*/
 
 //create a note and refresh page, assuming it will be saved
 @Test
@@ -300,7 +292,8 @@ public void createNoteAndRefreshPageTest() {
 	    driver.findElement(By.className("js-submit")).click();
     }
 
-    /*@Test
+//creating and sharing note test
+    @Test
     public void createShareNoteTest() {
       UserDetailsImpl user = new UserDetailsImpl();
       user.setUsername("warumweil@gmail.com");
@@ -328,18 +321,18 @@ public void createNoteAndRefreshPageTest() {
       WebElement password = driver.findElement(By.className("js-logPass"));
       WebElement submit = driver.findElement(By.className("js-logSubmit"));
 
-      email.sendKeys("warumweil@gmail.com");
+        email.sendKeys("warumweil@gmail.com");
       password.sendKeys("54321Qwerty");
-      submit.submit();
+        submit.submit();
 
-      assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/telenote"));
+        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/telenote"));
 
       try {
           repository.remove(user);
       } catch (Exception ex) {
           fail(ex.getMessage());
       }
-  }*/
+  }
 
 	/*@Test
     public void deleteSharingNoteTest() {
@@ -417,7 +410,10 @@ public void createNoteAndRefreshPageTest() {
 	    driver.findElement(By.id("js-modalClose")).click();
     }
     private void shareNote(WebDriver driver) {
+
+        org.openqa.selenium.interactions.Actions builder = new org.openqa.selenium.interactions.Actions(driver);
         driver.findElement(By.id("js-addShareEmail")).sendKeys("warumweil@gmail.com");
+        builder.keyUp(Keys.CONTROL);
     	driver.findElement(By.id("js-addShare")).click();
     	driver.findElement(By.id("js-modalClose")).click();
     }
