@@ -106,6 +106,7 @@ public class SeleniumNoteTest {
         }
     }
 
+//create a note
     @Test
     public void createNoteTest() {
         driver.findElement(By.id("js-addNote")).click();
@@ -121,6 +122,7 @@ public void createNoteWithoutAuthorizationTest() {
     assertFalse(driver.findElements(By.className("js-note")).isEmpty());
 }*/
 
+//create a note and refresh page, assuming it will be saved
 @Test
 public void createNoteAndRefreshPageTest() {
     driver.findElement(By.id("js-addNote")).click();
@@ -129,6 +131,7 @@ public void createNoteAndRefreshPageTest() {
     driver.navigate().refresh();
 }
 
+//creating and deleting note
     @Test
     public void createDeleteNoteTest() {
         driver.findElement(By.id("js-addNote")).click();
@@ -164,6 +167,7 @@ public void createNoteAndRefreshPageTest() {
         wait.until(elNotFound);
     }
 
+//changing username in account
     @Test
     public void validUserNameTest() {
         driver.findElement(By.className("js-user")).click();
@@ -182,6 +186,7 @@ public void createNoteAndRefreshPageTest() {
         button.click();
     }
 
+//changing username from letters to symbols
     @Test
     public void symbolsUserNameTest() {
         driver.findElement(By.className("js-user")).click();
@@ -200,6 +205,7 @@ public void createNoteAndRefreshPageTest() {
         button.click();
     }
 
+//change username to spaces
     @Test
     public void emptyUserNameTest() {
         driver.findElement(By.className("js-user")).click();
@@ -218,6 +224,7 @@ public void createNoteAndRefreshPageTest() {
         button.click();
     }
 
+//change password in account to a new one
     @Test
     public void validUserPasswordTest() {
         driver.findElement(By.className("js-user")).click();
@@ -237,6 +244,7 @@ public void createNoteAndRefreshPageTest() {
         button.click();
     }
 
+//change password to an empty one
     @Test
     public void emptyUserPasswordTest() {
         driver.findElement(By.className("js-user")).click();
@@ -256,6 +264,7 @@ public void createNoteAndRefreshPageTest() {
         button.click();
     }
 
+//change password to a short one
     @Test
     public void shortUserPasswordTest() {
         driver.findElement(By.className("js-user")).click();
@@ -275,7 +284,7 @@ public void createNoteAndRefreshPageTest() {
         button.click();
     }
 
-
+//change account design
     @Test
     public void userDesignTest() {
         driver.findElement(By.className("js-user")).click();
@@ -371,6 +380,7 @@ public void createNoteAndRefreshPageTest() {
         }
     }*/
 
+//create a note and type something
     @Test
     public void createTypeNoteTest() {
         driver.findElement(By.id("js-addNote")).click();

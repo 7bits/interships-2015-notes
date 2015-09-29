@@ -82,13 +82,14 @@ public class SeleniumLoginTest {
             fail(ex.getMessage());
         }
 
-        driver.get("http://127.0.0.1:8443");
+        driver.get("http://127.0.0.1:9000");
 
         email = driver.findElement(By.id("js-logText"));
         password = driver.findElement(By.className("js-logPass"));
         submit = driver.findElement(By.className("js-logSubmit"));
     }
 
+//test for logging in with valid data
     @Test
     public void loginAllOk() {
         email.sendKeys(user.getUsername());
@@ -103,6 +104,7 @@ public class SeleniumLoginTest {
         assertEquals("http://127.0.0.1:9000/", driver.getCurrentUrl());
     }
 
+//trying to log in with empty input fields
     @Test
     public void loginEmptyInputsTest() {
         email.sendKeys("");
@@ -113,6 +115,7 @@ public class SeleniumLoginTest {
         driver.findElement(By.id("js-loginError"));
     }
 
+//trying to log in with invalid email
     @Test
     public void loginWrongEmail() {
         email.sendKeys("ololo");
@@ -123,6 +126,7 @@ public class SeleniumLoginTest {
         driver.findElement(By.id("js-loginError"));
     }
 
+//trying to log in with wrong password
     @Test
     public void loginWrongPasswordTest() {
         email.sendKeys(user.getUsername());
@@ -133,6 +137,7 @@ public class SeleniumLoginTest {
         driver.findElement(By.id("js-loginError"));
     }
 
+//trying to log in without confirmation email
     @Test
     public void loginWithoutConfirmationTest() {
         findInputFields();
@@ -152,6 +157,7 @@ public class SeleniumLoginTest {
         submit.submit();
     }
 
+//resetting password with valid email
     @Test
     public void resetPasswordTest() {
         driver.findElement(By.className("welcomeForm__href_color")).click();
@@ -162,6 +168,7 @@ public class SeleniumLoginTest {
         submit.submit();
     }
 
+//trying to reset password with invalid email
     @Test
     public void resetInvalidEmailPasswordTest() {
         driver.findElement(By.className("welcomeForm__href_color")).click();
@@ -172,6 +179,7 @@ public class SeleniumLoginTest {
         submit.submit();
     }
 
+//trying to reset password with empty field
     @Test
     public void resetEmptyEmailPasswordTest() {
         driver.findElement(By.className("welcomeForm__href_color")).click();

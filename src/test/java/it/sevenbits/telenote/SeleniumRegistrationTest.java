@@ -89,6 +89,7 @@ public class SeleniumRegistrationTest {
         }
     }
 
+//register new user
     @Test
     public void regAllValidTest() throws Exception {
         findInputFields();
@@ -98,8 +99,9 @@ public class SeleniumRegistrationTest {
         submit.submit();
     }
 
+//register user with invalid email
     @Test
-    public void regWrongEmailTest() throws Exception {
+    public void regInvalidEmailTest() throws Exception {
         //WebElement email = driver.findElement(By.name("email"));
         findInputFields();
         email.sendKeys("ololo");
@@ -111,6 +113,7 @@ public class SeleniumRegistrationTest {
         driver.findElement(By.id("js-loginError"));
     }
 
+//register almost existing user
     @Test
     public void regUserExistsTest() throws Exception {
         findInputFields();
@@ -120,6 +123,7 @@ public class SeleniumRegistrationTest {
         submit.submit();
     }
 
+//register user with wrong username
     @Test
     public void regWrongUsernameTest() throws Exception {
         findInputFields();
@@ -130,6 +134,7 @@ public class SeleniumRegistrationTest {
         submit.submit();
     }
 
+//register user with username made of numbers
     @Test
     public void regNumberUsernameTest() throws Exception {
         findInputFields();
@@ -139,6 +144,7 @@ public class SeleniumRegistrationTest {
         submit.submit();
     }
 
+//register user with empty password
     @Test
     public void regEmptyPasswordTest() throws Exception {
         findInputFields();
@@ -150,6 +156,7 @@ public class SeleniumRegistrationTest {
         driver.findElement(By.id("js-loginError"));
     }
 
+//register user with password made of spaces
     @Test
     public void regSpacesPasswordTest() throws Exception {
         findInputFields();
@@ -161,6 +168,7 @@ public class SeleniumRegistrationTest {
         driver.findElement(By.id("js-loginError"));
     }
 
+//register user with short password
     @Test
     public void regShortPasswordTest() throws Exception {
         findInputFields();
@@ -172,6 +180,7 @@ public class SeleniumRegistrationTest {
         driver.findElement(By.id("js-loginError"));
     }
 
+//register user with invalid password
     @Test
     public void regWrongPasswordTest() throws Exception {
         findInputFields();
