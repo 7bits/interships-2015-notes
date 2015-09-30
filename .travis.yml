@@ -6,6 +6,10 @@ jdk:
 - oraclejdk8
 sudo: false
 
+# Disable email notifications
+notifications:  
+  email: false
+
 addons:
   sauce_connect:
     username: "jnovikova"
