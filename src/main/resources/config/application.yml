@@ -3,16 +3,15 @@ server:
   port: 8443
 
 spring:
-  profiles:
-    active: dev
+  profiles: develop
   datasource:
     url: jdbc:postgresql://localhost:5432/notes
-    username: note_admin
-    password: bestpassword
+    username: postgres
+    password:
 
 mail:
     username: tele.notes.7bits@gmail.com
-    password:
+    password: Vjhrjdrf228
     protocol: smtp
     host: smtp.gmail.com
     port: 587
@@ -34,9 +33,14 @@ connectors:
         keystoreType: PKCS12
         keyAlias: tomcat
 
+<<<<<<< HEAD
 assets:
     version:
 
 logging:
     config: file:src/main/resources/log4j.properties
 
+=======
+logging:
+    config: file:src/main/resources/log4j.properties
+>>>>>>> 9864eeb70b0c4a1562dd9111468f04d85fd57a6d
