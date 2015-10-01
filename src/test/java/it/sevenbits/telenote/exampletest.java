@@ -79,9 +79,9 @@ public class exampletest {
         }
 
         if (driver != null) {
-            driver.get("http://127.0.0.1:9000");
+            driver.get("http://notes:bestpassword@tele-notes.7bits.it/");
         }
-        driver.findElement(By.className("js-logSubmit"));
+        driver.findElement(By.className("welcomeForm__button"));
 
         driver.close();
 
