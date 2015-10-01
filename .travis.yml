@@ -1,11 +1,10 @@
 language: java
+
 install: mvn install -DskipTests=true
 script: mvn clean test
 jdk:
 - oraclejdk8
 sudo: false
-addons:
-  firefox: "41.0"
 
 # Disable email notifications
 notifications:  
@@ -15,5 +14,6 @@ env:
   global:
    - secure: MM8/4HvINsZ5UMudqnQreOnW1PN8+blH0xu7wwkhbWpjdQpXmENsV4qsXiniLTeoBeM/biuWjMjtHu+22xeXtILhT+mDWbuhSWg+EMH1+vR6wG1ySoqHIvMXR9ojN5uDNImqCrsGtSRLLGKyFUplGz+D7qW1RvDr3qi6sYHX4iARmP7nM72CarxOZUkbcTo4pVLxWmQVGTB1jkDqRLcghL4ExbzFXDjGJ0eCo4byqslKU4pmQz+CwcbtYUjpufuy9gfqpZWkeYrdLlNWRBr5pA1ozqD0STd1iTmcPmjHC/l9IZXreK2Svv6uGEkff4TTdFoJj2Zp9/gXmNNxGar4G0QxT50qrI0jcqa4i5hit7RLoM2iFj+JcTv9U9UNwRFMiRd/NHLCHeQ8P1MrCF8Z0uFsYlsgldqqCeUGJnvqgn0LdN5gHw2y+JpuaVXCopNTYnJ/60lHr7y7T8HzXjPzdNssMgWpP0hmiuh27Aq2RuZt1mHYPXArlcAvawEsHKZCp/vigOniRy9JqIdsGK1wpsbh2uJJBRkRq/6cuotH3FllLt32f9XlhbmkJqQdl5S+OQaJYfLoKpodLWeiErKyYijTeZU0OgcutbS16LUyEVMHC/QUGYLb5pCkTCP/cCfO0s/GVKQL1uEMavcgRebEmFte4Bn8+WB9suxcxjevEhU=
    - secure: SKxOcYfflbJeRAh2Kk0odmON2+9ekPppTkMUnaP/37HAKcLaftzbvv5mQJqGb1+CH/KTnhRGV3vTo5jMKBu1O7gLS3VCeTkBS/GkYFel3kYfKiIVhM+TQJlJmlX0V98hLH6jWqBOcbY1zmduMyPh2s481iGc2Y1Xl6/975bjkBqfrHT6HuukvxJylK3fLBDn+ErJ2v4/vTrMkBSepxyr7YVXTOwFniA/4efQUgXCB/ObvwpONgFwZnBCw4h9twOqLLpFeYzBsAskeuzHd9hKI+k1fhAgHAk+kpgSFe6nY0TY0q7nLzssYBmtElJqZyUoL8u21y8pUkxkVcRUdT1m9/QIzOuM8/PoLHHpI7o7St2hmXMyG01T1uEbJEU4IwttleeRYWO6oTqxuwtQxEUPM7oNAYFPtAk6pFPLmDa26jG3eg2VtyKqF8UrYktBrCVdZ+fSiREvHazFBSRXeB+JIXlB7lpyp87cODclbnYOm2ngCC+lcZBdbhBuotMQO+EblupVIZCGldkO/WTde0c/PdXkCxWfnaZBO700DddSSGlfT9G5MCFJagVmbS6uujEDfvhlEBpvwN8eTT9xuUxa/wCcdR+ihSMA9P24wUoyklRR+gTb+ag21CkjFP1dVCg1YstPAODeyKSO0zaHVRhR4rIt+ncGJud1jwJ5ImHaVJ4=
+ 
  addons:
    sauce_connect: true
