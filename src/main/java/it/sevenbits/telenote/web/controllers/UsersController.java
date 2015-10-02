@@ -1,7 +1,9 @@
 package it.sevenbits.telenote.web.controllers;
 
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
+import it.sevenbits.telenote.utils.validators.ResetPasswordFormValidator;
 import it.sevenbits.telenote.utils.validators.RestorePasswordFormValidator;
+import it.sevenbits.telenote.web.domain.forms.ResetPassForm;
 import it.sevenbits.telenote.web.domain.forms.RestorePasswordForm;
 import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
 
@@ -51,6 +53,9 @@ public class UsersController {
     private RestorePasswordFormValidator restoreValidator;
 
     @Autowired
+    private ResetPasswordFormValidator resetValidator;
+
+    @Autowired
     private EmailService emailService;
 
     @Autowired
@@ -62,9 +67,14 @@ public class UsersController {
         binder.addValidators(userCreateFormValidator);
     }
 
+    @InitBinder("restoreForm")
+    public void initBinderRestoreForm(WebDataBinder binder) {
+        binder.addValidators(restoreValidator);
+    }
+
     @InitBinder("resetForm")
     public void initBinderResetForm(WebDataBinder binder) {
-        binder.addValidators(restoreValidator);
+        binder.addValidators(resetValidator);
     }
 
     /**
@@ -159,7 +169,7 @@ public class UsersController {
         boolean isEmptyInput = token == null || email == null || token.isEmpty() || email.isEmpty();
         if (isEmptyInput) {
             ModelAndView model = new ModelAndView("home/resetPass");
-            model.addObject("form", new UserCreateForm());
+            model.addObject("resetForm", new ResetPassForm());
 
             return model;
         }
@@ -167,7 +177,7 @@ public class UsersController {
         try {
             if (token.equals(userService.getToken(email))) {
                 ModelAndView model = new ModelAndView("home/newpass", "token", token);
-                model.addObject("resetForm", new RestorePasswordForm());
+                model.addObject("restoreForm", new RestorePasswordForm());
                 model.addObject("email", email);
 
                 return model;
@@ -180,11 +190,15 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/resetpass", method = RequestMethod.POST)
-    public ModelAndView resetPassInDB(@ModelAttribute UserCreateForm form) {
+    public ModelAndView resetPassHandler(@Valid @ModelAttribute("resetForm") ResetPassForm form, BindingResult bindingResult) {
         try {
+            if (bindingResult.hasErrors()) {
+                return new ModelAndView("home/resetPass", "error", bindingResult.getFieldError("email").getCode());
+            }
+
             String email = form.getEmail().toLowerCase();
-            boolean checkError = userService.resetPassInDB(email);
-            if (!checkError) new ModelAndView("home/resetPass", "error", email);
+            if (!userService.resetPassInDB(email))
+                return new ModelAndView("home/resetPass", "error", messageSource.getMessage("message.validate.email.exist", null, LocaleContextHolder.getLocale()));
         } catch (ServiceException e) {
             return new ModelAndView("home/errors", "error", e.getMessage());
         }
@@ -198,15 +212,15 @@ public class UsersController {
     }
 
     @RequestMapping(value = "/updatepass", method = RequestMethod.POST)
-    public ModelAndView updatePass(@ModelAttribute RestorePasswordForm form) {
+    public ModelAndView updatePass(@Valid @ModelAttribute("restoreForm") RestorePasswordForm form) {
         try {
             String[] passwords = new String[2];
             passwords[0] = form.getPassword();
             passwords[1] = form.getPasswordRepeat();
 
             boolean checkError = userService.updatePass(form.getEmail(), form.getToken(), passwords);
-
-            if (!checkError) return new ModelAndView("home/newpass");
+            if (!checkError)
+                return new ModelAndView("home/newpass");
         } catch (ServiceException ex) {
             return new ModelAndView("home/errors", "error", ex.getMessage());
         }
