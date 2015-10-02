@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
-public class SeleniumLoginTest {
+public class SeleniumResetPasswordTest {
 
     private static WebDriver driver;
 
@@ -84,76 +84,39 @@ public class SeleniumLoginTest {
 
         driver.get("http://127.0.0.1:9000");
 
+    }
+
+
+//resetting password with valid email
+    @Test
+    public void resetPasswordTest() {
+        driver.findElement(By.className("welcomeForm__href_color")).click();
+        assertEquals("http://127.0.0.1:9000/resetpass", driver.getCurrentUrl());
         email = driver.findElement(By.id("js-logText"));
-        password = driver.findElement(By.className("js-logPass"));
-        submit = driver.findElement(By.className("js-logSubmit"));
+        email.sendKeys("ololo@ololo.com");
+        submit = driver.findElement(By.className("welcomeForm__button"));
+        submit.submit();
     }
 
-//test for logging in with valid data
+//trying to reset password with invalid email
     @Test
-    public void loginAllOk() {
-        email.sendKeys(user.getUsername());
-        password.sendKeys(user.getPassword());
-        submit.submit();
-
-        assertEquals("http://127.0.0.1:9000/telenote", driver.getCurrentUrl());
-
-        WebElement element = driver.findElement(By.className("header__logout"));
-        element.click();
-
-        assertEquals("http://127.0.0.1:9000/", driver.getCurrentUrl());
-    }
-
-//trying to log in with empty input fields
-    @Test
-    public void loginEmptyInputsTest() {
-        email.sendKeys("");
-        password.sendKeys("");
-
-        submit.submit();
-
-        driver.findElement(By.id("js-loginError"));
-    }
-
-//trying to log in with invalid email
-    @Test
-    public void loginWrongEmail() {
-        email.sendKeys("ololo");
-        password.sendKeys(user.getPassword());
-
-        submit.submit();
-
-        driver.findElement(By.id("js-loginError"));
-    }
-
-//trying to log in with wrong password
-    @Test
-    public void loginWrongPasswordTest() {
-        email.sendKeys(user.getUsername());
-        password.sendKeys("123");
-
-        submit.submit();
-
-        driver.findElement(By.id("js-loginError"));
-    }
-
-//trying to log in without confirmation email
-    @Test
-    public void loginWithoutConfirmationTest() {
-        findInputFields();
-        email.sendKeys("ololo1@ololo.com");
-        username.sendKeys("Capitan");
-        password.sendKeys("Capitan1234");
-        submit.submit();
-
-        assertEquals("http://127.0.0.1:9000/signup", driver.getCurrentUrl());
-        driver.findElement(By.className("js-backToMain")).click();
-
+    public void resetInvalidEmailPasswordTest() {
+        driver.findElement(By.className("welcomeForm__href_color")).click();
+        assertEquals("http://127.0.0.1:9000/resetpass", driver.getCurrentUrl());
         email = driver.findElement(By.id("js-logText"));
-        password = driver.findElement(By.className("js-logPass"));
-        submit = driver.findElement(By.className("js-logSubmit"));
-        email.sendKeys("ololo1@ololo.com");
-        password.sendKeys("Capitan1234");
+        email.sendKeys("Qwerty");
+        submit = driver.findElement(By.className("welcomeForm__button"));
+        submit.submit();
+    }
+
+//trying to reset password with empty field
+    @Test
+    public void resetEmptyEmailPasswordTest() {
+        driver.findElement(By.className("welcomeForm__href_color")).click();
+        assertEquals("http://127.0.0.1:9000/resetpass", driver.getCurrentUrl());
+        email = driver.findElement(By.id("js-logText"));
+        email.sendKeys(" ");
+        submit = driver.findElement(By.className("welcomeForm__button"));
         submit.submit();
     }
 

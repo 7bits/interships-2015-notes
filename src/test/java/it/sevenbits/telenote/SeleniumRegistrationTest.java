@@ -75,12 +75,12 @@ public class SeleniumRegistrationTest {
 
     @After
     public void after() throws Exception {
-        submit.submit();
+        //submit.submit();
         //submit.click();
 
-        assertEquals(driver.getCurrentUrl(), "http://127.0.0.1:9000/signup");
-        List<WebElement> error = driver.findElements(By.className("errorDiv"));
-        assertFalse(error.isEmpty());
+        //assertEquals(driver.getCurrentUrl(), "http://127.0.0.1:9000/signup");
+        //List<WebElement> error = driver.findElements(By.className("errorDiv"));
+        //assertFalse(error.isEmpty());
 
         try {
             userService.cleanDB();
@@ -89,47 +89,54 @@ public class SeleniumRegistrationTest {
         }
     }
 
+//register new user
     @Test
     public void regAllValidTest() throws Exception {
-        findInputFields();
+        //findInputFields()
         email.sendKeys(user.getUsername());
         username.sendKeys(user.getName());
         password.sendKeys(user.getPassword());
         submit.submit();
     }
 
+//register user with invalid email
     @Test
-    public void regWrongEmailTest() throws Exception {
+    public void regInvalidEmailTest() throws Exception {
         //WebElement email = driver.findElement(By.name("email"));
-        findInputFields();
+        //findInputFields();
         email.sendKeys("ololo");
         username.click();
         username.sendKeys(user.getName());
         password.sendKeys(user.getPassword());
         submit.submit();
 
-        driver.findElement(By.id("js-loginError"));
+        driver.findElement(By.className("js-emailError"));
     }
 
+//register almost existing user
     @Test
     public void regUserExistsTest() throws Exception {
-        findInputFields();
+        //findInputFields();
         email.sendKeys("ololo@ololo.com");
-        username.sendKeys(user.getUsername());
+        username.sendKeys(user.getName());
         password.sendKeys(user.getPassword());
         submit.submit();
     }
 
+//register user with wrong username
     @Test
     public void regWrongUsernameTest() throws Exception {
         findInputFields();
         email.sendKeys("ololo1@ololo.com");
-        username.sendKeys("Leo");
+        username.sendKeys("");
         password.sendKeys(user.getPassword());
         //passwordRepeat.sendKeys(user.getPassword());
         submit.submit();
+
+	driver.findElement(By.className("js-nameError"));
     }
 
+//register user with username made of numbers
     @Test
     public void regNumberUsernameTest() throws Exception {
         findInputFields();
@@ -139,6 +146,7 @@ public class SeleniumRegistrationTest {
         submit.submit();
     }
 
+//register user with empty password
     @Test
     public void regEmptyPasswordTest() throws Exception {
         findInputFields();
@@ -147,10 +155,11 @@ public class SeleniumRegistrationTest {
         password.sendKeys("");
         submit.submit();
 
-        driver.findElement(By.id("js-loginError"));
+        driver.findElement(By.className("js-passError"));
     }
 
-    @Test
+//register user with password made of spaces
+   @Test
     public void regSpacesPasswordTest() throws Exception {
         findInputFields();
         email.sendKeys("ololo4@ololo.com");
@@ -158,9 +167,10 @@ public class SeleniumRegistrationTest {
         password.sendKeys("        ");
         submit.submit();
 
-        driver.findElement(By.id("js-loginError"));
+        driver.findElement(By.className("js-passError"));
     }
 
+//register user with short password
     @Test
     public void regShortPasswordTest() throws Exception {
         findInputFields();
@@ -169,9 +179,10 @@ public class SeleniumRegistrationTest {
         password.sendKeys("1");
         submit.submit();
 
-        driver.findElement(By.id("js-loginError"));
+        driver.findElement(By.className("js-passError"));
     }
 
+//register user with invalid password
     @Test
     public void regWrongPasswordTest() throws Exception {
         findInputFields();
@@ -180,7 +191,7 @@ public class SeleniumRegistrationTest {
         password.sendKeys("123");
         submit.submit();
 
-        driver.findElement(By.id("js-loginError"));
+        driver.findElement(By.className("js-passError"));
     }
 
     @BeforeClass

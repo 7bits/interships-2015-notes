@@ -36,6 +36,11 @@ public class AccountService {
         this.customTx.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
     }
 
+    /**
+     * Updates user theme by user id.
+     * @param user POJO that contains theme name and user id.
+     * @throws ServiceException
+     */
     public void changeTheme(UserDetailsImpl user) throws ServiceException {
         TransactionStatus status = null;
         try {
@@ -50,6 +55,11 @@ public class AccountService {
         }
     }
 
+    /**
+     * Validates and updates username by user id.
+     * @param user POJO that     contains username and user id.
+     * @throws ServiceException
+     */
     public void changeUsername(UserDetailsImpl user) throws ServiceException {
         TransactionStatus status = null;
         try {
@@ -73,6 +83,15 @@ public class AccountService {
         }
     }
 
+
+
+    /**
+     * Validates and updates user password by user id.
+     * @param currentPass current user password.
+     * @param newPass new user password.
+     * @param user POJO that contains user password and user id.
+     * @throws ServiceException
+     */
     public void changePass(String currentPass, String newPass, UserDetailsImpl user) throws ServiceException {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         TransactionStatus status = null;

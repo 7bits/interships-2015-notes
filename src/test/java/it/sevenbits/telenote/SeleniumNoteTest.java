@@ -94,7 +94,7 @@ public class SeleniumNoteTest {
         password.sendKeys(user.getPassword());
         submit.submit();
 
-        assertTrue(driver.getCurrentUrl().equals("https://127.0.0.1:8443/telenote"));
+        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/telenote"));
     }
 
     @After
@@ -106,21 +106,24 @@ public class SeleniumNoteTest {
         }
     }
 
+//create a note
     @Test
     public void createNoteTest() {
+
         driver.findElement(By.id("js-addNote")).click();
 
         assertFalse(driver.findElements(By.className("js-note")).isEmpty());
 }
 
-/*@Test
-public void createNoteWithoutAuthorizationTest() {
-    driver.get("http://127.0.0.1:9000");
-    driver.findElement(By.id("js-addNote")).click();
+//try to create a note without authorization
+    @Test
+    public void createNoteWithoutAuthorizationTest() {
+        driver.get("http://127.0.0.1:9000");
+        
+        assertTrue(driver.findElements(By.className("js-addNote")).isEmpty());
+}
 
-    assertFalse(driver.findElements(By.className("js-note")).isEmpty());
-}*/
-
+//create a note and refresh page, assuming it will be saved
 @Test
 public void createNoteAndRefreshPageTest() {
     driver.findElement(By.id("js-addNote")).click();
@@ -129,6 +132,7 @@ public void createNoteAndRefreshPageTest() {
     driver.navigate().refresh();
 }
 
+//creating and deleting note
     @Test
     public void createDeleteNoteTest() {
         driver.findElement(By.id("js-addNote")).click();
@@ -164,134 +168,8 @@ public void createNoteAndRefreshPageTest() {
         wait.until(elNotFound);
     }
 
+//creating and sharing note test
     @Test
-    public void validUserNameTest() {
-        driver.findElement(By.className("js-user")).click();
-
-        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
-
-        WebElement toClear = driver.findElement(By.id("js-username"));
-        toClear.sendKeys(Keys.CONTROL + "a");
-        toClear.sendKeys(Keys.DELETE);
-  	    toClear.sendKeys("J");
-
-       WebElement button = driver.findElement(By.className("js-submit"));
-        Actions action = new Actions(driver);
-        action.moveToElement(button);
-        action.perform();
-        button.click();
-    }
-
-    @Test
-    public void symbolsUserNameTest() {
-        driver.findElement(By.className("js-user")).click();
-
-        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
-
-        WebElement toClear = driver.findElement(By.id("js-username"));
-        toClear.sendKeys(Keys.CONTROL + "a");
-        toClear.sendKeys(Keys.DELETE);
-        toClear.sendKeys("!@#%^&*$");
-
-       WebElement button = driver.findElement(By.className("js-submit"));
-        Actions action = new Actions(driver);
-        action.moveToElement(button);
-        action.perform();
-        button.click();
-    }
-
-    @Test
-    public void emptyUserNameTest() {
-        driver.findElement(By.className("js-user")).click();
-
-        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
-
-        WebElement toClear = driver.findElement(By.id("js-username"));
-        toClear.sendKeys(Keys.CONTROL + "a");
-        toClear.sendKeys(Keys.DELETE);
-        toClear.sendKeys("   ");
-
-       WebElement button = driver.findElement(By.className("js-submit"));
-        Actions action = new Actions(driver);
-        action.moveToElement(button);
-        action.perform();
-        button.click();
-    }
-
-    @Test
-    public void validUserPasswordTest() {
-        driver.findElement(By.className("js-user")).click();
-
-        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
-
-        WebElement toClear = driver.findElement(By.id("js-currentPass"));
-	    toClear.sendKeys(Keys.CONTROL + "a");
-        toClear.sendKeys(Keys.DELETE);
-  	    toClear.sendKeys("Ololo73");
-	    driver.findElement(By.id("js-newPass")).sendKeys("Capitan1234");
-
-        WebElement button = driver.findElement(By.className("js-submit"));
-        Actions action = new Actions(driver);
-        action.moveToElement(button);
-        action.perform();
-        button.click();
-    }
-
-    @Test
-    public void emptyUserPasswordTest() {
-        driver.findElement(By.className("js-user")).click();
-
-        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
-
-        WebElement toClear = driver.findElement(By.id("js-currentPass"));
-	    toClear.sendKeys(Keys.CONTROL + "a");
-        toClear.sendKeys(Keys.DELETE);
-  	    toClear.sendKeys("Ololo73");
-	    driver.findElement(By.id("js-newPass")).sendKeys(" ");
-
-        WebElement button = driver.findElement(By.className("js-submit"));
-        Actions action = new Actions(driver);
-        action.moveToElement(button);
-        action.perform();
-        button.click();
-    }
-
-    @Test
-    public void shortUserPasswordTest() {
-        driver.findElement(By.className("js-user")).click();
-
-        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
-
-        WebElement toClear = driver.findElement(By.id("js-currentPass"));
-	    toClear.sendKeys(Keys.CONTROL + "a");
-        toClear.sendKeys(Keys.DELETE);
-  	    toClear.sendKeys("Ololo73");
-	    driver.findElement(By.id("js-newPass")).sendKeys("123");
-
-        WebElement button = driver.findElement(By.className("js-submit"));
-        Actions action = new Actions(driver);
-        action.moveToElement(button);
-        action.perform();
-        button.click();
-    }
-
-
-    @Test
-    public void userDesignTest() {
-        driver.findElement(By.className("js-user")).click();
-
-        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
-
-  	    WebElement button = driver.findElement(By.id("lightDen"));
-        Actions action = new Actions(driver);
-        action.moveToElement(button);
-        action.perform();
-        button.click();
-
-	    driver.findElement(By.className("js-submit")).click();
-    }
-
-    /*@Test
     public void createShareNoteTest() {
       UserDetailsImpl user = new UserDetailsImpl();
       user.setUsername("warumweil@gmail.com");
@@ -319,18 +197,18 @@ public void createNoteAndRefreshPageTest() {
       WebElement password = driver.findElement(By.className("js-logPass"));
       WebElement submit = driver.findElement(By.className("js-logSubmit"));
 
-      email.sendKeys("warumweil@gmail.com");
+        email.sendKeys("warumweil@gmail.com");
       password.sendKeys("54321Qwerty");
-      submit.submit();
+        submit.submit();
 
-      assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/telenote"));
+        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/telenote"));
 
       try {
           repository.remove(user);
       } catch (Exception ex) {
           fail(ex.getMessage());
       }
-  }*/
+  }
 
 	/*@Test
     public void deleteSharingNoteTest() {
@@ -371,6 +249,7 @@ public void createNoteAndRefreshPageTest() {
         }
     }*/
 
+//create a note and type something
     @Test
     public void createTypeNoteTest() {
         driver.findElement(By.id("js-addNote")).click();
@@ -407,7 +286,10 @@ public void createNoteAndRefreshPageTest() {
 	    driver.findElement(By.id("js-modalClose")).click();
     }
     private void shareNote(WebDriver driver) {
+
+        org.openqa.selenium.interactions.Actions builder = new org.openqa.selenium.interactions.Actions(driver);
         driver.findElement(By.id("js-addShareEmail")).sendKeys("warumweil@gmail.com");
+        builder.keyUp(Keys.CONTROL);
     	driver.findElement(By.id("js-addShare")).click();
     	driver.findElement(By.id("js-modalClose")).click();
     }
