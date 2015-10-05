@@ -161,31 +161,12 @@
 
 
 		//поведение плюсика в шаринге
-		$('#js-addShareEmail').keyup(function(key){
+		// $('#js-addShareEmail').keyup(function(key){
 
-			var $emailInput = $(this);
-			addShareBtn($emailInput, key);
+		// 	var $emailInput = $(this);
+		// 	addShareBtn($emailInput, key);
 
-		});
-
-
-		//удаление синхронизации
-        $('.js-modalWindow').on('click', '.js-deleteShare', function() {
-
-        	var $deleteShare = $(this);
-            shareData.addedShareEmails = deleteShare($deleteShare,
-              shareData.addedShareEmails);
-
-        });
-
-
-		$(document).keydown(function (key) {
-
-      if ((key.which === 27) &&
-        ($('.js-modalWindow')
-          .css('display') === 'block')) { $('#js-modalClose').click(); }
-    
-    });
+		// });
 
 	});
 })(jQuery);

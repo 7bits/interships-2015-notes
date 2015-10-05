@@ -195,6 +195,8 @@ public class HomeController {
                 message = new ResponseMessage(false, result[0]);
             } else {
                 currentUser.setAvatar(Helper.getAvatarUrl(userEmail));
+                currentUser.setPassword("");
+                currentUser.setName(result[2]);
                 message = new ResponseMessage(true, result[0], currentUser);
                 return new ResponseEntity<ResponseMessage>(message, HttpStatus.OK);
             }

@@ -20,6 +20,7 @@
     "autoprefixer": "^6.0.3",
     "css-mqpacker": "^4.0.0",
     "csswring": "^4.0.0",
+    "flightjs": "^1.5.0",
     "gulp": "~3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-hash-filename": "^1.0.1",

@@ -2,6 +2,7 @@ package it.sevenbits.telenote.utils.validators;
 
 import it.sevenbits.telenote.web.domain.forms.RestorePasswordForm;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -20,6 +21,9 @@ public class RestorePasswordFormValidator implements Validator {
         return clazz.equals(RestorePasswordForm.class);
     }
 
+    @Autowired
+    private CommonFieldValidator validator;
+
     @Override
     public void validate(Object target, Errors errors) {
         RestorePasswordForm form = (RestorePasswordForm) target;
@@ -28,7 +32,6 @@ public class RestorePasswordFormValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "message.validate.password.notempty");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passwordRepeat", "message.validate.password.notempty");
 
-        CommonFieldValidator validator = new CommonFieldValidator();
         if (!validator.isEmail(form.getEmail())) {
             LOG.info("Someone trying to restore wrong email = " + form.getEmail());
             errors.reject("message.validate.email.correct");

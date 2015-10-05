@@ -19,6 +19,9 @@ public class UserCreateFormValidator implements Validator {
     @Autowired
     private MessageSource messageSource;
 
+    @Autowired
+    private CommonFieldValidator validator;
+
     @Override
     public boolean supports(Class<?> clazz) {
         return clazz.equals(UserCreateForm.class);
@@ -33,7 +36,6 @@ public class UserCreateFormValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", messageSource.getMessage("message.validate.username.notempty", null, LocaleContextHolder.getLocale()));
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", messageSource.getMessage("message.validate.password.notempty", null, LocaleContextHolder.getLocale()));
 
-        CommonFieldValidator validator = new CommonFieldValidator();
         if (!validator.isEmail(form.getEmail())) {
             LOG.info("Someone trying to input wrong email = " + form.getEmail());
             errors.rejectValue("email", messageSource.getMessage("message.validate.email.correct", null, LocaleContextHolder.getLocale()));

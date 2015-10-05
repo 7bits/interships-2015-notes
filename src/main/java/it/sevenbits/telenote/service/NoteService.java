@@ -173,7 +173,7 @@ public class NoteService {
         Long parentNoteId = form.getNoteId();
         final UserDetailsImpl userDetails = new UserDetailsImpl();
         userDetails.setUsername(form.getUserEmail());
-        String[] result = new String[2];
+        String[] result = new String[3];
 
         final Note note = new Note();
         note.setId(form.getNoteId());
@@ -217,12 +217,11 @@ public class NoteService {
                     repository.linkUserWithNote(toWhomShare.getUser_id(), toWhomShare.getNote_id());
 
                     Optional<UserDetailsImpl> user = userRepository.getUserByEmail(form.getUserEmail());
-                    String avatar = Helper.getAvatarUrl(user.get().getUsername());
-                    user.get().setAvatar(avatar);
 
                     txManager.commit(status);
                     result[0] = "Успешно расшарено!";
                     result[1] = "200";
+                    result[2] = user.get().getName();
                     return result;
                 } else {
                     LOG.warn(String.format("Can't share not own note. UserId: %d, NoteId: %d.", whoShare.getUser_id(), parentNoteId));
