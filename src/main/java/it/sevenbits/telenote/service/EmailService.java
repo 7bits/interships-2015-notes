@@ -40,7 +40,7 @@ public class EmailService {
      * @param body body of a message.
      * @throws ServiceException
      */
-    private void sendMail(String to, String subject, String body) throws ServiceException {
+    public void sendMail(String to, String subject, String body) throws ServiceException {
         JavaMailSenderImpl sender = (JavaMailSenderImpl) mailSender;
 
         try {
@@ -53,52 +53,12 @@ public class EmailService {
             helper.setFrom(sender.getUsername());
 
             sender.send(mimeMessage);
+            LOG.info("Sended email to " + to);
         } catch (MailException e) {
             LOG.error(String.format("An error occurred while sending email. To: %s, From: %s.", to, sender.getUsername()));
             throw new ServiceException(e.getMessage(), e);
         } catch (MessagingException e) {
             LOG.error(String.format("An error occurred while setting email attributes. To: %s, Subject: %s, From:", to, subject, sender.getUsername()));
-            throw new ServiceException(e.getMessage(), e);
-        }
-    }
-
-    /**
-     * Sends html to user with specified subject. Renders jade template, adds model.
-     * @param to user email.
-     * @param subject subject of a message.
-     * @param templateName template name.
-     * @param model model.
-     * @throws ServiceException
-     */
-    public void sendHtml(String to, String subject, String templateName, HashMap<String, Object> model) throws ServiceException  {
-        try {
-            JadeTemplate template = jade.getTemplate(templateName);
-            String html = jade.renderTemplate(template, model);
-
-            sendMail(to, subject, html);
-        } catch (Exception e) {
-            throw new ServiceException(e.getMessage(), e);
-        }
-    }
-
-    /**
-     * Sends page to user with confirm registration link.
-     * @param to user email.
-     * @param subject subject of a message.
-     * @param link registration link.
-     * @throws ServiceException
-     */
-    public void sendConfirm(UserCreateForm to, String subject, String link) throws ServiceException  {
-        try {
-            JadeTemplate template = jade.getTemplate("mails/confirmRegMail");
-            HashMap<String, Object> model = new HashMap<String, Object>();
-            model.put("confirmLink", link);
-            model.put("username", to.getUsername());
-
-            String html = jade.renderTemplate(template, model);
-
-            sendMail(to.getEmail(), subject, html);
-        } catch (Exception e) {
             throw new ServiceException(e.getMessage(), e);
         }
     }

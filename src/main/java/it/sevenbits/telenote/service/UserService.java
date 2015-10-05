@@ -235,24 +235,21 @@ public class UserService implements UserDetailsService {
         return matcher;
     }
 
-    public boolean resetPassInDB(String email) throws ServiceException {
+    public String resetPassInDB(String email) throws ServiceException {
         TransactionStatus status = null;
         try {
             status = txManager.getTransaction(customTx);
             Optional<UserDetailsImpl> user = getUserByEmail(email);
             if (user.isPresent()) {
                 String token = setNewToken(user.get().getUsername());
-                String link = "http://tele-notes.7bits.it/resetpass?token=" + token + "&email=" + email;
 
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("link", link);
-                map.put("username", user.get().getName());
-
-                emailService.sendHtml(user.get().getUsername(), "Tele-notes. Восстановление пароля.", "mails/changePassMail", map);
+                //emailService.sendHtml(user.get().getUsername(), "Tele-notes. Восстановление пароля.", "mails/changePassMail", map);
+                //emailService.sendMail();
                 txManager.commit(status);
                 LOG.info("Password is successfully reset. UserEmail: " + email);
+                return token;
             } else {
-                return false;
+                throw new ServiceException("No such user, with email " + email);
             }
         } catch (ServiceException e) {
             LOG.error("Could not reset password. UserEmail: " + email);
@@ -262,7 +259,6 @@ public class UserService implements UserDetailsService {
             }
             throw new ServiceException("Could not reset password. UserEmail: " + email, e);
         }
-        return true;
     }
 
     public boolean updatePass(String email, String token, String[] passwords) throws ServiceException {
