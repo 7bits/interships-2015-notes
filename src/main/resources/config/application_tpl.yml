@@ -8,6 +8,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/notes
     username: 
     password: 
+  domain: tele-notes.7bits.it
 
 mail:
     username: tele.notes.7bits@gmail.com

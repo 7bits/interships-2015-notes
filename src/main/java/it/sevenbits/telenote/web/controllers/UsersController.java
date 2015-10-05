@@ -1,5 +1,7 @@
 package it.sevenbits.telenote.web.controllers;
 
+import de.neuland.jade4j.JadeConfiguration;
+import de.neuland.jade4j.template.JadeTemplate;
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.utils.validators.ResetPasswordFormValidator;
 import it.sevenbits.telenote.utils.validators.RestorePasswordFormValidator;
@@ -15,6 +17,7 @@ import it.sevenbits.telenote.service.UserService;
 import org.apache.log4j.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
@@ -30,10 +33,8 @@ import org.springframework.validation.BindingResult;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by sevenbits on 16.07.15.
@@ -42,6 +43,9 @@ import java.util.Optional;
 @Controller
 public class UsersController {
     private static Logger LOG = Logger.getLogger(HomeController.class);
+
+    @Value("${spring.domain}")
+    private String domain;
 
     @Autowired
     private UserService userService;
@@ -60,6 +64,9 @@ public class UsersController {
 
     @Autowired
     private MessageSource messageSource;
+
+    @Autowired
+    private JadeConfiguration jade;
 
     /** Validates form. */
     @InitBinder("form")
@@ -126,21 +133,21 @@ public class UsersController {
                 return model;
             }
 
-            if (!form.getEmail().isEmpty()) {
-                UserDetailsImpl user = new UserDetailsImpl();
-                user.setName(form.getUsername());
-                user.setUsername(form.getEmail().toLowerCase());
-                user.setPassword(form.getPassword());
+            UserDetailsImpl user = new UserDetailsImpl();
+            user.setName(form.getUsername());
+            user.setUsername(form.getEmail().toLowerCase());
+            user.setPassword(form.getPassword());
 
-                userService.create(user);
+            userService.create(user);
+            String link = domain + "/confirm?token=" + userService.getToken(form.getEmail().toLowerCase())
+                    + "&email=" + form.getEmail().toLowerCase();
+            JadeTemplate template = jade.getTemplate("mails/confirmRegMail");
+            HashMap<String, Object> model = new HashMap<String, Object>();
+            model.put("confirmLink", link);
+            model.put("username", form.getUsername());
+            String html = jade.renderTemplate(template, model);
 
-                String link = "http://tele-notes.7bits.it/confirm?token=" + userService.getToken(form.getEmail().toLowerCase()) + "&email=" + form.getEmail().toLowerCase();
-                //ModelAndView model = new ModelAndView("home/confirmRegMail");
-                //model.addObject("confirmLink", );
-                LOG.info("Sended email to " + form.getEmail().toLowerCase());
-                emailService.sendConfirm(form, messageSource.getMessage("message.confirm.email", null, LocaleContextHolder.getLocale()), link);
-            }
-            //request.login(form.getEmail(), form.getPassword());
+            emailService.sendMail(form.getEmail(), messageSource.getMessage("message.confirm.email", null, LocaleContextHolder.getLocale()), html);
         } catch (ServiceException e) {
             LOG.info(e.getMessage());
 
@@ -148,6 +155,9 @@ public class UsersController {
             errors.add(messageSource.getMessage("message.signup.error", null, LocaleContextHolder.getLocale()));
             session.setAttribute("userForm", form);
             return new ModelAndView("home/welcome", "errorMessages", errors);
+        } catch (IOException ex) {
+            LOG.warn("Cant load jade file of mail. " + ex.getMessage());
+            return new ModelAndView("home/error", "error", messageSource.getMessage("message.error.500", null, LocaleContextHolder.getLocale()));
         }
 
         ModelAndView model = new ModelAndView("home/checkMail");
@@ -197,10 +207,21 @@ public class UsersController {
             }
 
             String email = form.getEmail().toLowerCase();
-            if (!userService.resetPassInDB(email))
-                return new ModelAndView("home/resetPass", "error", messageSource.getMessage("message.validate.email.exist", null, LocaleContextHolder.getLocale()));
+            String token = userService.resetPassInDB(email);
+            String link = domain + "/resetpass?token=" + token + "&email=" + email;
+
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("link", link);
+            map.put("username", email);
+
+            JadeTemplate template = jade.getTemplate("mails/changePassMail");
+            String html = jade.renderTemplate(template, map);
+
+            emailService.sendMail(form.getEmail(), messageSource.getMessage("message.resetpass.email.title", null, LocaleContextHolder.getLocale()), html);
         } catch (ServiceException e) {
             return new ModelAndView("home/errors", "error", e.getMessage());
+        } catch (IOException ex) {
+            return new ModelAndView("home/errors", "error", ex.getMessage());
         }
 
         ModelAndView model = new ModelAndView("home/checkMail");
