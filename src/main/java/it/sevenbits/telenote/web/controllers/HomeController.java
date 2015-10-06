@@ -3,6 +3,7 @@ package it.sevenbits.telenote.web.controllers;
 
 import it.sevenbits.telenote.core.domain.Note;
 import it.sevenbits.telenote.core.domain.OrderData;
+import it.sevenbits.telenote.core.domain.Role;
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.core.repository.RepositoryException;
 import it.sevenbits.telenote.service.NoteService;
@@ -14,6 +15,7 @@ import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
 import it.sevenbits.telenote.web.domain.models.NoteModel;
 import it.sevenbits.telenote.web.domain.models.NoteSocketCommand;
 import it.sevenbits.telenote.web.domain.models.ResponseMessage;
+import it.sevenbits.telenote.web.domain.models.UserPresentModel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -183,7 +185,7 @@ public class HomeController {
      */
     @RequestMapping(value = "/telenote/share", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<ResponseMessage> shareNote (HttpServletRequest request, HttpServletResponse response, Authentication auth) throws RepositoryException, ServiceException{
+    ResponseEntity<ResponseMessage> shareNote (HttpServletRequest request, Authentication auth) throws RepositoryException, ServiceException{
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
 
         Long noteId = Long.parseLong(request.getParameter("id"));
@@ -191,13 +193,15 @@ public class HomeController {
         ShareForm form = new ShareForm(noteId, userEmail);
 
         try {
-            response.flushBuffer();
             String[] result = noteService.shareNote(form, currentUser.getId());
             ResponseMessage message;
             if (!result[1].equals("200")) {
                 message = new ResponseMessage(false, result[0]);
             } else {
-                UserDetailsImpl user = new UserDetailsImpl();
+//                currentUser.setAvatar(Helper.getAvatarUrl(userEmail));
+//                message = new ResponseMessage(true, result[0], currentUser);
+//                return new ResponseEntity<ResponseMessage>(message, HttpStatus.OK);
+                UserPresentModel user = new UserPresentModel();
                 user.setName(result[2]);
                 user.setUsername(userEmail);
                 user.setAvatar(Helper.getAvatarUrl(userEmail));
@@ -208,8 +212,6 @@ public class HomeController {
             if (result[1].equals("406")) return  new ResponseEntity<ResponseMessage>(message, HttpStatus.NOT_ACCEPTABLE);
             else return new ResponseEntity<ResponseMessage>(message, HttpStatus.NOT_FOUND);
         } catch (ServiceException se) {
-            return new ResponseEntity<>(new ResponseMessage(false, "Error on service"), HttpStatus.NOT_ACCEPTABLE);
-        } catch (IOException e) {
             return new ResponseEntity<>(new ResponseMessage(false, "Error on service"), HttpStatus.NOT_ACCEPTABLE);
         }
 

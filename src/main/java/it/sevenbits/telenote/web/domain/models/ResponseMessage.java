@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class ResponseMessage implements Serializable {
     private Boolean success;
     private String message;
-    private UserDetailsImpl user;
+    private UserPresentModel user;
 
     public Boolean getSuccess() {
         return success;
@@ -28,11 +28,11 @@ public class ResponseMessage implements Serializable {
         this.message = message;
     }
 
-    public UserDetailsImpl getUser() {
+    public UserPresentModel getUser() {
         return user;
     }
 
-    public void setUser(UserDetailsImpl user) {
+    public void setUser(UserPresentModel user) {
         this.user = user;
     }
 
@@ -44,7 +44,7 @@ public class ResponseMessage implements Serializable {
         this.message = message;
     }
 
-    public ResponseMessage(Boolean success, String message, UserDetailsImpl user) {
+    public ResponseMessage(Boolean success, String message, UserPresentModel user) {
 
         this.success = success;
         this.message = message;
