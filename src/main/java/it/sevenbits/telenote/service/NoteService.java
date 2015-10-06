@@ -338,8 +338,8 @@ public class NoteService {
     }
 
     /**
-     * Deletes share link.
-     * @param rootNoteId
+     * Deletes share link. Disconnects root note from other tree.
+     * @param rootNoteId root note id.
      * @param userId user id.
      * @throws ServiceException
      */

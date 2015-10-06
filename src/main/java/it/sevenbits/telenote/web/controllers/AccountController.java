@@ -3,6 +3,8 @@ package it.sevenbits.telenote.web.controllers;
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 
 import it.sevenbits.telenote.utils.Helper;
+import it.sevenbits.telenote.utils.UtilsException;
+import it.sevenbits.telenote.utils.validators.ChangesFormValidator;
 import it.sevenbits.telenote.web.domain.forms.ChangesForm;
 import it.sevenbits.telenote.service.AccountService;
 import it.sevenbits.telenote.service.NoteService;
@@ -12,10 +14,14 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class AccountController {
@@ -27,6 +33,15 @@ public class AccountController {
 
     @Autowired
     private NoteService noteService;
+
+    @Autowired
+    private ChangesFormValidator changesFormValidator;
+
+    /** Validates form. */
+    @InitBinder("form")
+    public void initBinderSignupForm(WebDataBinder binder) {
+        binder.addValidators(changesFormValidator);
+    }
 
     @RequestMapping(value = "/account", method = RequestMethod.GET)
     public ModelAndView getAccount(Authentication auth) throws ServiceException {
@@ -49,7 +64,8 @@ public class AccountController {
      */
     @RequestMapping(value = "/account", method = RequestMethod.POST)
     public @ResponseBody
-    ModelAndView changeAccountSettings(@Valid @ModelAttribute("form") ChangesForm form, Authentication auth) throws ServiceException {
+    ModelAndView changeAccountSettings(@Valid @ModelAttribute("form") ChangesForm form, BindingResult bindingResult,
+                                       Authentication auth) throws ServiceException {
         UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
         String username = user.getName();
         ModelAndView model = new ModelAndView("home/account");
@@ -57,35 +73,25 @@ public class AccountController {
         model.addObject("avatar", Helper.getAvatarUrl(user.getUsername()));
 
         try {
-            if (!form.getUsername().isEmpty() && !form.getUsername().equals(user.getName())) {
-                user.setName(form.getUsername());
-                accountService.changeUsername(user);
-            }
+            if (bindingResult.hasErrors()) {
+                Map<String, String> map = Helper.getSignUpErrors(bindingResult);
 
-            if (!form.getStyle().equals(user.getStyle())) {
-                user.setStyle(form.getStyle());
-                accountService.changeTheme(user);
-            }
-
-            if (!(form.getNewPass().isEmpty() && form.getCurrentPass().isEmpty())) {
-                accountService.changePass(form.getCurrentPass(), form.getNewPass(), user);
-                form.setCurrentPass("");
-                form.setNewPass("");
-            }
-        } catch (ServiceException e) {
-            if (e.getMessage().equals("incorrectPass") || e.getMessage().equals("patternFail") ||
-                    e.getMessage().equals("curPassEqualsNewPass") || e.getMessage().equals("incorrectUsername")) {
-
-                model.addObject(e.getMessage().toString(), 1);
-                model.addObject("changesForm", form);
-
-                user.setName(username);
-                model.addObject("user", user);
-
+                for (Map.Entry<String, String> entry : map.entrySet()) {
+                    model.addObject(entry.getValue() + "Error", entry.getKey());
+                }
                 return model;
-            } else throw new ServiceException(e.getMessage());
+            }
+
+            Map<String, Object> settingsMap = accountService.changeAccountSettings(form, user);
+            model.addAllObjects(settingsMap);
+        } catch (UtilsException e) {
+            LOG.warn(e.getMessage());
+        } catch (ServiceException e) {
+            throw new ServiceException(e.getMessage());
         }
 
+        form.setCurrentPass("");
+        form.setNewPass("");
         model.addObject("user", user);
         model.addObject("changesForm", form);
         return model;

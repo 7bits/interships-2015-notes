@@ -4,6 +4,8 @@ import de.neuland.jade4j.JadeConfiguration;
 import de.neuland.jade4j.template.JadeTemplate;
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
 import it.sevenbits.telenote.utils.validators.ResetPasswordFormValidator;
+import it.sevenbits.telenote.utils.Helper;
+import it.sevenbits.telenote.utils.UtilsException;
 import it.sevenbits.telenote.utils.validators.RestorePasswordFormValidator;
 import it.sevenbits.telenote.web.domain.forms.ResetPassForm;
 import it.sevenbits.telenote.web.domain.forms.RestorePasswordForm;
@@ -122,7 +124,7 @@ public class UsersController {
             if (bindingResult.hasErrors()) {
                 String url = "home/welcome";
                 ModelAndView model = new ModelAndView(url);
-                Map<String, String> map = userService.getSignUpErrors(bindingResult);
+                Map<String, String> map = Helper.getSignUpErrors(bindingResult);
 
                 for (Map.Entry<String, String> entry : map.entrySet()) {
                     model.addObject(entry.getValue() + "Error", entry.getKey());
@@ -133,6 +135,7 @@ public class UsersController {
                 return model;
             }
 
+/*<<<<<<< HEAD*/
             UserDetailsImpl user = new UserDetailsImpl();
             user.setName(form.getUsername());
             user.setUsername(form.getEmail().toLowerCase());
@@ -148,16 +151,26 @@ public class UsersController {
             String html = jade.renderTemplate(template, model);
 
             emailService.sendMail(form.getEmail(), messageSource.getMessage("message.confirm.email", null, LocaleContextHolder.getLocale()), html);
+        } catch(UtilsException e) {
+            LOG.warn(e.getMessage());
         } catch (ServiceException e) {
             LOG.info(e.getMessage());
 
             List<String> errors = new ArrayList<>();
-            errors.add(messageSource.getMessage("message.signup.error", null, LocaleContextHolder.getLocale()));
+            errors.add(messageSource.getMessage("message.signup.exist", null, LocaleContextHolder.getLocale()));
+
+            ModelAndView model = new ModelAndView("home/welcome");
             session.setAttribute("userForm", form);
+/*<<<<<<< HEAD*/
             return new ModelAndView("home/welcome", "errorMessages", errors);
         } catch (IOException ex) {
             LOG.warn("Cant load jade file of mail. " + ex.getMessage());
             return new ModelAndView("home/error", "error", messageSource.getMessage("message.error.500", null, LocaleContextHolder.getLocale()));
+/*=======
+            model.addObject("signupForm", form);
+            model.addObject("emailExists", errors);
+            return model;
+>>>>>>> accountController*/
         }
 
         ModelAndView model = new ModelAndView("home/checkMail");

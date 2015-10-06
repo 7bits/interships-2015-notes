@@ -20,9 +20,9 @@ block content
           input#js-username.section__input.section__input_username(type='textbox', name='username', value='#{changesForm.name}', maxlength='20')
         else
           input#js-username.section__input.section__input_username(type='textbox', name='username', value='#{user.name}', maxlength='20')
-        if incorrectUsername
+        if usernameError
           #js-nameDiv.section__nameError
-            span#js-name Некорректное имя
+            span#js-name #{usernameError}
       .accountInfo__email
         label.section__label.section__label_email Адрес
         label.email#{user.username}
@@ -31,18 +31,24 @@ block content
       .accountInfo__currentPass
         label.section__label.section__label_currentPass Текущий пароль
         input#js-currentPass.section__input.section__input_currentPass(type='password', name='currentPass', value='#{changesForm.currentPass}')
-        if incorrectPass
+        if currentPassError
           #js-errorDiv.section__passError.section__passError_old
-            span#js-oldPass Неверный пароль
+            span#js-oldPass #{currentPassError}
+        if incorrectPass
+                  #js-errorDiv.section__passError.section__passError_old
+                    span#js-oldPass #{incorrectPass}
         if curPassEqualsNewPass
           #js-errorDiv.section__passError.section__passError_old
-            span#js-oldPass Пароли не должны совпадать
+            span#js-oldPass #{curPassEqualsNewPass}
       .accountInfo__newPass
         label.section__label.section__label_newPass Новый пароль
         input#js-newPass.section__input.section__input_newPass(type='password', name='newPass', value='#{changesForm.newPass}')
+        if newPassError
+          #js-errorDiv.section__passError.section__passError_new
+            span#js-newPassErr #{newPassError}
         if patternFail
           #js-errorDiv.section__passError.section__passError_new
-            span#js-newPassErr Пароль слишком прост
+            span#js-newPassErr #{patternFail}
     .accountInfo__section
       .accountInfo__section_theme Дизайн
       .accountInfo__themes
