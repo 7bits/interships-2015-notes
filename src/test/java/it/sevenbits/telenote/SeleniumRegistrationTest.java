@@ -210,6 +210,6 @@ public class SeleniumRegistrationTest {
 
     @AfterClass
     public static void closeDriver() {
-        driver.close();
+        driver.quit();
     }
 }

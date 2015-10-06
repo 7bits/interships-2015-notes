@@ -67,7 +67,7 @@ public class SeleniumLoginTest {
 
     @AfterClass
     public static void closeDriver() {
-        driver.close();
+        driver.quit();
     }
 
     @Before

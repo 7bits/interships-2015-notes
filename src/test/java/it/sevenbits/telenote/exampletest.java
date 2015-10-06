@@ -79,11 +79,11 @@ public class exampletest {
         }
 
         if (driver != null) {
-            driver.get("http://notes:bestpassword@tele-notes.7bits.it/");
+            driver.get("https://notes:bestpassword@tele-notes.7bits.it/");
         }
         driver.findElement(By.className("welcomeForm__button"));
 
-        driver.close();
+        driver.quit();
 
     }
 }

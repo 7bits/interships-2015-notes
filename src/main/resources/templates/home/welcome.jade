@@ -4,13 +4,13 @@ block formsContainer
     form.welcomeForm__form(role='form', action='/signin', method='POST', name='signinForm')
       .welcomeForm__formTitle Вход
       input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
-      input#js-logText.welcomeForm__textbox(type='textbox', name='username', placeholder='e-mail', value='#{username}', maxlength='30')
+      input#js-logText.js-logText.welcomeForm__textbox(type='textbox', name='username', placeholder='e-mail', value='#{username}', maxlength='30')
       if error
         .welcomeForm__error.js-loginError
           span#js-loginError Адрес и пароль не совпадают
       input.welcomeForm__textbox.js-logPass(type='password', name='password', autocomplete='off', placeholder='пароль', maxlength='30')
       button.welcomeForm__button.js-logSubmit(type='submit') Войти
-      .welcomeForm__href 
+      .welcomeForm__href
         a.welcomeForm__href_color(href='/resetpass') Забыли пароль?
   .container__welcomeForm
     form.welcomeForm__form(role='form', action='/signup', method='POST', name='signupForm')

@@ -23,6 +23,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.WebDriver;
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -47,12 +49,8 @@ public class SeleniumAccountTest {
     public UserService userService;
 
 
-    @BeforeClass
+    /*@BeforeClass
     public static void initDriver() throws MalformedURLException {
-        DesiredCapabilities caps = DesiredCapabilities.firefox();
-        caps.setCapability("platform", "Linux");
-        caps.setCapability("version", "38.0");
-        WebDriver driver = new RemoteWebDriver(new URL(URL), caps);
 
         // driver = new FirefoxDriver();
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
@@ -66,20 +64,66 @@ public class SeleniumAccountTest {
 
     @AfterClass
     public static void closeDriver() throws MalformedURLException {
-        DesiredCapabilities caps = DesiredCapabilities.firefox();
-        caps.setCapability("platform", "Linux");
-        caps.setCapability("version", "38.0");
-        WebDriver driver = new RemoteWebDriver(new URL(URL), caps);
-        driver.close();
+        driver.quit();
     }
 
     @Before
     public void before() throws Exception {
-        DesiredCapabilities caps = DesiredCapabilities.firefox();
+        try {
+            user.setPassword((new BCryptPasswordEncoder()).encode("Ololo73"));
+
+            repository.create(user);
+
+            user.setPassword("Ololo73");
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
+
+        WebDriverWait wait = new WebDriverWait(driver, 30);
+        ExpectedCondition e = new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return ((JavascriptExecutor)d).executeScript("return document.readyState").equals("complete");
+            }
+        };
+        wait.until(e);
+
+        WebElement email = driver.findElement(By.className("js-logText"));
+        WebElement password = driver.findElement(By.className("js-logPass"));
+        WebElement submit = driver.findElement(By.className("js-logSubmit"));
+
+        email.sendKeys(user.getUsername());
+        password.sendKeys(user.getPassword());
+        submit.submit();
+
+        assertTrue(driver.getCurrentUrl().equals("http://tele-notes.7bits.it/telenote"));
+    }
+
+    @After
+	public void after() throws Exception {
+        try {
+            userService.cleanDB();
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
+    }*/
+
+//changing username in account
+    @Test
+    public void validUserNameTest() throws MalformedURLException {
+        DesiredCapabilities caps = DesiredCapabilities.chrome();
         caps.setCapability("platform", "Linux");
-        caps.setCapability("version", "38.0");
-        WebDriver driver = new RemoteWebDriver(new URL(URL), caps);
-        driver.get("http://127.0.0.1:9000");
+        caps.setCapability("version", "44.0");
+        //WebDriver driver = new RemoteWebDriver(new URL(URL), caps);
+        WebDriver driver = null;
+        try {
+            driver = new RemoteWebDriver(new URL(URL), caps);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        user = new UserDetailsImpl();
+        user.setUsername("ololo@ololo.com");
+        user.setName("Capitan");
 
         try {
             user.setPassword((new BCryptPasswordEncoder()).encode("Ololo73"));
@@ -91,14 +135,7 @@ public class SeleniumAccountTest {
             fail(ex.getMessage());
         }
 
-
-        WebDriverWait wait = new WebDriverWait(driver, 30);
-        ExpectedCondition e = new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return ((JavascriptExecutor)d).executeScript("return document.readyState").equals("complete");
-            }
-        };
-        wait.until(e);
+        driver.get("http://notes:bestpassword@tele-notes.7bits.it/");
 
         WebElement email = driver.findElement(By.id("js-logText"));
         WebElement password = driver.findElement(By.className("js-logPass"));
@@ -108,40 +145,30 @@ public class SeleniumAccountTest {
         password.sendKeys(user.getPassword());
         submit.submit();
 
-        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/telenote"));
-    }
-
-    @After
-	public void after() throws Exception {
-        try {
-            userService.cleanDB();
-        } catch (Exception ex) {
-            fail(ex.getMessage());
-        }
-    }
-
-//changing username in account
-    @Test
-    public void validUserNameTest() throws MalformedURLException {
-        DesiredCapabilities caps = DesiredCapabilities.firefox();
-        caps.setCapability("platform", "Linux");
-        caps.setCapability("version", "38.0");
-        WebDriver driver = new RemoteWebDriver(new URL(URL), caps);
+        assertTrue(driver.getCurrentUrl().equals("http://tele-notes.7bits.it/telenote"));
 
         driver.findElement(By.className("js-user")).click();
 
-        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
+        assertTrue(driver.getCurrentUrl().equals("http://tele-notes.7bits.it/account"));
 
         WebElement toClear = driver.findElement(By.id("js-username"));
         toClear.sendKeys(Keys.CONTROL + "a");
         toClear.sendKeys(Keys.DELETE);
   	    toClear.sendKeys("J");
 
-       WebElement button = driver.findElement(By.className("js-submit"));
+        WebElement button = driver.findElement(By.className("js-submit"));
         Actions action = new Actions(driver);
         action.moveToElement(button);
         action.perform();
         button.click();
+
+        try {
+            userService.cleanDB();
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
+
+        driver.quit();
     }
 /*
 //changing username from letters to symbols

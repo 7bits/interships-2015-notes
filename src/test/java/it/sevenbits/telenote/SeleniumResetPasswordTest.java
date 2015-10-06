@@ -23,11 +23,18 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import java.net.URL;
+import java.net.MalformedURLException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
 public class SeleniumResetPasswordTest {
+    public static final String USERNAME = "jnovikova";
+    public static final String ACCESS_KEY = "800b6843-fb79-4cec-96d4-dbd5ccead76c";
+    public static final String URL = "http://" + USERNAME + ":" + ACCESS_KEY + "@ondemand.saucelabs.com:80/wd/hub";
 
     private static WebDriver driver;
 
@@ -52,7 +59,7 @@ public class SeleniumResetPasswordTest {
         submit = driver.findElement(By.className("js-regSubmit"));
     }
 
-    @BeforeClass
+    /*@BeforeClass
     public static void initDriver() {
         //driver = new ChromeDriver();
         driver = new FirefoxDriver();
@@ -63,14 +70,14 @@ public class SeleniumResetPasswordTest {
         user.setUsername("ololo@ololo.com");
         user.setName("Capitan");
         //driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
-    }
+    }*/
 
-    @AfterClass
+    /*@AfterClass
     public static void closeDriver() {
-        driver.close();
-    }
+        driver.quit();
+    }*/
 
-    @Before
+    /*@Before
     public void before() throws Exception {
         try {
             user.setPassword((new BCryptPasswordEncoder()).encode("Ololo73"));
@@ -82,46 +89,156 @@ public class SeleniumResetPasswordTest {
             fail(ex.getMessage());
         }
 
-        driver.get("http://127.0.0.1:9000");
+        driver.get("http://notes:bestpassword@tele-notes.7bits.it");
 
-    }
-
+    }*/
 
 //resetting password with valid email
     @Test
     public void resetPasswordTest() {
+
+        DesiredCapabilities caps = DesiredCapabilities.chrome();
+        caps.setCapability("platform", "Linux");
+        caps.setCapability("version", "44.0");
+        WebDriver driver = null;
+        try {
+            driver = new RemoteWebDriver(new URL(URL), caps);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        if (driver != null) {
+            driver.get("https://notes:bestpassword@tele-notes.7bits.it/");
+        }
+
+        user = new UserDetailsImpl();
+        user.setUsername("ololo@ololo.com");
+        user.setName("Capitan");
+
+        try {
+            user.setPassword((new BCryptPasswordEncoder()).encode("Ololo73"));
+
+            repository.create(user);
+
+            user.setPassword("Ololo73");
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
+
         driver.findElement(By.className("welcomeForm__href_color")).click();
-        assertEquals("http://127.0.0.1:9000/resetpass", driver.getCurrentUrl());
+        assertEquals("https://notes:bestpassword@tele-notes.7bits.it/resetpass", driver.getCurrentUrl());
         email = driver.findElement(By.id("js-logText"));
         email.sendKeys("ololo@ololo.com");
         submit = driver.findElement(By.className("welcomeForm__button"));
         submit.submit();
+
+        driver.quit();
+
+        try {
+            userService.cleanDB();
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
     }
 
 //trying to reset password with invalid email
     @Test
     public void resetInvalidEmailPasswordTest() {
+
+        DesiredCapabilities caps = DesiredCapabilities.chrome();
+        caps.setCapability("platform", "Linux");
+        caps.setCapability("version", "44.0");
+        WebDriver driver = null;
+        try {
+            driver = new RemoteWebDriver(new URL(URL), caps);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        if (driver != null) {
+            driver.get("https://notes:bestpassword@tele-notes.7bits.it/");
+        }
+
+        user = new UserDetailsImpl();
+        user.setUsername("ololo@ololo.com");
+        user.setName("Capitan");
+
+        try {
+            user.setPassword((new BCryptPasswordEncoder()).encode("Ololo73"));
+
+            repository.create(user);
+
+            user.setPassword("Ololo73");
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
         driver.findElement(By.className("welcomeForm__href_color")).click();
-        assertEquals("http://127.0.0.1:9000/resetpass", driver.getCurrentUrl());
+        assertEquals("https://notes:bestpassword@tele-notes.7bits.it/resetpass", driver.getCurrentUrl());
         email = driver.findElement(By.id("js-logText"));
         email.sendKeys("Qwerty");
         submit = driver.findElement(By.className("welcomeForm__button"));
         submit.submit();
+
+        driver.quit();
+
+        try {
+            userService.cleanDB();
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
     }
 
 //trying to reset password with empty field
     @Test
     public void resetEmptyEmailPasswordTest() {
+        DesiredCapabilities caps = DesiredCapabilities.chrome();
+        caps.setCapability("platform", "Linux");
+        caps.setCapability("version", "44.0");
+        WebDriver driver = null;
+        try {
+            driver = new RemoteWebDriver(new URL(URL), caps);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        if (driver != null) {
+            driver.get("https://notes:bestpassword@tele-notes.7bits.it/");
+        }
+
+        user = new UserDetailsImpl();
+        user.setUsername("ololo@ololo.com");
+        user.setName("Capitan");
+
+        try {
+            user.setPassword((new BCryptPasswordEncoder()).encode("Ololo73"));
+
+            repository.create(user);
+
+            user.setPassword("Ololo73");
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
         driver.findElement(By.className("welcomeForm__href_color")).click();
-        assertEquals("http://127.0.0.1:9000/resetpass", driver.getCurrentUrl());
+        assertEquals("https://notes:bestpassword@tele-notes.7bits.it/resetpass", driver.getCurrentUrl());
         email = driver.findElement(By.id("js-logText"));
         email.sendKeys(" ");
         submit = driver.findElement(By.className("welcomeForm__button"));
         submit.submit();
+
+        driver.quit();
+
+        try {
+            userService.cleanDB();
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
     }
 
-    @After
+    /*@After
     public void after() throws Exception {
-       userService.cleanDB();
-    }
+    try {
+        userService.cleanDB();
+    } catch (Exception ex) {
+        fail(ex.getMessage());
+   }*/
 }

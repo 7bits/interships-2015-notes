@@ -61,7 +61,7 @@ public class SeleniumNoteTest {
 
     @AfterClass
     public static void closeDriver() {
-        driver.close();
+        driver.quit();
     }
 
     @Before
@@ -119,7 +119,7 @@ public class SeleniumNoteTest {
     @Test
     public void createNoteWithoutAuthorizationTest() {
         driver.get("http://127.0.0.1:9000");
-        
+
         assertTrue(driver.findElements(By.className("js-addNote")).isEmpty());
 }
 

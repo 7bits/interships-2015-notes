@@ -6,6 +6,7 @@
 /target/*
 telenote.iml
 /javadocs
+/src/main/resources/config/spring.log
 /src/main/resources/config/application-*.yml
 /src/main/resources/config/application.yml
 /src/main/resources/config/spring.log
