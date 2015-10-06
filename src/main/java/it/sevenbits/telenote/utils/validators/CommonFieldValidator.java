@@ -17,6 +17,9 @@ public class CommonFieldValidator {
     /** Pattern for whitespaces */
     private static final String WHITESPACE_PATTERN = "\\s+";
 
+    /** Pattern for username */
+    private static final String USERNAME_PATTERN = "[a-zA-Zа-яА-ЯёЁ0-9-_]+";
+
     /**
      * Validate whether value is not null and empty or contains only spaces, otherwise reject it
      *
@@ -24,6 +27,10 @@ public class CommonFieldValidator {
      */
     public boolean isNotNullOrEmpty(final String value) {
         return !(value == null || value.isEmpty() || value.matches(WHITESPACE_PATTERN));
+    }
+
+    public boolean isValidUsername(final String value) {
+        return !(value == null || !value.matches(USERNAME_PATTERN));
     }
 
     /**
@@ -52,6 +59,10 @@ public class CommonFieldValidator {
         }
 
         return false;
+    }
+
+    public boolean isEqual(String value1, String value2) {
+        return value1.equals(value2);
     }
 
     public boolean isInRange(int value, int right, int left) {

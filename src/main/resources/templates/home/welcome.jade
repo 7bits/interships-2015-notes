@@ -22,7 +22,7 @@ block formsContainer
           span#js-regEmailMess Неправильный адрес
       if emailExists
         .welcomeForm__error
-          span#js-regEmailMess email уже используется
+          span#js-regEmailMess Email уже используется
       input#js-regUsername.welcomeForm__textbox(type='textbox', name='username', placeholder='имя', value='#{signupForm.username}', maxlength='30')
       if usernameError
         .welcomeForm__error.welcomeForm__error_name.js-nameError

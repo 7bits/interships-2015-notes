@@ -1,6 +1,8 @@
 package it.sevenbits.telenote.web.controllers;
 
 import it.sevenbits.telenote.core.domain.UserDetailsImpl;
+import it.sevenbits.telenote.utils.Helper;
+import it.sevenbits.telenote.utils.UtilsException;
 import it.sevenbits.telenote.utils.validators.RestorePasswordFormValidator;
 import it.sevenbits.telenote.web.domain.forms.RestorePasswordForm;
 import it.sevenbits.telenote.web.domain.forms.UserCreateForm;
@@ -105,7 +107,7 @@ public class UsersController {
             if (bindingResult.hasErrors()) {
                 String url = "home/welcome";
                 ModelAndView model = new ModelAndView(url);
-                Map<String, String> map = userService.getSignUpErrors(bindingResult);
+                Map<String, String> map = Helper.getSignUpErrors(bindingResult);
 
                 for (Map.Entry<String, String> entry : map.entrySet()) {
                     model.addObject(entry.getValue() + "Error", entry.getKey());
@@ -131,13 +133,19 @@ public class UsersController {
                 emailService.sendConfirm(form, messageSource.getMessage("message.confirm.email", null, LocaleContextHolder.getLocale()), link);
             }
             //request.login(form.getEmail(), form.getPassword());
+        } catch (UtilsException e) {
+            LOG.warn(e.getMessage());
         } catch (ServiceException e) {
             LOG.info(e.getMessage());
 
             List<String> errors = new ArrayList<>();
-            errors.add(messageSource.getMessage("message.signup.error", null, LocaleContextHolder.getLocale()));
+            errors.add(messageSource.getMessage("message.signup.exist", null, LocaleContextHolder.getLocale()));
+
+            ModelAndView model = new ModelAndView("home/welcome");
             session.setAttribute("userForm", form);
-            return new ModelAndView("home/welcome", "errorMessages", errors);
+            model.addObject("signupForm", form);
+            model.addObject("emailExists", errors);
+            return model;
         }
 
         ModelAndView model = new ModelAndView("home/checkMail");

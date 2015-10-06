@@ -218,23 +218,6 @@ public class UserService implements UserDetailsService {
         return token;
     }
 
-    public Map<String, String> getSignUpErrors(BindingResult bindingResult) throws ServiceException {
-        Map<String, String> matcher = new HashMap<>();
-
-        for (ObjectError objectError : bindingResult.getAllErrors()) {
-            try {
-                String errCod = objectError.getCode();
-                if (!matcher.containsKey(errCod)) {
-                    matcher.put(errCod, ((FieldError) objectError).getField().toString());
-                }
-            } catch (Exception e) {
-                LOG.error("Wrong type of error, expected FieldError, get another. " + e.getMessage());
-                throw new ServiceException(e.getMessage());
-            }
-        }
-        return matcher;
-    }
-
     public boolean resetPassInDB(String email) throws ServiceException {
         TransactionStatus status = null;
         try {

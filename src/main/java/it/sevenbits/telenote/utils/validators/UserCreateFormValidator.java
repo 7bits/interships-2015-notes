@@ -17,6 +17,9 @@ public class UserCreateFormValidator implements Validator {
     private static final Logger LOG = Logger.getLogger(UserCreateFormValidator.class);
 
     @Autowired
+    private CommonFieldValidator validator;
+
+    @Autowired
     private MessageSource messageSource;
 
     @Override
@@ -33,7 +36,6 @@ public class UserCreateFormValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", messageSource.getMessage("message.validate.username.notempty", null, LocaleContextHolder.getLocale()));
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", messageSource.getMessage("message.validate.password.notempty", null, LocaleContextHolder.getLocale()));
 
-        CommonFieldValidator validator = new CommonFieldValidator();
         if (!validator.isEmail(form.getEmail())) {
             LOG.info("Someone trying to input wrong email = " + form.getEmail());
             errors.rejectValue("email", messageSource.getMessage("message.validate.email.correct", null, LocaleContextHolder.getLocale()));
@@ -42,6 +44,11 @@ public class UserCreateFormValidator implements Validator {
         if (!validator.isInRange(form.getEmail().length(), 1, 255)) {
             LOG.info("Someone trying to input email not in length range 1,255 = " + form.getEmail());
             errors.rejectValue("email", messageSource.getMessage("message.validate.email.length", null, LocaleContextHolder.getLocale()));
+        }
+
+        if (!validator.isValidUsername(form.getUsername())) {
+            LOG.info("Someone trying to input not valid username" + form.getUsername());
+            errors.rejectValue("username", messageSource.getMessage("message.validate.username.correct", null, LocaleContextHolder.getLocale()));
         }
 
         if (!validator.isInRange(form.getUsername().length(), 1, 255)) {

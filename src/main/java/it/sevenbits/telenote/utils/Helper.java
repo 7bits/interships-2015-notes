@@ -3,6 +3,9 @@ package it.sevenbits.telenote.utils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,5 +68,22 @@ public class Helper {
             }
         }
         return map;
+    }
+
+    public static Map<String, String> getSignUpErrors(BindingResult bindingResult) throws UtilsException{
+        Map<String, String> matcher = new HashMap<>();
+
+        for (ObjectError objectError : bindingResult.getAllErrors()) {
+            try {
+                String errCod = objectError.getCode();
+                if (!matcher.containsKey(errCod)) {
+                    matcher.put(errCod, ((FieldError) objectError).getField().toString());
+                }
+            } catch (Exception e) {
+                //LOG.error("Wrong type of error, expected FieldError, get another. " + e.getMessage());
+                throw new UtilsException(e.getMessage());
+            }
+        }
+        return matcher;
     }
 }
