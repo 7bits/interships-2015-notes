@@ -5,7 +5,7 @@ var ajaxDataMixin = function() {
       url: dataArray.url,
       data: dataArray.data,
       type: dataArray.type,
-      dataType: 'json',
+      dataType: dataArray.dataType,
       headers: {'X-CSRF-TOKEN': $('meta[name = _csrf]').attr('content') },
       success: function(data) {
         dataArray.collbackSuccess(data);

@@ -38,13 +38,12 @@ gulp.task('css-dev', function () {
     mqpacker,
     csswring
   ];
-  var version = readAssetsVersion('develop');
 
   return gulp
     .src('src/main/resources/public/css/src/*.css')
     .pipe(postcss(processors))
     .pipe(minify())
-    .pipe(concat('bundle' + version + '.css'))
+    .pipe(concat('bundle.css'))
     .pipe(gulp.dest('src/main/resources/public/css/gulp'));
 });
 

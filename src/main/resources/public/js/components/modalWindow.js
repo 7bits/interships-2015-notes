@@ -21,6 +21,7 @@ var modalWindowComponent = flight.component(
       url: this.attr.checkUrl,
       data: {id: noteId},
       type: 'POST',
+      dataType: 'json',
       collbackSuccess: function(data) {
         $('#js-syncUsers').prepend('<div id="js-owner" class="modal__user">' +
             '<div class="user__img">' +
@@ -94,6 +95,7 @@ var modalWindowComponent = flight.component(
         url: this.attr.shareUrl,
         data: sendData,
         type: 'POST',
+        dataType: 'json',
         collbackSuccess: function(data) {
           $('.js-modalWindow').trigger('addShareAnimation', data);
           $('#js-addShareEmail').val('');
@@ -136,6 +138,7 @@ var modalWindowComponent = flight.component(
       url: this.attr.deleteUrl,
       data: sendData,
       type: 'POST',
+      dataType: 'json',
       collbackSuccess: function(data) {
         $('#'+sendData.userId).empty().animate({
             height: '0px'

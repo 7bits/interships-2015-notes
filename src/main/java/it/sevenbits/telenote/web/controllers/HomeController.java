@@ -32,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -157,7 +158,7 @@ public class HomeController {
      * @throws ServiceException
      */
     @RequestMapping(value = "/telenote/{id:\\d+}", method = RequestMethod.DELETE)
-    public @ResponseBody void deleteNote(@PathVariable("id") Long noteId, Authentication auth) throws ServiceException {
+    public @ResponseBody Long deleteNote(@PathVariable("id") Long noteId, Authentication auth) throws ServiceException {
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
 
         Note note = new Note();
@@ -169,6 +170,7 @@ public class HomeController {
             throw new ServiceException("An error occurred while deleting note.", se);
         }
 
+        return note.getId();
     }
 
     /**
@@ -181,7 +183,7 @@ public class HomeController {
      */
     @RequestMapping(value = "/telenote/share", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<ResponseMessage> shareNote (HttpServletRequest request, Authentication auth) throws RepositoryException, ServiceException{
+    ResponseEntity<ResponseMessage> shareNote (HttpServletRequest request, HttpServletResponse response, Authentication auth) throws RepositoryException, ServiceException{
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
 
         Long noteId = Long.parseLong(request.getParameter("id"));
@@ -189,21 +191,25 @@ public class HomeController {
         ShareForm form = new ShareForm(noteId, userEmail);
 
         try {
+            response.flushBuffer();
             String[] result = noteService.shareNote(form, currentUser.getId());
             ResponseMessage message;
             if (!result[1].equals("200")) {
                 message = new ResponseMessage(false, result[0]);
             } else {
-                currentUser.setAvatar(Helper.getAvatarUrl(userEmail));
-                currentUser.setPassword("");
-                currentUser.setName(result[2]);
-                message = new ResponseMessage(true, result[0], currentUser);
+                UserDetailsImpl user = new UserDetailsImpl();
+                user.setName(result[2]);
+                user.setUsername(userEmail);
+                user.setAvatar(Helper.getAvatarUrl(userEmail));
+                message = new ResponseMessage(true, result[0], user);
                 return new ResponseEntity<ResponseMessage>(message, HttpStatus.OK);
             }
 
             if (result[1].equals("406")) return  new ResponseEntity<ResponseMessage>(message, HttpStatus.NOT_ACCEPTABLE);
             else return new ResponseEntity<ResponseMessage>(message, HttpStatus.NOT_FOUND);
         } catch (ServiceException se) {
+            return new ResponseEntity<>(new ResponseMessage(false, "Error on service"), HttpStatus.NOT_ACCEPTABLE);
+        } catch (IOException e) {
             return new ResponseEntity<>(new ResponseMessage(false, "Error on service"), HttpStatus.NOT_ACCEPTABLE);
         }
 
