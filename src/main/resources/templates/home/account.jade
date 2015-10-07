@@ -1,14 +1,11 @@
 extend layouts/insideLayout.jade
 
 block links
-block scripts
-  script(src='js/libs/jquery-1.11.3.js')
-  script(src='js/src/account.js')
 block userImgLink
   a(href='https://ru.gravatar.com/')
     img.header__userImg(src="#{avatar}")
 block content
-  form.accountInfo(role='form', action='/account', method='POST', name='changesForm')
+  form#js-accountInfo.accountInfo(role='form', action='/account', method='POST', name='changesForm')
     input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
     .accountInfo__section
       .accountInfo__section_profile Профиль

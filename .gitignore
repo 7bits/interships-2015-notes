@@ -9,10 +9,6 @@ telenote.iml
 /src/main/resources/config/spring.log
 /src/main/resources/config/application-*.yml
 /src/main/resources/config/application.yml
-<<<<<<< HEAD
-/src/main/resources/config/spring.log
-=======
->>>>>>> flight
 /src/main/resources/keystore.p12
 /src/main/resources/public/css/gulp/
 /src/main/resources/public/js/gulp/
