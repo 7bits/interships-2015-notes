@@ -5,6 +5,7 @@
 /.idea/*
 /target/*
 telenote.iml
+/src/main/resources/config/spring.log
 /src/main/resources/config/application-*.yml
 /src/main/resources/config/application.yml
 /src/main/resources/keystore.p12
