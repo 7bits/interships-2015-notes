@@ -185,7 +185,7 @@ public class HomeController {
      */
     @RequestMapping(value = "/telenote/share", method = RequestMethod.POST)
     public @ResponseBody
-    ResponseEntity<ResponseMessage> shareNote (HttpServletRequest request, Authentication auth) throws RepositoryException, ServiceException{
+    ResponseEntity<UserPresentModel> shareNote (HttpServletRequest request, Authentication auth) throws RepositoryException, ServiceException{
         UserDetailsImpl currentUser = (UserDetailsImpl) auth.getPrincipal();
 
         Long noteId = Long.parseLong(request.getParameter("id"));
@@ -193,28 +193,13 @@ public class HomeController {
         ShareForm form = new ShareForm(noteId, userEmail);
 
         try {
-            String[] result = noteService.shareNote(form, currentUser.getId());
-            ResponseMessage message;
-            if (!result[1].equals("200")) {
-                message = new ResponseMessage(false, result[0]);
-            } else {
-//                currentUser.setAvatar(Helper.getAvatarUrl(userEmail));
-//                message = new ResponseMessage(true, result[0], currentUser);
-//                return new ResponseEntity<ResponseMessage>(message, HttpStatus.OK);
-                UserPresentModel user = new UserPresentModel();
-                user.setName(result[2]);
-                user.setUsername(userEmail);
-                user.setAvatar(Helper.getAvatarUrl(userEmail));
-                message = new ResponseMessage(true, result[0], user);
-                return new ResponseEntity<ResponseMessage>(message, HttpStatus.OK);
-            }
-
-            if (result[1].equals("406")) return  new ResponseEntity<ResponseMessage>(message, HttpStatus.NOT_ACCEPTABLE);
-            else return new ResponseEntity<ResponseMessage>(message, HttpStatus.NOT_FOUND);
+            UserPresentModel result = noteService.shareNote(form, currentUser.getId());
+            result.setAvatar(Helper.getAvatarUrl(result.getUsername()));
+            return new ResponseEntity<UserPresentModel>(result, HttpStatus.valueOf(result.getCode()));
         } catch (ServiceException se) {
-            return new ResponseEntity<>(new ResponseMessage(false, "Error on service"), HttpStatus.NOT_ACCEPTABLE);
+            UserPresentModel error = new UserPresentModel(false, 406, "Возникла ошибка при шаринге");
+            return new ResponseEntity<UserPresentModel>(error, HttpStatus.valueOf(error.getCode()));
         }
-
     }
 
     /**

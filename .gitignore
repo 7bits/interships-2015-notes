@@ -10,7 +10,6 @@ telenote.iml
 /src/main/resources/keystore.p12
 /src/main/resources/public/css/gulp/
 /src/main/resources/public/js/gulp/
-/src/main/resources/public/img/gulp/
 /node_modules
 # Package Files #
 *.jar

@@ -13,6 +13,7 @@ import it.sevenbits.telenote.web.domain.forms.NoteForm;
 import it.sevenbits.telenote.web.domain.models.NoteModel;
 import it.sevenbits.telenote.web.domain.forms.ShareForm;
 import it.sevenbits.telenote.web.domain.models.ResponseMessage;
+import it.sevenbits.telenote.web.domain.models.UserPresentModel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -169,11 +170,10 @@ public class NoteService {
         }
     }
 
-    public String[] shareNote(final ShareForm form, Long parentUserId) throws RepositoryException, ServiceException {
+    public UserPresentModel shareNote(final ShareForm form, Long parentUserId) throws ServiceException {
         Long parentNoteId = form.getNoteId();
-        final UserDetailsImpl userDetails = new UserDetailsImpl();
-        userDetails.setUsername(form.getUserEmail());
-        String[] result = new String[3];
+        UserPresentModel result = new UserPresentModel();
+        result.setUsername(form.getUserEmail());
 
         final Note note = new Note();
         note.setId(form.getNoteId());
@@ -186,15 +186,16 @@ public class NoteService {
 
         try {
             status = txManager.getTransaction(customTx);
-            if (userRepository.isEmailExists(userDetails)) {
+            if (userRepository.isEmailExists(result.getUsername())) {
                 whoShare.setUser_id(parentUserId);
-                toWhomShare.setUser_id(userRepository.getIdByEmail(userDetails));
+                toWhomShare.setUser_id(userRepository.getIdByEmail(result.getUsername()));
 
                 if (whoShare.getUser_id() == toWhomShare.getUser_id()) {
                     LOG.warn(String.format("Can't share own note. UserId: %d, NoteId: %d.",
                             whoShare.getUser_id(), parentNoteId));
-                    result[0] = "Can't share own note.";
-                    result[1] = "406";
+                    result.setSuccess(false);
+                    result.setCode(406);
+                    result.setMessage("Can't share own note.");
                     return result;
                 }
 
@@ -206,8 +207,9 @@ public class NoteService {
                     if (repository.isNoteAlreadyShared(curNoteIdNextUser)) {
                         LOG.warn(String.format("Note is already shared to user. WhoShare: %d," +
                                 " ToWhomShare: %d, NoteId: %d.", whoShare.getUser_id(), toWhomShare.getUser_id(), parentNoteId));
-                        result[0] = "Пользователь уже добавен";
-                        result[1] = "406";
+                        result.setSuccess(false);
+                        result.setMessage("Пользователь уже добавен");
+                        result.setCode(406);
                         return result;
                     }
 
@@ -217,33 +219,38 @@ public class NoteService {
                     repository.linkUserWithNote(toWhomShare.getUser_id(), toWhomShare.getNote_id());
 
                     Optional<UserDetailsImpl> user = userRepository.getUserByEmail(form.getUserEmail());
+                    result = new UserPresentModel(user.get());
 
                     txManager.commit(status);
-                    result[0] = "Успешно расшарено!";
-                    result[1] = "200";
-                    result[2] = user.get().getName();
+                    result.setSuccess(true);
+                    result.setMessage("Успешно расшарено!");
+                    result.setCode(200);
                     return result;
                 } else {
                     LOG.warn(String.format("Can't share not own note. UserId: %d, NoteId: %d.", whoShare.getUser_id(), parentNoteId));
-                    result[0] = "Вы не можете удалить не свою заметку";
-                    result[1] = "406";
+                    result.setSuccess(false);
+                    result.setMessage("Вы не можете расшарить не свою заметку");
+                    result.setCode(406);
                     return result;
                 }
 
             } else {
-                LOG.warn(String.format("Email(%s) is not found.", userDetails.getUsername()));
-                result[0] = "Введенный email не найден";
-                result[1] = "404";
+                LOG.warn(String.format("Email(%s) is not found.", form.getUserEmail()));
+                result.setMessage("Введенный email не найден");
+                result.setCode(404);
+                result.setSuccess(false);
                 return result;
             }
-        } catch (Exception e) {
+        } catch (RepositoryException e) {
             LOG.error(String.format("An error occurred while sharing note. WhoShare: %d, ToWhomShare: %d, WhoShareNoteId: %d, NewNoteId: %d. Rolling back.",
                     whoShare.getUser_id(), toWhomShare.getUser_id(), whoShare.getNote_id(), note.getId()));
-            if (status != null) {txManager.rollback(status);LOG.info("Rollback done.");}
 
-            result[0] = "Возникла ошибка при шаринге заметки";
-            result[1] = "404";
-            return result;
+            if (status != null) {
+                txManager.rollback(status);
+                LOG.info("Rollback done.");
+            }
+
+            throw new ServiceException("An error occurred while sharing note.");
         }
     }
 

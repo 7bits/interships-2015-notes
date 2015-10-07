@@ -67,7 +67,7 @@ public class UserService implements UserDetailsService {
         TransactionStatus status = null;
         try {
             status = txManager.getTransaction(customTx);
-            if (repository.isEmailExists(user))
+            if (repository.isEmailExists(user.getUsername()))
                 throw new ServiceException("Sorry, e-mail is already exists");
 
             repository.create(user);

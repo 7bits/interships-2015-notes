@@ -4,11 +4,11 @@ var addShareAnimationMixin = function() {
     var shareUser = '<div id="js-newShare" ' +
       'class="modal__user js-shareUser" style="height: 0px;""></div>';
     var innerShareUser = '<div class="user__img">' + 
-      '<img src="' + data.user.avatar + '"">' + 
+      '<img src="' + data.avatar + '"">' +
       '</div>'+
       '<div class="user__info">' +
         '<div class="js-shareUserName user__name">' + 
-          data.user.name + '</div>'+
+          data.name + '</div>'+
         '<div class="js-shareUserEmail user__email">' +
           $('#js-addShareEmail').val() + '</div>' +
       '</div>' +
@@ -24,8 +24,10 @@ var addShareAnimationMixin = function() {
       300, 'swing', function() {
         shareUser.append(innerShareUser);
         shareUser.removeAttr('id').removeAttr('style');
-        shareUser.attr('id', data.user.id);
-    });
+        shareUser.attr('id', data.id);
+        modalWindowComponent.attachTo(shareUser);
+      });
+
   };
 
   this.after('initialize', function() {

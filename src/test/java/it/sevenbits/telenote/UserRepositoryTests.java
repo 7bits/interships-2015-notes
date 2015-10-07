@@ -54,16 +54,16 @@ public class UserRepositoryTests {
 
     @Test
     public void isEmailExistsTest() throws Exception {
-        assertTrue(repository.isEmailExists(user));
+        assertTrue(repository.isEmailExists(user.getUsername()));
 
         user.setUsername("ololo@ololo.ololo");
 
-        assertFalse(repository.isEmailExists(user));
+        assertFalse(repository.isEmailExists(user.getUsername()));
     }
 
     @Test
     public void getPasswordByIdTest() throws Exception {
-        String password = repository.getPasswordById(user);
+        String password = repository.getPasswordById(user.getId());
 
         assertNotNull(password);
         assertEquals(password, user.getPassword());
@@ -76,12 +76,12 @@ public class UserRepositoryTests {
 
         repository.updatePassword(user);
 
-        assertEquals(repository.getPasswordById(user), user.getPassword());
+        assertEquals(repository.getPasswordById(user.getId()), user.getPassword());
 
         user.setPassword(pass);
         repository.updatePassword(user);
 
-        assertEquals(repository.getPasswordById(user), user.getPassword());
+        assertEquals(repository.getPasswordById(user.getId()), user.getPassword());
     }
 
     public void checkUserFields(UserDetailsImpl tUser) {

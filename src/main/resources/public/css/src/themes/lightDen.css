@@ -18,10 +18,6 @@ body {
 	background-color: #ffffff;
 }
 
-.noteSection__delBtn, .noteSection__shaBtn {
-	background-color: #ffffff;
-}
-
 .noteSection__note button:hover {
 	background-color: #ebedf0;
 }
@@ -49,7 +45,7 @@ body {
 }
 
 .noteSection__delBtn, .noteSection__shaBtn {
-	background-color: #20406c;
+	background-color: #ffffff;
 	border: none;
 	color: #ededed;
 }
