@@ -13,6 +13,7 @@ import it.sevenbits.telenote.web.domain.forms.ShareForm;
 
 import it.sevenbits.telenote.service.NoteService;
 
+import it.sevenbits.telenote.web.domain.models.UserPresentModel;
 import org.junit.*;
 import org.junit.runner.RunWith;
 
@@ -88,15 +89,15 @@ public class NoteServiceTest {
     public void deleteShareLinkTest() throws Exception {
         //расшарил с 0 пользователем заметку, парент юзер - глобальный юзер
         ShareForm share = new ShareForm(newNoteId, users.get(0).getUsername());
-        String[] message = noteService.shareNote(share, user.getId());
+        UserPresentModel message = noteService.shareNote(share, user.getId());
         //System.out.println(message.getBody().getMessage());
-        assertEquals(message[1], "200");
+        assertEquals(message.getCode(), 200);
 
         //расшарил с 1 пользователем заметку, парент юзер - глобальный юзер
         share.setUserEmail(users.get(1).getUsername());
         message = noteService.shareNote(share, user.getId());
         //System.out.println(message.getBody().getMessage());
-        assertEquals(message[1], "200");
+        assertEquals(message.getCode(), 200);
 
         List<Note> zeroUserNotes  = noteRep.findUserNotes(users.get(0).getId());
         assertTrue(zeroUserNotes.size() == 1);
@@ -109,26 +110,26 @@ public class NoteServiceTest {
         share.setNoteId(zeroUserNotes.get(0).getId());
         message = noteService.shareNote(share, users.get(0).getId());
         //System.out.println(message.getBody().getMessage());
-        assertEquals(message[1], "200");
+        assertEquals(message.getCode(), 200);
 
         //расшарил с 3 пользователем заметку, парент юзер - юзер номер 0
         share.setUserEmail(users.get(3).getUsername());
         message = noteService.shareNote(share, users.get(0).getId());
         //System.out.println(message.getBody().getMessage());
-        assertEquals(message[1], "200");
+        assertEquals(message.getCode(), 200);
 
         //расшарил с 4 пользователем заметку, парент юзер - юзер номер 1
         share.setUserEmail(users.get(4).getUsername());
         share.setNoteId(firstUserNotes.get(0).getId());
         message = noteService.shareNote(share, users.get(1).getId());
         //System.out.println(message.getBody().getMessage());
-        assertEquals(message[1], "200");
+        assertEquals(message.getCode(), 200);
 
         //расшарил с 5 пользователем заметку, парент юзер - юзер номер 1
         share.setUserEmail(users.get(5).getUsername());
         message = noteService.shareNote(share, users.get(1).getId());
         //System.out.println(message.getBody().getMessage());
-        assertEquals(message[1], "200");
+        assertEquals(message.getCode(), 200);
 
         List<NoteModel> notes = noteService.findUserNotes(user.getId());
         assertTrue(notes.size() == 1);

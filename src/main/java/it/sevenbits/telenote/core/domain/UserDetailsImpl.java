@@ -28,7 +28,7 @@ public class UserDetailsImpl implements UserDetails {
 
     private Boolean isConfirmed;
 
-    private Boolean enabled;
+    private Boolean enabled = true;
 
     private String token;
 

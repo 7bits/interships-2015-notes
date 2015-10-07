@@ -10,11 +10,11 @@ import java.util.Optional;
 public interface IUserRepository {
     public void create(final UserDetailsImpl userDetails) throws RepositoryException;
 
-    public boolean isEmailExists(final UserDetailsImpl userDetails) throws RepositoryException;
+    public boolean isEmailExists(final String email) throws RepositoryException;
 
-    public Long getIdByEmail(final UserDetailsImpl userDetails) throws RepositoryException;
+    public Long getIdByEmail(final String email) throws RepositoryException;
 
-    public String getPasswordById(final UserDetailsImpl userDetails) throws RepositoryException;
+    public String getPasswordById(final Long userId) throws RepositoryException;
 
     public void updatePassword(final UserDetailsImpl userDetails) throws RepositoryException;
 

@@ -8,31 +8,34 @@ block scripts
   script(src='js/libs/sockjs.min.js')
   script(src='js/libs/stomp.min.js')
   script(src='js/libs/jquery.md5.js')
-  script(src='js/src/app.js')
-  script(src='js/src/noteSock.js')
-  script(src='js/src/deleteNote.js')
-  script(src='js/src/textConverter.js')
-  script(src='js/src/autosaver.js')
-  script(src='js/src/addShare.js')
-  script(src='js/src/controlAnimate.js')
-  script(src='js/src/subsituation.js')
-  script(src='js/src/modalWindow.js')
+  script(src='js/libs/twitter-flight-v1.5.0.js')
+  script(src='js/mixins/data/ajaxData.js')
+  script(src='js/mixins/data/checkMailData.js')
+  script(src='js/mixins/data/textConverterData.js')
+  script(src='js/mixins/ui/deleteNoteUI.js')
+  script(src='js/mixins/ui/addShareUserAnimationUI.js')
+  script(src='js/components/modalWindow.js')
+  script(src='js/components/note.js')
+  script(src='js/components/telenote.js')
+  script(src='js/components/addNote.js')
+  script(src='js/init/init.js')
+  //script(src='js/src/app.js')
+  //script(src='js/src/noteSock.js')
   script(src='js/src/btnHandler.js')
-  script(src='js/src/addNote.js')
   script(src="js/src/drag'n'drop.js")
-  script(src="js/src/telenote.js")
+  //script(src="js/src/telenote.js")
 block userImgLink
   a(href='/account')
     img.js-userImg.header__userImg(src="#{avatar}")
 block content
   #js-addNote.page__addNote
-    img(src="img/addBtn.png")
+    img(src="/img/gulp/addBtn.png")
   .page__status
     .page__statusTriangle
     #js-status.status__container.status__mainStatus Все заметки сохранены
     #js-minStatus.status__container.status__minStatus
   #js-actualSection.js-allSections.noteSpace__sectionInfo.noteSpace__sectionInfo_actual(value="Actual")
-    img.js-sectionPic.sectionInfo__picture(src="/img/shareNotRegUser.png")
+    img.js-sectionPic.sectionInfo__picture(src="/img/gulp/shareNotRegUser.png")
     .js-sectionOwner.sectionInfo__owner
       span
   #js-noteDiv.noteSpace

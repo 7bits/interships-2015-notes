@@ -26,6 +26,9 @@ public class RestorePasswordFormValidator implements Validator {
         return clazz.equals(RestorePasswordForm.class);
     }
 
+    @Autowired
+    private CommonFieldValidator validator;
+
     @Override
     public void validate(Object target, Errors errors) {
         RestorePasswordForm form = (RestorePasswordForm) target;
@@ -34,7 +37,6 @@ public class RestorePasswordFormValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", messageSource.getMessage("message.validate.password.notempty", null, LocaleContextHolder.getLocale()));
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passwordRepeat", messageSource.getMessage("message.validate.password.notempty", null, LocaleContextHolder.getLocale()));
 
-        CommonFieldValidator validator = new CommonFieldValidator();
         if (!validator.isEmail(form.getEmail())) {
             LOG.info("Someone trying to restore wrong email = " + form.getEmail());
             errors.rejectValue("email", messageSource.getMessage("message.validate.email.correct", null, LocaleContextHolder.getLocale()));

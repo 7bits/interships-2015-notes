@@ -12,11 +12,11 @@ var assets = require('postcss-assets');
 var yaml = require('js-yaml');
 var fs = require('fs');
 
-function readAssetsVersion() {
+function readAssetsVersion(name) {
   var version = '';
 
   try {
-    var doc = yaml.safeLoad(fs.readFileSync('target/classes/config/application-develop.yml'));
+    var doc = yaml.safeLoad(fs.readFileSync('target/classes/config/application-' + name + '.yml'));
     version = doc.assets.version;
   } catch (e) {
     console.log(JSON.stringify(e));
@@ -28,17 +28,33 @@ function readAssetsVersion() {
 }
 
 gulp.task('build', function () {
-  runSequence('css', 'js');
+  runSequence('css-dev', 'js');
 });
 
-gulp.task('css', function () {
+gulp.task('css-dev', function () {
   var processors = [
     autoprefixer({browsers: ['last 4 version']}),
     assets({loadPaths: ['src/main/resources/public/img/gulp/']}),
     mqpacker,
     csswring
   ];
-  var version = readAssetsVersion();
+
+  return gulp
+    .src('src/main/resources/public/css/src/*.css')
+    .pipe(postcss(processors))
+    .pipe(minify())
+    .pipe(concat('bundle.css'))
+    .pipe(gulp.dest('src/main/resources/public/css/gulp'));
+});
+
+gulp.task('css-staging', function () {
+  var processors = [
+    autoprefixer({browsers: ['last 4 version']}),
+    assets({loadPaths: ['src/main/resources/public/img/gulp/']}),
+    mqpacker,
+    csswring
+  ];
+  var version = readAssetsVersion('staging');
 
   return gulp
     .src('src/main/resources/public/css/src/*.css')
@@ -49,19 +65,12 @@ gulp.task('css', function () {
 });
 
 gulp.task('js', function () {
-  var version = readAssetsVersion();
+  var version = readAssetsVersion('develop');
   return gulp
     .src('src/main/resources/public/js/src/*.js')
     .pipe(uglify())
     .pipe(concat('bundle' + version + '.js'))
     .pipe(gulp.dest('src/main/resources/public/js/gulp'));
-});
-
-gulp.task('imgmin', function () {
-  return gulp
-    .src('src/main/resources/public/img/*.png')
-    .pipe(imagemin({quality: '65-80', speed: 3})())
-    .pipe(gulp.dest('src/main/resources/public/img/gulp'));
 });
 
 gulp.task('imgmin', function () {

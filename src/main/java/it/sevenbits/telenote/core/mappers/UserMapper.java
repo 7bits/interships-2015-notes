@@ -22,33 +22,33 @@ public interface UserMapper {
     //Add an unique index on the email
     /**
      * Checks does email exist by counting records in users with specified email.
-     * @param userDetails POJO for user.
+     * @param email user email.
      * @return count of records with specified email.
      */
     @Select("SELECT count(*)\n" +
             "FROM users\n" +
             "WHERE email = #{email}")
-    int isEmailExists(final UserDetailsImpl userDetails);
+    int isEmailExists(final String email);
 
     /**
      * Gets user id by user email.
-     * @param userDetails POJO for user.
+     * @param email POJO for user.
      * @return user id.
      */
     @Select("SELECT id " +
             "FROM users " +
             "WHERE email=#{email};")
-    Object getIdByEmail(final UserDetailsImpl userDetails);
+    Object getIdByEmail(final String email);
 
     /**
      * Gets user password(hash) by user id.
-     * @param userDetails POJO for user.
+     * @param userId POJO for user.
      * @return user password(hash).
      */
     @Select("SELECT password " +
             "FROM users " +
             "WHERE id=#{id};")
-    String getPasswordById(final UserDetailsImpl userDetails);
+    String getPasswordById(final Long userId);
 
     /**
      * Updates user password(hash) by user email.

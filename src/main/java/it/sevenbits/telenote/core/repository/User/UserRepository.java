@@ -35,14 +35,14 @@ public class UserRepository implements IUserRepository {
 
     /**
      * Checks does email exist by counting records in users with specified email.
-     * @param userDetails POJO for user.
+     * @param email POJO for user.
      * @return count of records with specified email.
      * @throws RepositoryException
      */
     @Override
-    public boolean isEmailExists(final UserDetailsImpl userDetails) throws RepositoryException {
+    public boolean isEmailExists(final String email) throws RepositoryException {
         try {
-            return mapper.isEmailExists(userDetails) == 0 ? false : true;
+            return mapper.isEmailExists(email) == 0 ? false : true;
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while checking email existence: " + e.getMessage(), e);
         }
@@ -50,14 +50,14 @@ public class UserRepository implements IUserRepository {
 
     /**
      * Gets user id by user email.
-     * @param userDetails POJO for user.
+     * @param email POJO for user.
      * @return user id.
      * @throws RepositoryException
      */
     @Override
-    public Long getIdByEmail(final UserDetailsImpl userDetails) throws RepositoryException {
+    public Long getIdByEmail(final String email) throws RepositoryException {
         try {
-            return mapper.getIdByEmail(userDetails) == null ? -1 : (Long) mapper.getIdByEmail(userDetails);
+            return mapper.getIdByEmail(email) == null ? -1 : (Long) mapper.getIdByEmail(email);
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while getting user_id by email: " + e.getMessage(), e);
         }
@@ -65,14 +65,14 @@ public class UserRepository implements IUserRepository {
 
     /**
      * Gets user password(hash) by user id.
-     * @param userDetails POJO for user.
+     * @param userId POJO for user.
      * @return user password(hash).
      * @throws RepositoryException
      */
     @Override
-    public String getPasswordById(final UserDetailsImpl userDetails) throws RepositoryException {
+    public String getPasswordById(final Long userId) throws RepositoryException {
         try {
-            return mapper.getPasswordById(userDetails);
+            return mapper.getPasswordById(userId);
         } catch (Exception e) {
             throw new RepositoryException("An error occurred while getting password by user_id: " + e.getMessage(), e);
         }

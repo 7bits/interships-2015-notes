@@ -59,6 +59,7 @@ body{
 .header__logo{
 	float: left;
 	margin-top: 12px;
+	width: 244px;
 }
 
 .header__logoImg {
@@ -416,6 +417,17 @@ body{
 	display: block;
 }
 
+.minstatusImg {
+	background-image: inline('ok.png');
+}
+
+.freshNote {
+	width: 0px;
+    margin-top: 123px;
+    margin-bottom: 130px;
+    height: 2px;
+}
+
 
 /*ЭТО ДОЛЖНО БЫТЬ В САМОМ КОНЦЕ!!!*/
 @media screen and (max-width: 780px) {
@@ -477,10 +489,6 @@ body{
 		width: 280px;
 	}
 
-	.status__mainStatus {
-		display: none;
-	}
-
 	.status__container {
 		width: 30px;
 		margin-left: 29px;
@@ -489,7 +497,6 @@ body{
 
 	.status__minStatus {
 		display: inherit;
-		background-image: inline('ok.png');
 		background-repeat: no-repeat;
 		background-size: cover;
 		width: 17px;
@@ -497,12 +504,7 @@ body{
   		margin-top: 10px;
   		font-size: 16px;
   		cursor: default;
-  		color: white;
-	}
-
-	.minStatusTyping {
-		background-image: none;
-		color: black;
+  		color: black;
 	}
 
 	.welcome {

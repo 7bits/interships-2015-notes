@@ -24,8 +24,8 @@
 	position: fixed;
 	top: 40%;
 	left: 50%;
-	margin-top: -205px;
-	margin-left: -250px;
+	margin-top: -190px;
+	margin-left: -200px;
 	display: none;
 	opacity: 0;
   	z-index: 11;
@@ -160,6 +160,7 @@
 	width: 18px;
   	height: 18px;
   	margin-right: 1px;
+  	cursor: pointer;
 }
 
 .user__button:focus {

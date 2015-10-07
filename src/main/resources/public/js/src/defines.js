@@ -1,1 +1,0 @@
-var newNoteid = -1;

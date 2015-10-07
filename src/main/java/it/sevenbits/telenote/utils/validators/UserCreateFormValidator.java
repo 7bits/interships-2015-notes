@@ -17,10 +17,10 @@ public class UserCreateFormValidator implements Validator {
     private static final Logger LOG = Logger.getLogger(UserCreateFormValidator.class);
 
     @Autowired
-    private CommonFieldValidator validator;
+    private MessageSource messageSource;
 
     @Autowired
-    private MessageSource messageSource;
+    private CommonFieldValidator validator;
 
     @Override
     public boolean supports(Class<?> clazz) {
