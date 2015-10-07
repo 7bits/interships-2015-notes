@@ -120,7 +120,7 @@ var telenoteComponent = flight.component(function() {
 
           $prev = $('.js-prevSection');
 
-          if ($prev.hasClass('actualSection')) {
+          if ($prev.attr('id') === 'js-actualSection') {
             $actual
               .find('.js-sectionOwner')
               .html($actual.attr('value'));
