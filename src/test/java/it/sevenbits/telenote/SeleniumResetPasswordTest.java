@@ -52,13 +52,6 @@ public class SeleniumResetPasswordTest {
     private WebElement password;
     private WebElement submit;
 
-    private void findInputFields() {
-        email = driver.findElement(By.id("js-regEmail"));
-        username = driver.findElement(By.id("js-regUsername"));
-        password = driver.findElement(By.id("js-regPass"));
-        submit = driver.findElement(By.className("js-regSubmit"));
-    }
-
     /*@BeforeClass
     public static void initDriver() {
         //driver = new ChromeDriver();

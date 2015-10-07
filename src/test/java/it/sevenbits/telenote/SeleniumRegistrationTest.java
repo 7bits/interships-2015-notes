@@ -21,11 +21,18 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import java.net.URL;
+import java.net.MalformedURLException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
 public class SeleniumRegistrationTest {
+    public static final String USERNAME = "jnovikova";
+    public static final String ACCESS_KEY = "800b6843-fb79-4cec-96d4-dbd5ccead76c";
+    public static final String URL = "http://" + USERNAME + ":" + ACCESS_KEY + "@ondemand.saucelabs.com:80/wd/hub";
 
     private static WebDriver driver;
 
@@ -41,7 +48,6 @@ public class SeleniumRegistrationTest {
     private WebElement email;
     private WebElement username;
     private WebElement password;
-    //private WebElement passwordRepeat;
     private WebElement submit;
 
     private void findInputFields() {
@@ -51,29 +57,25 @@ public class SeleniumRegistrationTest {
         submit = driver.findElement(By.className("js-regSubmit"));
     }
 
-    @Before
+    /*@Before
     public void before() throws Exception {
-        driver.get("http://127.0.0.1:9000");
+        driver.get("https://notes:bestpassword@tele-notes.7bits.it/");
         findInputFields();
 
         //register user
         email.sendKeys(user.getUsername());
         username.sendKeys(user.getName());
         password.sendKeys(user.getPassword());
-        //passwordRepeat.sendKeys(user.getPassword());
 
         submit.submit();
 
         assertEquals("http://127.0.0.1:9000/signup", driver.getCurrentUrl());
         driver.findElement(By.className("js-backToMain")).click();
 
-        /*List<WebElement> error = driver.findElements(By.className("errorText"));
-        assertTrue(error.isEmpty());*/
-
         findInputFields();
-    }
+    }*/
 
-    @After
+    /*@After
     public void after() throws Exception {
         //submit.submit();
         //submit.click();
@@ -87,20 +89,53 @@ public class SeleniumRegistrationTest {
         } catch (Exception ex) {
             fail(ex.getMessage());
         }
-    }
+    }*/
 
 //register new user
     @Test
     public void regAllValidTest() throws Exception {
-        //findInputFields()
+        DesiredCapabilities caps = DesiredCapabilities.chrome();
+        caps.setCapability("platform", "Linux");
+        caps.setCapability("version", "44.0");
+        WebDriver driver = null;
+        try {
+            driver = new RemoteWebDriver(new URL(URL), caps);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        if (driver != null) {
+            driver.get("https://notes:bestpassword@tele-notes.7bits.it/");
+        }
+
+        findInputFields();
+
+        //register user
+        email.sendKeys(user.getUsername());
+        username.sendKeys(user.getName());
+        password.sendKeys(user.getPassword());
+
+        submit.submit();
+
+        assertEquals("https://notes:bestpassword@tele-notes.7bits.it/signup", driver.getCurrentUrl());
+        driver.findElement(By.className("js-backToMain")).click();
+
         email.sendKeys(user.getUsername());
         username.sendKeys(user.getName());
         password.sendKeys(user.getPassword());
         submit.submit();
+
+
+    try {
+        userService.cleanDB();
+    } catch (Exception ex) {
+        fail(ex.getMessage());
+    }
+        driver.quit();
     }
 
 //register user with invalid email
-    @Test
+    /*@Test
     public void regInvalidEmailTest() throws Exception {
         //WebElement email = driver.findElement(By.name("email"));
         //findInputFields();
@@ -111,20 +146,20 @@ public class SeleniumRegistrationTest {
         submit.submit();
 
         driver.findElement(By.className("js-emailError"));
-    }
+    }*/
 
 //register almost existing user
-    @Test
+    /*@Test
     public void regUserExistsTest() throws Exception {
         //findInputFields();
         email.sendKeys("ololo@ololo.com");
         username.sendKeys(user.getName());
         password.sendKeys(user.getPassword());
         submit.submit();
-    }
+    }*/
 
 //register user with wrong username
-    @Test
+    /*@Test
     public void regWrongUsernameTest() throws Exception {
         findInputFields();
         email.sendKeys("ololo1@ololo.com");
@@ -134,20 +169,20 @@ public class SeleniumRegistrationTest {
         submit.submit();
 
 	driver.findElement(By.className("js-nameError"));
-    }
+    }*/
 
 //register user with username made of numbers
-    @Test
+    /*@Test
     public void regNumberUsernameTest() throws Exception {
         findInputFields();
         email.sendKeys("ololo2@ololo.com");
         username.sendKeys("1234");
         password.sendKeys(user.getPassword());
         submit.submit();
-    }
+    }*/
 
 //register user with empty password
-    @Test
+    /*@Test
     public void regEmptyPasswordTest() throws Exception {
         findInputFields();
         email.sendKeys("ololo3@ololo.com");
@@ -156,10 +191,10 @@ public class SeleniumRegistrationTest {
         submit.submit();
 
         driver.findElement(By.className("js-passError"));
-    }
+    }*/
 
 //register user with password made of spaces
-   @Test
+   /*@Test
     public void regSpacesPasswordTest() throws Exception {
         findInputFields();
         email.sendKeys("ololo4@ololo.com");
@@ -168,10 +203,10 @@ public class SeleniumRegistrationTest {
         submit.submit();
 
         driver.findElement(By.className("js-passError"));
-    }
+    }*/
 
 //register user with short password
-    @Test
+    /*@Test
     public void regShortPasswordTest() throws Exception {
         findInputFields();
         email.sendKeys("ololo5@ololo.com");
@@ -180,10 +215,10 @@ public class SeleniumRegistrationTest {
         submit.submit();
 
         driver.findElement(By.className("js-passError"));
-    }
+    }*/
 
 //register user with invalid password
-    @Test
+    /*@Test
     public void regWrongPasswordTest() throws Exception {
         findInputFields();
         email.sendKeys("ololo6@ololo.com");
@@ -192,9 +227,9 @@ public class SeleniumRegistrationTest {
         submit.submit();
 
         driver.findElement(By.className("js-passError"));
-    }
+    }*/
 
-    @BeforeClass
+    /*@BeforeClass
     public static void initDriver() {
         //driver = new ChromeDriver();
         driver = new FirefoxDriver();
@@ -206,10 +241,10 @@ public class SeleniumRegistrationTest {
         user.setName("Capitan");
         user.setPassword("Ololo73");
         //driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
-    }
+    }*/
 
-    @AfterClass
+    /*AfterClass
     public static void closeDriver() {
         driver.quit();
-    }
+    }*/
 }
