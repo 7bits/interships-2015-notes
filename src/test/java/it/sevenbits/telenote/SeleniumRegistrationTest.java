@@ -30,8 +30,8 @@ import java.net.MalformedURLException;
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
 public class SeleniumRegistrationTest {
-    public static final String USERNAME = "jnovikova";
-    public static final String ACCESS_KEY = "800b6843-fb79-4cec-96d4-dbd5ccead76c";
+    public static final String USERNAME = "julianovikova";
+    public static final String ACCESS_KEY = "685e7716-f83b-4806-949b-5d5087614606";
     public static final String URL = "http://" + USERNAME + ":" + ACCESS_KEY + "@ondemand.saucelabs.com:80/wd/hub";
 
     private static WebDriver driver;
