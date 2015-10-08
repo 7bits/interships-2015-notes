@@ -79,7 +79,7 @@ public class AccountController {
                 for (Map.Entry<String, String> entry : map.entrySet()) {
                     model.addObject(entry.getValue() + "Error", entry.getKey());
                 }
-                return model;
+                //return model;
             }
 
             Map<String, Object> settingsMap = accountService.changeAccountSettings(form, user);

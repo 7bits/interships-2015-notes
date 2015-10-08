@@ -5,28 +5,11 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1')
     meta(name="_csrf", content="#{_csrf.token}")
     meta(name="_csrf_header", content="#{_csrf.headerName}")
-    link(rel='stylesheet', type='text/css', href=assets.getVersionedResourceUrl("css/gulp/bundle#version.css"))
+    link(rel='stylesheet', type='text/css', href=assets.getVersionedResourceUrl("css/gulp/style#version.css"))
     link(rel='stylesheet', type='text/css', href='css/src/themes/'+user.style+'.css')
     link(rel="shortcut icon", type="image/x-icon", href="/img/gulp/logo.png")
-    block links
-    script(src='js/libs/jquery-1.11.3.js')
-    script(src='js/libs/jquery-ui.js')
-    script(src='js/libs/sockjs.min.js')
-    script(src='js/libs/stomp.min.js')
-    script(src='js/libs/jquery.md5.js')
-    script(src='js/libs/twitter-flight-v1.5.0.js')
-    script(src='js/mixins/data/ajaxData.js')
-    script(src='js/mixins/data/checkMailData.js')
-    script(src='js/mixins/data/textConverterData.js')
-    script(src='js/mixins/ui/deleteNoteUI.js')
-    script(src='js/mixins/ui/addShareUserAnimationUI.js')
-    script(src='js/components/modalWindow.js')
-    script(src='js/components/note.js')
-    script(src='js/components/telenote.js')
-    script(src='js/components/addNote.js')
-    script(src='js/components/account.js')
-    script(src='js/init/init.js')
-    block scripts
+
+    script(src=assets.getVersionedResourceUrl('js/gulp/script#version.js'))
     block title
       title Telenote
   body
