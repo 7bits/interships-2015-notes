@@ -53,11 +53,9 @@ public class exampletest {
         caps.setCapability("platform", "Linux");
         caps.setCapability("version", "38.0");
         WebDriver driver = new RemoteWebDriver(new URL(URL), caps);
-
         // driver = new FirefoxDriver();
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-
         user = new UserDetailsImpl();
         user.setUsername("ololo@ololo.com");
         user.setName("Capitan");
@@ -66,7 +64,7 @@ public class exampletest {
 
     //changing username in account
     @Test
-    public void validUserNameTest () {
+    public void exampletest () {
 
         DesiredCapabilities caps = DesiredCapabilities.chrome();
         caps.setCapability("platform", "Linux");

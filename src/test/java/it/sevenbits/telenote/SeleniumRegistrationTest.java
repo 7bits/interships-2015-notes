@@ -50,12 +50,12 @@ public class SeleniumRegistrationTest {
     private WebElement password;
     private WebElement submit;
 
-    private void findInputFields() {
+    /*private void findInputFields() {
         email = driver.findElement(By.id("js-regEmail"));
         username = driver.findElement(By.id("js-regUsername"));
         password = driver.findElement(By.id("js-regPass"));
         submit = driver.findElement(By.className("js-regSubmit"));
-    }
+    }*/
 
     /*@Before
     public void before() throws Exception {
@@ -108,23 +108,32 @@ public class SeleniumRegistrationTest {
             driver.get("https://notes:bestpassword@tele-notes.7bits.it/");
         }
 
-        findInputFields();
+        //findInputFields();
 
         //register user
-        email.sendKeys(user.getUsername());
+        /*email.sendKeys(user.getUsername());
         username.sendKeys(user.getName());
         password.sendKeys(user.getPassword());
 
         submit.submit();
 
-        assertEquals("https://notes:bestpassword@tele-notes.7bits.it/signup", driver.getCurrentUrl());
+        assertEquals("http://127.0.0.1:9000/signup", driver.getCurrentUrl());
+        driver.findElement(By.className("js-backToMain")).click();*/
+
+
+        driver.findElement(By.id("js-regEmail")).clear();
+        driver.findElement(By.id("js-regEmail")).sendKeys("julia.novikova@gmail.com");
+        driver.findElement(By.id("js-regUsername")).clear();
+        driver.findElement(By.id("js-regUsername")).sendKeys("j");
+        driver.findElement(By.id("js-regPass")).clear();
+        driver.findElement(By.id("js-regPass")).sendKeys("12345Qwerty");
+        driver.findElement(By.cssSelector("form[name=\"signupForm\"] > button.welcomeForm__button")).click();
         driver.findElement(By.className("js-backToMain")).click();
 
-        email.sendKeys(user.getUsername());
+        /*email.sendKeys(user.getUsername());
         username.sendKeys(user.getName());
         password.sendKeys(user.getPassword());
-        submit.submit();
-
+        submit.submit();*/
 
     try {
         userService.cleanDB();

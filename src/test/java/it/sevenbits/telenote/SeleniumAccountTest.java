@@ -135,7 +135,7 @@ public class SeleniumAccountTest {
             fail(ex.getMessage());
         }
 
-        driver.get("http://notes:bestpassword@tele-notes.7bits.it/");
+        driver.get("http://127.0.0.1:9000/");
 
         WebElement email = driver.findElement(By.id("js-logText"));
         WebElement password = driver.findElement(By.className("js-logPass"));
@@ -145,11 +145,11 @@ public class SeleniumAccountTest {
         password.sendKeys(user.getPassword());
         submit.submit();
 
-        assertTrue(driver.getCurrentUrl().equals("http://tele-notes.7bits.it/telenote"));
+        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/telenote"));
 
         driver.findElement(By.className("js-user")).click();
 
-        assertTrue(driver.getCurrentUrl().equals("http://tele-notes.7bits.it/account"));
+        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
 
         WebElement toClear = driver.findElement(By.id("js-username"));
         toClear.sendKeys(Keys.CONTROL + "a");
