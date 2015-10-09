@@ -51,10 +51,10 @@ public class SeleniumRegistrationTest {
     private WebElement submit;
 
     /*private void findInputFields() {
-        email = driver.findElement(By.id("js-regEmail"));
-        username = driver.findElement(By.id("js-regUsername"));
-        password = driver.findElement(By.id("js-regPass"));
-        submit = driver.findElement(By.className("js-regSubmit"));
+        email = driver.findElement(By.xpath("/html/body/div/div[3]/form/input[2]"));
+        username = driver.findElement(By.xpath("/html/body/div/div[3]/form/input[3]"));
+        password = driver.findElement(By.xpath("/html/body/div/div[3]/form/input[4]"));
+        submit = driver.findElement(By.xpath("/html/body/div/div[3]/form/button"));
     }*/
 
     /*@Before
@@ -120,15 +120,14 @@ public class SeleniumRegistrationTest {
         assertEquals("http://127.0.0.1:9000/signup", driver.getCurrentUrl());
         driver.findElement(By.className("js-backToMain")).click();*/
 
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[2]")).sendKeys("julia.novikova@gmail.com");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[3]")).sendKeys("j");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[4]")).sendKeys("12345Qwerty");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/button")).click();
+        assertEquals("https://notes:bestpassword@tele-notes.7bits.it/signup", driver.getCurrentUrl());
+        driver.findElement(By.xpath("/html/body/div/div[2]/div/div[5]/a")).click();
+        assertEquals("https://notes:bestpassword@tele-notes.7bits.it/", driver.getCurrentUrl());
 
-        driver.findElement(By.id("js-regEmail")).clear();
-        driver.findElement(By.id("js-regEmail")).sendKeys("julia.novikova@gmail.com");
-        driver.findElement(By.id("js-regUsername")).clear();
-        driver.findElement(By.id("js-regUsername")).sendKeys("j");
-        driver.findElement(By.id("js-regPass")).clear();
-        driver.findElement(By.id("js-regPass")).sendKeys("12345Qwerty");
-        driver.findElement(By.cssSelector("form[name=\"signupForm\"] > button.welcomeForm__button")).click();
-        driver.findElement(By.className("js-backToMain")).click();
 
         /*email.sendKeys(user.getUsername());
         username.sendKeys(user.getName());
@@ -141,102 +140,273 @@ public class SeleniumRegistrationTest {
         fail(ex.getMessage());
     }
         driver.quit();
-    }
+}
 
 //register user with invalid email
-    /*@Test
+    @Test
     public void regInvalidEmailTest() throws Exception {
+        DesiredCapabilities caps = DesiredCapabilities.chrome();
+        caps.setCapability("platform", "Linux");
+        caps.setCapability("version", "44.0");
+        WebDriver driver = null;
+        try {
+            driver = new RemoteWebDriver(new URL(URL), caps);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        if (driver != null) {
+            driver.get("https://notes:bestpassword@tele-notes.7bits.it/");
+        }
         //WebElement email = driver.findElement(By.name("email"));
         //findInputFields();
-        email.sendKeys("ololo");
+
+        /*email.sendKeys("ololo");
         username.click();
         username.sendKeys(user.getName());
         password.sendKeys(user.getPassword());
-        submit.submit();
+        submit.submit();*/
+
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[2]")).sendKeys("ololo");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[3]")).sendKeys("j");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[4]")).sendKeys("12345Qwerty");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/button")).click();
 
         driver.findElement(By.className("js-emailError"));
-    }*/
+
+        try {
+            userService.cleanDB();
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
+            driver.quit();
+
+    }
 
 //register almost existing user
-    /*@Test
+    @Test
     public void regUserExistsTest() throws Exception {
+        DesiredCapabilities caps = DesiredCapabilities.chrome();
+        caps.setCapability("platform", "Linux");
+        caps.setCapability("version", "44.0");
+        WebDriver driver = null;
+        try {
+            driver = new RemoteWebDriver(new URL(URL), caps);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        if (driver != null) {
+            driver.get("https://notes:bestpassword@tele-notes.7bits.it/");
+        }
         //findInputFields();
-        email.sendKeys("ololo@ololo.com");
-        username.sendKeys(user.getName());
-        password.sendKeys(user.getPassword());
-        submit.submit();
-    }*/
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[2]")).sendKeys("ololo@ololo.com");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[3]")).sendKeys("j");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[4]")).sendKeys("12345Qwerty");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/button")).click();
+
+        driver.findElement(By.className("js-EmailMess"));
+
+        try {
+            userService.cleanDB();
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
+            driver.quit();
+    }
 
 //register user with wrong username
-    /*@Test
+    @Test
     public void regWrongUsernameTest() throws Exception {
-        findInputFields();
-        email.sendKeys("ololo1@ololo.com");
+        DesiredCapabilities caps = DesiredCapabilities.chrome();
+        caps.setCapability("platform", "Linux");
+        caps.setCapability("version", "44.0");
+        WebDriver driver = null;
+        try {
+            driver = new RemoteWebDriver(new URL(URL), caps);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        if (driver != null) {
+            driver.get("https://notes:bestpassword@tele-notes.7bits.it/");
+        }
+
+        //findInputFields();
+        /*email.sendKeys("ololo1@ololo.com");
         username.sendKeys("");
         password.sendKeys(user.getPassword());
-        //passwordRepeat.sendKeys(user.getPassword());
-        submit.submit();
+        submit.submit();*/
 
-	driver.findElement(By.className("js-nameError"));
-    }*/
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[2]")).sendKeys("ololo@ololo.com");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[3]")).sendKeys("");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[4]")).sendKeys("12345Qwerty");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/button")).click();
+
+	    driver.findElement(By.className("js-nameError"));
+
+        try {
+            userService.cleanDB();
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
+            driver.quit();
+    }
+
 
 //register user with username made of numbers
-    /*@Test
+    @Test
     public void regNumberUsernameTest() throws Exception {
-        findInputFields();
-        email.sendKeys("ololo2@ololo.com");
+        DesiredCapabilities caps = DesiredCapabilities.chrome();
+        caps.setCapability("platform", "Linux");
+        caps.setCapability("version", "44.0");
+        WebDriver driver = null;
+        try {
+            driver = new RemoteWebDriver(new URL(URL), caps);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        if (driver != null) {
+            driver.get("https://notes:bestpassword@tele-notes.7bits.it/");
+        }
+
+        //findInputFields();
+        /*email.sendKeys("ololo2@ololo.com");
         username.sendKeys("1234");
         password.sendKeys(user.getPassword());
-        submit.submit();
-    }*/
+        submit.submit();*/
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[2]")).sendKeys("ololo@ololo.com");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[3]")).sendKeys("1234");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[4]")).sendKeys("12345Qwerty");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/button")).click();
+
+        try {
+            userService.cleanDB();
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
+            driver.quit();
+    }
 
 //register user with empty password
-    /*@Test
+    @Test
     public void regEmptyPasswordTest() throws Exception {
-        findInputFields();
-        email.sendKeys("ololo3@ololo.com");
+        DesiredCapabilities caps = DesiredCapabilities.chrome();
+        caps.setCapability("platform", "Linux");
+        caps.setCapability("version", "44.0");
+        WebDriver driver = null;
+        try {
+            driver = new RemoteWebDriver(new URL(URL), caps);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        if (driver != null) {
+            driver.get("https://notes:bestpassword@tele-notes.7bits.it/");
+        }
+
+        //findInputFields();
+        /*email.sendKeys("ololo3@ololo.com");
         username.sendKeys("Leo");
         password.sendKeys("");
-        submit.submit();
+        submit.submit();*/
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[2]")).sendKeys("ololo@ololo.com");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[3]")).sendKeys("Leo");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[4]")).sendKeys("");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/button")).click();
 
         driver.findElement(By.className("js-passError"));
-    }*/
+    }
 
 //register user with password made of spaces
-   /*@Test
+   @Test
     public void regSpacesPasswordTest() throws Exception {
-        findInputFields();
-        email.sendKeys("ololo4@ololo.com");
+        DesiredCapabilities caps = DesiredCapabilities.chrome();
+        caps.setCapability("platform", "Linux");
+        caps.setCapability("version", "44.0");
+        WebDriver driver = null;
+        try {
+            driver = new RemoteWebDriver(new URL(URL), caps);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        if (driver != null) {
+            driver.get("https://notes:bestpassword@tele-notes.7bits.it/");
+        }
+        //findInputFields();
+        /*email.sendKeys("ololo4@ololo.com");
         username.sendKeys("Leo");
         password.sendKeys("        ");
-        submit.submit();
+        submit.submit();*/
+
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[2]")).sendKeys("ololo@ololo.com");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[3]")).sendKeys("Leo");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[4]")).sendKeys("       ");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/button")).click();
 
         driver.findElement(By.className("js-passError"));
-    }*/
+    }
 
 //register user with short password
-    /*@Test
+    @Test
     public void regShortPasswordTest() throws Exception {
-        findInputFields();
-        email.sendKeys("ololo5@ololo.com");
+        DesiredCapabilities caps = DesiredCapabilities.chrome();
+        caps.setCapability("platform", "Linux");
+        caps.setCapability("version", "44.0");
+        WebDriver driver = null;
+        try {
+            driver = new RemoteWebDriver(new URL(URL), caps);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        if (driver != null) {
+            driver.get("https://notes:bestpassword@tele-notes.7bits.it/");
+        }
+
+        //findInputFields();
+        /*email.sendKeys("ololo5@ololo.com");
         username.sendKeys("Leo");
         password.sendKeys("1");
-        submit.submit();
+        submit.submit();*/
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[2]")).sendKeys("ololo@ololo.com");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[3]")).sendKeys("Leo");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[4]")).sendKeys("1");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/button")).click();
 
         driver.findElement(By.className("js-passError"));
-    }*/
+    }
 
 //register user with invalid password
-    /*@Test
+    @Test
     public void regWrongPasswordTest() throws Exception {
-        findInputFields();
-        email.sendKeys("ololo6@ololo.com");
+        DesiredCapabilities caps = DesiredCapabilities.chrome();
+        caps.setCapability("platform", "Linux");
+        caps.setCapability("version", "44.0");
+        WebDriver driver = null;
+        try {
+            driver = new RemoteWebDriver(new URL(URL), caps);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        if (driver != null) {
+            driver.get("https://notes:bestpassword@tele-notes.7bits.it/");
+        }
+        //findInputFields();
+        /*email.sendKeys("ololo6@ololo.com");
         username.sendKeys("Leo");
         password.sendKeys("123");
-        submit.submit();
+        submit.submit();*/
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[2]")).sendKeys("ololo@ololo.com");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[3]")).sendKeys("Leo");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/input[4]")).sendKeys("123");
+        driver.findElement(By.xpath("/html/body/div/div[3]/form/button")).click();
 
         driver.findElement(By.className("js-passError"));
-    }*/
+    }
 
     /*@BeforeClass
     public static void initDriver() {
