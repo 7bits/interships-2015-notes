@@ -1,8 +1,7 @@
 extend layouts/insideLayout.jade
 
-block links
 block userImgLink
-  a(href='https://ru.gravatar.com/')
+  a(href='https://ru.gravatar.com/', target='_blank')
     img.header__userImg(src="#{avatar}")
 block content
   form#js-accountInfo.accountInfo(role='form', action='/account', method='POST', name='changesForm')

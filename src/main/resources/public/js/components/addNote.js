@@ -29,9 +29,9 @@ var addNoteComponent = flight.component(
         'js-allSections ' +
         'noteSpace__sectionInfo ' +
         'js-nextSection">' +
-        '<img class="js-sectionPic noteSpace__picture" ' +
+        '<img class="js-sectionPic sectionInfo__picture" ' +
         'src=' + $('.js-sectionPic').eq(0).attr('value') + '>' +
-        '<div class="js-sectionOwner noteSpace__owner">' +
+        '<div class="js-sectionOwner sectionInfo__owner">' +
         $('#js-actualSection').eq(0).attr('value') + '</div>' +
         '</div>';
 
