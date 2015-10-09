@@ -4,4 +4,5 @@ $(function() {
   telenoteComponent.attachTo(document);
   addNoteComponent.attachTo('#js-addNote');
   accountComponent.attachTo('#js-accountInfo');
+  welcomeComponent.attachTo(document);
 });

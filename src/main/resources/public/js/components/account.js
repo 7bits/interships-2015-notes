@@ -1,7 +1,8 @@
 var accountComponent = flight.component(function() {
 
   this.defaultAttrs({
-    themeSelector: '.js-theme'
+    themeSelector: '.js-theme',
+    inputSelector: 'input'
   });
 
   this.lightingFields = function() {
@@ -44,8 +45,13 @@ var accountComponent = flight.component(function() {
     $('#hidden').attr('value', self.attr('id'));
   };
 
+  this.onInput = function(e) {
+    if (e.which === 32) return false;
+  };
+
   this.after('initialize', function() {
     this.on(document, 'ready', this.lightingFields);
     this.select('themeSelector').on('click', this.onClickTheme);
+    this.on(this.$node.select(this.attr.inputSelector), 'keydown', this.onInput);
   })
 });

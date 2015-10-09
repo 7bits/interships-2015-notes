@@ -27,8 +27,12 @@ function readAssetsVersion(name) {
   return version;
 }
 
-gulp.task('build', function () {
-  runSequence('css-dev', 'js');
+gulp.task('build-dev', function () {
+  runSequence('css-dev', 'js-dev');
+});
+
+gulp.task('build-staging', function () {
+  runSequence('css-staging', 'js-staging');
 });
 
 gulp.task('css-dev', function () {
@@ -43,7 +47,7 @@ gulp.task('css-dev', function () {
     .src('src/main/resources/public/css/src/*.css')
     .pipe(postcss(processors))
     .pipe(minify())
-    .pipe(concat('bundle.css'))
+    .pipe(concat('style.css'))
     .pipe(gulp.dest('src/main/resources/public/css/gulp'));
 });
 
@@ -60,16 +64,37 @@ gulp.task('css-staging', function () {
     .src('src/main/resources/public/css/src/*.css')
     .pipe(postcss(processors))
     .pipe(minify())
-    .pipe(concat('bundle' + version + '.css'))
+    .pipe(concat('style' + version + '.css'))
     .pipe(gulp.dest('src/main/resources/public/css/gulp'));
 });
 
-gulp.task('js', function () {
-  var version = readAssetsVersion('develop');
+gulp.task('js-dev', function () {
   return gulp
-    .src('src/main/resources/public/js/src/*.js')
+    .src([
+      'src/main/resources/public/js/libs/*.js',
+      'src/main/resources/public/js/mixins/data/*.js',
+      'src/main/resources/public/js/mixins/ui/*.js',
+      'src/main/resources/public/js/components/*.js',
+      'src/main/resources/public/js/init/*.js'
+    ])
     .pipe(uglify())
-    .pipe(concat('bundle' + version + '.js'))
+    .pipe(concat('script.js'))
+    .pipe(gulp.dest('src/main/resources/public/js/gulp'));
+});
+
+gulp.task('js-staging', function () {
+  var version = readAssetsVersion('staging');
+
+  return gulp
+    .src([
+      'src/main/resources/public/js/libs/*.js',
+      'src/main/resources/public/js/mixins/data/*.js',
+      'src/main/resources/public/js/mixins/ui/*.js',
+      'src/main/resources/public/js/components/*.js',
+      'src/main/resources/public/js/init/*.js'
+    ])
+    .pipe(uglify())
+    .pipe(concat('script' + version + '.js'))
     .pipe(gulp.dest('src/main/resources/public/js/gulp'));
 });
 
