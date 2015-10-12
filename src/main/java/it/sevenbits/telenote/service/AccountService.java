@@ -83,11 +83,11 @@ public class AccountService {
         TransactionStatus status = null;
         Map<String, Object> map = new HashMap<>();
         try {
-            status = txManager.getTransaction(customTx);
             //Pattern pattern = Pattern.compile("\\b[\\wа-яА-Я-]{2,15}\\b");
             Pattern pattern = Pattern.compile(".+\\s.+");
             Matcher matcher = pattern.matcher(user.getName());
             if (!matcher.matches()) {
+                status = txManager.getTransaction(customTx);
                 accountRepository.changeUsername(user);
                 txManager.commit(status);
                 map.put("usernameChanged", messageSource.getMessage("message.username.usernamechanged", null, LocaleContextHolder.getLocale()));

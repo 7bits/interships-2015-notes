@@ -12,6 +12,8 @@ import it.sevenbits.telenote.service.ServiceException;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -27,6 +29,9 @@ import java.util.Map;
 public class AccountController {
 
     private static Logger LOG = Logger.getLogger(AccountController.class);
+
+    @Autowired
+    private MessageSource messageSource;
 
     @Autowired
     private AccountService accountService;
@@ -65,7 +70,7 @@ public class AccountController {
     @RequestMapping(value = "/account", method = RequestMethod.POST)
     public @ResponseBody
     ModelAndView changeAccountSettings(@Valid @ModelAttribute("form") ChangesForm form, BindingResult bindingResult,
-                                       Authentication auth) throws ServiceException {
+                                       Authentication auth) {
         UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
         String username = user.getName();
         ModelAndView model = new ModelAndView("home/account");
@@ -86,8 +91,10 @@ public class AccountController {
             model.addAllObjects(settingsMap);
         } catch (UtilsException e) {
             LOG.warn(e.getMessage());
+            return new ModelAndView("home/error", "error", messageSource.getMessage("message.error.500", null, LocaleContextHolder.getLocale()));
         } catch (ServiceException e) {
-            throw new ServiceException(e.getMessage());
+            LOG.warn(e.getMessage());
+            return new ModelAndView("home/error", "error", messageSource.getMessage("message.error.500", null, LocaleContextHolder.getLocale()));
         }
 
         form.setCurrentPass("");
