@@ -135,7 +135,6 @@ public class UsersController {
                 return model;
             }
 
-/*<<<<<<< HEAD*/
             UserDetailsImpl user = new UserDetailsImpl();
             user.setName(form.getUsername());
             user.setUsername(form.getEmail().toLowerCase());
@@ -153,6 +152,7 @@ public class UsersController {
             emailService.sendMail(form.getEmail(), messageSource.getMessage("message.confirm.email", null, LocaleContextHolder.getLocale()), html);
         } catch(UtilsException e) {
             LOG.warn(e.getMessage());
+            return new ModelAndView("home/error", "error", messageSource.getMessage("message.error.500", null, LocaleContextHolder.getLocale()));
         } catch (ServiceException e) {
             LOG.info(e.getMessage());
 
@@ -161,16 +161,10 @@ public class UsersController {
 
             ModelAndView model = new ModelAndView("home/welcome");
             session.setAttribute("userForm", form);
-/*<<<<<<< HEAD*/
             return new ModelAndView("home/welcome", "errorMessages", errors);
         } catch (IOException ex) {
             LOG.warn("Cant load jade file of mail. " + ex.getMessage());
             return new ModelAndView("home/error", "error", messageSource.getMessage("message.error.500", null, LocaleContextHolder.getLocale()));
-/*=======
-            model.addObject("signupForm", form);
-            model.addObject("emailExists", errors);
-            return model;
->>>>>>> accountController*/
         }
 
         ModelAndView model = new ModelAndView("home/checkMail");
