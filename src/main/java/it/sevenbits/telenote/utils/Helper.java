@@ -36,7 +36,7 @@ public class Helper {
 
         avatarLink.append("http://www.gravatar.com/avatar/");
         avatarLink.append(encoder.encodePassword(email, null));
-        avatarLink.append("?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2FshareNotRegUser.png");
+        avatarLink.append("?d=http%3A%2F%2Ftele-notes.7bits.it%2Fresources%2Fpublic%2Fimg%2Fgulp%2FshareNotRegUser.png");
 
         return avatarLink.toString();
     }

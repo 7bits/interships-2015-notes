@@ -167,7 +167,7 @@ var noteComponent = flight.component(
 
     $('.js-note[id=' + data.id + '] .js-content').text(text);
 
-    data.text = this.htmlspecialchars(data.text);
+    data.text = this.htmlspecialchars('0', data.text);
 
     ////отправить другим пользователям
     //var cmd = {
@@ -178,7 +178,7 @@ var noteComponent = flight.component(
     //
     //sendCommand(cmd);
 
-    data.text = this.nl2br(data.text);
+    data.text = this.nl2br('0', data.text);
 
     this.onSendData('0', {
       data: data,
