@@ -1,7 +1,6 @@
 var textConverterMixin = function() {
+
   this.nl2br = function nl2br (e, str) {
-    'use strict';
-  	
     var breakTag = '<br>';    
 
     //.replace(/&/g, "&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
@@ -11,8 +10,6 @@ var textConverterMixin = function() {
      
 
   this.br2nl = function br2nl (e, str) {
-  	'use strict';
-
     var nl = '\n';
   	
     //.replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&amp;/g, "&");
@@ -22,8 +19,6 @@ var textConverterMixin = function() {
 
 
   this.htmlspecialchars = function htmlspecialchars(e, str) {
-    'use strict';
-
     if (typeof(str) === 'string') {
   		 
       var quot = '&quot';
@@ -43,8 +38,6 @@ var textConverterMixin = function() {
 
 
   this.rhtmlspecialchars = function rhtmlspecialchars(e, str) {
-    'use strict';
-            	
     if (typeof(str) === 'string') {
              	
       str = str.replace(/&gt;/ig, '>');
