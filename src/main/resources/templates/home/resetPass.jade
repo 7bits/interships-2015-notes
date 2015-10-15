@@ -2,10 +2,10 @@ extend layouts/outsideLayout.jade
 block formsContainer
   .container__welcomeForm
     form.welcomeForm__form.welcomeForm__form_forgot(role='form', action='/resetpass', method='POST', name='resetForm')
-      .welcomeForm__formTitle.welcomeForm__formTitle_forgot Восстановление пароля
+      .welcomeForm__formTitle.welcomeForm__formTitle_forgot #{jm.getMessage('resetpass.passrecovery')}
       input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
-      input#js-logText.welcomeForm__textbox(type='textbox', name='email', placeholder='e-mail', value='email')
+      input#js-logText.welcomeForm__textbox(type='textbox', name='email', placeholder='e-mail')
       if error
         .welcomeForm__error.loginError.resetPass
           span#js-loginError= error
-      button.welcomeForm__button(type='submit') Продолжить
+      button.welcomeForm__button(type='submit') #{jm.getMessage('resetpass.continue')}

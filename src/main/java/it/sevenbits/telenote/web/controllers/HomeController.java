@@ -77,7 +77,7 @@ public class HomeController {
                 model.addObject(entry.getKey(), entry.getValue());
             }
         } catch (Exception e) {
-            throw new Exception("An error occured while getting home page." + e.getMessage());
+            throw new Exception("An error occurred while getting home page." + e.getMessage());
         }
 
         return model;
@@ -198,7 +198,8 @@ public class HomeController {
             result.setAvatar(Helper.getAvatarUrl(result.getUsername()));
             return new ResponseEntity<UserPresentModel>(result, HttpStatus.valueOf(result.getCode()));
         } catch (ServiceException se) {
-            UserPresentModel error = new UserPresentModel(false, 406, "Возникла ошибка при шаринге");
+            UserPresentModel error = new UserPresentModel(false, 406, messageSource.getMessage("message.deletesync.error",
+                                                            null, LocaleContextHolder.getLocale()));
             return new ResponseEntity<UserPresentModel>(error, HttpStatus.valueOf(error.getCode()));
         }
     }
@@ -241,9 +242,9 @@ public class HomeController {
         try {
             noteService.updateOrder(orderData);
         } catch (ServiceException se) {
-            LOG.error(MessageFormat.format("Ошибка обновления порядка заметок: idPrev={0}, idCur={1}, idPrev{2}",
+            LOG.error(MessageFormat.format("An error occurred while updating note order: idPrev={0}, idCur={1}, idPrev{2}",
                 orderData.getId_prev(), orderData.getId_cur(), orderData.getId_next()));
-            throw new ServiceException("An error occured while updating note order.", se);
+            throw new ServiceException("An error occurred while updating note order.", se);
         }
 
     }
@@ -263,9 +264,9 @@ public class HomeController {
                 }
             }
         } catch (ServiceException se) {
-            throw new ServiceException("An error occured while getting all shared note models.", se);
+            throw new ServiceException("An error occurred while getting all shared note models.", se);
         } catch (MessagingException me) {
-            throw new ServiceException("An error occured while messaging user.", me);
+            throw new ServiceException("An error occurred while messaging user.", me);
         }
 
     }

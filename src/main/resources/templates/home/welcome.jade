@@ -3,33 +3,33 @@ extend layouts/outsideLayout.jade
 block formsContainer
   .container__welcomeForm
     form.welcomeForm__form(role='form', action='/signin', method='POST', name='signinForm')
-      .welcomeForm__formTitle Вход
+      .welcomeForm__formTitle #{jm.getMessage('welcome.formtitle')}
       input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
-      input#js-logText.js-logText.welcomeForm__textbox(type='textbox', name='username', placeholder='e-mail', value='#{username}', maxlength='30')
+      input#js-logText.js-logText.welcomeForm__textbox(type='textbox', name='username', placeholder='E-mail', value='#{username}', maxlength='30')
       if error
         .welcomeForm__error.js-loginError
-          span#js-loginError Адрес и пароль не совпадают
-      input.welcomeForm__textbox.js-logPass(type='password', name='password', autocomplete='off', placeholder='пароль', maxlength='30')
-      button.welcomeForm__button.js-logSubmit(type='submit') Войти
+          span#js-loginError #{jm.getMessage('welcome.loginerror')}
+      input.welcomeForm__textbox.js-logPass(type='password', name='password', autocomplete='off', placeholder='#{jm.getMessage("welcome.passplaceholder")}', maxlength='30')
+      button.welcomeForm__button.js-logSubmit(type='submit') #{jm.getMessage('welcome.signin')}
       .welcomeForm__href
-        a.welcomeForm__href_color(href='/resetpass') Забыли пароль?
+        a.welcomeForm__href_color(href='/resetpass') #{jm.getMessage('welcome.forgetpass')}
   .container__welcomeForm
     form.welcomeForm__form(role='form', action='/signup', method='POST', name='signupForm')
-      .welcomeForm__formTitle Регистрация
+      .welcomeForm__formTitle #{jm.getMessage('welcome.registration')}
       input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
-      input#js-regEmail.welcomeForm__textbox(type='textbox', name='email', placeholder='e-mail', value='#{signupForm.email}', maxlength='30')
+      input#js-regEmail.welcomeForm__textbox(type='textbox', name='email', placeholder='E-mail', value='#{signupForm.email}', maxlength='30')
       if emailError
         .welcomeForm__error.welcomeForm__error_email.js-emailError
-          span#js-regEmailMess Неправильный адрес
+          span#js-regEmailMess #{jm.getMessage('welcome.emailerror')}
       if emailExists
         .welcomeForm__error
-          span#js-regEmailMess Email уже используется
-      input#js-regUsername.welcomeForm__textbox(type='textbox', name='username', placeholder='имя', value='#{signupForm.username}', maxlength='30')
+          span#js-regEmailMess #{jm.getMessage('welcome.emailexists')}
+      input#js-regUsername.welcomeForm__textbox(type='textbox', name='username', placeholder='#{jm.getMessage("welcome.usernameplaceholder")}', value='#{signupForm.username}', maxlength='30')
       if usernameError
         .welcomeForm__error.welcomeForm__error_name.js-nameError
-          span#js-regUsernameMess Неподходящее имя
-      input#js-regPass.welcomeForm__textbox(type='password', name='password', autocomplete='off', placeholder='пароль', value='#{signupForm.password}', maxlength='30')
+          span#js-regUsernameMess #{jm.getMessage('welcome.usernameerror')}
+      input#js-regPass.welcomeForm__textbox(type='password', name='password', autocomplete='off', placeholder='#{jm.getMessage("welcome.passplaceholder")}', value='#{signupForm.password}', maxlength='30')
       if passwordError
         .welcomeForm__error.welcomeForm__error_password.js-passError
-          span#js-regPassMess Пароль слишком прост
-      button.welcomeForm__button.js-regSubmit(type='submit') Зарегистрироваться
+          span#js-regPassMess #{jm.getMessage('welcome.passpatternfail')}
+      button.welcomeForm__button.js-regSubmit(type='submit') #{jm.getMessage('welcome.signup')}

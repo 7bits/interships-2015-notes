@@ -12,12 +12,12 @@ html
             div(style='background-image: url("http://tele-notes.7bits.it/img/gulp/logo-mail.png"); background-repeat: no-repeat;  width: 40px; height: 49px; display: inline-block; float: left;')
             div(style='background-image: url("http://tele-notes.7bits.it/img/gulp/dark-label.png"); float: left; margin-top: 15px; margin-left: 15px; width: 148px; height: 20px; background-repeat: no-repeat;')
           div(style='text-align: center; width: 90%; margin: auto;')
-            div(style='color: black;') Здравствуйте, #{username}! Подтвердите свой адресс электронной почты!
+            div(style='color: black;') #{jm.getMessage('comfirmregmail.hello')} #{username}! #{jm.getMessage('comfirmregmail.comfirmemail')}
             br
-            div(style='text-align: left; font-size: 13px; margin-bottom: 25px') Кто-то(надеемся, что вы) воспользовался этим адресом электронной почты на TeleNote. Нажмите кнопку ниже, чтобы подтвердить, что вы являетесь владельцем этого адреса электронной почты для данной учётной записи, #{username}.
+            div(style='text-align: left; font-size: 13px; margin-bottom: 25px') #{jm.getMessage('comfirmregmail.notification')}
           hr(style='border-top: 1px solid #c0c0c0; width: 100%;')
           a(href="#{confirmLink}")
-            button.btn-default(type='submit', style='margin-top: 10px; border-radius: 2px; border: 0px; color: white; background-color: rgb(32, 64, 108); width: 200px; height: 40px;') Подтвердить регистрацию
+            button.btn-default(type='submit', style='margin-top: 10px; border-radius: 2px; border: 0px; color: white; background-color: rgb(32, 64, 108); width: 200px; height: 40px;') #{jm.getMessage('comfirmregmail.confirm')}
           br
         div(style='margin-top: 40px; color: #8e8e8e;')
           span (C) 2015 TeleNote. All Rights Reserved.
