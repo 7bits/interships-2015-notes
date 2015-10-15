@@ -62,7 +62,7 @@ public class exampletest {
         //driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
     }*/
 
-    //changing username in account
+    //example test
     @Test
     public void exampletest () {
 
