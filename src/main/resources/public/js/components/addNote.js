@@ -7,6 +7,10 @@ var addNoteComponent = flight.component(
   });
 
   this.onAddNote = function() {
+
+    var $noteSpace = $('#js-noteDiv');
+    if ($('#js-emptyList')[0] != null) $noteSpace.empty();
+
     var $note = '<div id="js-new" class="js-note noteSection__note freshNote">' +
       '<div class="js-content noteSection__content clickable"></div>' +
       '<div class="js-control noteSection__control">' +
@@ -35,11 +39,11 @@ var addNoteComponent = flight.component(
         $('#js-actualSection').eq(0).attr('value') + '</div>' +
         '</div>';
 
-      $('#js-noteDiv').prepend(section);
+      $noteSpace.prepend(section);
       this.addingElements($note);
 
     } else if (($('#js-actualSection').attr('value') !== myNotesSpan) &&
-      !$('#js-noteDiv').children().length) {
+      !$noteSpace.children().length) {
 
       this.addingElements($note);
 

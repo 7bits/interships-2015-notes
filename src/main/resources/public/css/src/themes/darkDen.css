@@ -10,8 +10,22 @@ body {
 	background-color: #313131;
 }
 
+.page__status {
+	background-color: #575757;
+	color: white;
+}
+
+.page__statusTriangle {
+	border-color: transparent #575757 transparent transparent;
+}
+
 .status {
 	color: #a1a1a1;
+}
+
+.noteSpace__sectionInfo {
+	background-color: rgba(39, 39, 39, 0.9);
+	color: white;
 }
 
 .noteSpace {
@@ -43,7 +57,7 @@ body {
 	border-top: 1px solid #dcdcdc;
 }
 
-#emptyList {
+.noteSpace__empty {
 	color: white;
 }
 
