@@ -23,7 +23,7 @@ html
           .header__logMenu
             a.header__username(href='/account')
               .header__user.js-user#{user.name}
-            a.header__logout(href='/logout') Выход
+            a.header__logout(href='/logout') #{jm.getMessage('insidelayout.logout')}
           block userImgLink
       block content
     block modal

@@ -9,6 +9,6 @@ block formsContainer
       .welcomeForm__email#{email}
       br
       br
-      .welcomeForm__mailMsg Проверьте свой почтовый ящик
+      .welcomeForm__mailMsg #{jm.getMessage('checkmail.checkamail')}
       .welcomeForm__href_check
-        a(href='/').js-backToMain вернуться на главную
+        a(href='/').js-backToMain #{jm.getMessage('checkmail.back')}

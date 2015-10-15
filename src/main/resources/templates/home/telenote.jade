@@ -1,5 +1,5 @@
 extend layouts/insideLayout.jade
-
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 block links
   link(rel='stylesheet', type='text/css', href='css/lib/jquery-ui.css')
 block scripts
@@ -32,7 +32,7 @@ block content
     img(src="/img/gulp/addBtn.png")
   .page__status
     .page__statusTriangle
-    #js-status.status__container.status__mainStatus Все заметки сохранены
+    #js-status.status__container.status__mainStatus #{jm.getMessage('telenote.notessaved')}
     #js-minStatus.status__container.status__minStatus
   #js-actualSection.js-allSections.noteSpace__sectionInfo.noteSpace__sectionInfo_actual(value="Actual")
     img.js-sectionPic.sectionInfo__picture(src="/img/gulp/shareNotRegUser.png")
@@ -43,12 +43,12 @@ block content
       if(noteSection.getKey()==null)
         .js-section.js-allSections.noteSpace__sectionInfo
           img.js-sectionPic.sectionInfo__picture(src="#{avatar}")
-          .js-sectionOwner.sectionInfo__owner Мои заметки
+          .js-sectionOwner.sectionInfo__owner #{jm.getMessage('telenote.mynotes')}
             span.js-span
       else
         .js-section.js-allSections.noteSpace__sectionInfo
           img.js-sectionPic.sectionInfo__picture(src="#{noteSection.value.get(0).userAvatar}")
-          .js-sectionOwner.sectionInfo__owner Общие с #{noteSection.value.get(0).usernameOfShareUser}
+          .js-sectionOwner.sectionInfo__owner #{jm.getMessage('telenote.commonwith')} #{noteSection.value.get(0).usernameOfShareUser}
             span.js-span  (#{noteSection.getKey()})
       .js-noteSection.noteSpace__noteSection(id="ns_#{noteSection.getKey()}")
         for note in noteSection.value
@@ -61,13 +61,13 @@ block content
 block modal
   .js-modalWindow.modal
     .modal__content
-      .modal__title Поделиться с друзьями
+      .modal__title #{jm.getMessage('telenote.sharewithfriends')}
       .modal__info
         #js-syncUsers.modal__users
         .js-shareUser.modal__user
           .user__img.user__img_addUser
           .user__adding
-            input#js-addShareEmail.user__input(type='textbox', placeholder='Введите адрес')
+            input#js-addShareEmail.user__input(type='textbox', placeholder='#{jm.getMessage('telenote.entermail')}')
             .user__action
               button#js-addShare.user__button.user__button_add
             label#js-shareMessage

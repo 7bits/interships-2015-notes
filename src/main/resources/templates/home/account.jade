@@ -1,5 +1,5 @@
 extend layouts/insideLayout.jade
-
+#<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 block links
 block scripts
   script(src='js/libs/jquery-1.11.3.js')
@@ -11,9 +11,9 @@ block content
   form.accountInfo(role='form', action='/account', method='POST', name='changesForm')
     input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
     .accountInfo__section
-      .accountInfo__section_profile Профиль
+      .accountInfo__section_profile #{jm.getMessage('account.profile')}
       .accountInfo__name
-        label.section__label.section__label_name Имя
+        label.section__label.section__label_name #{jm.getMessage('account.username')}
         if(changesForm.name==null)
           input#js-username.section__input.section__input_username(type='textbox', name='username', value='#{user.name}', maxlength='20')
         else if(changesForm.username!=user.name)
@@ -24,12 +24,12 @@ block content
           #js-nameDiv.section__nameError
             span#js-name #{usernameError}
       .accountInfo__email
-        label.section__label.section__label_email Адрес
+        label.section__label.section__label_email #{jm.getMessage('account.email')}
         label.email#{user.username}
     .accountInfo__section
-      .accountInfo__section_password Пароль
+      .accountInfo__section_password #{jm.getMessage('account.passsection')}
       .accountInfo__currentPass
-        label.section__label.section__label_currentPass Текущий пароль
+        label.section__label.section__label_currentPass #{jm.getMessage('account.currentpass')}
         input#js-currentPass.section__input.section__input_currentPass(type='password', name='currentPass', value='#{changesForm.currentPass}')
         if currentPassError
           #js-errorDiv.section__passError.section__passError_old
@@ -41,7 +41,7 @@ block content
           #js-errorDiv.section__passError.section__passError_old
             span#js-oldPass #{curPassEqualsNewPass}
       .accountInfo__newPass
-        label.section__label.section__label_newPass Новый пароль
+        label.section__label.section__label_newPass #{jm.getMessage('account.newpass')}
         input#js-newPass.section__input.section__input_newPass(type='password', name='newPass', value='#{changesForm.newPass}')
         if newPassError
           #js-errorDiv.section__passError.section__passError_new
@@ -50,9 +50,9 @@ block content
           #js-errorDiv.section__passError.section__passError_new
             span#js-newPassErr #{patternFail}
     .accountInfo__section
-      .accountInfo__section_theme Дизайн
+      .accountInfo__section_theme #{jm.getMessage('account.theme')}
       .accountInfo__themes
         input#hidden(type='hidden', value=user.style, name='style')
         #lightDen.themes__theme.themes__theme_1.js-theme
         #darkDen.themes__theme.themes__theme_2.js-theme
-    button.accountInfo__button.js-submit(type='submit') Сохранить изменения
+    button.accountInfo__button.js-submit(type='submit') #{jm.getMessage('account.savechanges')}

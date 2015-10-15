@@ -2,16 +2,16 @@ extend layouts/outsideLayout.jade
 block formsContainer
   .container__welcomeForm
     form.welcomeForm__form.welcomeForm__form_forgot(role='form', action='/updatepass', method='POST', name='resetForm')
-      .welcomeForm__formTitle.welcomeForm__formTitle_forgot Восстановление пароля
+      .welcomeForm__formTitle.welcomeForm__formTitle_forgot #{jm.getMessage('newpass.passrecovery')}
       input(type='hidden', name='#{_csrf.parameterName}', value='#{_csrf.token}')
       input(type='hidden', name='token', value='#{token}')
       input(type='hidden', name='email', value='#{email}')
-      input#js-regPass.welcomeForm__textbox(type='password', name='password', autocomplete='off', placeholder='Новый пароль', value='#{resetForm.password}')
+      input#js-regPass.welcomeForm__textbox(type='password', name='password', autocomplete='off', placeholder='#{jm.getMessage('newpass.newpassplaceholder')', value='#{resetForm.password}')
       if passwordError
         .welcomeForm__error.loginError.resetPass
-          span#js-regPassMess1 Пароль слишком прост
-      input#js-regPass.welcomeForm__textbox(type='password', name='passwordRepeat', autocomplete='off', placeholder='Ещё раз', value='#{resetForm.password}')
+          span#js-regPassMess1 #{jm.getMessage('newpass.patternfail')}
+      input#js-regPass.welcomeForm__textbox(type='password', name='passwordRepeat', autocomplete='off', placeholder='#{jm.getMessage('newpass.passagainplaceholder')}', value='#{resetForm.password}')
       if passwordError
         .welcomeForm__error.loginError.resetPass
-          span#js-regPassMess2 Пароли не совпадают
-      button.welcomeForm__button(type='submit') Восстановить
+          span#js-regPassMess2 #{jm.getMessage('newpass.passdontmatch')}
+      button.welcomeForm__button(type='submit') #{jm.getMessage('newpass.recovery')}

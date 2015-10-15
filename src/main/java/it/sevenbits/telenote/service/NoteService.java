@@ -17,6 +17,8 @@ import it.sevenbits.telenote.web.domain.models.UserPresentModel;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -47,6 +49,9 @@ public class NoteService {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private MessageSource messageSource;
 
     /** Transaction settings name */
     private static final String TX_NAME = "txService";
@@ -245,9 +250,9 @@ public class NoteService {
 
                     if (repository.isNoteAlreadyShared(curNoteIdNextUser)) {
                         LOG.warn(String.format("Note is already shared to user. WhoShare: %d," +
-                                " ToWhomShare: %d, NoteId: %d.", whoShare.getUser_id(), toWhomShare.getUser_id(), parentNoteId));
+                        " ToWhomShare: %d, NoteId: %d.", whoShare.getUser_id(), toWhomShare.getUser_id(), parentNoteId));
                         result.setSuccess(false);
-                        result.setMessage("Пользователь уже добавен");
+                        result.setMessage(messageSource.getMessage("message.note.sharing.alreadyadded", null, LocaleContextHolder.getLocale()));
                         result.setCode(406);
                         return result;
                     }
@@ -262,20 +267,20 @@ public class NoteService {
 
                     txManager.commit(status);
                     result.setSuccess(true);
-                    result.setMessage("Успешно расшарено!");
+                    result.setMessage(messageSource.getMessage("message.note.sharing.successful", null, LocaleContextHolder.getLocale()));
                     result.setCode(200);
                     return result;
                 } else {
                     LOG.warn(String.format("Can't share not own note. UserId: %d, NoteId: %d.", whoShare.getUser_id(), parentNoteId));
                     result.setSuccess(false);
-                    result.setMessage("Вы не можете расшарить не свою заметку");
+                    result.setMessage(messageSource.getMessage("message.note.sharing.notownnote", null, LocaleContextHolder.getLocale()));
                     result.setCode(406);
                     return result;
                 }
 
             } else {
                 LOG.warn(String.format("Email(%s) is not found.", form.getUserEmail()));
-                result.setMessage("Введенный email не найден");
+                result.setMessage(messageSource.getMessage("message.note.sharing.emailnotfound", null, LocaleContextHolder.getLocale()));
                 result.setCode(404);
                 result.setSuccess(false);
                 return result;
