@@ -161,7 +161,6 @@ body{
 	position: fixed;
 	right: 0;
 	top: 88px;
-	background-color: white;
 	height: 35px;
 	width: 440px;
  	z-index: 3;
@@ -172,7 +171,6 @@ body{
     height: 0;
     border-style: solid;
     border-width: 0 35px 35px 0;
-    border-color: transparent #ffffff transparent transparent;
     float: left;
     margin-left: -35px;
 }
@@ -237,6 +235,18 @@ body{
   	display: inherit;
   	margin-top: 143px;
   	float: left;
+}
+
+.noteSpace__empty {
+	background-image: url("/img/gulp/emptyList.png");
+	background-repeat: no-repeat;
+	background-position: 50% 0%;
+	width: 400px;
+	height: 0px;
+	margin: auto;
+	margin-top: 40px;
+	padding-top: 180px;
+	text-align: center;
 }
 
 .noteSection__note{
@@ -390,14 +400,12 @@ body{
 
 .noteSpace__sectionInfo {
 	position: relative;
-	color: black;
 	width: 100%;
 	height: 35px;
 	margin-bottom: 20px;
 	padding-left: 25px;
   	padding-top: 8px;
 	box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.05);
-	background-color: rgba(176, 184, 193, 0.8);
 	-moz-box-sizing: border-box; /* Для Firefox */
     -webkit-box-sizing: border-box; /* Для Safari и Chrome */
     box-sizing: border-box;

@@ -21,25 +21,28 @@ block content
     .js-sectionOwner.sectionInfo__owner
       span
   #js-noteDiv.noteSpace
-    for noteSection in noteSections.entrySet()
-      if(noteSection.getKey()==null)
-        .js-section.js-allSections.noteSpace__sectionInfo
-          img.js-sectionPic.sectionInfo__picture(src="#{avatar}")
-          .js-sectionOwner.sectionInfo__owner Мои заметки
-            span.js-span
-      else
-        .js-section.js-allSections.noteSpace__sectionInfo
-          img.js-sectionPic.sectionInfo__picture(src="#{noteSection.value.get(0).userAvatar}")
-          .js-sectionOwner.sectionInfo__owner Общие с #{noteSection.value.get(0).usernameOfShareUser}
-            span.js-span  (#{noteSection.getKey()})
-      .js-noteSection.noteSpace__noteSection(id="ns_#{noteSection.getKey()}")
-        for note in noteSection.value
-          .js-note.noteSection__note(id=note.id)
-            .js-content.noteSection__content.clickable
-              #{note.text}
-            .js-control.noteSection__control
-              button.noteSection__delBtn.js-delBtn
-              button.noteSection__shaBtn.js-shaBtn
+    if noteSections.size() == 0
+      #js-emptyList.noteSpace__empty hi
+    else
+      for noteSection in noteSections.entrySet()
+        if(noteSection.getKey()==null)
+          .js-section.js-allSections.noteSpace__sectionInfo
+            img.js-sectionPic.sectionInfo__picture(src="#{avatar}")
+            .js-sectionOwner.sectionInfo__owner Мои заметки
+              span.js-span
+        else
+          .js-section.js-allSections.noteSpace__sectionInfo
+            img.js-sectionPic.sectionInfo__picture(src="#{noteSection.value.get(0).userAvatar}")
+            .js-sectionOwner.sectionInfo__owner Общие с #{noteSection.value.get(0).usernameOfShareUser}
+              span.js-span  (#{noteSection.getKey()})
+        .js-noteSection.noteSpace__noteSection(id="ns_#{noteSection.getKey()}")
+          for note in noteSection.value
+            .js-note.noteSection__note(id=note.id)
+              .js-content.noteSection__content.clickable
+                #{note.text}
+              .js-control.noteSection__control
+                button.noteSection__delBtn.js-delBtn
+                button.noteSection__shaBtn.js-shaBtn
 block modal
   .js-modalWindow.modal
     .modal__content

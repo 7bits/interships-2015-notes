@@ -99,6 +99,11 @@ var deleteNoteMixin = function() {
           }
         }
       });
+
+      if ($('#js-noteDiv').is(':empty')) {
+        var emptyList = '<div id="js-emptyList" class="noteSpace__empty">hi</div>';
+        $('#js-noteDiv').append(emptyList);
+      }
     });
 
 

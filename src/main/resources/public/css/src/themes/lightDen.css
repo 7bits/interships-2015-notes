@@ -10,8 +10,22 @@ body {
 	background-color: #20406c;
 }
 
+.page__status {
+	background-color: #fff;
+	color: black;
+}
+
+.page__statusTriangle {
+	border-color: transparent #ffffff transparent transparent;
+}
+
 .status {
 	color: #000000;
+}
+
+.noteSpace__sectionInfo {
+	background-color: rgba(176, 184, 193, 0.8);
+	color: black;
 }
 
 .noteSection__note {
@@ -35,8 +49,8 @@ body {
 	border-top: 1px solid #e1e1e1;
 }
 
-#emptyList {
-	color: #010101;
+.noteSpace__empty {
+	color: black;
 }
 
 #select {
