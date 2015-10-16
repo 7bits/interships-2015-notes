@@ -54,7 +54,7 @@ public class SeleniumNoteTest {
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
         user = new UserDetailsImpl();
-        user.setUsername("bits@ololo.com");
+        user.setUsername("bi@ololo.com");
         user.setName("Bits");
         //driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
     }

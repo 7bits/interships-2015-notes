@@ -11,8 +11,8 @@ var imagemin = require('imagemin-pngquant');
 var assets = require('postcss-assets');
 var yaml = require('js-yaml');
 var fs = require('fs');
-var i18n = require("i18next");
-i18n.init({ lng: 'en-US' });
+//var i18n = require("i18next");
+//i18n.init({ lng: 'en-US' });
 
 function readAssetsVersion(name) {
   var version = '';
