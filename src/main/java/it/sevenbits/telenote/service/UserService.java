@@ -303,4 +303,20 @@ public class UserService implements UserDetailsService {
             throw new ServiceException("Could not clean database.", e);
         }
     }
+
+    public void updatingTypesorting(Long userId, int type) throws ServiceException {
+        TransactionStatus status = null;
+        try {
+            status = txManager.getTransaction(customTx);
+            repository.updateTypesorting(userId, type);
+            txManager.commit(status);
+        } catch (RepositoryException e) {
+            LOG.error("Could not updating typesorting.");
+            if (status != null) {
+                txManager.rollback(status);
+                LOG.info("Rollback done.");
+            }
+            throw new ServiceException("Could not updating typesorting" + e.getMessage());
+        }
+    }
 }

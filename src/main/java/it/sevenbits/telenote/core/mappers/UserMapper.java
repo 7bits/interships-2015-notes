@@ -145,6 +145,16 @@ public interface UserMapper {
      * @param email user email.
      * @param token user token.
      */
-    @Update("UPDATE users SET token=#{token}, token_at=DEFAULT WHERE email=#{email}")
+    @Update("UPDATE users SET token=#{token}, token_at=DEFAULT\n" +
+            "WHERE email=#{email}")
     void setTokenByEmail(@Param("email") String email, @Param("token") String token);
+
+    /**
+     * Sets user typesorting by user id
+     * @param userId
+     * @param type
+     */
+    @Update("UPDATE users SET typesorting=#{type}\n" +
+    "       WHERE id=#{userId}")
+    void updateTypesorting(@Param("userId") Long userId, @Param("type") int type);
 }

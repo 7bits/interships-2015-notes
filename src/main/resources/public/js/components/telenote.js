@@ -1,7 +1,14 @@
-var telenoteComponent = flight.component(function() {
+var telenoteComponent = flight.component(
+  ajaxDataMixin,
+  function() {
 
-    var sectionSize = 35;
-    var positionTop = 88;
+  this.defaultAttrs({
+    sortingSelector: '#js-sorting',
+    sortingUrl: '/telenote/sorting'
+  });
+
+  var sectionSize = 35;
+  var positionTop = 88;
 
   this.afterInitialize = function () {
     $('.js-sectionOwner')
@@ -66,6 +73,31 @@ var telenoteComponent = flight.component(function() {
       $('#js-status')
         .css('display', 'none');
     }
+  };
+
+  this.onSortingClick = function() {
+    var sorting = $('#js-sorting');
+    var typeId = 0;
+
+    if (sorting.hasClass('js-active')) {
+      sorting.addClass('status__sortImg_deactive').removeClass('js-active status__sortImg_active');
+    } else {
+      typeId = 1;
+      sorting.addClass('status__sortImg_active js-active').removeClass('status__sortImg_deactive');
+    }
+
+    $(document).trigger('sendData', {
+      data: {type: typeId},
+      url: '/telenote/sorting',
+      type: 'POST',
+      dataType: '',
+      collbackSuccess: function(data) {
+        
+      },
+      collbackFail: function(data) {
+
+      }
+    });
   };
 
   this.onScrollPage = function() {
@@ -162,5 +194,6 @@ var telenoteComponent = flight.component(function() {
     this.on('ready', this.afterInitialize);
     this.on('scroll', this.onScrollPage);
     $(window).on('resize', this.onResize);
+    this.select('sortingSelector').on('click', this.onSortingClick)
   })
 });

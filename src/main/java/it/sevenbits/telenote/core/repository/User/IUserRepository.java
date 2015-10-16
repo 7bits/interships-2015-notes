@@ -31,4 +31,6 @@ public interface IUserRepository {
     public String getTokenByEmail(String email) throws RepositoryException;
 
     public void cleanDB() throws  RepositoryException;
+
+    public void updateTypesorting(Long userId, int type) throws RepositoryException;
 }

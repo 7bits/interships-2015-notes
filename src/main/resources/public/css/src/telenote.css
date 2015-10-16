@@ -192,12 +192,39 @@ body{
 	margin-left: 60px;
 	width: 134px;
 	text-align: right;
-	margin-top: 7px;
+	margin-top: 8px;
 	float: left;
 }
 
 .status__minStatus {
 	display: none;
+}
+
+.status__sortLabel {
+	float: right;
+	font-size: 13px;
+	font-family: Roboto-Light;
+	margin-top: 8px;
+}
+
+.status__sortImg {
+	background-repeat: no-repeat;
+	background-size: cover;
+	width: 18px;
+	height: 20px;
+	float: right;
+	margin-top: 5px;
+	margin-left: 15px;
+	margin-right: 25px;
+	cursor: pointer;
+}
+
+.status__sortImg_deactive {
+	background-image: inline('sortedByDate.png');
+}
+
+.status__sortImg_active {
+	background-image: inline('sortedByDateActive.png');
 }
 
 .noteManager{
@@ -329,7 +356,7 @@ body{
 	display: block;
 	word-wrap: break-word;
     word-break: normal;
-    overflow-x:none;
+    overflow-x: none;
 }
 
 .textarea:active,

@@ -473,9 +473,6 @@ public class NoteService {
             }
             listNotes.addAll(myNotes);
 
-            Collections.sort(listNotes, new NoteModel.NoteOrderDescComparator());
-            //Collections.sort(myNotes, new NoteModel.UpdatedAtDescComparator());
-
             Map<String, List<NoteModel>> map = new HashMap<String, List<NoteModel>>();
             String avatar;
             for (NoteModel noteModel : listNotes) {
@@ -490,6 +487,14 @@ public class NoteService {
                 }
                 list.add(noteModel);
             }
+
+            for (Map.Entry<String, List<NoteModel>> entry : map.entrySet()) {
+                if (currentUser.getTypesorting() == 0)
+                    Collections.sort(entry.getValue(), new NoteModel.NoteOrderDescComparator());
+                else if (currentUser.getTypesorting() == 1)
+                    Collections.sort(entry.getValue(), new NoteModel.UpdatedAtDescComparator());
+            }
+
             txManager.commit(status);
             return map;
         } catch (ServiceException e){

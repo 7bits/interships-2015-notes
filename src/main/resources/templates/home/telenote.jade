@@ -16,6 +16,11 @@ block content
     .page__statusTriangle
     #js-status.status__container.status__mainStatus #{jm.getMessage('telenote.notessaved')}
     #js-minStatus.status__container.status__minStatus
+    if user.typesorting == 0
+      #js-sorting.status__sortImg.status__sortImg_deactive
+    else if user.typesorting == 1
+      #js-sorting.status__sortImg.status__sortImg_active.js-active
+    label.status__sortLabel Сортировать
   #js-actualSection.js-allSections.noteSpace__sectionInfo.noteSpace__sectionInfo_actual(value="Actual")
     img.js-sectionPic.sectionInfo__picture(src="/img/gulp/shareNotRegUser.png")
     .js-sectionOwner.sectionInfo__owner

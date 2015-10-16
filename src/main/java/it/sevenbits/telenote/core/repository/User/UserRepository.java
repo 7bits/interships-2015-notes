@@ -191,4 +191,19 @@ public class UserRepository implements IUserRepository {
         mapper.deleteNotes();
         mapper.deleteUsernotes();
     }
+
+    /**
+     * Updating typesorting of current user
+     * @param userId
+     * @param type
+     * @throws RepositoryException
+     */
+    @Override
+    public void updateTypesorting(Long userId, int type) throws RepositoryException {
+        try {
+            mapper.updateTypesorting(userId, type);
+        } catch (Exception e) {
+            throw new RepositoryException("An error occurred while updating typesorting" + e.getMessage());
+        }
+    }
 }
