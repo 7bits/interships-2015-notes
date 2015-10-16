@@ -267,6 +267,5 @@ public class HomeController {
         } catch (MessagingException me) {
             throw new ServiceException("An error occured while messaging user.", me);
         }
-
     }
 }

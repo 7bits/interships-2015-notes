@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -161,16 +162,11 @@ public class UsersController {
 
             ModelAndView model = new ModelAndView("home/welcome");
             session.setAttribute("userForm", form);
-/*<<<<<<< HEAD*/
+
             return new ModelAndView("home/welcome", "errorMessages", errors);
         } catch (IOException ex) {
             LOG.warn("Cant load jade file of mail. " + ex.getMessage());
             return new ModelAndView("home/error", "error", messageSource.getMessage("message.error.500", null, LocaleContextHolder.getLocale()));
-/*=======
-            model.addObject("signupForm", form);
-            model.addObject("emailExists", errors);
-            return model;
->>>>>>> accountController*/
         }
 
         ModelAndView model = new ModelAndView("home/checkMail");
@@ -289,5 +285,25 @@ public class UsersController {
         return new ModelAndView("redirect:/");
     }
 
+    /**
+     * Controller for updating typesorting of user
+     * @param request
+     * @param auth
+     * @return redirecting string
+     */
+    @RequestMapping(value = "/telenote/sorting", method = RequestMethod.POST)
+    public ModelAndView noteSorting(HttpServletRequest request, Authentication auth) throws NumberFormatException {
+        UserDetailsImpl currentUser = (UserDetailsImpl)auth.getPrincipal();
+        int type = Integer.parseInt(request.getParameter("type"));
 
+        try {
+            userService.updatingTypesorting(currentUser.getId(), type);
+            LOG.info("Successful updating typesorting of user: " + currentUser.getName());
+            currentUser.setTypesorting(type);
+        } catch (ServiceException e) {
+            LOG.info("Error updating typesorting of user: " + currentUser.getName());
+        }
+
+        return new ModelAndView("/telenote");
+    }
 }

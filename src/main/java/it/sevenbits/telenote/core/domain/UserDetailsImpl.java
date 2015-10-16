@@ -38,6 +38,8 @@ public class UserDetailsImpl implements UserDetails {
 
     private String avatar;
 
+    private Integer typesorting;
+
 
     @Override
     public boolean isAccountNonExpired() {
@@ -156,5 +158,13 @@ public class UserDetailsImpl implements UserDetails {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public Integer getTypesorting() {
+        return typesorting;
+    }
+
+    public void setTypesorting(Integer typesorting) {
+        this.typesorting = typesorting;
     }
 }
