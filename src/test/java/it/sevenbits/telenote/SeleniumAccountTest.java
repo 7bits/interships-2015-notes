@@ -35,11 +35,7 @@ import static org.junit.Assert.fail;
 @WebIntegrationTest
 //@ContextConfiguration(initializers = TestContextInitializer.class)
 public class SeleniumAccountTest {
-    public static final String USERNAME = "jnovikova";
-    public static final String ACCESS_KEY = "800b6843-fb79-4cec-96d4-dbd5ccead76c";
-    public static final String URL = "http://" + USERNAME + ":" + ACCESS_KEY + "@ondemand.saucelabs.com:80/wd/hub";
-
-    private static UserDetailsImpl user;
+    private static WebDriver driver;
 
     @Autowired
     @Qualifier(value = "theUserPersistRepository")
@@ -47,23 +43,23 @@ public class SeleniumAccountTest {
 
     @Autowired
     public UserService userService;
+    private static UserDetailsImpl user;
 
-
-    /*@BeforeClass
-    public static void initDriver() throws MalformedURLException {
-
-        // driver = new FirefoxDriver();
+    @BeforeClass
+    public static void initDriver() {
+        //driver = new ChromeDriver();
+        driver = new FirefoxDriver();
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
         user = new UserDetailsImpl();
-        user.setUsername("ololo@ololo.com");
-        user.setName("Capitan");
+        user.setUsername("bits@ololo.com");
+        user.setName("Bits");
         //driver.manage().timeouts().setScriptTimeout(10, TimeUnit.SECONDS);
     }
 
     @AfterClass
-    public static void closeDriver() throws MalformedURLException {
+    public static void closeDriver() {
         driver.quit();
     }
 
@@ -87,15 +83,17 @@ public class SeleniumAccountTest {
         };
         wait.until(e);
 
-        WebElement email = driver.findElement(By.className("js-logText"));
-        WebElement password = driver.findElement(By.className("js-logPass"));
-        WebElement submit = driver.findElement(By.className("js-logSubmit"));
+        driver.get("http://127.0.0.1:9000");
+
+        WebElement email = driver.findElement(By.xpath("/html/body/div/div[2]/form/input[2]"));
+        WebElement password = driver.findElement(By.xpath("/html/body/div/div[2]/form/input[3]"));
+        WebElement submit = driver.findElement(By.xpath("/html/body/div/div[2]/form/button"));
 
         email.sendKeys(user.getUsername());
         password.sendKeys(user.getPassword());
         submit.submit();
 
-        assertTrue(driver.getCurrentUrl().equals("http://tele-notes.7bits.it/telenote"));
+        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/telenote"));
     }
 
     @After
@@ -105,85 +103,40 @@ public class SeleniumAccountTest {
         } catch (Exception ex) {
             fail(ex.getMessage());
         }
-    }*/
+    }
 
 //changing username in account
     @Test
-    public void validUserNameTest() throws MalformedURLException {
-        DesiredCapabilities caps = DesiredCapabilities.chrome();
-        caps.setCapability("platform", "Linux");
-        caps.setCapability("version", "44.0");
-        //WebDriver driver = new RemoteWebDriver(new URL(URL), caps);
-        WebDriver driver = null;
-        try {
-            driver = new RemoteWebDriver(new URL(URL), caps);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        user = new UserDetailsImpl();
-        user.setUsername("ololo@ololo.com");
-        user.setName("Capitan");
-
-        try {
-            user.setPassword((new BCryptPasswordEncoder()).encode("Ololo73"));
-
-            repository.create(user);
-
-            user.setPassword("Ololo73");
-        } catch (Exception ex) {
-            fail(ex.getMessage());
-        }
-
-        driver.get("http://127.0.0.1:9000/");
-
-        WebElement email = driver.findElement(By.id("js-logText"));
-        WebElement password = driver.findElement(By.className("js-logPass"));
-        WebElement submit = driver.findElement(By.className("js-logSubmit"));
-
-        email.sendKeys(user.getUsername());
-        password.sendKeys(user.getPassword());
-        submit.submit();
-
-        assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/telenote"));
-
-        driver.findElement(By.className("js-user")).click();
+    public void validUserNameTest() {
+        driver.findElement(By.xpath("/html/body/div[1]/div[1]/div[2]/div/a[1]/div")).click();
 
         assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
 
-        WebElement toClear = driver.findElement(By.id("js-username"));
+        WebElement toClear = driver.findElement(By.xpath("/html/body/div/form/div[1]/div[2]/input"));
         toClear.sendKeys(Keys.CONTROL + "a");
         toClear.sendKeys(Keys.DELETE);
-  	    toClear.sendKeys("J");
+        toClear.sendKeys("J");
 
-        WebElement button = driver.findElement(By.className("js-submit"));
+        WebElement button = driver.findElement(By.xpath("/html/body/div/form/button"));
         Actions action = new Actions(driver);
         action.moveToElement(button);
         action.perform();
         button.click();
-
-        try {
-            userService.cleanDB();
-        } catch (Exception ex) {
-            fail(ex.getMessage());
-        }
-
-        driver.quit();
     }
-/*
+
 //changing username from letters to symbols
     @Test
     public void symbolsUserNameTest() {
-        driver.findElement(By.className("js-user")).click();
+        driver.findElement(By.xpath("/html/body/div[1]/div[1]/div[2]/div/a[1]/div")).click();
 
         assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
 
-        WebElement toClear = driver.findElement(By.id("js-username"));
+        WebElement toClear = driver.findElement(By.xpath("/html/body/div[1]/div[1]/div[2]/div/a[1]/div"));
         toClear.sendKeys(Keys.CONTROL + "a");
         toClear.sendKeys(Keys.DELETE);
         toClear.sendKeys("!@#%^&*$");
 
-       WebElement button = driver.findElement(By.className("js-submit"));
+       WebElement button = driver.findElement(By.xpath("/html/body/div/form/button"));
         Actions action = new Actions(driver);
         action.moveToElement(button);
         action.perform();
@@ -193,16 +146,16 @@ public class SeleniumAccountTest {
 //change username to spaces
     @Test
     public void emptyUserNameTest() {
-        driver.findElement(By.className("js-user")).click();
+        driver.findElement(By.xpath("/html/body/div[1]/div[1]/div[2]/div/a[1]/div")).click();
 
         assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
 
-        WebElement toClear = driver.findElement(By.id("js-username"));
+        WebElement toClear = driver.findElement(By.xpath("/html/body/div[1]/div[1]/div[2]/div/a[1]/div"));
         toClear.sendKeys(Keys.CONTROL + "a");
         toClear.sendKeys(Keys.DELETE);
         toClear.sendKeys("   ");
 
-       WebElement button = driver.findElement(By.className("js-submit"));
+       WebElement button = driver.findElement(By.xpath("/html/body/div/form/button"));
         Actions action = new Actions(driver);
         action.moveToElement(button);
         action.perform();
@@ -212,17 +165,17 @@ public class SeleniumAccountTest {
 //change password in account to a new one
     @Test
     public void validUserPasswordTest() {
-        driver.findElement(By.className("js-user")).click();
+        driver.findElement(By.xpath("/html/body/div[1]/div[1]/div[2]/div/a[1]/div")).click();
 
         assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
 
-        WebElement toClear = driver.findElement(By.id("js-currentPass"));
+        WebElement toClear = driver.findElement(By.xpath("/html/body/div/form/div[2]/div[2]/input"));
 	    toClear.sendKeys(Keys.CONTROL + "a");
         toClear.sendKeys(Keys.DELETE);
-  	    toClear.sendKeys("Ololo73");
-	    driver.findElement(By.id("js-newPass")).sendKeys("Capitan1234");
+        toClear.sendKeys("Ololo73");
+	    driver.findElement(By.xpath("/html/body/div/form/div[2]/div[3]/input")).sendKeys("Capitan1234");
 
-        WebElement button = driver.findElement(By.className("js-submit"));
+        WebElement button = driver.findElement(By.xpath("/html/body/div/form/button"));
         Actions action = new Actions(driver);
         action.moveToElement(button);
         action.perform();
@@ -232,17 +185,17 @@ public class SeleniumAccountTest {
 //change password to an empty one
     @Test
     public void emptyUserPasswordTest() {
-        driver.findElement(By.className("js-user")).click();
+        driver.findElement(By.xpath("/html/body/div[1]/div[1]/div[2]/div/a[1]/div")).click();
 
         assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
 
-        WebElement toClear = driver.findElement(By.id("js-currentPass"));
+        WebElement toClear = driver.findElement(By.xpath("/html/body/div/form/div[2]/div[2]/input"));
 	    toClear.sendKeys(Keys.CONTROL + "a");
         toClear.sendKeys(Keys.DELETE);
-  	    toClear.sendKeys("Ololo73");
-	    driver.findElement(By.id("js-newPass")).sendKeys(" ");
+        toClear.sendKeys("Ololo73");
+	    driver.findElement(By.xpath("/html/body/div/form/div[2]/div[3]/input")).sendKeys(" ");
 
-        WebElement button = driver.findElement(By.className("js-submit"));
+        WebElement button = driver.findElement(By.xpath("/html/body/div/form/button"));
         Actions action = new Actions(driver);
         action.moveToElement(button);
         action.perform();
@@ -252,17 +205,17 @@ public class SeleniumAccountTest {
 //change password to a short one
     @Test
     public void shortUserPasswordTest() {
-        driver.findElement(By.className("js-user")).click();
+        driver.findElement(By.xpath("/html/body/div[1]/div[1]/div[2]/div/a[1]/div")).click();
 
         assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
 
-        WebElement toClear = driver.findElement(By.id("js-currentPass"));
+        WebElement toClear = driver.findElement(By.xpath("/html/body/div/form/div[2]/div[2]/input"));
 	    toClear.sendKeys(Keys.CONTROL + "a");
         toClear.sendKeys(Keys.DELETE);
-  	    toClear.sendKeys("Ololo73");
-	    driver.findElement(By.id("js-newPass")).sendKeys("123");
+        toClear.sendKeys("Ololo73");
+	    driver.findElement(By.xpath("/html/body/div/form/div[2]/div[3]/input")).sendKeys("123");
 
-        WebElement button = driver.findElement(By.className("js-submit"));
+        WebElement button = driver.findElement(By.xpath("/html/body/div/form/button"));
         Actions action = new Actions(driver);
         action.moveToElement(button);
         action.perform();
@@ -272,16 +225,15 @@ public class SeleniumAccountTest {
 //change account design
     @Test
     public void userDesignTest() {
-        driver.findElement(By.className("js-user")).click();
+        driver.findElement(By.xpath("/html/body/div[1]/div[1]/div[2]/div/a[1]/div")).click();
 
         assertTrue(driver.getCurrentUrl().equals("http://127.0.0.1:9000/account"));
-
-  	WebElement button = driver.findElement(By.id("lightDen"));
+        WebElement button = driver.findElement(By.id("lightDen"));
         Actions action = new Actions(driver);
         action.moveToElement(button);
         action.perform();
         button.click();
 
-	driver.findElement(By.className("js-submit")).click();
-    }*/
+	driver.findElement(By.xpath("/html/body/div/form/button")).click();
+    }
 }
